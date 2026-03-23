@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sparkwright — Handcrafted learning, built to spark.</title>
+<meta name="description" content="Sparkwright makes thoughtful learning tools for curious students. Handcrafted with care.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0c0c18;
+    --surface:   #13132a;
+    --surface2:  #1c1c38;
+    --border:    rgba(120, 100, 200, 0.18);
+    --border-hi: rgba(160, 130, 255, 0.35);
+    --a1: #ff6b6b;
+    --a2: #ffd93d;
+    --a3: #6bcb77;
+    --a4: #4d96ff;
+    --a5: #c77dff;
+    --a6: #ff9f43;
+    --a7: #3dd6c8;
+    --text:      #e8e4f0;
+    --text-muted:#9a93b5;
+    --text-dim:  #5a5375;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Background texture ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(77, 150, 255, 0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(199, 125, 255, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 55% 45%, rgba(61, 214, 200, 0.04) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Subtle grid lines */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(120, 100, 200, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(120, 100, 200, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Layout ── */
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: relative;
+    z-index: 10;
+    padding: 28px 0 0;
+  }
+
+  nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .wordmark {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .wordmark-spark {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .wordmark-spark svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 110px 0 80px;
+    text-align: center;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--a7);
+    background: rgba(61, 214, 200, 0.09);
+    border: 1px solid rgba(61, 214, 200, 0.22);
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 36px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--a7);
+    flex-shrink: 0;
+  }
+
+  .hero-title {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: clamp(46px, 7vw, 80px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .hero-title .spark-word {
+    position: relative;
+    display: inline-block;
+  }
+
+  .hero-title .spark-word::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--a4), var(--a5), var(--a6));
+    border-radius: 2px;
+    opacity: 0.7;
+  }
+
+  .hero-tagline {
+    font-size: clamp(17px, 2.2vw, 21px);
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-bottom: 52px;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* floating particles */
+  .particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: floatUp linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(0) scale(1);   opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.6; }
+    100% { transform: translateY(-420px) scale(0.4); opacity: 0; }
+  }
+
+  /* ── Section label ── */
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 32px;
+  }
+
+  /* ── Game cards grid ── */
+  .games-section {
+    padding: 20px 0 100px;
+  }
+
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  /* Live card */
+  .game-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px 28px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  }
+
+  .game-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(77,150,255,0.06) 0%, rgba(199,125,255,0.06) 50%, rgba(255,159,67,0.04) 100%);
+    opacity: 0;
+    transition: opacity 0.22s ease;
+  }
+
+  .game-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--border-hi);
+    box-shadow: 0 16px 48px rgba(100, 80, 200, 0.2);
+  }
+
+  .game-card:hover::before { opacity: 1; }
+
+  .card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-icon.math {
+    background: linear-gradient(135deg, rgba(77,150,255,0.18), rgba(199,125,255,0.18));
+    border: 1px solid rgba(77,150,255,0.25);
+  }
+
+  .card-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+    z-index: 1;
+  }
+
+  .badge-live {
+    background: rgba(107, 203, 119, 0.15);
+    color: var(--a3);
+    border: 1px solid rgba(107, 203, 119, 0.3);
+  }
+
+  .badge-soon {
+    background: rgba(90, 83, 117, 0.3);
+    color: var(--text-dim);
+    border: 1px solid rgba(90, 83, 117, 0.35);
+  }
+
+  .card-body {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+  }
+
+  .card-title {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: -0.2px;
+  }
+
+  .card-desc {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  .card-footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-tags {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--surface2);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+
+  .card-cta {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--a4);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+    transition: gap 0.18s ease;
+  }
+
+  .game-card:hover .card-cta { gap: 9px; }
+
+  /* Dimmed coming-soon cards */
+  .game-card.soon {
+    opacity: 0.55;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .game-card.soon:hover { transform: none; }
+
+  /* ── About strip ── */
+  .about-strip {
+    padding: 70px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .about-heading {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .about-heading .accent { color: var(--a5); }
+
+  .about-body {
+    font-size: 16px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .about-body p + p { margin-top: 14px; }
+
+  .value-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .value-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .value-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .value-text {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  .value-text strong {
+    display: block;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 0;
+  }
+
+  footer .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer-wordmark {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-dim);
+  }
+
+  .footer-sep {
+    color: var(--text-dim);
+    opacity: 0.4;
+  }
+
+  .footer-copy {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .footer-right {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-in {
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.35s; }
+  .delay-4 { animation-delay: 0.5s; }
+
+  /* ── Nav profile area ── */
+  .nav-profile-btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    white-space: nowrap;
+  }
+  .nav-profile-btn:hover {
+    color: var(--text);
+    border-color: var(--border-hi);
+    background: var(--surface2);
+  }
+
+  .nav-profile-chip {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    background: var(--surface2);
+    border: 1px solid var(--border-hi);
+    border-radius: 999px;
+    padding: 6px 14px 6px 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    user-select: none;
+  }
+  .nav-profile-chip:hover {
+    border-color: rgba(199,125,255,0.55);
+    box-shadow: 0 4px 18px rgba(100,80,200,0.18);
+  }
+  .nav-profile-chip .chip-avatar {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  /* dropdown off chip */
+  .profile-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: var(--surface2);
+    border: 1px solid var(--border-hi);
+    border-radius: 14px;
+    padding: 8px;
+    min-width: 160px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .profile-dropdown.open { display: flex; }
+  .profile-dropdown button {
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 13px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    width: 100%;
+  }
+  .profile-dropdown button:hover {
+    background: rgba(199,125,255,0.1);
+    color: var(--text);
+  }
+  .profile-dropdown .dd-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+  }
+  .profile-dropdown .dd-danger {
+    color: #ff6b6b !important;
+  }
+  .profile-dropdown .dd-danger:hover {
+    background: rgba(255,107,107,0.1) !important;
+  }
+
+  /* ── Profile modal overlay ── */
+  .profile-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 8, 20, 0.75);
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .profile-modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .profile-modal {
+    background: var(--surface);
+    border: 1px solid var(--border-hi);
+    border-radius: 24px;
+    padding: 40px 36px 36px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 24px 72px rgba(0,0,0,0.5);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    position: relative;
+  }
+  .profile-modal-overlay.open .profile-modal {
+    transform: translateY(0);
+  }
+
+  .modal-title {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+  .modal-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+
+  /* username generator */
+  .username-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .username-display {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 16px;
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.2px;
+  }
+  .btn-regen {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    color: var(--text-muted);
+  }
+  .btn-regen:hover {
+    border-color: var(--border-hi);
+    background: rgba(199,125,255,0.1);
+    color: var(--text);
+  }
+  .btn-regen.spinning { animation: spin 0.4s ease; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  /* avatar grid */
+  .avatar-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  .avatar-btn {
+    aspect-ratio: 1;
+    font-size: 22px;
+    background: var(--surface2);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.12s;
+    line-height: 1;
+  }
+  .avatar-btn:hover {
+    background: rgba(199,125,255,0.12);
+    transform: scale(1.1);
+  }
+  .avatar-btn.selected {
+    border-color: var(--a5);
+    background: rgba(199,125,255,0.15);
+    transform: scale(1.12);
+  }
+
+  /* confirm button */
+  .btn-confirm {
+    width: 100%;
+    padding: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    background: linear-gradient(135deg, rgba(77,150,255,0.2), rgba(199,125,255,0.2));
+    border: 1px solid rgba(199,125,255,0.4);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  }
+  .btn-confirm:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(77,150,255,0.3), rgba(199,125,255,0.3));
+    transform: translateY(-1px);
+    box-shadow: 0 8px 28px rgba(100,80,200,0.25);
+  }
+  .btn-confirm:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+
+  /* ── Switcher modal ── */
+  .switcher-modal {
+    background: var(--surface);
+    border: 1px solid var(--border-hi);
+    border-radius: 24px;
+    padding: 36px 32px 32px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 24px 72px rgba(0,0,0,0.5);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    position: relative;
+  }
+  .profile-modal-overlay.open .switcher-modal {
+    transform: translateY(0);
+  }
+  .switcher-title {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    letter-spacing: -0.3px;
+  }
+  .profile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  .profile-list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s;
+    width: 100%;
+    text-align: left;
+  }
+  .profile-list-item:hover {
+    border-color: var(--border-hi);
+    background: rgba(199,125,255,0.08);
+  }
+  .profile-list-item.active {
+    border-color: var(--a5);
+    background: rgba(199,125,255,0.1);
+  }
+  .pli-avatar { font-size: 22px; line-height: 1; flex-shrink: 0; }
+  .pli-info { flex: 1; }
+  .pli-name {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .pli-date { font-size: 12px; color: var(--text-dim); margin-top: 1px; }
+  .pli-active-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--a5);
+    background: rgba(199,125,255,0.12);
+    border: 1px solid rgba(199,125,255,0.25);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .pli-delete {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 6px;
+    line-height: 1;
+    transition: color 0.15s, background 0.15s;
+    flex-shrink: 0;
+  }
+  .pli-delete:hover { color: #ff6b6b; background: rgba(255,107,107,0.1); }
+  .switcher-new-btn {
+    width: 100%;
+    padding: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-muted);
+    background: var(--surface2);
+    border: 1px dashed var(--border-hi);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: color 0.18s, border-color 0.18s, background 0.18s;
+  }
+  .switcher-new-btn:hover {
+    color: var(--text);
+    border-color: var(--a5);
+    background: rgba(199,125,255,0.07);
+  }
+
+  /* ── Welcome banner ── */
+  .welcome-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--a5);
+    background: rgba(199,125,255,0.09);
+    border: 1px solid rgba(199,125,255,0.22);
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.2s ease both;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 720px) {
+    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+    .nav-links { display: none; }
+    .hero { padding: 80px 0 60px; }
+    .avatar-grid { grid-template-columns: repeat(6, 1fr); }
+    .profile-modal { padding: 32px 24px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="wrap">
+    <a href="/" class="wordmark">
+      <span class="wordmark-spark">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="14,2 17,11 26,11 19,17 22,26 14,20 6,26 9,17 2,11 11,11" fill="none" stroke="url(#sparkGrad)" stroke-width="1.8" stroke-linejoin="round"/>
+          <circle cx="14" cy="14" r="3" fill="url(#sparkGrad)" opacity="0.6"/>
+          <defs>
+            <linearGradient id="sparkGrad" x1="2" y1="2" x2="26" y2="26">
+              <stop offset="0%" stop-color="#4d96ff"/>
+              <stop offset="50%" stop-color="#c77dff"/>
+              <stop offset="100%" stop-color="#ff9f43"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      Sparkwright
+    </a>
+    <ul class="nav-links">
+      <li><a href="#games">Games</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <div id="navProfileArea"></div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" style="position:relative;">
+  <div class="particles" id="particles"></div>
+  <div class="wrap">
+    <div id="welcomeBackBanner"></div>
+    <div class="hero-eyebrow animate-in">Independent learning tools</div>
+    <h1 class="hero-title animate-in delay-1">
+      <span class="spark-word">Spark</span>wright
+    </h1>
+    <p class="hero-tagline animate-in delay-2">
+      Handcrafted learning, built to spark.
+    </p>
+    <a href="#games" class="animate-in delay-3" style="
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background: linear-gradient(135deg, rgba(77,150,255,0.15), rgba(199,125,255,0.15));
+      border: 1px solid rgba(199,125,255,0.35);
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 13px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    "
+    onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 32px rgba(100,80,200,0.25)'"
+    onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+      See what's here
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3l5 5-5 5M3 8h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- Games Section -->
+<section class="games-section" id="games">
+  <div class="wrap">
+    <p class="section-label">Learning tools</p>
+    <div class="games-grid">
+
+      <!-- Math Flash — live -->
+      <a href="games/mathflash/" class="game-card">
+        <div class="card-badge badge-live">Live</div>
+        <div class="card-icon math">⚡</div>
+        <div class="card-body">
+          <div class="card-title">Math Flash</div>
+          <p class="card-desc">A smart flashcard game for building real math fact fluency — not just drilling, but actually learning.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-tags">
+            <span class="tag">Multiplication</span>
+            <span class="tag">Division</span>
+          </div>
+          <span class="card-cta">
+            Play
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2.5l4.5 4.5-4.5 4.5M2.5 7h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Coming soon 1 -->
+      <div class="game-card soon">
+        <div class="card-badge badge-soon">Coming soon</div>
+        <div class="card-icon" style="background: rgba(90,83,117,0.25); border: 1px solid rgba(90,83,117,0.3); font-size:26px;">📝</div>
+        <div class="card-body">
+          <div class="card-title" style="color:var(--text-muted);">Spelling Sprint</div>
+          <p class="card-desc">Pattern-based spelling practice that builds confidence through repetition and rhythm.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-tags">
+            <span class="tag">Spelling</span>
+            <span class="tag">Language arts</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coming soon 2 -->
+      <div class="game-card soon">
+        <div class="card-badge badge-soon">Coming soon</div>
+        <div class="card-icon" style="background: rgba(90,83,117,0.25); border: 1px solid rgba(90,83,117,0.3); font-size:26px;">🔢</div>
+        <div class="card-body">
+          <div class="card-title" style="color:var(--text-muted);">Number Sense Lab</div>
+          <p class="card-desc">Visual tools for building number intuition — fractions, place value, and mental math.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-tags">
+            <span class="tag">Number sense</span>
+            <span class="tag">Visual</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coming soon 3 -->
+      <div class="game-card soon">
+        <div class="card-badge badge-soon">Coming soon</div>
+        <div class="card-icon" style="background: rgba(90,83,117,0.25); border: 1px solid rgba(90,83,117,0.3); font-size:26px;">⏱️</div>
+        <div class="card-body">
+          <div class="card-title" style="color:var(--text-muted);">Timed Challenge</div>
+          <p class="card-desc">Formal timed tests with fluency grading — a clean measure of where you really stand.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-tags">
+            <span class="tag">Assessment</span>
+            <span class="tag">Fluency</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- About strip -->
+<section class="about-strip" id="about">
+  <div class="wrap">
+    <div class="about-inner">
+      <div>
+        <h2 class="about-heading">Built by a <span class="accent">teacher</span>,<br>for real students.</h2>
+        <div class="about-body">
+          <p>Sparkwright is an independent project — one educator building tools that actually work in the classroom, not tools that just look like they do.</p>
+          <p>Everything here is designed around how learning actually happens: with friction, with feedback, and with a student who deserves more than a multiple-choice quiz.</p>
+        </div>
+      </div>
+      <ul class="value-list">
+        <li class="value-item">
+          <span class="value-dot" style="background: var(--a4);"></span>
+          <span class="value-text"><strong>Practice with purpose</strong>Every question, every response, every moment matters. No filler.</span>
+        </li>
+        <li class="value-item">
+          <span class="value-dot" style="background: var(--a5);"></span>
+          <span class="value-text"><strong>Mastery, not completion</strong>The goal isn't to finish the worksheet. It's to actually know it.</span>
+        </li>
+        <li class="value-item">
+          <span class="value-dot" style="background: var(--a7);"></span>
+          <span class="value-text"><strong>Design that respects students</strong>Dark mode, clean type, real feedback. Not clipart.</span>
+        </li>
+        <li class="value-item">
+          <span class="value-dot" style="background: var(--a6);"></span>
+          <span class="value-text"><strong>Made by hand, one spark at a time</strong>No venture backing, no growth team. Just careful work.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="footer-left">
+      <span class="footer-wordmark">Sparkwright</span>
+      <span class="footer-sep">·</span>
+      <span class="footer-copy">sparkwright.org</span>
+    </div>
+    <div class="footer-right">An independent learning project.</div>
+  </div>
+</footer>
+
+<!-- Profile Modal -->
+<div class="profile-modal-overlay" id="profileOverlay">
+  <div class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <p class="modal-title" id="modalTitle">Create your profile</p>
+    <p class="modal-sub">Pick a username and choose an avatar. You can change these later.</p>
+
+    <div class="username-row">
+      <div class="username-display" id="usernameDisplay">—</div>
+      <button class="btn-regen" id="regenBtn" title="Generate new username" aria-label="Generate new username">↻</button>
+    </div>
+
+    <p class="avatar-label">Choose your avatar</p>
+    <div class="avatar-grid" id="avatarGrid"></div>
+
+    <button class="btn-confirm" id="confirmBtn" disabled>Looks good! →</button>
+  </div>
+</div>
+
+<!-- Switcher Modal -->
+<div class="profile-modal-overlay" id="switcherOverlay">
+  <div class="switcher-modal" role="dialog" aria-modal="true" aria-labelledby="switcherTitle">
+    <p class="switcher-title" id="switcherTitle">Switch profile</p>
+    <div class="profile-list" id="profileList"></div>
+    <button class="switcher-new-btn" id="switcherNewBtn">+ Create new profile</button>
+  </div>
+</div>
+
+<script>
+  /* ── Particles ── */
+  (function() {
+    const colors = ['#4d96ff','#c77dff','#ff9f43','#6bcb77','#3dd6c8','#ffd93d'];
+    const container = document.getElementById('particles');
+    if (!container) return;
+    for (let i = 0; i < 18; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.random() * 3 + 1.5;
+      p.style.cssText = `
+        width: ${size}px; height: ${size}px;
+        left: ${Math.random() * 100}%;
+        bottom: ${Math.random() * 30}%;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        animation-duration: ${Math.random() * 8 + 6}s;
+        animation-delay: ${Math.random() * 8}s;
+      `;
+      container.appendChild(p);
+    }
+  })();
+
+  /* ── Profile System ── */
+  (function() {
+    const KEY_PROFILES = 'sparkwright_profiles';
+    const KEY_ACTIVE   = 'sparkwright_active';
+
+    /* --- Word lists --- */
+    const adjectives = [
+      'Cosmic','Solar','Lunar','Arctic','Blazing','Crimson','Dazzling','Electric',
+      'Frosty','Golden','Jade','Lively','Mighty','Noble','Radiant','Silver',
+      'Stellar','Swift','Titan','Vivid','Wild','Amber','Bronze','Crystal',
+      'Delta','Echo','Galactic','Hyper','Iron','Jetstream','Keen','Laser',
+      'Marble','Neon','Obsidian','Prism','Quantum','Rapid','Sapphire',
+      'Thunder','Ultra','Velvet','Warp','Xenon','Zephyr','Brave','Clever'
+    ];
+    const nouns = [
+      'Otter','Falcon','Phoenix','Comet','Nebula','Tiger','Panda','Dragon',
+      'Lynx','Raven','Hawk','Fox','Wolf','Bear','Eagle','Shark',
+      'Jaguar','Viper','Bison','Crane','Gecko','Heron','Ibis','Kite',
+      'Lemur','Manta','Newt','Osprey','Puffin','Quail','Robin','Sparrow',
+      'Toucan','Vulture','Walrus','Yak','Zebra','Axolotl',
+      'Badger','Condor','Dingo','Ermine','Ferret','Grouse','Husky','Impala'
+    ];
+    const avatarList = [
+      '🦊','🐉','🌙','⚡','🦋','🔥','🌊','🦅',
+      '🐺','🦁','🐯','🦄','🌟','🎯','🚀','🌈',
+      '🐬','🦉','🐢','🌺','❄️','🍄','🎮','🦖',
+      '🐙','🌵','🎸','🏔️','💎','🦚','🐸','🦀',
+      '⭐','🎪','🧊','🦩','🌸','🎲','🦜','🐋'
+    ];
+
+    /* --- Storage helpers --- */
+    function loadProfiles() {
+      try { return JSON.parse(localStorage.getItem(KEY_PROFILES)) || []; }
+      catch(e) { return []; }
+    }
+    function saveProfiles(profiles) {
+      localStorage.setItem(KEY_PROFILES, JSON.stringify(profiles));
+    }
+    function loadActiveUsername() {
+      return localStorage.getItem(KEY_ACTIVE) || null;
+    }
+    function saveActiveUsername(username) {
+      localStorage.setItem(KEY_ACTIVE, username);
+    }
+    function getActiveProfile() {
+      const profiles = loadProfiles();
+      const active   = loadActiveUsername();
+      return profiles.find(p => p.username === active) || null;
+    }
+    function generateUsername() {
+      const profiles = loadProfiles();
+      const existing = new Set(profiles.map(p => p.username));
+      let name, attempts = 0;
+      do {
+        const adj  = adjectives[Math.floor(Math.random() * adjectives.length)];
+        const noun = nouns[Math.floor(Math.random() * nouns.length)];
+        name = adj + noun;
+        attempts++;
+      } while (existing.has(name) && attempts < 50);
+      return name;
+    }
+
+    /* --- State for create modal --- */
+    let currentUsername = '';
+    let selectedAvatar  = '';
+
+    /* ── Nav ── */
+    function renderNav(profile) {
+      const area = document.getElementById('navProfileArea');
+      if (!area) return;
+      if (!profile) {
+        area.innerHTML = `<button class="nav-profile-btn" id="createProfileBtn">Create profile</button>`;
+        area.querySelector('#createProfileBtn').addEventListener('click', openCreateModal);
+      } else {
+        area.innerHTML = `
+          <div class="nav-profile-chip" id="profileChip" tabindex="0" role="button"
+               aria-haspopup="true" aria-expanded="false">
+            <span class="chip-avatar">${profile.avatar}</span>
+            <span>${profile.username}</span>
+            <div class="profile-dropdown" id="profileDropdown">
+              <button id="ddSwitch">Switch profile</button>
+            </div>
+          </div>`;
+        const chip     = area.querySelector('#profileChip');
+        const dropdown = area.querySelector('#profileDropdown');
+        chip.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = dropdown.classList.toggle('open');
+          chip.setAttribute('aria-expanded', String(isOpen));
+        });
+        area.querySelector('#ddSwitch').addEventListener('click', () => {
+          dropdown.classList.remove('open');
+          openSwitcher();
+        });
+        document.addEventListener('click', () => {
+          dropdown.classList.remove('open');
+          chip && chip.setAttribute('aria-expanded', 'false');
+        });
+      }
+    }
+
+    /* ── Welcome banner ── */
+    function renderWelcome(profile) {
+      const banner = document.getElementById('welcomeBackBanner');
+      if (!banner) return;
+      if (!profile) { banner.innerHTML = ''; return; }
+      const profiles  = loadProfiles();
+      const isReturning = profiles.find(p => p.username === profile.username && p.hasVisited);
+      const greeting  = isReturning ? `Welcome back, ${profile.username}!` : `Welcome, ${profile.username}!`;
+      banner.innerHTML = `<div class="welcome-back">${profile.avatar} ${greeting}</div>`;
+      /* mark as visited after first render */
+      if (!isReturning) {
+        const updated = profiles.map(p =>
+          p.username === profile.username ? { ...p, hasVisited: true } : p
+        );
+        saveProfiles(updated);
+      }
+    }
+
+    /* ── Create modal ── */
+    function buildAvatarGrid() {
+      const grid = document.getElementById('avatarGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      avatarList.forEach(emoji => {
+        const btn = document.createElement('button');
+        btn.className   = 'avatar-btn';
+        btn.textContent = emoji;
+        btn.setAttribute('aria-label', emoji);
+        btn.addEventListener('click', () => {
+          grid.querySelectorAll('.avatar-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          selectedAvatar = emoji;
+          updateConfirm();
+        });
+        grid.appendChild(btn);
+      });
+    }
+    function updateConfirm() {
+      const btn = document.getElementById('confirmBtn');
+      if (btn) btn.disabled = !(currentUsername && selectedAvatar);
+    }
+    function openCreateModal() {
+      closeSwitcher();
+      selectedAvatar  = '';
+      currentUsername = generateUsername();
+      const display   = document.getElementById('usernameDisplay');
+      if (display) display.textContent = currentUsername;
+      buildAvatarGrid();
+      updateConfirm();
+      const overlay = document.getElementById('profileOverlay');
+      if (overlay) { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    }
+    function closeCreateModal() {
+      const overlay = document.getElementById('profileOverlay');
+      if (overlay) overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ── Switcher modal ── */
+    function openSwitcher() {
+      const overlay = document.getElementById('switcherOverlay');
+      if (!overlay) return;
+      renderSwitcherList();
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeSwitcher() {
+      const overlay = document.getElementById('switcherOverlay');
+      if (overlay) overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function renderSwitcherList() {
+      const list     = document.getElementById('profileList');
+      if (!list) return;
+      const profiles = loadProfiles();
+      const active   = loadActiveUsername();
+      list.innerHTML = '';
+      if (profiles.length === 0) {
+        list.innerHTML = `<p style="color:var(--text-dim);font-size:14px;padding:8px 4px;">No profiles yet.</p>`;
+        return;
+      }
+      profiles.forEach(p => {
+        const item = document.createElement('div');
+        item.style.display = 'flex';
+        item.style.alignItems = 'center';
+        item.style.gap = '8px';
+
+        const btn = document.createElement('button');
+        btn.className = 'profile-list-item' + (p.username === active ? ' active' : '');
+        btn.innerHTML = `
+          <span class="pli-avatar">${p.avatar}</span>
+          <span class="pli-info">
+            <div class="pli-name">${p.username}</div>
+            <div class="pli-date">Joined ${p.createdAt}</div>
+          </span>
+          ${p.username === active ? '<span class="pli-active-badge">Active</span>' : ''}
+        `;
+        btn.addEventListener('click', () => {
+          if (p.username !== active) {
+            saveActiveUsername(p.username);
+            closeSwitcher();
+            renderNav(p);
+            renderWelcome(p);
+          } else {
+            closeSwitcher();
+          }
+        });
+
+        const delBtn = document.createElement('button');
+        delBtn.className   = 'pli-delete';
+        delBtn.textContent = '🗑';
+        delBtn.title       = `Delete ${p.username}`;
+        delBtn.setAttribute('aria-label', `Delete ${p.username}`);
+        delBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (!confirm(`Delete "${p.username}"? Their data cannot be recovered.`)) return;
+          let updated = loadProfiles().filter(x => x.username !== p.username);
+          saveProfiles(updated);
+          /* if deleted active, switch to first remaining or none */
+          if (p.username === active) {
+            const next = updated[0] || null;
+            if (next) saveActiveUsername(next.username);
+            else localStorage.removeItem(KEY_ACTIVE);
+            closeSwitcher();
+            renderNav(next);
+            renderWelcome(next);
+          } else {
+            renderSwitcherList();
+          }
+        });
+
+        item.appendChild(btn);
+        item.appendChild(delBtn);
+        list.appendChild(item);
+      });
+    }
+
+    /* ── Wire up controls ── */
+    document.getElementById('regenBtn').addEventListener('click', () => {
+      currentUsername = generateUsername();
+      const display = document.getElementById('usernameDisplay');
+      if (display) display.textContent = currentUsername;
+      const btn = document.getElementById('regenBtn');
+      btn.classList.add('spinning');
+      setTimeout(() => btn.classList.remove('spinning'), 400);
+      updateConfirm();
+    });
+
+    document.getElementById('confirmBtn').addEventListener('click', () => {
+      if (!currentUsername || !selectedAvatar) return;
+      const profile = {
+        username:   currentUsername,
+        avatar:     selectedAvatar,
+        createdAt:  new Date().toISOString().slice(0, 10),
+        hasVisited: false
+      };
+      const profiles = loadProfiles();
+      profiles.push(profile);
+      saveProfiles(profiles);
+      saveActiveUsername(profile.username);
+      closeCreateModal();
+      renderNav(profile);
+      renderWelcome(profile);
+    });
+
+    document.getElementById('switcherNewBtn').addEventListener('click', () => {
+      closeSwitcher();
+      openCreateModal();
+    });
+
+    /* backdrop + Escape to close both modals */
+    ['profileOverlay','switcherOverlay'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('click', (e) => { if (e.target === el) { closeCreateModal(); closeSwitcher(); } });
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { closeCreateModal(); closeSwitcher(); }
+    });
+
+    /* ── Init ── */
+    const profile = getActiveProfile();
+    renderNav(profile);
+    renderWelcome(profile);
+
+  })();
+</script>
+
+</body>
+</html>
