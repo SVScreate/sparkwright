@@ -8,7 +8,9 @@
 
 ## Who Is Building This
 
-The developer is an educator and homeschool teacher building this primarily for their own students. Not a professional developer — learning tools gradually, building through collaboration with Claude. Has a 2019 MacBook Air (1.6GHz dual-core Intel i5, Intel UHD Graphics 617, 8GB RAM), a Claude Pro subscription, and a genuine vision for the product. Cares deeply about quality and integrity — it should feel purposeful and well-designed, not like a generic AI-generated app.
+The developer is a teacher with a Master's in Educational Therapy and 15+ years working with students across public, private, and homeschool settings. Not a professional developer — learning tools gradually, building through collaboration with Claude. Has a 2019 MacBook Air (1.6GHz dual-core Intel i5, Intel UHD Graphics 617, 8GB RAM), a Claude Pro subscription, and a genuine vision for the product. Cares deeply about quality and integrity — it should feel purposeful and well-designed, not like a generic AI-generated app.
+
+**Note on credential language:** Do not use "Educational Therapist" as a title — it implies active licensed practice. The correct framing is: *"a teacher with a Master's in Educational Therapy and 15+ years working with students across public, private, and homeschool settings."* See the RP file for full context.
 
 **Primary testing browser: Safari** (switched from Chrome in v50 session — see Crash Log for why).
 
@@ -97,6 +99,8 @@ The value proposition isn't "we hold your data and show you dashboards." It's "w
 
 ## Science & Pedagogy
 
+*Full research, pedagogy, competitive landscape, and developer reflections live in the companion file: `Sparkwright_Research_and_Pedagogy.md` (RP). This section contains working summaries only. Always update both files when new research is added.*
+
 ### Fluency Automaticity — The 3-Second Threshold
 The 3-second threshold for fact fluency is well-established in cognitive load and automaticity research. Retrieval under ~3 seconds suggests the fact is stored as a direct memory trace (declarative recall) rather than being computed procedurally. This threshold is used by major fluency programs including Reflex Math and XtraMath, and is grounded in math fluency research including work by Erin Olson and others.
 
@@ -113,8 +117,80 @@ The 3-second threshold for fact fluency is well-established in cognitive load an
 
 **The 7-second auto-kick** is practical rather than research-derived — long enough that if they haven't answered, they don't know it.
 
-### Response Time Consistency (Future Tracking)
-The research also emphasizes *response time consistency* — a student who answers in 2.8s every time is more fluent than one who averages 2.5s but swings widely. Variance matters. Each fact's response time history should store individual times, not averages.
+### Accommodations — Processing Speed & Timer Flexibility *(Session I — research needed)*
+
+**The core issue:** The 3-second fluency threshold and 7-second auto-kick are calibrated for typical processing speeds. Students with slower processing speed (common in learning disabilities, ADHD, anxiety, dyslexia, and other profiles) may be penalized by these thresholds even when they genuinely know a fact.
+
+**Questions to research and design around:**
+- What does the research say about processing speed variability across neurotypes? Is there a published accommodation standard for timed math fact assessments?
+- Should teachers be able to set a custom fluency threshold (e.g. 5s instead of 3s) for specific students?
+- Should teachers be able to adjust the per-question timer length (currently 7s auto-kick) per student or per session?
+- Should there be a named "Accommodations" toggle in settings, or just adjustable sliders?
+- How do we document this in the FAQ so teachers understand both the default (research-based) and the accommodation options?
+
+**Preliminary design instinct:** Teacher-adjustable fluency threshold and auto-kick timer, set in the game setup screen or a teacher settings panel. The defaults remain research-based (3s / 7s). Accommodated settings would be clearly labeled so print reports reflect the threshold used.
+
+**Why it matters for Sparkwright's identity:** This product is built by an Educational Therapist. Accommodation support is not an afterthought — it is core to the product's integrity and its appeal to the homeschool and learning-support market.
+
+⚠️ *Research pass needed before designing. Add to FAQ once designed.*
+
+### Two-Level Fluency Model (Session I — design decision)
+
+Math Flash uses two distinct concepts that must not be confused:
+
+**Level 1 — Per-attempt grade** (in-game, shown during Per-Question Timer mode):
+| Grade | Threshold | Meaning |
+|---|---|---|
+| ⚡ Fluent | Correct, ≤3s | Fast enough to suggest automatic retrieval |
+| 🔄 Almost! | Correct, 4–6s | Knows it, not yet automatic |
+| 📚 Needs Practice | Wrong or no answer by 7s | Not yet known |
+
+These grades describe a single answer. They are not mastery.
+
+**Level 2 — Longitudinal mastery** (tracked over time, across sessions):
+A fact is **Mastered** when a student demonstrates durable, stable automaticity — not just one good answer.
+
+**Math Flash Mastery Definition:**
+> Correct in ≤3s on **4 out of the last 5 attempts**, spanning **at least 2 separate sessions**, with **low response time variance**.
+
+- The 2-session requirement prevents "one good day" mastery
+- The variance condition is a differentiator backed by research (see below)
+- The exact variance threshold (what counts as "low") is TBD — will be tuned with real use
+
+**Why this matters:** A student who sometimes answers in 1.2s and sometimes in 5.8s is NOT automatic on that fact, even if their average looks good. High intraindividual variance in response time is a diagnostic signal of effortful processing (counting/calculating), not automatic retrieval.
+
+### Response Time Consistency — The Research Case
+
+Research on variance as a mastery signal:
+- **Stickney, Sharp & Kenyon (2012)** — "Technology-Enhanced Assessment of Math Fact Automaticity" — found that response time *variability* distinguishes lower-achieving from typically-achieving students even when average speeds are similar. High variance = not yet automatic.
+- **Reflex Math** explicitly uses "response pattern stability" language in their white paper as a condition for fact certification. They can de-certify a fact if variance returns. (Algorithm proprietary but the principle is published.)
+- **Broader cognitive science:** High intraindividual variability (IIV) in RT is consistently associated with effortful processing vs. automatic retrieval. Low IIV = more automatic.
+
+**Design implication:** Variance is tracked internally (via `responseTimes` array in `mathflash_facts`) and will:
+1. Factor into the Mastered threshold
+2. Influence which facts stay in the Challenge Facts pool (item 88)
+3. Appear in teacher print report with a human-readable consistency label
+
+### Competitive Research — Mastery Thresholds
+
+| Program | Time threshold | Repetition criterion | Variance check |
+|---|---|---|---|
+| **XtraMath** | ≤3s (adjustable) | 2 correct out of last 3, across sessions | No |
+| **Reflex Math** | ~1–2s (proprietary) | Proprietary — uses "stability" language | Yes (implied) |
+| **Rocket Math** | Timed (program-set) | 12 consecutive correct | No |
+| **Math Flash** | ≤3s | 4 out of last 5, across 2+ sessions | Yes |
+
+XtraMath's 2/3 criterion is simple and defensible. Math Flash's 4/5 + variance model is stricter and more diagnostically valid — backed by Stickney et al. and Reflex's own published language.
+
+**Academic consensus:** No single peer-reviewed magic number exists. The field treats automaticity as a performance criterion (speed + accuracy + consistency sustained over time), not a raw repetition count. Woodward (2006), Kling & Bay-Williams (2015), and Baker & Cuevas (2018) all emphasize distributed practice across sessions over massed repetition.
+
+**Sources:**
+- Stickney, Sharp & Kenyon (2012) — ResearchGate
+- Cholmsky (2011) — Reflex White Paper
+- Woodward (2006) — Developing Automaticity in Multiplication Facts
+- Baker & Cuevas (2018) — ERIC EJ1194585
+- XtraMath support documentation
+- SuperMemo SM-2 algorithm (Wozniak, 1990)
 
 ### Timed Round + Practice Quest
 Timers (global countdown, stopwatch) pause during Practice Quest so students are not punished for learning.
@@ -212,6 +288,8 @@ Developer needs to share their resume in a Claude chat session to work on About 
 ### Competitive Landscape
 *(documented Session D — see prior MPF versions for full notes)*
 Key differentiators vs XtraMath, Reflex Math, Prodigy, Khan Academy: immediate remediation, fluency grading tiers, student-centered feedback, Sparkwright aesthetic identity.
+
+**⚠️ Full competitive research pass needed (item 112) — see to-do list.**
 
 ---
 
@@ -466,10 +544,22 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 ### 📊 DATA / TRACKING *(after core mechanics)*
 85. ✅ Settings memory via localStorage (v53)
 86. ✅ **Per-fact tracking** — built in v55, tested and confirmed working (session H). Two bugs found and fixed: (1) response time stored raw timestamp instead of elapsed ms, (2) `qStartTime` not set in non-timer modes. Both resolved. Foundation for stats page, challenge facts, pet fact mastery.
-87. Response time consistency / variance
-88. Challenge Facts workspace
-89. Student-facing stats page
-90. Practice time tracking (`mathflash_practice_time`)
+87. **Response time variance** — calculate internally from `responseTimes` array. Flag facts with high intraindividual variance as "not yet stable." Feeds mastery threshold, challenge facts, and print report. Variance threshold (what counts as "low") TBD — tune with real use. *(Design decided session I — ready to code)*
+88. **Challenge Facts workspace** — facts that have high attempt counts, high variance, or are close to Mastered threshold surface here for targeted practice. Design discussion needed.
+89. **Student-facing stats page** — simplified, encouraging, no raw numbers. Fact tiles with tier colors, plain-language labels. Design discussion needed.
+90. **Practice time tracking** (`mathflash_practice_time`) — cumulative practice time per user
+108. **Mastery flag** — add `mastered: boolean` and `masteredDate` to fact record schema once mastery threshold is finalized. Criterion: correct in ≤3s on 4 of last 5 attempts, spanning 2+ sessions, with low variance. *(Ready to code after variance threshold is tuned)*
+109. **Teacher print report** — separate from round-end print. Shows per-fact data across time windows (round / day / week / month / year / all-time). Columns: avg response time, consistency label, attempt count, quest triggered count, last practiced. Heat map equivalent using Sparkwright fluency tier colors. Design discussion needed.
+110. **Student stats page — consistency labels** — human-readable labels derived from variance for fact tiles. Current candidates: Automatic / Developing / Not Yet. Word choice TBD. Design discussion needed.
+111. **FAQ / methodology page** — explains what fluency means, how Mastered is determined, why facts get flagged as challenge facts, what the tiers mean. Written for teachers and parents. Protects IP by explaining the *what* without exposing exact thresholds. Build after stats/print report are designed.
+112. **Competitive research pass** — extensive comparison of IXL, iReady, XtraMath, TTRS, Reflex Math, Rocket Math, Khan Academy, Prodigy, and others. Document: mastery model, remediation approach, timer/accommodation options, pricing, data model, UX feel, differentiators vs. Math Flash. Feeds FAQ, About page, and product positioning.
+114. **Student & teacher agency — core design principle** — Math Flash is explicitly designed so that the student and their teacher/helper feel in control of how practice feels. Settings, timer options, and accommodations exist to serve the learner — not to enforce a one-size-fits-all drill. Most competing programs (XtraMath, TTRS, IXL, iReady, etc.) have a sterile, punishing vibe: the program drills the student, marks them wrong, and moves on. Math Flash's differentiator is that it meets students where they are, respects their pace, and gives both student and teacher meaningful guidance on how to use it well. This philosophy should be explicit in the FAQ, onboarding, and About page copy.
+
+113. **Accommodations — processing speed** — research adjustable fluency thresholds and timer lengths for students with slower processing speed (learning disabilities, ADHD, anxiety, dyslexia). Design teacher-adjustable settings for: fluency threshold (default 3s) and auto-kick timer (default 7s). Document accommodation options in FAQ. Core to Sparkwright's identity as an Educational Therapy-grounded product. *(Research pass needed first)*
+114. **Student & teacher agency — core design principle** — Math Flash is explicitly designed so that the student and their teacher/helper feel in control of how practice feels. Settings, timer options, and accommodations exist to serve the learner — not to enforce a one-size-fits-all drill. Most competing programs have a sterile, punishing vibe: the program drills the student, marks them wrong, and moves on. Math Flash's differentiator is that it meets students where they are, respects their pace, and gives both student and teacher meaningful guidance on how to use it well. This philosophy should be explicit in the FAQ, onboarding, and About page copy.
+115. **Practice Quest engagement mechanic** — Design discussion needed. Timer pauses during Practice Quest (pedagogically correct). Risk: students may use wrong answers as an intentional escape ("escape-motivated errors") or mentally check out when the overlay appears. Need a mechanic that requires genuine presence without punitive pressure. Possible directions: response-required steps that can't be passively clicked through; subtle non-scoring ambient indicator; Prove It gate already partially addresses this. Do not touch code until design is settled.
+116. **Literature review pass** — Dedicated research session to gather and document primary sources on: errorless learning vs. error correction, math anxiety and timed assessments, neurodivergence and cognitive load, fluency automaticity thresholds, in-the-moment vs. delayed feedback. Builds into RP Science & Pedagogy section. Backbone of FAQ and differentiates Sparkwright's claims from generic "science-backed" marketing language.
+117. **Competitive landscape chart** — Structured cross-comparison of all current math fluency programs: XtraMath, Reflex, Rocket Math, TTRS, IXL, iReady, Zearn, Khan Academy, 99Math, Boddle, Monster Math, MathFactLab, spellingtraining.com, and small flashcard apps. Chart axes: wrong-answer response, remediation type, timer model, neurodivergent accommodation, age range, price model, data model, tables covered, school vs. family market. Do in a dedicated chat session. Do after journaling about target user — the questions will be sharper.
 106. **localStorage schema migration** — as the game evolves, localStorage schemas will change (new fields added, old ones renamed). Design discussion needed: how do we avoid wiping or breaking a student's saved progress when updates ship? Needs a versioning/migration strategy before real student data accumulates. *(Session H)*
 
 ### 👤 USERNAMES & PROFILE
@@ -494,23 +584,28 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 ## WHERE TO PICK UP
 
-*Session H ended March 23, 2026.*
+*Session I ended March 23, 2026.*
 
-**This session covered:**
-- Item 86 — tested checklist A–F, all passing. Two bugs found and fixed in v55:
-  - Bug 1: `responseTimes` stored raw Unix timestamp instead of elapsed ms (fix: check `qStartTime > 0` not `typeof === 'number'`)
-  - Bug 2: `qStartTime` only set in per-question timer mode — fixed by setting it in `showQuestion()` for all modes
-- Item 99 ✅ — GitHub repo created (`SVScreate/sparkwright`), git initialized, Netlify connected to GitHub for auto-deploy. v55 is now live on `sparkwright.org`.
-- Item 93 ✅ — v55 live on Netlify via auto-deploy
-- Items 105, 106, 107 — added to to-do list
-- Data philosophy section added to MPF
-- Developer workflow guide added to MPF (see below)
+**Session H covered:**
+- Item 86 ✅ — per-fact tracking tested, two bugs fixed, confirmed working
+- Item 99 ✅ — GitHub + Netlify auto-deploy connected, v55 live on sparkwright.org
+- Item 93 ✅ — v55 live
 
-**Recommended next session:**
-- Item 87 — response time variance/consistency display (depends on 86 ✅)
-- Item 89 — student-facing stats page design discussion (depends on 86+87)
-- OR item 100 — title screen overhaul (self-contained, no dependencies)
-- OR item 107 — Sparkwright definition tooltip (small, self-contained)
+**Session I covered (design only — no code written):**
+- Two-level fluency model defined: per-attempt grades (existing) vs. longitudinal Mastered (new)
+- Mastery definition decided: correct in ≤3s on 4 of last 5 attempts, 2+ sessions, low variance
+- Variance confirmed as a real diagnostic signal (research-backed)
+- Competitive research logged: XtraMath, Reflex, Rocket Math thresholds documented
+- New items added: 108 (mastery flag), 109 (teacher print report), 110 (consistency labels), 111 (FAQ page)
+- Science & Pedagogy section in MPF significantly expanded
+
+**Recommended next session — chronological order:**
+1. Item 87 — variance calculation (internal, no UI yet) — ready to code
+2. Item 108 — mastery flag added to fact record — ready to code after variance threshold decided
+3. Item 88 — Challenge Facts workspace — design discussion first
+4. Item 89 / 110 — student stats page + consistency label word choice — design discussion
+5. Item 109 — teacher print report — design discussion
+6. Item 111 — FAQ / methodology page — after above are designed
 
 **Items needing design discussion before coding:**
 - Item 66 — Assessment area (what does a formal assessment look like in Math Flash?)
