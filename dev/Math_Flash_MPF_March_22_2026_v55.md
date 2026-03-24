@@ -51,6 +51,47 @@ Target audience: elementary and middle school students working on multiplication
 - **Student agency matters** — empowering, not punishing
 - **Design quality matters** — dark mode, clean typography, smooth animations, no generic clipart
 - **Pedagogically grounded** — TTRS, skip counting strategies, fact families, spaced repetition concepts, fluency automaticity research
+- **Data belongs to the user** — see Data Philosophy section below
+
+---
+
+## Data Philosophy — Local vs. Server Storage
+
+*These are the developer's raw ideas from session H — to be developed further into marketing copy and product positioning.*
+
+### The Core Stance
+Sparkwright uses **localStorage** — data lives on the student's device, not on a server. This is a deliberate philosophical choice, not a technical limitation.
+
+### Why Local Storage Is the Right Model for This Product
+
+**The user is in control.**
+The student (and teacher/parent) owns their data. It doesn't get harvested, analyzed by a third party, or locked inside a subscription. If they stop using the product, their history doesn't disappear into someone else's database.
+
+**In-the-moment practice and feedback.**
+Most server-based platforms (e.g. TTRS) cycle through problems, mark wrong answers as wrong, and move on — with no in-the-moment remediation. The data goes to the backend and surfaces later as charts. Math Flash gives immediate Practice Quest remediation and per-session printable results. The learning happens *now*, not in a monthly report.
+
+**The teacher can see what actually happened.**
+With TTRS and similar platforms, the teacher has to wait for a reporting cycle (e.g. monthly "gig" summary) to see progress. There's no per-session view of what a student worked on. Math Flash's print output gives the teacher immediate, session-level visibility — what was practiced, what was fluent, what needs more work.
+
+**Wrong answers don't just disappear.**
+In TTRS, a missed fact may reappear eventually — but there's no structured in-the-moment remediation, no fact family practice, no "Prove It" gate. The lack of fluency persists because the platform doesn't stop and teach. Math Flash treats a miss as a learning moment, not just a data point.
+
+**Simpler, faster, more honest.**
+No account creation friction, no password resets, no server latency, no data breach risk. The game works offline. The student's progress is theirs.
+
+### The Honest Tradeoffs
+- Data doesn't follow the student across devices (yet — this is solvable with export/import)
+- No cross-classroom aggregate data for schools (a feature for server-based models, but also a surveillance tradeoff)
+- If a student clears their browser storage, data is lost (mitigatable with export/backup feature)
+
+### What This Means for the Business Model
+The value proposition isn't "we hold your data and show you dashboards." It's "we give you a better learning experience and you keep your data." This is worth paying for — especially for homeschool families and independent teachers who are skeptical of ed-tech data collection.
+
+**⚠️ To develop further:**
+- Flesh out this philosophy into About page / marketing copy (share resume in a Claude chat session)
+- Compare explicitly to spellingtraining.com (localStorage model) vs. TTRS (server model)
+- Articulate what a paid tier looks like in a local-first model (premium features, not data access)
+- Consider export/import as a feature that bridges local and portable
 
 ---
 
@@ -141,6 +182,15 @@ Students get a silent second chance on wrong answers before Practice Quest trigg
 
 **Tagline:** *Handcrafted learning, built to spark.* *(working tagline, not fully locked)*
 
+**The word "sparkwright" — coining and IP:**
+Google surfaces a loose definition for "sparkwright" but it is not an established dictionary word. Developer wants to lean into what exists and "own" it as part of the brand — both in feel and potentially in a legal/IP sense. Questions to explore in a future chat session:
+- What does Google currently define it as? (Developer to share)
+- Can a coined/near-coined word be claimed as a trademark?
+- What's the difference between common law trademark (using it in commerce) vs. registered trademark?
+- How does this interact with the brand identity and About page copy?
+
+**Landing page to-do:** Add a small hover bubble or tooltip over the word "Sparkwright" that shows a definition (the developer's own, informed by what exists). *(Item 107 — design discussion needed)*
+
 ### Brand Identity
 **Keywords:** wonder, discovery, energized, challenged, like stepping into another world
 
@@ -177,15 +227,40 @@ sparkwright/
 
 ---
 
-## 🖥️ Terminal Instructions (local server)
+## 🖥️ Session Startup Checklist
 
-1. Open Terminal
-2. Drag the `sparkwright` folder into the Terminal window (resolves iCloud Desktop path issues)
-3. Run: `python3 -m http.server 8000`
-4. Open: `http://localhost:8000`
-5. Math Flash: `http://localhost:8000/games/mathflash/`
+Open **3 Terminal windows** at the start of each session:
 
-**Do not deploy to Netlify just to test** — 300 credits/month, spend wisely. Local server for all testing.
+**Window 1 — Local server**
+```
+cd /Users/kimberlywelle/Desktop/sparkwright
+python3 -m http.server 8000
+```
+Leave this running. Don't type in it again.
+
+**Window 2 — Claude Code**
+```
+cd /Users/kimberlywelle/Desktop/sparkwright
+claude
+```
+This is where you work with Claude.
+
+**Window 3 — Git (use at end of session to push changes)**
+```
+cd /Users/kimberlywelle/Desktop/sparkwright
+git add .
+git commit -m "Session X — description"
+git push
+```
+Pushing to GitHub auto-deploys to Netlify. No manual upload needed.
+
+**Safari tabs to open:**
+- `http://localhost:8000` — landing page
+- `http://localhost:8000/games/mathflash/` — live game
+- `https://github.com/SVScreate/sparkwright` — to verify push landed
+- `https://app.netlify.com` — to verify deploy succeeded
+
+**Do not deploy to Netlify manually** — GitHub push handles it. 300 credits/month, spend wisely.
 
 ---
 
@@ -395,6 +470,7 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 88. Challenge Facts workspace
 89. Student-facing stats page
 90. Practice time tracking (`mathflash_practice_time`)
+106. **localStorage schema migration** — as the game evolves, localStorage schemas will change (new fields added, old ones renamed). Design discussion needed: how do we avoid wiping or breaking a student's saved progress when updates ship? Needs a versioning/migration strategy before real student data accumulates. *(Session H)*
 
 ### 👤 USERNAMES & PROFILE
 95. ✅ Profile system — generated usernames + emoji avatar, multi-profile support, switcher modal, site-level localStorage (session F, landing page)
@@ -410,6 +486,7 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 98. **Rename Netlify project** to sparkwright *(cosmetic)*
 99. **Git setup** — consider setting up now; developer is reaching the point where manual Netlify uploads are becoming a recurring step. Auto-deploy via GitHub would eliminate this. *(Session H — worth discussing)*
 102. **Landing page polish** — tagline not fully locked, coming-soon card names are placeholders
+107. **"Sparkwright" definition tooltip** — small hover bubble over the word "Sparkwright" on the landing page showing a definition. Developer to share Google's version; then craft the official brand definition. Design discussion needed. *(Session H)*
 103. Long term: payments/subscriptions, Google AdSense integration
 104. **File naming convention:** always use `YYYY-MM-DD_HHMM_vN.html` format for both HTML and MPF files
 
@@ -423,20 +500,17 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 - Item 86 — tested checklist A–F, all passing. Two bugs found and fixed in v55:
   - Bug 1: `responseTimes` stored raw Unix timestamp instead of elapsed ms (fix: check `qStartTime > 0` not `typeof === 'number'`)
   - Bug 2: `qStartTime` only set in per-question timer mode — fixed by setting it in `showQuestion()` for all modes
-- Item 105 — Guest play UX added to to-do list (no logout button, design discussion needed)
-- Item 99 — Git/auto-deploy discussion flagged as timely
-- v55 promoted to live: `games/mathflash/index.html`
-
-**Immediate action items:**
-- Upload v55 to Netlify as `games/mathflash/index.html` (item 93)
-- Confirm `sparkwright.org/games/mathflash/` works live
-- Consider setting up GitHub + Netlify auto-deploy (item 99)
+- Item 99 ✅ — GitHub repo created (`SVScreate/sparkwright`), git initialized, Netlify connected to GitHub for auto-deploy. v55 is now live on `sparkwright.org`.
+- Item 93 ✅ — v55 live on Netlify via auto-deploy
+- Items 105, 106, 107 — added to to-do list
+- Data philosophy section added to MPF
+- Developer workflow guide added to MPF (see below)
 
 **Recommended next session:**
 - Item 87 — response time variance/consistency display (depends on 86 ✅)
 - Item 89 — student-facing stats page design discussion (depends on 86+87)
 - OR item 100 — title screen overhaul (self-contained, no dependencies)
-- OR item 99 — Git setup (if manual deploys are feeling painful)
+- OR item 107 — Sparkwright definition tooltip (small, self-contained)
 
 **Items needing design discussion before coding:**
 - Item 66 — Assessment area (what does a formal assessment look like in Math Flash?)
