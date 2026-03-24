@@ -580,6 +580,10 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 103. Long term: payments/subscriptions, Google AdSense integration
 104. **File naming convention:** always use `YYYY-MM-DD_HHMM_vN.html` format for both HTML and MPF files
 
+### ⚖️ LEGAL / IP
+118. **IP ownership — consult an attorney before commercial launch.** US copyright law requires human authorship; AI-assisted work is a gray area still being settled. The ownership argument is reasonably strong here (developer makes all creative/product/pedagogical decisions; Claude executes them), but this should be reviewed by an IP attorney before selling or licensing the product. Not urgent now — needed before commercial launch. *(Session K)*
+119. **Trademark — "Sparkwright" brand name.** Can a coined/near-coined word be claimed as trademark? What's the difference between common law trademark (use in commerce) vs. registered trademark? What does Google currently define "sparkwright" as? Explore in a dedicated chat session once the product is closer to launch. *(Session D / Session H)*
+
 ---
 
 ## WHERE TO PICK UP
