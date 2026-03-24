@@ -1,5 +1,5 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: March 23, 2026 — session H (v55 testing + bug fixes, promoted to live)*
+*Last updated: March 24, 2026 — Session K (no code written: Code Rationale file created, session-start guidance updated to include it)*
 *Current Math Flash version: v55 — `2026-03-19_1530_v55.html`*
 *Current Sparkwright landing page: `sparkwright/index.html` (updated session F)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
@@ -571,10 +571,10 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 ### 🌐 HOSTING / DEPLOYMENT
 91. ✅ Domain registered — `sparkwright.org` via Netlify, March 18, 2026
 92. ✅ Sparkwright landing page built — Session E
-93. **Upload v55 to Netlify** as `games/mathflash/index.html` *(action item — v55 is now live locally, still needs Netlify deploy)*
+93. ✅ **v55 live on Netlify** — promoted to `games/mathflash/index.html` via GitHub auto-deploy (Session H)
 94. **Cross-device testing** — Mac Chrome locally, Windows desktop Chrome/Edge, iPad.
 98. **Rename Netlify project** to sparkwright *(cosmetic)*
-99. **Git setup** — consider setting up now; developer is reaching the point where manual Netlify uploads are becoming a recurring step. Auto-deploy via GitHub would eliminate this. *(Session H — worth discussing)*
+99. ✅ **GitHub + Netlify auto-deploy** — repo `SVScreate/sparkwright` created, connected to Netlify, auto-deploy confirmed working. Push to GitHub → live on sparkwright.org automatically (Session H)
 102. **Landing page polish** — tagline not fully locked, coming-soon card names are placeholders
 107. **"Sparkwright" definition tooltip** — small hover bubble over the word "Sparkwright" on the landing page showing a definition. Developer to share Google's version; then craft the official brand definition. Design discussion needed. *(Session H)*
 103. Long term: payments/subscriptions, Google AdSense integration
@@ -583,6 +583,34 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 ---
 
 ## WHERE TO PICK UP
+
+*Session K ended March 24, 2026 — no code written.*
+
+**Session K covered:**
+- Created `dev/Math_Flash_Code_Rationale.md` — 16 decisions documented across 5 categories (Architecture, localStorage Design, Per-Fact Tracking, Timing & Fluency, Pedagogy-Driven Code Decisions)
+- Updated HOW TO START A NEW SESSION to include reading the Code Rationale file
+- Session-end checklist updated: update Code Rationale when non-obvious code decisions are made
+- Memory index updated with pointer to Code Rationale file
+
+**Next session — ready to code:**
+1. Item 87 — variance calculation (internal only, no UI) — ready to code
+2. Item 108 — mastery flag (`mastered: boolean`, `masteredDate`) — ready after variance threshold decided
+
+**Next — design discussion needed first:**
+3. Item 88 — Challenge Facts workspace
+4. Item 89 / 110 — student stats page + consistency label wording
+
+---
+
+*Session J ended March 24, 2026 — housekeeping only, no code written.*
+
+**Session J covered:**
+- MPF header updated, items 93 and 99 marked ✅
+- Completed log patched (Sessions G, H, I, J added)
+- Session-start guidance added to HOW TO START A NEW SESSION
+- Workflow discussion: Claude Code should read MPF + RP in full at session start, not rely on memory files alone
+
+---
 
 *Session I ended March 23, 2026.*
 
@@ -640,14 +668,17 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 ## HOW TO START A NEW SESSION
 
+**For Claude Code instances — do this first, before anything else:**
+Read this file in full (`dev/Math_Flash_MPF_March_22_2026_v55.md`), then read the RP file (`dev/Sparkwright_Research_and_Pedagogy.md`), then skim the Code Rationale file (`dev/Math_Flash_Code_Rationale.md`). Do not rely on the memory files in `.claude/projects/` — they may be stale. The dev files are the source of truth. Reading all three takes ~4 reads due to size limits but is always worth it.
+
 1. Open the `sparkwright` project folder in Terminal
 2. Run `claude` to start Claude Code (or upload HTML + MPF to claude.ai chat if preferred)
-3. Paste or reference this MPF for context
+3. Read MPF, RP, and Code Rationale files in full (see above) before proposing anything
 4. Tell Claude which item(s) to work on, or say "suggest a batch"
 5. Claude proposes batching, waits for confirmation before coding
 6. Lettering resets to A at the start of each new session
 7. Always use `YYYY-MM-DD_HHMM_vN.html` naming for HTML files
-8. At session end: update MPF
+8. At session end: update MPF + update Code Rationale file if any non-obvious code decisions were made
 9. **Test in Safari**, not Chrome
 10. **Use local server for testing** — drag sparkwright folder into Terminal, run `python3 -m http.server 8000`, open `http://localhost:8000`
 11. **Do not deploy to Netlify just to test** — 300 credits/month, spend wisely
@@ -682,4 +713,9 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 - Session D: brand & business — Sparkwright name chosen, sparkwright.org registered, hosting/localStorage/username architecture documented, competitive landscape mapped
 - Session E: Sparkwright landing page built, site file structure established, local server workflow established
 - Session F (v52–v54): profile system (landing page), Math Flash site header, items 34/35/36/69, settings memory (item 85), round-ending-early bug fix, same-facts-on-restart bug fix, Find All card clustering fix
+- Session G (v55): per-fact tracking built — `mathflash_facts` localStorage key, fact record schema, recording hooks in `handleCorrect` / `handleMiss` / `autoKick`, guest skip logic, 20-entry rolling window
+- Session H: per-fact tracking tested and confirmed (item 86 ✅) — two bugs found and fixed: (1) `responseTimes` stored raw timestamp instead of elapsed ms, (2) `qStartTime` not set in non-timer modes. GitHub repo `SVScreate/sparkwright` created, Netlify auto-deploy connected, v55 live on sparkwright.org (items 93 ✅, 99 ✅)
+- Session I (design only — no code): two-level fluency model defined, mastery definition decided (correct in ≤3s on 4/5 attempts, 2+ sessions, low variance), variance research documented (Stickney et al., Reflex white paper), competitive mastery thresholds logged. New items added: 108 (mastery flag), 109 (teacher print report), 110 (consistency labels), 111 (FAQ page), 112–117 (research/design backlog). RP file created and populated.
+- Session K (housekeeping — no code): Code Rationale file created (`dev/Math_Flash_Code_Rationale.md`), 16 decisions documented, HOW TO START A NEW SESSION updated to include it
+- Session J (housekeeping — no code): MPF/RP updated, completed log patched, items 93/99 marked ✅, session-start guidance added for future Claude instances
 - Session G (v55): per-fact tracking built (item 86 — untested), assessment area added to to-do (item 66), Claude Code set up
