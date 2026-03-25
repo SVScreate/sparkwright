@@ -435,6 +435,7 @@ input:checked + .switch-track::after { left: 22px; background: var(--correct); }
   margin-top: 5px;
   min-height: 1.1em;
 }
+.num-input-msg.info { color: var(--muted); font-weight: 400; }
 .input-hint {
   font-size: 0.75rem;
   color: var(--muted);
@@ -1515,7 +1516,7 @@ input:checked + .switch-track::after { left: 22px; background: var(--correct); }
         <span class="toggle-label" id="selall-label-x"></span>
       </div>
       <div class="toggle-row">
-        <label class="switch"><input type="checkbox" id="easy-x"><div class="switch-track"></div></label>
+        <label class="switch"><input type="checkbox" id="easy-x" checked><div class="switch-track"></div></label>
         <span class="toggle-label" id="elabel-x"></span>
       </div>
     </div>
@@ -1770,7 +1771,7 @@ input:checked + .switch-track::after { left: 22px; background: var(--correct); }
 const S = {
   ops: ['x'],
   tables: { x: [3,4,5,6,7,8,9,12], '/': [3,4,5,6,7,8,9,11,12] },
-  easy:   { x: false, '/': true },
+  easy:   { x: true, '/': true },
   maxAdd: 20, maxSub: 20, allowNeg: false,
   format: 'count', qCount: 20, timeLimit: 120,
   mode: 'type', remed: true, repeat: true
@@ -1861,6 +1862,7 @@ function buildSetupUI() {
         this.classList.remove('on');
       }
       updatePanels();
+      updatePoolNotice();
     });
   });
 
@@ -1875,15 +1877,18 @@ function buildSetupUI() {
   // Easy toggles — controls whether reversed facts from excluded tables are allowed
   document.getElementById('easy-x').addEventListener('change', function() {
     S.easy.x = this.checked;
+    updatePoolNotice();
   });
   document.getElementById('easy-/').addEventListener('change', function() {
     S.easy['/'] = this.checked;
+    updatePoolNotice();
   });
 
   // Select all / deselect all toggle (× only)
   document.getElementById('selall-x').addEventListener('change', function() {
     S.tables.x = this.checked ? [1,2,3,4,5,6,7,8,9,10,11,12] : [];
     buildTableGrid('x');
+    updatePoolNotice();
   });
 
   // Range chips
@@ -1904,6 +1909,7 @@ function buildSetupUI() {
     document.getElementById('opt-pertimer-count').style.display  = val === 'pertimer'  ? 'block' : 'none';
     const desc = document.getElementById('format-desc');
     if (desc) desc.textContent = FORMAT_DESCS[val] || '';
+    updatePoolNotice();
   });
 
   // Time limit preset chips
@@ -1918,10 +1924,10 @@ function buildSetupUI() {
 
   // Stopwatch question count
   document.getElementById('q-count-sw').addEventListener('input', function() {
-    document.getElementById('q-count-sw-msg').textContent = '';
+    updatePoolNotice();
   });
   document.getElementById('q-count-pt').addEventListener('input', function() {
-    document.getElementById('q-count-pt-msg').textContent = '';
+    updatePoolNotice();
   });
 
   // Mode buttons
@@ -1937,11 +1943,10 @@ function buildSetupUI() {
   document.getElementById('tog-remed').addEventListener('change',  function() { S.remed  = this.checked; });
   document.getElementById('tog-repeat').addEventListener('change', function() { S.repeat = this.checked; });
 
-  // Clear q-count error message when user types
+  // Update pool notice when question count changes
   document.getElementById('q-count').addEventListener('input', function() {
-    const msg = document.getElementById('q-count-msg');
-    if (msg) msg.textContent = '';
     this.classList.remove('error');
+    updatePoolNotice();
   });
 
   // Answer input — block non-numeric keys
@@ -2085,6 +2090,9 @@ function loadAndApplySettings() {
 
     // Panels visibility
     updatePanels();
+
+    // Pool size notice — show if saved settings already have pool < qCount
+    updatePoolNotice();
 
   } catch(e) {
     // If anything goes wrong restoring UI, fail silently — S state is already restored
@@ -2294,6 +2302,7 @@ function buildTableGrid(op) {
       else            { arr.splice(idx, 1); this.classList.remove('on'); }
       updateEasyLabel(op);
       if (op === 'x') updateSelAllLabel();
+      updatePoolNotice();
     });
   });
 
@@ -2323,11 +2332,10 @@ function updateEasyLabel(op) {
     el.innerHTML = '<strong>All 12 tables selected</strong> — nothing excluded.';
     return;
   }
-  const exStr = excl.map(n => sym + n).join(', ');
   if (op === '/') {
-    el.innerHTML = '<strong>Allow reversed facts from excluded tables (' + exStr + ')</strong> — turn ON to let e.g. facts like ÷1 and ÷2 appear when practicing other divisors.';
+    el.innerHTML = '<strong>Full divisor range (÷1–÷12)</strong> — ON: practice all 12 divisors for each selected table. OFF: only cross-products between selected tables.';
   } else {
-    el.innerHTML = '<strong>Allow reversed facts from excluded tables (' + exStr + ')</strong> — turn ON to let e.g. ' + (sel[0]||3) + '×' + excl[0] + ' appear when practicing the ' + (sel[0]||3) + 's table.';
+    el.innerHTML = '<strong>Practice every fact in your chosen table(s)</strong> — ON: all facts included. OFF: exclude facts where one of the numbers comes from a table you haven\'t picked (e.g. ×6, ×7, ×8 selected → no 6×2, 7×5, 8×9).';
   }
 }
 
@@ -2419,6 +2427,33 @@ function buildPool() {
   return facts;
 }
 
+// Returns the number of unique facts the current settings would generate
+function getPoolSize() {
+  return buildPool().length;
+}
+
+// Shows an informational note near the question count field when pool < qCount
+function updatePoolNotice() {
+  var msgIds   = { count: 'q-count-msg', stopwatch: 'q-count-sw-msg', pertimer: 'q-count-pt-msg' };
+  var inputIds = { count: 'q-count',     stopwatch: 'q-count-sw',     pertimer: 'q-count-pt'     };
+  // Clear any existing info notices
+  Object.keys(msgIds).forEach(function(fmt) {
+    var el = document.getElementById(msgIds[fmt]);
+    if (el && el.classList.contains('info')) { el.textContent = ''; el.classList.remove('info'); }
+  });
+  if (S.format === 'timed') return; // timed mode has no question count
+  var msgEl   = document.getElementById(msgIds[S.format]);
+  var inputEl = document.getElementById(inputIds[S.format]);
+  if (!msgEl || !inputEl) return;
+  if (msgEl.textContent && !msgEl.classList.contains('info')) return; // don't overwrite an error
+  var qCount   = parseInt(inputEl.value) || 0;
+  var poolSize = getPoolSize();
+  if (poolSize > 0 && qCount > poolSize) {
+    msgEl.textContent = poolSize + ' unique facts selected — questions will repeat to fill ' + qCount + '.';
+    msgEl.classList.add('info');
+  }
+}
+
 // Draw the next fresh fact from pool, recycling done pile if exhausted
 function drawFact() {
   if (G.pool.length === 0) {
@@ -2505,6 +2540,18 @@ function restartGame() {
   G.swMs = 0;
 
   const n = S.format === 'count' ? S.qCount : 9999;
+  // If pool is smaller than qCount, pad with shuffled cycles so the round fills completely
+  if (S.format !== 'timed' && G.pool.length > 0 && G.pool.length < n) {
+    const base = G.pool.slice();
+    while (G.pool.length < n) {
+      const cycle = base.slice();
+      for (let ci = cycle.length - 1; ci > 0; ci--) {
+        const cj = Math.floor(Math.random() * (ci + 1));
+        const ctmp = cycle[ci]; cycle[ci] = cycle[cj]; cycle[cj] = ctmp;
+      }
+      for (let ck = 0; ck < cycle.length; ck++) { G.pool.push(cycle[ck]); }
+    }
+  }
   for (let i = 0; i < n; i++) {
     const f = drawFact();
     if (f) G.qs.push(f);
@@ -2598,6 +2645,18 @@ function startGame() {
 
   // Pre-fill question sequence — keep drawing until we have exactly qCount questions
   const n = S.format === 'count' ? S.qCount : 9999;
+  // If pool is smaller than qCount, pad with shuffled cycles so the round fills completely
+  if (S.format !== 'timed' && G.pool.length > 0 && G.pool.length < n) {
+    const base = G.pool.slice();
+    while (G.pool.length < n) {
+      const cycle = base.slice();
+      for (let ci = cycle.length - 1; ci > 0; ci--) {
+        const cj = Math.floor(Math.random() * (ci + 1));
+        const ctmp = cycle[ci]; cycle[ci] = cycle[cj]; cycle[cj] = ctmp;
+      }
+      for (let ck = 0; ck < cycle.length; ck++) { G.pool.push(cycle[ck]); }
+    }
+  }
   let fillAttempts = 0;
   while (G.qs.length < n && fillAttempts < n * 3) {
     fillAttempts++;

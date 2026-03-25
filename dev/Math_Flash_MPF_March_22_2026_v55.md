@@ -1,6 +1,6 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: March 24, 2026 — Session L (Items 87 + 108 built: variance calculation + mastery flag, v56)*
-*Current Math Flash version: v56 — `2026-03-24_1946_v56.html`*
+*Last updated: March 25, 2026 — Session M (Bug 7 fix + Easy toggle redesign, v57)*
+*Current Math Flash version: v57 — `2026-03-25_1635_v57.html`*
 *Current Sparkwright landing page: `sparkwright/index.html` (updated session F)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
@@ -489,7 +489,9 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 4. **Prove It input bug (intermittent)** — one student couldn't type in Prove It on first load; refresh fixed it. Monitor.
 5. **Chrome crash via Netlify on Mac** — fine on Chromebooks. Test: Mac Chrome locally, Windows desktop. *(Hold)*
 6. ✅ **Prove It "Back to Round" button not appearing** — button text changed but browser immediately re-fired click when focus shifted from disabled input to button (Enter-key-focus-shift in Safari). Fixed in v56: button is disabled for 600ms after correct answer. *(Session L)*
-7. **Round Ended Early with small fact pool** — for pertimer/stopwatch/count modes, if pool has fewer facts than qCount, the round ends early. Naive cycling fix rejected (repeating the same fact 5 times is unhelpful). Real fix requires design: prevent the user from setting qCount higher than pool size, or auto-enable Easy/reverse facts when pool is too small with a plain-language note. Settings area wording also needs improvement. *(Session L — design discussion needed)*
+7. ✅ **Round Ended Early with small fact pool** — smart cycling fix implemented in v56 Session M. Pool padded with shuffled cycles before pre-fill in both `startGame()` and `restartRound()`. Pool size notice added to setup screen below question count fields. *(Session M)*
+8. **Intermittent typing glitch on main answer input** — reported by developer and beta testers. Typing becomes intermittent or stops working mid-round, especially as per-question timer gets low. Occurred on question 13/20, answer was 66. May be related to focus shifting during `perQTimer` tick or DOM interaction. Different from Bug 4 (Prove It input). Monitor and investigate. *(Session M)*
+9. **Pool notice not clearing after validation error** — if user submits with empty question count (triggering error message), then types a number, the error warning stays and the pool notice does not replace it. The two message states conflict in the same `num-input-msg` div. *(Session M — fix needed)*
 
 ### 🔧 UI / COPY
 6–31. *(all completed — see COMPLETED log)*
@@ -503,6 +505,17 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 51. Animations — title screen bokeh + setup flair *(deferred — after core mechanics)*
 52. **Device screen fit / viewport clipping** — Chromebooks cut off cards. *(Design discussion)*
 53. **Timer option for Practice Quest** *(see item 84)*
+120. **"Answer Mode" copy misalignment** — label reads "3 tries before reveal" but the actual mechanic is 2 wrong attempts before Practice Quest triggers. Needs language audit for accuracy and consistency with other settings copy. *(Session M)*
+121. **Small pool prevention** — if pool size is 1 (or very small, e.g. < 3 unique facts), the round is useless but currently allowed to start. Should block start with a plain-language message: "Only X unique fact(s) selected. Select more tables or turn on Full Table Range." Design discussion: what is the minimum useful pool size? *(Session M)*
+122. **Stopwatch mode design** — is "Set number of items" under Stopwatch redundant with "Set # of Questions" mode? One is "how long does it take to do N questions" (Stopwatch), one is "do N questions at your own pace" (Set #). May be genuinely distinct but user-facing language is confusing. Design discussion needed. *(Session M)*
+123. **Reverse fact in requeue mechanic** — design question: if a student misses 6×12, should 12×6 also be added to the requeue at least once? Pedagogically, fact families suggest yes — seeing both orientations reinforces the relationship. Design discussion needed before coding. *(Session M)*
+124. **Print output — include round settings** — the print should show what settings were used: mode, tables selected, Easy on/off, question count. Connects to item 33. *(Session M)*
+125. **Find All — correct card visual feedback** — cards should flash and turn gold on correct selection (like Matching game), giving a clear visual signal the student is done and can click to advance. *(Session M)*
+126. **Find All — wrong answer graphic** — after 3 wrong selections, show a graphic or visual illustrating the fact group (e.g. the fact family or multiplication array). *(Session M)*
+127. **Fact Family Chase — house overlap** — house graphic sits too close to the bottom of the last fact in the visual layout. Cosmetic, low priority. *(Session M)*
+128. **Settings globalization** — meta discussion: when a fix or feature is built for one mode/operation, ensure it applies consistently across all relevant modes and operations. Avoid whack-a-mole per-branch fixes. Discuss approach before next major feature pass. *(Session M)*
+129. **Easy toggle for ×** — default changed from OFF to ON in Session M. Label rewritten to plain language: "Practice every fact in your chosen table(s) — ON: all facts included. OFF: exclude facts where one of the numbers comes from a table you haven't picked (e.g. ×6, ×7, ×8 selected → no 6×2, 7×5, 8×9)." *(Session M — completed, log only)*
+
 100. **Math Flash title screen overhaul** — change tagline (sounds AI-generated), rethink layout, replace four example facts with four operation symbols, add button placeholder for future areas, review "How to Play" content. *(Session F — design discussion needed)*
 101. **Teacher fact-picker** — per-operation panel dropdown/selector allowing teacher to hand-pick specific facts a student will practice. *(Session F — design discussion needed)*
 
@@ -591,19 +604,34 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 ## WHERE TO PICK UP
 
-*Session L ended March 24, 2026 — Item 87 built (v56).*
+*Session M ended March 25, 2026 — Bug 7 fixed + Easy toggle redesigned (v57).*
 
-**Session L covered:**
-- Item 87 ✅ — variance calculation built in v56. `calcResponseSD(times)` (population SD in ms), `isStableVariance(rec)` (boolean). Constants: `VARIANCE_MIN_TIMES = 5`, `VARIANCE_STABLE_MS = 1000`. Internal only, no UI. Code Rationale updated.
-- Item 108 ✅ — mastery flag built in v56. Added `recentAttempts` rolling window (10 entries, `{ms, correct, date}`), `checkMastery(rec)` function (all 3 criteria), `mastered`/`masteredDate` fields, de-certification. Code Rationale updated with 4 decisions.
-- Bug 6 ✅ — Prove It "Back to Round" button: Enter-key-focus-shift caused immediate advance. Fixed with 600ms button disable after correct answer.
-- Bug 7 — Round Ended Early with small pool: cycling fix rejected (bad UX). Design discussion needed — see item 118.
-- Migration guard added: v55 records missing recentAttempts/mastered/masteredDate are patched on first access.
+**Session M covered:**
 
-**Next session — design discussion needed before coding:**
+- Bug 7 ✅ — Small pool cycling fix. `startGame()` and `restartRound()` now pad `G.pool` with shuffled cycles before pre-fill when `pool.length < qCount`. Round always fills to full question count. See `startGame()` — pool padding block before the while-loop.
+- Pool size notice ✅ — `getPoolSize()` and `updatePoolNotice()` added. Notice appears below question count field when pool < qCount (styled `.num-input-msg.info` — muted, not red). Hooks added to all relevant setting-change events and `loadSettings()`.
+- Easy toggle for × redesigned ✅ — default changed from `false` to `true` (ON). Checkbox now has `checked` attribute. Label rewritten in plain language: "Practice every fact in your chosen table(s) — ON: all facts included. OFF: exclude facts where one of the numbers comes from a table you haven't picked (e.g. ×6, ×7, ×8 selected → no 6×2, 7×5, 8×9)." Division Easy was already defaulting to ON — no change needed.
+- New MPF items logged: 120–129 (see TO-DO LIST). Cover: copy misalignment, small pool prevention, Stopwatch design, reverse requeue, print settings, Find All visual feedback, Find All wrong-answer graphic, Fact Family Chase house overlap, settings globalization.
+- Memory updated: local server always running (window group), testing items must be numbered/lettered.
 
-1. Item 88 — Challenge Facts workspace
-2. Item 89 / 110 — student stats page + consistency label wording
+**Testing completed this session (all at `http://localhost:8000/games/mathflash/`):**
+- T1 (Set # cycling with small pool) ✅ — confirmed with Easy ON
+- T2 (Stopwatch mode) ✅
+- T3 (Per-Question Timer mode) ✅
+- T4 (Play Again restart fills correctly) ✅
+- T7 (Easy OFF single table = 1 unique fact notice) ✅
+- T8 (Division) — deferred
+
+**Outstanding tests from Session M:**
+- T5 — Bug 9: after validation error on question count field, error message doesn't clear when user types and pool notice doesn't replace it. Fix needed.
+- T6 — confirmed 6 unique facts with ×6, ×7, ×8 Easy OFF (correct — deduplication). Round ran correctly.
+
+**Immediate next priorities (in order):**
+1. B9 — Fix pool notice / validation error conflict in `q-count-msg` div (quick fix)
+2. Q120 — Fix "3 tries before reveal" copy in Answer Mode (quick fix)
+3. D121 — Design decision: minimum pool size to allow start (e.g. block if < 3 unique facts)
+4. Print output work (item 33 + item 124) — developer has notes, discuss first
+5. Items 88 / 89 / 110 — Challenge Facts workspace + student stats page (design discussion)
 
 ---
 
