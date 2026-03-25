@@ -1,6 +1,6 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: March 24, 2026 — Session K (no code written: Code Rationale file created, session-start guidance updated to include it)*
-*Current Math Flash version: v55 — `2026-03-19_1530_v55.html`*
+*Last updated: March 24, 2026 — Session L (Items 87 + 108 built: variance calculation + mastery flag, v56)*
+*Current Math Flash version: v56 — `2026-03-24_1946_v56.html`*
 *Current Sparkwright landing page: `sparkwright/index.html` (updated session F)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
@@ -488,6 +488,8 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 3. ✅ Re-queue system / round ending early — resolved (v53d)
 4. **Prove It input bug (intermittent)** — one student couldn't type in Prove It on first load; refresh fixed it. Monitor.
 5. **Chrome crash via Netlify on Mac** — fine on Chromebooks. Test: Mac Chrome locally, Windows desktop. *(Hold)*
+6. ✅ **Prove It "Back to Round" button not appearing** — button text changed but browser immediately re-fired click when focus shifted from disabled input to button (Enter-key-focus-shift in Safari). Fixed in v56: button is disabled for 600ms after correct answer. *(Session L)*
+7. **Round Ended Early with small fact pool** — for pertimer/stopwatch/count modes, if pool has fewer facts than qCount, the round ends early. Naive cycling fix rejected (repeating the same fact 5 times is unhelpful). Real fix requires design: prevent the user from setting qCount higher than pool size, or auto-enable Easy/reverse facts when pool is too small with a plain-language note. Settings area wording also needs improvement. *(Session L — design discussion needed)*
 
 ### 🔧 UI / COPY
 6–31. *(all completed — see COMPLETED log)*
@@ -544,11 +546,11 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 ### 📊 DATA / TRACKING *(after core mechanics)*
 85. ✅ Settings memory via localStorage (v53)
 86. ✅ **Per-fact tracking** — built in v55, tested and confirmed working (session H). Two bugs found and fixed: (1) response time stored raw timestamp instead of elapsed ms, (2) `qStartTime` not set in non-timer modes. Both resolved. Foundation for stats page, challenge facts, pet fact mastery.
-87. **Response time variance** — calculate internally from `responseTimes` array. Flag facts with high intraindividual variance as "not yet stable." Feeds mastery threshold, challenge facts, and print report. Variance threshold (what counts as "low") TBD — tune with real use. *(Design decided session I — ready to code)*
+87. ✅ **Response time variance** — `calcResponseSD(times)` returns population SD in ms; `isStableVariance(rec)` returns boolean. Constants: `VARIANCE_MIN_TIMES = 5`, `VARIANCE_STABLE_MS = 1000` (tune with real use). Built v56, session L.
 88. **Challenge Facts workspace** — facts that have high attempt counts, high variance, or are close to Mastered threshold surface here for targeted practice. Design discussion needed.
 89. **Student-facing stats page** — simplified, encouraging, no raw numbers. Fact tiles with tier colors, plain-language labels. Design discussion needed.
 90. **Practice time tracking** (`mathflash_practice_time`) — cumulative practice time per user
-108. **Mastery flag** — add `mastered: boolean` and `masteredDate` to fact record schema once mastery threshold is finalized. Criterion: correct in ≤3s on 4 of last 5 attempts, spanning 2+ sessions, with low variance. *(Ready to code after variance threshold is tuned)*
+108. ✅ **Mastery flag** — `mastered: boolean`, `masteredDate: string|null` added to fact record. Also added `recentAttempts: []` rolling window (last 10 attempts, each `{ms, correct, date}`) to enable correct 4/5 and 2-session checks. `checkMastery(rec)` runs after every attempt; de-certification included. Built v56, session L.
 109. **Teacher print report** — separate from round-end print. Shows per-fact data across time windows (round / day / week / month / year / all-time). Columns: avg response time, consistency label, attempt count, quest triggered count, last practiced. Heat map equivalent using Sparkwright fluency tier colors. Design discussion needed.
 110. **Student stats page — consistency labels** — human-readable labels derived from variance for fact tiles. Current candidates: Automatic / Developing / Not Yet. Word choice TBD. Design discussion needed.
 111. **FAQ / methodology page** — explains what fluency means, how Mastered is determined, why facts get flagged as challenge facts, what the tiers mean. Written for teachers and parents. Protects IP by explaining the *what* without exposing exact thresholds. Build after stats/print report are designed.
@@ -559,7 +561,8 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 114. **Student & teacher agency — core design principle** — Math Flash is explicitly designed so that the student and their teacher/helper feel in control of how practice feels. Settings, timer options, and accommodations exist to serve the learner — not to enforce a one-size-fits-all drill. Most competing programs have a sterile, punishing vibe: the program drills the student, marks them wrong, and moves on. Math Flash's differentiator is that it meets students where they are, respects their pace, and gives both student and teacher meaningful guidance on how to use it well. This philosophy should be explicit in the FAQ, onboarding, and About page copy.
 115. **Practice Quest engagement mechanic** — Design discussion needed. Timer pauses during Practice Quest (pedagogically correct). Risk: students may use wrong answers as an intentional escape ("escape-motivated errors") or mentally check out when the overlay appears. Need a mechanic that requires genuine presence without punitive pressure. Possible directions: response-required steps that can't be passively clicked through; subtle non-scoring ambient indicator; Prove It gate already partially addresses this. Do not touch code until design is settled.
 116. **Literature review pass** — Dedicated research session to gather and document primary sources on: errorless learning vs. error correction, math anxiety and timed assessments, neurodivergence and cognitive load, fluency automaticity thresholds, in-the-moment vs. delayed feedback. Builds into RP Science & Pedagogy section. Backbone of FAQ and differentiates Sparkwright's claims from generic "science-backed" marketing language.
-117. **Competitive landscape chart** — Structured cross-comparison of all current math fluency programs: XtraMath, Reflex, Rocket Math, TTRS, IXL, iReady, Zearn, Khan Academy, 99Math, Boddle, Monster Math, MathFactLab, spellingtraining.com, and small flashcard apps. Chart axes: wrong-answer response, remediation type, timer model, neurodivergent accommodation, age range, price model, data model, tables covered, school vs. family market. Do in a dedicated chat session. Do after journaling about target user — the questions will be sharper.
+118. **Pool-too-small guard** — if the fact pool is smaller than `qCount`, the game currently ends early with "Round Ended Early" instead of recycling facts. Fix: detect pool exhaustion at game start and recycle/repeat facts to reach `qCount`. Possible UX addition: auto-enable Easy (or reverse facts) when pool would otherwise be too small, with a gentle note to the user. Wording in the settings area around Easy/tables also needs plain-language improvement. *(Session L — discovered during v56 testing)*
+118. **Competitive landscape chart** — Structured cross-comparison of all current math fluency programs: XtraMath, Reflex, Rocket Math, TTRS, IXL, iReady, Zearn, Khan Academy, 99Math, Boddle, Monster Math, MathFactLab, spellingtraining.com, and small flashcard apps. Chart axes: wrong-answer response, remediation type, timer model, neurodivergent accommodation, age range, price model, data model, tables covered, school vs. family market. Do in a dedicated chat session. Do after journaling about target user — the questions will be sharper.
 106. **localStorage schema migration** — as the game evolves, localStorage schemas will change (new fields added, old ones renamed). Design discussion needed: how do we avoid wiping or breaking a student's saved progress when updates ship? Needs a versioning/migration strategy before real student data accumulates. *(Session H)*
 
 ### 👤 USERNAMES & PROFILE
@@ -588,6 +591,22 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 ## WHERE TO PICK UP
 
+*Session L ended March 24, 2026 — Item 87 built (v56).*
+
+**Session L covered:**
+- Item 87 ✅ — variance calculation built in v56. `calcResponseSD(times)` (population SD in ms), `isStableVariance(rec)` (boolean). Constants: `VARIANCE_MIN_TIMES = 5`, `VARIANCE_STABLE_MS = 1000`. Internal only, no UI. Code Rationale updated.
+- Item 108 ✅ — mastery flag built in v56. Added `recentAttempts` rolling window (10 entries, `{ms, correct, date}`), `checkMastery(rec)` function (all 3 criteria), `mastered`/`masteredDate` fields, de-certification. Code Rationale updated with 4 decisions.
+- Bug 6 ✅ — Prove It "Back to Round" button: Enter-key-focus-shift caused immediate advance. Fixed with 600ms button disable after correct answer.
+- Bug 7 — Round Ended Early with small pool: cycling fix rejected (bad UX). Design discussion needed — see item 118.
+- Migration guard added: v55 records missing recentAttempts/mastered/masteredDate are patched on first access.
+
+**Next session — design discussion needed before coding:**
+
+1. Item 88 — Challenge Facts workspace
+2. Item 89 / 110 — student stats page + consistency label wording
+
+---
+
 *Session K ended March 24, 2026 — no code written.*
 
 **Session K covered:**
@@ -595,14 +614,6 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 - Updated HOW TO START A NEW SESSION to include reading the Code Rationale file
 - Session-end checklist updated: update Code Rationale when non-obvious code decisions are made
 - Memory index updated with pointer to Code Rationale file
-
-**Next session — ready to code:**
-1. Item 87 — variance calculation (internal only, no UI) — ready to code
-2. Item 108 — mastery flag (`mastered: boolean`, `masteredDate`) — ready after variance threshold decided
-
-**Next — design discussion needed first:**
-3. Item 88 — Challenge Facts workspace
-4. Item 89 / 110 — student stats page + consistency label wording
 
 ---
 
@@ -673,7 +684,7 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 ## HOW TO START A NEW SESSION
 
 **For Claude Code instances — do this first, before anything else:**
-Read this file in full (`dev/Math_Flash_MPF_March_22_2026_v55.md`), then read the RP file (`dev/Sparkwright_Research_and_Pedagogy.md`), then skim the Code Rationale file (`dev/Math_Flash_Code_Rationale.md`). Do not rely on the memory files in `.claude/projects/` — they may be stale. The dev files are the source of truth. Reading all three takes ~4 reads due to size limits but is always worth it.
+Read this file in full (`dev/Math_Flash_MPF_March_22_2026_v55.md`), then read the RP file (`dev/Sparkwright_Research_and_Pedagogy.md`), then skim the Code Rationale file (`dev/Math_Flash_Code_Rationale.md`). Current game file: `dev/2026-03-24_1946_v56.html`. Do not rely on the memory files in `.claude/projects/` — they may be stale. The dev files are the source of truth. Reading all three takes ~4 reads due to size limits but is always worth it.
 
 1. Open the `sparkwright` project folder in Terminal
 2. Run `claude` to start Claude Code (or upload HTML + MPF to claude.ai chat if preferred)
