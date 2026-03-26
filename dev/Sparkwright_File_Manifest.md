@@ -29,6 +29,7 @@ sparkwright/
     ├── Sparkwright_MPF_March_22_2026_v55.md ← Master Project File (operational hub)
     ├── Sparkwright_WORKSPACE_SETUP.md       ← Dev environment setup notes
     ├── Wright_Agent_Prompt.md               ← Bootstrap prompt for Wright (Coding & PM)
+    ├── Spark_Agent_Prompt.md                ← Bootstrap prompt for Spark (Research & Pedagogy)
     ├── Agent_Handoff.md                     ← Wright ↔ Spark coordination file
     ├── Math_Flash_Research_and_Pedagogy.md  ← Research, pedagogy, philosophy (the "why")
     ├── Math_Flash_ConsumerData.md           ← Consumer research, competitive audit
@@ -62,6 +63,7 @@ sparkwright/
 | `Sparkwright_MPF_March_22_2026_v55.md` | Master plan | Operational hub: to-do lists, session notes, file structure, terminal instructions, version history. The "what." |
 | `Sparkwright_WORKSPACE_SETUP.md` | Dev environment | Terminal profiles, window setup, Safari tabs, key commands, local server notes. |
 | `Wright_Agent_Prompt.md` | Agent bootstrap | Bootstrap prompt for Wright (Coding & PM agent, Claude Code window). Includes session start instructions and paste-in prompt. |
+| `Spark_Agent_Prompt.md` | Agent bootstrap | Bootstrap prompt for Spark (Research & Pedagogy agent, Claude.ai chat window). Full reconstitution key — paste into any chat session to restore Spark's knowledge, voice, and research agenda. |
 | `Agent_Handoff.md` | Agent coordination | Wright ↔ Spark async communication. Wright flags code-blockers needing research; Spark flags design decisions needing build input. |
 | `Math_Flash_Research_and_Pedagogy.md` | Research | The "why" — pedagogy, philosophy, academic backing, developer story. Feeds About page, FAQ, marketing copy. Math Flash specific but broadly applicable. |
 | `Math_Flash_ConsumerData.md` | Market research | Consumer research, competitive audit, Reddit/forum analysis summary. Draws on `MF_research_sources/`. |
