@@ -603,7 +603,6 @@ Sources: [Imagine Math Facts — Imagine Learning](https://www.imaginelearning.c
 - [x] Search for "Imagine Math Facts" specifically on Reddit / research what happened to it. **Done — see above.**
 - [ ] Search Reddit specifically for threads mourning Imagine Math Facts / BigBrainz and what parents tried after losing access.
 - [ ] Search "XtraMath alternative mastery" — find the parents who left and couldn't find a replacement.
-- [ ] Search "XtraMath alternative mastery" — find the parents who left and couldn't find a replacement.
 - [x] Find forum/review sources on timed math tools and learning differences. **Done Session N** — see forum index above. r/specialeducation and r/ADHD_parents Reddit scraping was blocked; substituted LD Online, Change.org, SmartCustomer reviews.
 - [ ] **Manual copy — Well-Trained Mind forums.** Two threads were found but blocked (403) during Session N fetch attempts. These are high-value: homeschool parents discussing Reflex Math and XtraMath directly. Developer to open in browser and paste content for saving. URLs: https://forums.welltrainedmind.com/topic/623033-reflex-math/ and https://forums.welltrainedmind.com/topic/508525-xtra-math-question/ — save as `forum_WellTrainedMind_reflexmath.md` and `forum_WellTrainedMind_xtramath.md` using the same format as existing forum files.
 - [ ] **Manual copy — any other worthy sources** found during browsing. Same process: paste content, save as `forum_[Source]_[topic].md`, add to the index table above.

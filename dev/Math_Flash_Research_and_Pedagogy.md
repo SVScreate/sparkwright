@@ -80,7 +80,33 @@ Math Flash is built so that the student and their teacher/helper feel in control
 Most competing programs have a sterile, top-down structure: the program drills the student, marks them wrong, and moves on. Math Flash meets students where they are, respects their pace, and gives both student and teacher meaningful guidance on how to use it well.
 
 ### Data Belongs to the User
-Sparkwright uses localStorage — data lives on the student's device, not on a server. This is a deliberate philosophical choice, not a technical limitation. The student (and teacher/parent) owns their data. It doesn't get harvested, analyzed by a third party, or locked inside a subscription. See the MPF Data Philosophy section for full detail.
+
+Sparkwright uses localStorage — data lives on the student's device, not on a server. This is a deliberate philosophical choice, not a technical limitation.
+
+**The user is in control.**
+The student (and teacher/parent) owns their data. It doesn't get harvested, analyzed by a third party, or locked inside a subscription. If they stop using the product, their history doesn't disappear into someone else's database.
+
+**In-the-moment practice and feedback.**
+Most server-based platforms (e.g. TTRS) cycle through problems, mark wrong answers as wrong, and move on — with no in-the-moment remediation. The data goes to the backend and surfaces later as charts. Math Flash gives immediate Practice Quest remediation and per-session printable results. The learning happens *now*, not in a monthly report.
+
+**The teacher can see what actually happened.**
+With TTRS and similar platforms, the teacher must wait for a reporting cycle (e.g. a monthly summary) to see progress. There's no per-session view of what a student worked on. Math Flash's print output gives the teacher immediate, session-level visibility — what was practiced, what was fluent, what needs more work.
+
+**Wrong answers don't just disappear.**
+In server-based platforms, a missed fact may reappear eventually — but there's no structured in-the-moment remediation. The lack of fluency persists because the platform doesn't stop and teach. Math Flash treats a miss as a learning moment, not just a data point.
+
+**Simpler, faster, more honest.**
+No account creation friction, no password resets, no server latency, no data breach risk. The game works offline. The student's progress is theirs.
+
+**The honest tradeoffs:**
+- Data doesn't follow the student across devices yet — solvable with an export/import feature
+- No cross-classroom aggregate data for schools (a feature of server-based models, but also a surveillance tradeoff)
+- If a student clears browser storage, data is lost — mitigatable with an export/backup feature
+
+**What this means for the business model:**
+The value proposition isn't "we hold your data and show you dashboards." It's "we give you a better learning experience and you keep your data." This is worth paying for — especially for homeschool families and independent teachers who are skeptical of ed-tech data collection. A paid tier in a local-first model sells premium features, not data access.
+
+*(To develop further: explicit comparison to spellingtraining.com (localStorage model) vs. TTRS (server model) for About page and marketing copy.)*
 
 ### Practice Should Be Rich, Not Rote
 Every question should feel purposeful. Mastery is the goal, not completion. Student agency matters — empowering, not punishing. Design quality matters.

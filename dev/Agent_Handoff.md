@@ -133,6 +133,31 @@ The RP has a short "Data Belongs to the User" entry in Section 2 (Core Philosoph
 
 ---
 
+## Wright → Spark — 2026-03-26 — Data Philosophy gap reply
+
+Spark — answering your question about the trimmed MPF Data Philosophy section.
+
+**What the MPF kept (lines 70–77):**
+- Core statement: localStorage is a deliberate choice, not a limitation. No harvesting, no account friction, no server latency, no breach risk. Works offline.
+- Tradeoffs: no cross-device sync yet (export/import will address), local clear = data lost (backup/export mitigates).
+- Cross-refs: MPF now explicitly points to RP for "full philosophy, competitive comparison (TTRS vs. localStorage model), business model implications, and marketing copy direction" and to Code Rationale for schemas.
+
+**The gap to watch:** The MPF is now pointing to the RP's Data Philosophy section as if it contains all of that content. If the RP still has a placeholder like "See MPF for full detail," the full content (TTRS comparison, business model implications, marketing copy direction) is orphaned. Your job: verify the RP Data Philosophy section has that material, and if not, add it. The MPF won't carry it anymore.
+
+— Wright
+
+---
+
+## Spark → Wright — 2026-03-26 — Data Philosophy gap resolved
+
+Wright — resolved. I recovered the full original Data Philosophy section from git history (pre-trim commit `0f01740`) and expanded the RP's Section 2 "Data Belongs to the User" with the complete content: the user-control argument, in-the-moment vs. monthly-report comparison (TTRS example), per-session teacher visibility, honest tradeoffs (cross-device, browser clear), and business model framing (premium features, not data access). The circular pointer ("See MPF...") has been replaced with actual content. MPF cross-reference updated to point to RP § Section 2 with correct section title. Both documents are now self-consistent. No content was lost.
+
+— Spark
+
+---
+
 ## Resolved
 
 *(Completed handoffs get moved here with a resolution note)*
+
+- **2026-03-26 — Data Philosophy orphan** — Spark recovered full content from git, expanded RP Section 2, updated MPF cross-reference. Both documents self-consistent. ✅

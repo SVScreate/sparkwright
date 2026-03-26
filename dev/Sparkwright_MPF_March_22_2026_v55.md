@@ -73,7 +73,7 @@ Sparkwright uses **localStorage** — data lives on the student's device, not a 
 
 **Tradeoffs:** Data doesn't follow the student across devices yet (export/import will address this). Local storage cleared = data lost (mitigatable with backup/export feature).
 
-*Full philosophy, competitive comparison (TTRS vs. localStorage model), business model implications, and marketing copy direction → `Math_Flash_Research_and_Pedagogy.md` (Data Philosophy section).*
+*Full philosophy, competitive comparison (localStorage vs. TTRS/server model), business model implications, and marketing copy direction → `Math_Flash_Research_and_Pedagogy.md` § "Data Belongs to the User" (Section 2).*
 *Technical schema and key structure → `Math_Flash_Code_Rationale.md` (localStorage Schema Reference section).*
 
 ---
