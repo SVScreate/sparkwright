@@ -1,6 +1,6 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: March 25, 2026 — Session M (Bug 7 fix + Easy toggle redesign, v57)*
-*Current Math Flash version: v57 — `2026-03-25_1635_v57.html`*
+*Last updated: March 25, 2026 — Session N (setup screen polish, pool notices, v58)*
+*Current Math Flash version: v58 — `2026-03-25_1700_v58.html`*
 *Current Sparkwright landing page: `sparkwright/index.html` (updated session F)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
@@ -370,6 +370,9 @@ Claude Code is a terminal tool that lets Claude edit files directly in your proj
 - Design decisions still happen collaboratively
 - MPF is still updated at session end
 
+### Testing protocol
+When Claude provides a list of things to test, each item will be numbered or lettered (T1, T2, A, B, etc.) so you can refer back to specific items by label when reporting results.
+
 ---
 
 ## 👤 Profile & localStorage Architecture
@@ -570,13 +573,25 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 112. **Competitive research pass** — extensive comparison of IXL, iReady, XtraMath, TTRS, Reflex Math, Rocket Math, Khan Academy, Prodigy, and others. Document: mastery model, remediation approach, timer/accommodation options, pricing, data model, UX feel, differentiators vs. Math Flash. Feeds FAQ, About page, and product positioning.
 114. **Student & teacher agency — core design principle** — Math Flash is explicitly designed so that the student and their teacher/helper feel in control of how practice feels. Settings, timer options, and accommodations exist to serve the learner — not to enforce a one-size-fits-all drill. Most competing programs (XtraMath, TTRS, IXL, iReady, etc.) have a sterile, punishing vibe: the program drills the student, marks them wrong, and moves on. Math Flash's differentiator is that it meets students where they are, respects their pace, and gives both student and teacher meaningful guidance on how to use it well. This philosophy should be explicit in the FAQ, onboarding, and About page copy.
 
-113. **Accommodations — processing speed** — research adjustable fluency thresholds and timer lengths for students with slower processing speed (learning disabilities, ADHD, anxiety, dyslexia). Design teacher-adjustable settings for: fluency threshold (default 3s) and auto-kick timer (default 7s). Document accommodation options in FAQ. Core to Sparkwright's identity as an Educational Therapy-grounded product. *(Research pass needed first)*
+113. **Accommodations — processing speed** — ✅ *Research complete (Session N).* Full findings in RP Science & Pedagogy section. Key findings: ADHD ~0.76 SD slower; ASD g=0.35 effect; dyslexia impairs fact retrieval via phonological processing; dyscalculia core deficit is fact automaticity. XtraMath offers 3s/6s/10s/12s — 12s explicitly for students with disabilities. Principled accommodation increments: 4.5s (1.5×) and 6s (2×). Design and implementation: see item 130.
+
+130. **Teacher-adjustable fluency threshold — design + implementation** — Informed by item 113 research. Design discussion needed before coding. Key questions: (1) What values to offer? Recommended: 3s (default), 5s, 6s — or a slider with teacher-set value. (2) How labeled? Not "easier mode" — framed as "accommodation for processing speed differences." (3) How does the threshold affect Fluent/Almost/Needs Practice grading labels? Labels should reflect the threshold used (e.g., "Fluent at 5s"). (4) How documented in print reports? Format: "Fluency assessed at 5s threshold (accommodation); N = [X] trials." (5) Does the auto-kick timer (7s default) scale with the fluency threshold? Probably yes. Design discussion needed. See RP Accommodations section for full research basis. Connected to items 109 (print report), 111 (FAQ), 113 (research). *(Session N — design discussion needed before coding)*
+
+131. **Retrieval vs. reconstruction at 4–6 seconds — open research question** — No study currently validates whether a student answering correctly at 4–6s is auto-retrieving vs. reconstructing. This is a real empirical gap. It affects: (1) how Math Flash documents its accommodation thresholds in FAQ/marketing, (2) whether the mastery criteria should differ for students using an accommodation threshold, (3) the honest limits of what we can claim about a student who "passes" at 5s. Research question worth tracking: is there a way to distinguish retrieval from reconstruction in-game? Possible signal: response time distribution shape and trial-to-trial consistency. A student consistently fast (low variance) at 5s may be retrieving; a student variable at 5s may be reconstructing. The existing variance tracking (item 87) may already be the right tool. Design discussion needed before making any claims in FAQ. *(Session N — research and design discussion needed)*
 114. **Student & teacher agency — core design principle** — Math Flash is explicitly designed so that the student and their teacher/helper feel in control of how practice feels. Settings, timer options, and accommodations exist to serve the learner — not to enforce a one-size-fits-all drill. Most competing programs have a sterile, punishing vibe: the program drills the student, marks them wrong, and moves on. Math Flash's differentiator is that it meets students where they are, respects their pace, and gives both student and teacher meaningful guidance on how to use it well. This philosophy should be explicit in the FAQ, onboarding, and About page copy.
 115. **Practice Quest engagement mechanic** — Design discussion needed. Timer pauses during Practice Quest (pedagogically correct). Risk: students may use wrong answers as an intentional escape ("escape-motivated errors") or mentally check out when the overlay appears. Need a mechanic that requires genuine presence without punitive pressure. Possible directions: response-required steps that can't be passively clicked through; subtle non-scoring ambient indicator; Prove It gate already partially addresses this. Do not touch code until design is settled.
 116. **Literature review pass** — Dedicated research session to gather and document primary sources on: errorless learning vs. error correction, math anxiety and timed assessments, neurodivergence and cognitive load, fluency automaticity thresholds, in-the-moment vs. delayed feedback. Builds into RP Science & Pedagogy section. Backbone of FAQ and differentiates Sparkwright's claims from generic "science-backed" marketing language.
 118. **Pool-too-small guard** — if the fact pool is smaller than `qCount`, the game currently ends early with "Round Ended Early" instead of recycling facts. Fix: detect pool exhaustion at game start and recycle/repeat facts to reach `qCount`. Possible UX addition: auto-enable Easy (or reverse facts) when pool would otherwise be too small, with a gentle note to the user. Wording in the settings area around Easy/tables also needs plain-language improvement. *(Session L — discovered during v56 testing)*
 118. **Competitive landscape chart** — Structured cross-comparison of all current math fluency programs: XtraMath, Reflex, Rocket Math, TTRS, IXL, iReady, Zearn, Khan Academy, 99Math, Boddle, Monster Math, MathFactLab, spellingtraining.com, and small flashcard apps. Chart axes: wrong-answer response, remediation type, timer model, neurodivergent accommodation, age range, price model, data model, tables covered, school vs. family market. Do in a dedicated chat session. Do after journaling about target user — the questions will be sharper.
 106. **localStorage schema migration** — as the game evolves, localStorage schemas will change (new fields added, old ones renamed). Design discussion needed: how do we avoid wiping or breaking a student's saved progress when updates ship? Needs a versioning/migration strategy before real student data accumulates. *(Session H)*
+
+132. **Re-queue: round length inflation** — With Re-queue ON, a round set to 20 questions silently grows. Miss 5 facts and the round could reach 25–28 questions. No indicator tells the student the round extended. Could feel surprising or endless. Design question: should there be a subtle counter ("3 bonus questions from misses") or just accept the behavior as-is since it's pedagogically sound? *(Session N)*
+133. **Re-queue: near-end budget dropoff** — `requeueBudget()` returns 0 when ≤3 questions remain. A fact missed on question 17/20 is silently dropped and never returns. Student doesn't know this happened. May be fine, but should be intentional — worth noting in FAQ or teacher documentation. *(Session N)*
+134. **Re-queue: small pool compounding** — Small pool already repeats facts via cycling. Re-queue ON on top of that means the same few facts appear via both cycling AND requeue — very high repetition. The pool notice helps the teacher see a small pool, but the compound effect should be considered in the UX messaging. *(Session N)*
+135. **Re-queue: confirm toggle is session-only** — Re-queue can only be toggled at setup, not mid-round. This is intentional and correct. Confirm this is documented in FAQ/teacher guidance so teachers understand the setting applies to the whole session. *(Session N)*
+136. **Re-queue: results screen doesn't distinguish requeued questions** — End-of-round summary doesn't show "you answered 23 questions (3 were repeats from misses)." Could be a useful teacher-facing detail in print output (item 109) or results screen (item 50). Low priority — log for when those screens are designed. *(Session N)*
+
+130. **Teacher pre-set shareable links** — A teacher should be able to configure game settings and share a link (or QR code) that opens Math Flash with those settings pre-loaded. Removes the complexity of setup for younger students who may find the options overwhelming. Likely implementation: encode settings as URL query parameters (e.g. `?op=x&tables=3,4,5&easy=1&qCount=20`); on load, parse params and apply them before `loadAndApplySettings()`. Design questions: should the URL fully lock settings (student can't change), or just pre-fill (student can still adjust)? Should there be a "teacher mode" that hides the setup screen entirely? *(Session N — design discussion needed)*
 
 ### 👤 USERNAMES & PROFILE
 95. ✅ Profile system — generated usernames + emoji avatar, multi-profile support, switcher modal, site-level localStorage (session F, landing page)
@@ -604,34 +619,35 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 ## WHERE TO PICK UP
 
-*Session M ended March 25, 2026 — Bug 7 fixed + Easy toggle redesigned (v57).*
+*Session N ended March 25, 2026 — setup screen polish, pool notices, v58.*
 
-**Session M covered:**
+**Session N covered:**
 
-- Bug 7 ✅ — Small pool cycling fix. `startGame()` and `restartRound()` now pad `G.pool` with shuffled cycles before pre-fill when `pool.length < qCount`. Round always fills to full question count. See `startGame()` — pool padding block before the while-loop.
-- Pool size notice ✅ — `getPoolSize()` and `updatePoolNotice()` added. Notice appears below question count field when pool < qCount (styled `.num-input-msg.info` — muted, not red). Hooks added to all relevant setting-change events and `loadSettings()`.
-- Easy toggle for × redesigned ✅ — default changed from `false` to `true` (ON). Checkbox now has `checked` attribute. Label rewritten in plain language: "Practice every fact in your chosen table(s) — ON: all facts included. OFF: exclude facts where one of the numbers comes from a table you haven't picked (e.g. ×6, ×7, ×8 selected → no 6×2, 7×5, 8×9)." Division Easy was already defaulting to ON — no change needed.
-- New MPF items logged: 120–129 (see TO-DO LIST). Cover: copy misalignment, small pool prevention, Stopwatch design, reverse requeue, print settings, Find All visual feedback, Find All wrong-answer graphic, Fact Family Chase house overlap, settings globalization.
-- Memory updated: local server always running (window group), testing items must be numbered/lettered.
+- Bug 9 ✅ — pool notice / validation error conflict fixed. Input listeners for all three q-count fields now clear non-info error text before calling `updatePoolNotice()`.
+- Item 120 ✅ — "3 tries before reveal" → "2 attempts, then Practice Quest" (or "2 attempts, then answer revealed" when Practice Quest is OFF). Dynamic via `updateAnswerModeDesc()`.
+- Answer Mode card ✅ — moved below Practice Features card so the toggle context comes first. Type Answer description updates live when Practice Quest is toggled.
+- Practice Features label ✅ — "after 3 wrong answers" → "after 2 wrong answers."
+- D121 ✅ — pool guard added to `startGame()`: blocks start if pool < 2, shows error.
+- Easy toggle copy ✅ — × and ÷ labels now use identical structure and style. ÷ example added: "÷6, ÷7 selected → no 30÷6, 28÷7."
+- Select All ÷ ✅ — toggle added to ÷ card matching × card. `updateSelAllLabel(op)` generalized for both ops.
+- No-tables warning ✅ — `tgrid-msg-x` and `tgrid-msg-/` divs added below each grid. Show red "Select at least one table to play." when all tables deselected.
+- Pool=1 warning ✅ — yellow "Only 1 unique fact — add more tables or turn on the **Practice Every Fact** toggle below." appears in `tgrid-msg` when 1 table + Easy OFF. Triggered from chip click handlers and easy toggle listeners.
+- Repeat notice ✅ — "X unique facts — questions will repeat to fill N items. (Select the **Practice Every Fact** toggle above to include full tables.)" shown near question count field when pool < qCount.
+- Items 130, 132–136 logged — teacher shareable links (130), re-queue design tensions (132–136).
+- Testing protocol added to MPF Claude Code Workflow section — test items must be numbered/lettered (T1, T2, A, B…).
+- `.num-input-msg.warn` CSS class added — yellow (#ffd93d), font-weight 400 with bold toggle names via `<strong>`.
 
-**Testing completed this session (all at `http://localhost:8000/games/mathflash/`):**
-- T1 (Set # cycling with small pool) ✅ — confirmed with Easy ON
-- T2 (Stopwatch mode) ✅
-- T3 (Per-Question Timer mode) ✅
-- T4 (Play Again restart fills correctly) ✅
-- T7 (Easy OFF single table = 1 unique fact notice) ✅
-- T8 (Division) — deferred
-
-**Outstanding tests from Session M:**
-- T5 — Bug 9: after validation error on question count field, error message doesn't clear when user types and pool notice doesn't replace it. Fix needed.
-- T6 — confirmed 6 unique facts with ×6, ×7, ×8 Easy OFF (correct — deduplication). Round ran correctly.
+**Testing completed this session:**
+- T9 (Answer Mode copy) ✅
+- T10 (Practice Features first, Answer Mode second; dynamic description) ✅
+- T11 (pool=1 warning in table grid) ✅
+- T12 (repeat notice with unique count) ✅
+- T13 (bold toggle names, warn font weight) ✅
 
 **Immediate next priorities (in order):**
-1. B9 — Fix pool notice / validation error conflict in `q-count-msg` div (quick fix)
-2. Q120 — Fix "3 tries before reveal" copy in Answer Mode (quick fix)
-3. D121 — Design decision: minimum pool size to allow start (e.g. block if < 3 unique facts)
-4. Print output work (item 33 + item 124) — developer has notes, discuss first
-5. Items 88 / 89 / 110 — Challenge Facts workspace + student stats page (design discussion)
+1. **dev/ housekeeping review** *(requested, Session N)* — review all files in `dev/`, confirm file names are descriptive enough to identify at a glance, produce a table with file name, abbreviation, and one-line summary for developer reference. Do at session start.
+2. Print output work (items 33 + 124) — developer has notes; design discussion first
+3. Items 88 / 89 / 110 — Challenge Facts workspace + student stats page (design discussion)
 
 ---
 
