@@ -6,11 +6,18 @@
 
 ## How to Use This File
 
-This file is for answering the question: "Why does the code look like this?"
+This file answers: "Why does the code look like this?" and "What exactly is stored where?"
 
-It is **not** for documenting pedagogy or product decisions — those live in the MPF and RP files. This file is specifically for code architecture choices that a developer (or future Claude session) might look at and wonder about.
+**What belongs here:**
+- Code architecture choices where the reason isn't obvious from reading the code
+- localStorage schemas and key reference (see localStorage Schema Reference section)
 
-**Rule of thumb for what belongs here:** If you made a choice between two or more reasonable approaches, and the reason isn't obvious from reading the code, log it here.
+**What lives elsewhere:**
+- Pedagogy, product philosophy, research rationale → `Math_Flash_Research_and_Pedagogy.md` (RP)
+- To-do list, session notes, version history, operational context → `Sparkwright_MPF_March_22_2026_v55.md`
+- Dev folder structure → `Sparkwright_File_Manifest.md`
+
+**Rule of thumb:** If you made a choice between two or more reasonable approaches and the reason isn't obvious from reading the code, log it here.
 
 ---
 
@@ -61,6 +68,104 @@ It is **not** for documenting pedagogy or product decisions — those live in th
 **Decision:** All per-fact records for all users live under a single key.
 
 **Why:** Keeps the data model simple — one read to load everything, one write to save. The tradeoff is that the object can grow large over time (many users × many facts). For a student-scale app on a personal device, this is fine. If the app ever scales to classroom-level use, a migration strategy would be needed (see Item 106 in MPF).
+
+---
+
+## localStorage Schema Reference
+
+*This section is the authoritative reference for what lives in localStorage — key names, schemas, and behavior. For the decisions behind these choices, see the localStorage Design section above. For the product philosophy behind local-first storage, see `Math_Flash_Research_and_Pedagogy.md` (Data Philosophy section).*
+
+### Key Map
+
+| Key | Scope | Purpose |
+|---|---|---|
+| `sparkwright_profiles` | Site-level | JSON array of all profile objects |
+| `sparkwright_active` | Site-level | Username string of active profile |
+| `mathflash_settings` | Game | Last-used setup screen values |
+| `mathflash_facts` | Game | Per-fact tracking, nested by username |
+| `mathflash_practice_time` | Game | Cumulative practice time *(planned, item 90)* |
+
+---
+
+### `sparkwright_profiles` — Profile Array (session F)
+Stored at the site level in `sparkwright/index.html`. Any future Sparkwright game reads these same keys.
+
+**Profile object schema:**
+```json
+{
+  "username": "CosmicOtter",
+  "avatar": "🦊",
+  "createdAt": "2026-03-19",
+  "hasVisited": true
+}
+```
+
+**Behavior:**
+- First visit after profile creation → "Welcome, [name]!"
+- Return visits → "Welcome back, [name]!"
+- Multiple profiles supported — switcher modal lists all, active badge shown
+- Switch user keeps all data, switches active profile
+- Delete profile — per-profile trash icon in switcher, confirmation dialog required
+- No profile → "Create profile" button in nav; chip shows "👤 Guest" in Math Flash header
+
+---
+
+### `mathflash_settings` — Settings Memory (session F)
+Saved on every `startGame()` call after all `S` values are finalized. Restored silently on setup screen open.
+
+**Saved fields:** `ops, tablesX, tablesDiv, easyX, easyDiv, maxAdd, maxSub, allowNeg, format, qCount, timeLimit, mode, remed, repeat`
+
+---
+
+### `mathflash_facts` — Per-Fact Tracking (session G — v55) ⚠️ UNTESTED
+Stored as nested object: `{ [username]: { [factKey]: factRecord } }`
+
+**Fact record schema:**
+```json
+{
+  "key": "mul_6x7",
+  "label": "6 × 7",
+  "correct": 14,
+  "incorrect": 3,
+  "questTriggered": 2,
+  "responseTimes": [2100, 4800, 1900, 3200],
+  "recentAttempts": [{ "ms": 2100, "correct": true, "date": "2026-03-22" }],
+  "fluencyCounts": { "fluent": 9, "almost": 4, "needs": 1 },
+  "mastered": false,
+  "masteredDate": null,
+  "firstSeen": "2026-03-22",
+  "lastSeen": "2026-03-22"
+}
+```
+
+**Recording hooks:**
+- `handleCorrect()` → outcome `'correct'`, elapsed ms from `G.qStartTime`
+- `handleMiss()` → outcome `'miss'` (quest triggered) or `'incorrect'` (no quest)
+- `autoKick()` → outcome `'autokick'`, elapsed 7000ms — `handleMiss` skips to prevent double-count
+- Guests skipped silently (no `sparkwright_active` in localStorage)
+
+**Rolling windows:**
+- `responseTimes` — last 20 correct-answer response times (`MAX_TIMES = 20`)
+- `recentAttempts` — last 10 attempts, all outcomes (`RECENT_ATTEMPTS_MAX = 10`)
+
+**Fluency thresholds:** ≤3000ms → fluent, ≤6000ms → almost, else → needs (`FLUENCY_MS_F`, `WORKING_MS_F`)
+
+**Test checklist (pending):**
+- A. Correct answer → `correct` increments, `responseTimes` gains entry, `fluencyCounts` increments correctly
+- B. Wrong answer (2nd attempt, mul/div with remed on) → `incorrect` + `questTriggered` increment
+- C. Wrong answer (add/sub or remed off) → `incorrect` increments, `questTriggered` does NOT
+- D. Auto-kick (wait 7s) → `incorrect` increments, `responseTimes` gains 7000, no double-count
+- E. Guest (no profile) → no `mathflash_facts` entry written at all
+- F. 21+ answers for same fact → `responseTimes` stays capped at 20 entries
+
+---
+
+### Math Flash Header Bar (session F)
+Fixed 48px header at top of every Math Flash screen.
+- Left: ← Sparkwright (link to `../../`) | Math Flash label
+- Right: profile chip (emoji + username, or 👤 Guest)
+- Reads `sparkwright_profiles` + `sparkwright_active` from localStorage
+- `body { padding-top: 48px }` pushes game content below header
 
 ---
 

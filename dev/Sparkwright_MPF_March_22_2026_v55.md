@@ -69,144 +69,43 @@ Target audience: elementary and middle school students working on multiplication
 
 ## Data Philosophy — Local vs. Server Storage
 
-*These are the developer's raw ideas from session H — to be developed further into marketing copy and product positioning.*
+Sparkwright uses **localStorage** — data lives on the student's device, not a server. This is a deliberate philosophical choice, not a technical limitation. The student owns their data: no harvesting, no account friction, no server latency, no breach risk. The game works offline.
 
-### The Core Stance
-Sparkwright uses **localStorage** — data lives on the student's device, not on a server. This is a deliberate philosophical choice, not a technical limitation.
+**Tradeoffs:** Data doesn't follow the student across devices yet (export/import will address this). Local storage cleared = data lost (mitigatable with backup/export feature).
 
-### Why Local Storage Is the Right Model for This Product
-
-**The user is in control.**
-The student (and teacher/parent) owns their data. It doesn't get harvested, analyzed by a third party, or locked inside a subscription. If they stop using the product, their history doesn't disappear into someone else's database.
-
-**In-the-moment practice and feedback.**
-Most server-based platforms (e.g. TTRS) cycle through problems, mark wrong answers as wrong, and move on — with no in-the-moment remediation. The data goes to the backend and surfaces later as charts. Math Flash gives immediate Practice Quest remediation and per-session printable results. The learning happens *now*, not in a monthly report.
-
-**The teacher can see what actually happened.**
-With TTRS and similar platforms, the teacher has to wait for a reporting cycle (e.g. monthly "gig" summary) to see progress. There's no per-session view of what a student worked on. Math Flash's print output gives the teacher immediate, session-level visibility — what was practiced, what was fluent, what needs more work.
-
-**Wrong answers don't just disappear.**
-In TTRS, a missed fact may reappear eventually — but there's no structured in-the-moment remediation, no fact family practice, no "Prove It" gate. The lack of fluency persists because the platform doesn't stop and teach. Math Flash treats a miss as a learning moment, not just a data point.
-
-**Simpler, faster, more honest.**
-No account creation friction, no password resets, no server latency, no data breach risk. The game works offline. The student's progress is theirs.
-
-### The Honest Tradeoffs
-- Data doesn't follow the student across devices (yet — this is solvable with export/import)
-- No cross-classroom aggregate data for schools (a feature for server-based models, but also a surveillance tradeoff)
-- If a student clears their browser storage, data is lost (mitigatable with export/backup feature)
-
-### What This Means for the Business Model
-The value proposition isn't "we hold your data and show you dashboards." It's "we give you a better learning experience and you keep your data." This is worth paying for — especially for homeschool families and independent teachers who are skeptical of ed-tech data collection.
-
-**⚠️ To develop further:**
-- Flesh out this philosophy into About page / marketing copy (share resume in a Claude chat session)
-- Compare explicitly to spellingtraining.com (localStorage model) vs. TTRS (server model)
-- Articulate what a paid tier looks like in a local-first model (premium features, not data access)
-- Consider export/import as a feature that bridges local and portable
+*Full philosophy, competitive comparison (TTRS vs. localStorage model), business model implications, and marketing copy direction → `Math_Flash_Research_and_Pedagogy.md` (Data Philosophy section).*
+*Technical schema and key structure → `Math_Flash_Code_Rationale.md` (localStorage Schema Reference section).*
 
 ---
 
 ## Science & Pedagogy
 
-*Full research, pedagogy, competitive landscape, and developer reflections live in the companion file: `Math_Flash_Research_and_Pedagogy.md` (RP). This section contains working summaries only. Always update both files when new research is added.*
+*Full research, citations, accommodations design, competitive landscape, and pedagogy rationale → `Math_Flash_Research_and_Pedagogy.md` (RP). This section contains only the working definitions that directly drive code behavior.*
+*Implementation decisions behind these definitions → `Math_Flash_Code_Rationale.md` (Timing & Fluency, Per-Fact Tracking, Pedagogy-Driven Code Decisions sections).*
 
-### Fluency Automaticity — The 3-Second Threshold
-The 3-second threshold for fact fluency is well-established in cognitive load and automaticity research. Retrieval under ~3 seconds suggests the fact is stored as a direct memory trace (declarative recall) rather than being computed procedurally. This threshold is used by major fluency programs including Reflex Math and XtraMath, and is grounded in math fluency research including work by Erin Olson and others.
-
-### Math Flash Fluency Grading (Per-Question Timer mode only)
+### Fluency Grading (Per-Question Timer mode only)
 | Grade | Threshold | Meaning |
 |-------|-----------|---------|
 | ⚡ Fluent | Correct, ≤3s | Automatic retrieval — fact is memorized |
 | 🔄 Almost! | Correct, 4–6s | Knows it, not yet automatic — still computing |
 | 📚 Needs Practice | Wrong answer, or no answer by 7s | Not yet known — needs practice |
 
-**Fluency grading is only shown in Per-Question Timer mode.** Other modes (Set #, Timed, Stopwatch) do not display fluency data — Set # of Questions is intentionally urgency-free. Fluency is silently tracked in all modes internally for potential future use.
+Fluency grading is **displayed** in Per-Question Timer mode only. Silently tracked in all modes for future use. The "Almost!" middle tier is the developer's own pedagogical addition — not in the research standard. The **7-second auto-kick** is practical, not research-derived.
 
-**Note:** The three-tier grading is a custom category system. The binary fluent/not-yet-fluent distinction is research-standard; the "Almost!" middle category is the developer's own pedagogical addition.
+### Mastery Definition
+A fact is **Mastered** when:
+> Correct in ≤3s on **4 out of the last 5 attempts**, spanning **at least 2 separate sessions**, with **low response time variance** (SD < `VARIANCE_STABLE_MS`).
 
-**The 7-second auto-kick** is practical rather than research-derived — long enough that if they haven't answered, they don't know it.
-
-### Accommodations — Processing Speed & Timer Flexibility *(Session I — research needed)*
-
-**The core issue:** The 3-second fluency threshold and 7-second auto-kick are calibrated for typical processing speeds. Students with slower processing speed (common in learning disabilities, ADHD, anxiety, dyslexia, and other profiles) may be penalized by these thresholds even when they genuinely know a fact.
-
-**Questions to research and design around:**
-- What does the research say about processing speed variability across neurotypes? Is there a published accommodation standard for timed math fact assessments?
-- Should teachers be able to set a custom fluency threshold (e.g. 5s instead of 3s) for specific students?
-- Should teachers be able to adjust the per-question timer length (currently 7s auto-kick) per student or per session?
-- Should there be a named "Accommodations" toggle in settings, or just adjustable sliders?
-- How do we document this in the FAQ so teachers understand both the default (research-based) and the accommodation options?
-
-**Preliminary design instinct:** Teacher-adjustable fluency threshold and auto-kick timer, set in the game setup screen or a teacher settings panel. The defaults remain research-based (3s / 7s). Accommodated settings would be clearly labeled so print reports reflect the threshold used.
-
-**Why it matters for Sparkwright's identity:** This product is built by an Educational Therapist. Accommodation support is not an afterthought — it is core to the product's integrity and its appeal to the homeschool and learning-support market.
-
-⚠️ *Research pass needed before designing. Add to FAQ once designed.*
-
-### Two-Level Fluency Model (Session I — design decision)
-
-Math Flash uses two distinct concepts that must not be confused:
-
-**Level 1 — Per-attempt grade** (in-game, shown during Per-Question Timer mode):
-| Grade | Threshold | Meaning |
-|---|---|---|
-| ⚡ Fluent | Correct, ≤3s | Fast enough to suggest automatic retrieval |
-| 🔄 Almost! | Correct, 4–6s | Knows it, not yet automatic |
-| 📚 Needs Practice | Wrong or no answer by 7s | Not yet known |
-
-These grades describe a single answer. They are not mastery.
-
-**Level 2 — Longitudinal mastery** (tracked over time, across sessions):
-A fact is **Mastered** when a student demonstrates durable, stable automaticity — not just one good answer.
-
-**Math Flash Mastery Definition:**
-> Correct in ≤3s on **4 out of the last 5 attempts**, spanning **at least 2 separate sessions**, with **low response time variance**.
-
-- The 2-session requirement prevents "one good day" mastery
-- The variance condition is a differentiator backed by research (see below)
-- The exact variance threshold (what counts as "low") is TBD — will be tuned with real use
-
-**Why this matters:** A student who sometimes answers in 1.2s and sometimes in 5.8s is NOT automatic on that fact, even if their average looks good. High intraindividual variance in response time is a diagnostic signal of effortful processing (counting/calculating), not automatic retrieval.
-
-### Response Time Consistency — The Research Case
-
-Research on variance as a mastery signal:
-- **Stickney, Sharp & Kenyon (2012)** — "Technology-Enhanced Assessment of Math Fact Automaticity" — found that response time *variability* distinguishes lower-achieving from typically-achieving students even when average speeds are similar. High variance = not yet automatic.
-- **Reflex Math** explicitly uses "response pattern stability" language in their white paper as a condition for fact certification. They can de-certify a fact if variance returns. (Algorithm proprietary but the principle is published.)
-- **Broader cognitive science:** High intraindividual variability (IIV) in RT is consistently associated with effortful processing vs. automatic retrieval. Low IIV = more automatic.
-
-**Design implication:** Variance is tracked internally (via `responseTimes` array in `mathflash_facts`) and will:
-1. Factor into the Mastered threshold
-2. Influence which facts stay in the Challenge Facts pool (item 88)
-3. Appear in teacher print report with a human-readable consistency label
-
-### Competitive Research — Mastery Thresholds
-
-| Program | Time threshold | Repetition criterion | Variance check |
-|---|---|---|---|
-| **XtraMath** | ≤3s (adjustable) | 2 correct out of last 3, across sessions | No |
-| **Reflex Math** | ~1–2s (proprietary) | Proprietary — uses "stability" language | Yes (implied) |
-| **Rocket Math** | Timed (program-set) | 12 consecutive correct | No |
-| **Math Flash** | ≤3s | 4 out of last 5, across 2+ sessions | Yes |
-
-XtraMath's 2/3 criterion is simple and defensible. Math Flash's 4/5 + variance model is stricter and more diagnostically valid — backed by Stickney et al. and Reflex's own published language.
-
-**Academic consensus:** No single peer-reviewed magic number exists. The field treats automaticity as a performance criterion (speed + accuracy + consistency sustained over time), not a raw repetition count. Woodward (2006), Kling & Bay-Williams (2015), and Baker & Cuevas (2018) all emphasize distributed practice across sessions over massed repetition.
-
-**Sources:**
-- Stickney, Sharp & Kenyon (2012) — ResearchGate
-- Cholmsky (2011) — Reflex White Paper
-- Woodward (2006) — Developing Automaticity in Multiplication Facts
-- Baker & Cuevas (2018) — ERIC EJ1194585
-- XtraMath support documentation
-- SuperMemo SM-2 algorithm (Wozniak, 1990)
-
-### Timed Round + Practice Quest
-Timers (global countdown, stopwatch) pause during Practice Quest so students are not punished for learning.
+- 2-session gate prevents "one good day" mastery
+- Variance gate: high SD = still computing, not automatic — a key differentiator vs. XtraMath
+- Mastery is de-certifiable — flag resets if performance degrades
+- Exact `VARIANCE_STABLE_MS` threshold is TBD, tuned with real use
 
 ### Two-Attempt System (v39+)
-Students get a silent second chance on wrong answers before Practice Quest triggers. First wrong answer: shake + clear input, clock keeps running. Second wrong answer: Practice Quest. Score bonus (`4 - attempts`) applies.
+Students get a silent second chance before Practice Quest triggers. First wrong answer: shake + clear, clock keeps running. Second wrong answer: Practice Quest triggers. Score bonus: `4 - attempts`.
+
+### Timed Round + Practice Quest
+Global countdown and stopwatch timers pause during Practice Quest — students are not punished for learning.
 
 ---
 
@@ -387,87 +286,15 @@ When Claude provides a list of things to test, each item will be numbered or let
 
 ## 👤 Profile & localStorage Architecture
 
-### Sparkwright Profile System (landing page — session F)
-Profiles are stored at the **site level** (in `sparkwright/index.html`), not inside Math Flash. Any future game reads the same keys.
+*Full schemas, keys, fact record structure, recording hooks, and test checklist → `Math_Flash_Code_Rationale.md` (localStorage Schema Reference section).*
+*Decisions behind the architecture (why nested, why this key format, etc.) → `Math_Flash_Code_Rationale.md` (localStorage Design section).*
 
-**localStorage keys:**
-- `sparkwright_profiles` — JSON array of all profile objects
-- `sparkwright_active` — username string of active profile
-
-**Profile object schema:**
-```json
-{
-  "username": "CosmicOtter",
-  "avatar": "🦊",
-  "createdAt": "2026-03-19",
-  "hasVisited": true
-}
-```
-
-**Behavior:**
-- First visit after profile creation → "Welcome, [name]!"
-- Return visits → "Welcome back, [name]!"
-- Multiple profiles supported — switcher modal lists all, active badge shown
-- Switch user keeps all data, switches active profile
-- Delete profile — per-profile trash icon in switcher, confirmation dialog required
-- No profile → "Create profile" button in nav; chip shows "👤 Guest" in Math Flash header
-
-### Math Flash Settings Memory (session F)
-**localStorage key:** `mathflash_settings`
-
-Saved on every `startGame()` call (after all S values are finalized). Restored silently on setup screen open.
-
-**Saved fields:** ops, tablesX, tablesDiv, easyX, easyDiv, maxAdd, maxSub, allowNeg, format, qCount, timeLimit, mode, remed, repeat
-
-### Math Flash Per-Fact Tracking (session G — v55) ⚠️ UNTESTED
-**localStorage key:** `mathflash_facts`
-
-Stored as nested object: `{ [username]: { [factKey]: factRecord } }`
-
-**Fact key format:** `"mul_6x7"`, `"div_42d7"`, `"add_3p4"`, `"sub_9m3"`
-
-**Fact record schema:**
-```json
-{
-  "key": "mul_6x7",
-  "label": "6 × 7",
-  "correct": 14,
-  "incorrect": 3,
-  "questTriggered": 2,
-  "responseTimes": [2100, 4800, 1900, 3200],
-  "fluencyCounts": { "fluent": 9, "almost": 4, "needs": 1 },
-  "firstSeen": "2026-03-22",
-  "lastSeen": "2026-03-22"
-}
-```
-
-**Recording hooks:**
-- `handleCorrect()` → outcome `'correct'`, elapsed ms from `G.qStartTime`
-- `handleMiss()` → outcome `'miss'` (quest triggered) or `'incorrect'` (no quest), elapsed 0
-- `autoKick()` → outcome `'autokick'`, elapsed 7000ms — `handleMiss` skips recording to prevent double-count
-- Guests skipped silently (no `sparkwright_active` in localStorage)
-
-**Rolling window:** last 20 response times per fact (oldest drop off)
-
-**Fluency thresholds:** ≤3000ms → fluent, ≤6000ms → almost, else → needs
-
-**Test checklist (pending):**
-- A. Correct answer → `correct` increments, `responseTimes` gains entry, `fluencyCounts` increments correctly
-- B. Wrong answer (2nd attempt, mul/div with remed on) → `incorrect` + `questTriggered` increment
-- C. Wrong answer (add/sub or remed off) → `incorrect` increments, `questTriggered` does NOT increment
-- D. Auto-kick (wait 7s) → `incorrect` increments, `responseTimes` gains 7000, no double-count
-- E. Guest (no profile) → no `mathflash_facts` entry written at all
-- F. 21+ answers for same fact → `responseTimes` stays capped at 20 entries
-
-### Math Flash Header Bar (session F)
-Fixed 48px header at top of every Math Flash screen. Contains:
-- Left: ← Sparkwright (link to `../../`) | Math Flash label
-- Right: profile chip (emoji + username, or 👤 Guest)
-- Reads `sparkwright_profiles` + `sparkwright_active` from localStorage
-- `body { padding-top: 48px }` pushes game content below header
-
-### Future localStorage Keys (planned)
-- `mathflash_practice_time` — cumulative practice time (item 90)
+**Quick reference — key names:**
+- `sparkwright_profiles` — site-level profile array
+- `sparkwright_active` — active username string
+- `mathflash_settings` — last-used setup screen values
+- `mathflash_facts` — per-fact tracking, nested `{ username: { factKey: record } }`
+- `mathflash_practice_time` — cumulative practice time *(planned, item 90)*
 
 ---
 
