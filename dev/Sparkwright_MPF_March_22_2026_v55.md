@@ -1,8 +1,18 @@
 # Math Flash — Master Project File (MPF)
 *Last updated: March 25, 2026 — Session N (setup screen polish, pool notices, v58)*
-*Current Math Flash version: v58 — `2026-03-25_1700_v58.html`*
+*Current Math Flash version: v58 — `2026-03-25_1700_Math_Flash_v58_pool-notices-2attempt-pool-guard.html`*
 *Current Sparkwright landing page: `sparkwright/index.html` (updated session F)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
+
+---
+
+## Dev File Structure
+
+The `dev/` folder is managed by a dedicated reference file: **`Sparkwright_File_Manifest.md`**.
+
+It contains the full folder hierarchy, a file-by-file reference chart, naming conventions, and the HTML archive policy. Read it before any housekeeping, renaming, or cleanup work. Always present proposed changes to the developer before executing — never rename or delete without explicit approval.
+
+To pull it up: *"Show me the file manifest."*
 
 ---
 
@@ -99,7 +109,7 @@ The value proposition isn't "we hold your data and show you dashboards." It's "w
 
 ## Science & Pedagogy
 
-*Full research, pedagogy, competitive landscape, and developer reflections live in the companion file: `Sparkwright_Research_and_Pedagogy.md` (RP). This section contains working summaries only. Always update both files when new research is added.*
+*Full research, pedagogy, competitive landscape, and developer reflections live in the companion file: `Math_Flash_Research_and_Pedagogy.md` (RP). This section contains working summaries only. Always update both files when new research is added.*
 
 ### Fluency Automaticity — The 3-Second Threshold
 The 3-second threshold for fact fluency is well-established in cognitive load and automaticity research. Retrieval under ~3 seconds suggests the fact is stored as a direct memory trace (declarative recall) rather than being computed procedurally. This threshold is used by major fluency programs including Reflex Math and XtraMath, and is grounded in math fluency research including work by Erin Olson and others.
@@ -731,7 +741,7 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 ## HOW TO START A NEW SESSION
 
 **For Claude Code instances — do this first, before anything else:**
-Read this file in full (`dev/Math_Flash_MPF_March_22_2026_v55.md`), then read the RP file (`dev/Sparkwright_Research_and_Pedagogy.md`), then skim the Code Rationale file (`dev/Math_Flash_Code_Rationale.md`). Current game file: `dev/2026-03-24_1946_v56.html`. Do not rely on the memory files in `.claude/projects/` — they may be stale. The dev files are the source of truth. Reading all three takes ~4 reads due to size limits but is always worth it.
+Read this file in full (`dev/Sparkwright_MPF_March_22_2026_v55.md`), then read the RP file (`dev/Math_Flash_Research_and_Pedagogy.md`), then skim the Code Rationale file (`dev/Math_Flash_Code_Rationale.md`). Current game file: `dev/2026-03-25_1700_Math_Flash_v58_pool-notices-2attempt-pool-guard.html`. Do not rely on the memory files in `.claude/projects/` — they may be stale. The dev files are the source of truth. Reading all three takes ~4 reads due to size limits but is always worth it.
 
 1. Open the `sparkwright` project folder in Terminal
 2. Run `claude` to start Claude Code (or upload HTML + MPF to claude.ai chat if preferred)

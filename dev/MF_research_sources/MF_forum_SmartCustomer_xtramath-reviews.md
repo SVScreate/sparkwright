@@ -1,8 +1,8 @@
 # SmartCustomer (formerly Sitejabber) — XtraMath User Reviews
 *Fetched: March 25, 2026*
 *Original URL: https://www.smartcustomer.com/reviews/xtramath.org (redirected from sitejabber.com/reviews/xtramath.org)*
-*Cross-reference: See [ConsumerData.md](ConsumerData.md) for full consumer analysis and market context.*
-*Also cross-reference: [forum_changorg_stop-xtramath.md](forum_changorg_stop-xtramath.md) and [forum_ComplaintsBoard_xtramath.md](forum_ComplaintsBoard_xtramath.md) for additional XtraMath voices.*
+*Cross-reference: See [Math_Flash_ConsumerData.md](../Math_Flash_ConsumerData.md) for full consumer analysis and market context.*
+*Also cross-reference: [MF_forum_changorg_stop-xtramath.md](MF_forum_changorg_stop-xtramath.md) and [MF_forum_ComplaintsBoard_xtramath.md](MF_forum_ComplaintsBoard_xtramath.md) for additional XtraMath voices.*
 
 ---
 

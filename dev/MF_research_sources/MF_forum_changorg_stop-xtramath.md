@@ -1,8 +1,8 @@
 # Change.org Petition — Let's Stop XtraMath
 *Fetched: March 25, 2026*
 *Original URL: https://www.change.org/p/principals-let-s-stop-xtramath*
-*Cross-reference: See [ConsumerData.md](ConsumerData.md) for full consumer analysis and market context.*
-*Also cross-reference: [forum_SmartCustomer_xtramath-reviews.md](forum_SmartCustomer_xtramath-reviews.md) for student/parent review voices on the same platform.*
+*Cross-reference: See [Math_Flash_ConsumerData.md](../Math_Flash_ConsumerData.md) for full consumer analysis and market context.*
+*Also cross-reference: [MF_forum_SmartCustomer_xtramath-reviews.md](MF_forum_SmartCustomer_xtramath-reviews.md) for student/parent review voices on the same platform.*
 
 ---
 

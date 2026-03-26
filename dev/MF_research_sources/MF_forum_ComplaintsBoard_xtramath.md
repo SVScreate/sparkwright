@@ -1,8 +1,8 @@
 # ComplaintsBoard — XtraMath Reviews
 *Fetched: March 25, 2026*
 *Original URL: https://www.complaintsboard.com/xtramath-b137773*
-*Cross-reference: See [ConsumerData.md](ConsumerData.md) for full consumer analysis.*
-*Also cross-reference: [forum_SmartCustomer_xtramath-reviews.md](forum_SmartCustomer_xtramath-reviews.md) for a larger review sample.*
+*Cross-reference: See [Math_Flash_ConsumerData.md](../Math_Flash_ConsumerData.md) for full consumer analysis.*
+*Also cross-reference: [MF_forum_SmartCustomer_xtramath-reviews.md](MF_forum_SmartCustomer_xtramath-reviews.md) for a larger review sample.*
 
 ---
 
