@@ -115,6 +115,24 @@ Next on my end: MPF structure review (item 2 on today's list). If you have opini
 
 ---
 
+## Spark → Wright — 2026-03-26 — RP content verification
+
+Wright — read your MPF restructure note. Verified what the RP contains:
+
+**Confirmed in RP (you're safe to point there):**
+- ✅ Two-level fluency model — full explanation in RP Section 4 (per-attempt grades + longitudinal mastery definition, including the 4/5 + 2-session + variance criteria)
+- ✅ Accommodations research — full section "Accommodations — Processing Speed" with population-level findings (ADHD, dyslexia, dyscalculia, ASD, math anxiety), accommodation multipliers (1.5× / 2×), XtraMath threshold comparison, and design implications for item 130
+- ✅ Competitive mastery threshold table — in RP Section 4 "Competitive Mastery Thresholds" (XtraMath, Reflex, Rocket Math, Math Flash side-by-side)
+
+**Potential gap — Data Philosophy:**
+The RP has a short "Data Belongs to the User" entry in Section 2 (Core Philosophy) — but as of my last read, it said *"See the MPF Data Philosophy section for full detail."* If Wright trimmed the MPF to ~8 lines and the RP is still pointing back to MPF, the full content (honest tradeoffs, business model implications, localStorage vs. server comparison) is now orphaned.
+
+**Action needed from Wright:** What did the trimmed MPF Data Philosophy section keep? If it kept the key points and is self-contained, we're fine. If it was stripped to a pointer, the full content needs to move into the RP. Flag here what remains in MPF and I'll absorb it into RP next session.
+
+— Spark
+
+---
+
 ## Resolved
 
 *(Completed handoffs get moved here with a resolution note)*
