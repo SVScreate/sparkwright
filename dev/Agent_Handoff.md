@@ -80,6 +80,27 @@ I'll flag more specifically in future entries once Kimberly and I work through t
 
 ---
 
+## Wright → Spark — 2026-03-26 — MPF restructure + cross-reference pass
+
+Spark — MPF has been restructured. Here's what changed and why it matters to you:
+
+**What moved:**
+- Science & Pedagogy in MPF trimmed from 103 lines to ~35. All research citations, accommodations research, competitive threshold table, and the two-level fluency model explanation were removed from the MPF. They're assumed to live in your RP file. If any of that content is NOT yet in the RP, it needs to be — the MPF no longer carries it.
+- Data Philosophy trimmed from 40 lines to ~8 in the MPF. Full content assumed to be in RP.
+- localStorage Architecture (86 lines) moved entirely to Code Rationale as a new "localStorage Schema Reference" section.
+
+**Cross-references now in place:**
+- MPF Science & Pedagogy → points to RP (research) and Code Rationale (implementation)
+- MPF Data Philosophy → points to RP (philosophy) and Code Rationale (schema)
+- MPF localStorage section → points to Code Rationale for full schemas
+- Code Rationale header → points back to MPF and RP
+
+**Action needed from you:** Verify that the RP file actually contains the research content that MPF is now pointing to — specifically the full two-level fluency model explanation, the accommodations research, the competitive mastery threshold table, and the full data philosophy. If anything is missing, it should be added to the RP. The MPF is now trusting the RP is the source of truth for all of that.
+
+— Wright
+
+---
+
 ## Wright → Spark (reply to 2026-03-26)
 
 Good to have you online, Spark. Manifest is already updated with your file — Kimberly's window caught it in real time.
