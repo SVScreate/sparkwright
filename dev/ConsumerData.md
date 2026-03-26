@@ -1,7 +1,7 @@
 # Consumer Data & Market Intelligence
 *Created: March 24, 2026 — Session L*
-*Last updated: March 24, 2026 — Session L (consumer research pass complete)*
-*Based on: 8 scraped Reddit threads + MPF and RP project files + web research on competitors*
+*Last updated: March 25, 2026 — Session N (forum research pass, 4 new sources, to-do updated)*
+*Based on: 8 scraped Reddit threads + 4 forum/review sources + MPF and RP project files + web research on competitors*
 
 ---
 
@@ -65,6 +65,21 @@
 | reddit_vw1kho.md | r/GenZ | Anyone remember Reflex Math? — nostalgia + anxiety reports | 15 | 2022-07-19 |
 | reddit_sfn6yi.md | r/mathteachers | What's so good about Reflex Math? | 4 | 2022-01-27 |
 | reddit_1rcte8y.md | r/teaching | Teacher experience with iReady | 46 | 2026-03-03 |
+
+---
+
+## Forum & Review Sources — Index (Session N)
+
+*Fetched directly March 25, 2026. r/specialeducation and r/ADHD_parents Reddit scraping was attempted but Reddit blocked access; these forum/review sources were substituted. Well-Trained Mind forums also blocked (403).*
+
+| File | Source | Topic | Notes |
+|---|---|---|---|
+| forum_LDOnline_timed-math-dyslexia.md | LD Online forum | Timed math tests and a dyslexic 2nd grader — IEP accommodations, processing speed | 2003 thread; dynamics remain current |
+| forum_changorg_stop-xtramath.md | Change.org petition | 820 signatures to stop XtraMath in schools — timer pressure as named harm | Directed at principals |
+| forum_SmartCustomer_xtramath-reviews.md | SmartCustomer (ex-Sitejabber) | 46 XtraMath user reviews — 1.4 stars, 90% one-star — two ADHD students identified | Student voices, very raw |
+| forum_ComplaintsBoard_xtramath.md | ComplaintsBoard | 7 XtraMath complaints — mixed, includes positive voices | Smaller sample |
+
+*Note: Well-Trained Mind homeschool forum threads on Reflex Math and XtraMath (URLs: forums.welltrainedmind.com/topic/623033 and /508525) returned 403 errors and could not be fetched. These are high-value targets — worth retrying in a future session or manually copying content.*
 
 ---
 
@@ -589,8 +604,10 @@ Sources: [Imagine Math Facts — Imagine Learning](https://www.imaginelearning.c
 - [ ] Search Reddit specifically for threads mourning Imagine Math Facts / BigBrainz and what parents tried after losing access.
 - [ ] Search "XtraMath alternative mastery" — find the parents who left and couldn't find a replacement.
 - [ ] Search "XtraMath alternative mastery" — find the parents who left and couldn't find a replacement.
-- [ ] Find threads in r/specialeducation and r/ADHD_parents about timed math tools. The accommodation angle may be the sharpest differentiator and it's almost completely unaddressed in the current data.
-- [ ] Actually use XtraMath and Math Facts Pro personally. Not to review them — to understand exactly what they do and don't do. You can't claim a gap you haven't personally verified.
+- [x] Find forum/review sources on timed math tools and learning differences. **Done Session N** — see forum index above. r/specialeducation and r/ADHD_parents Reddit scraping was blocked; substituted LD Online, Change.org, SmartCustomer reviews.
+- [ ] **Manual copy — Well-Trained Mind forums.** Two threads were found but blocked (403) during Session N fetch attempts. These are high-value: homeschool parents discussing Reflex Math and XtraMath directly. Developer to open in browser and paste content for saving. URLs: https://forums.welltrainedmind.com/topic/623033-reflex-math/ and https://forums.welltrainedmind.com/topic/508525-xtra-math-question/ — save as `forum_WellTrainedMind_reflexmath.md` and `forum_WellTrainedMind_xtramath.md` using the same format as existing forum files.
+- [ ] **Manual copy — any other worthy sources** found during browsing. Same process: paste content, save as `forum_[Source]_[topic].md`, add to the index table above.
+- [ ] Actually use XtraMath and Math Facts Pro personally. Not to review them — to understand exactly what they do and don't do. You can't claim a gap you haven't personally verified. **Note: while doing this, specifically observe whether XtraMath's timer actually shrinks as you practice (student reviewer Penny M., ADHD, reported: "you only get 3 SECONDS TO ANSWER! Then its 2.6 then its 1.5!"). Verify this mechanic firsthand before using it in positioning copy.**
 
 ### To Prove or Disprove Redundancy
 

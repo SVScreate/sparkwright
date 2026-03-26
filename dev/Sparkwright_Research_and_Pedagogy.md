@@ -1,5 +1,5 @@
 # Sparkwright — Research & Pedagogy (RP)
-*Last updated: March 24, 2026 — Session I*
+*Last updated: March 25, 2026 — Session N (literature review pass)*
 *Companion file to the Math Flash MPF. Both files live in `dev/` and are updated together.*
 
 ---
@@ -8,12 +8,18 @@
 
 This file is the intellectual backbone of Sparkwright and Math Flash. It holds the research, pedagogy, philosophy, competitive landscape, and developer reflections that inform every design decision. The MPF is the operational file (to-do lists, file structure, session notes). This file is the *why* behind the *what*.
 
+**Standard for all work in this file:**
+> "You must, at all times, keep best practices and the highest level of accuracy and academic/educational integrity as the banner you carry into all work you do on this. You must never hallucinate, be honest first, and leave things out rather than create unsubstantiated filler."
+
+This means: cite only sources you have actually found and can describe accurately. If a claim needs research that hasn't been done, say so explicitly and leave a placeholder. Do not paraphrase a paper you haven't read. Do not invent supporting evidence for a position the developer already holds. The goal is a document that could be handed to a skeptical academic and hold up.
+
 When reading this file:
 - Trust the seed conversation as verbatim source material — do not edit it
 - The sections above the seed conversation are the living, organized version of those ideas
 - When new research or reflections emerge in a session, add them here, not just in the MPF
 - This file feeds the FAQ, About page, and marketing copy — write with that downstream use in mind
 - The developer is not a licensed clinician — see credential language below
+- When research is incomplete or a citation cannot be verified, mark it clearly with *(needs verification)* or *(source needed)* rather than leaving it to appear confirmed
 
 ---
 
@@ -101,9 +107,9 @@ Working hypothesis based on context so far:
 ## 4. Science & Pedagogy
 
 ### The 3-Second Fluency Threshold
-The 3-second threshold for fact automaticity is well-established in cognitive load and fluency research. Retrieval under ~3 seconds suggests the fact is stored as a direct memory trace (declarative recall) rather than being computed procedurally. Used by XtraMath, Reflex Math, and grounded in work by Erin Olson, Kling & Bay-Williams (2015), and others.
+The 3-second threshold for fact automaticity is well-established in cognitive load and fluency research. Retrieval under ~3 seconds suggests the fact is stored as a direct memory trace (declarative recall) rather than being computed procedurally. Used by XtraMath, Reflex Math, and grounded in work by Kling & Bay-Williams (2015) *(needs verification)*. *(Note: "Erin Olson" appeared in an earlier draft of this file as an additional citation — no peer-reviewed paper by that name on this topic was found in the Session N literature review. Removed pending verification.)*
 
-Kling & Bay-Williams (2015) define mastery as producing an answer within 3 seconds — a classroom-practical threshold that includes highly efficient strategy application as well as direct recall.
+**Kling & Bay-Williams (2015)** — *Verified citation:* Kling, G., & Bay-Williams, J.M. (2015). "Three steps to mastering multiplication facts." *Teaching Children Mathematics*, 21(9), 548–559. NCTM. DOI: 10.5951/teacchilmath.21.9.0548. Defines mastery as producing an answer within 3 seconds — a classroom-practical threshold that includes highly efficient strategy application as well as direct recall. Describes three developmental phases: counting (Phase 1), reasoning strategies (Phase 2), mastery (Phase 3).
 
 ### Two-Level Fluency Model *(Session I design decision)*
 
@@ -129,28 +135,33 @@ The 2-session requirement prevents "one good day" mastery. The variance conditio
 A student who sometimes answers in 1.2s and sometimes in 5.8s is NOT automatic on that fact, even if their average looks good. High intraindividual variance in response time (IIV) is a diagnostic signal of effortful processing — counting or calculating — not automatic retrieval.
 
 **Research basis:**
-- **Stickney, Sharp & Kenyon (2012)** — response time variability distinguishes lower-achieving from typically-achieving students even when average speeds are similar. High variance = not yet automatic.
-- **Reflex Math** explicitly uses "response pattern stability" language as a condition for fact certification in their white paper (Cholmsky, 2011). They can de-certify a fact if variance returns.
-- Broader cognitive science: high IIV is consistently associated with effortful processing vs. automatic retrieval.
+- **Stickney, Sharp & Kenyon (2012)** — *Verified citation:* Stickney, E.M., Sharp, L.B., & Kenyon, A.S. (2012). "Technology-enhanced assessment of math fact automaticity: Patterns of performance for low- and typically-achieving students." *Assessment for Effective Intervention*, 37, 84–94. Found that low-achieving students required more attempts to demonstrate automaticity, achieved automaticity later, and showed lagging retrieval speed. Recommends a 3-second criterion and notes that students responding within 2 seconds are generally higher achievers. *(Note: the earlier RP framing "even when average speeds are similar" was not confirmed against full text in the Session N review — needs verification before asserting.)*
+- **Broader cognitive science:** High IIV is consistently associated with effortful processing vs. automatic retrieval, and decreases as automaticity increases. This is documented in cognitive science literature including developmental research in *Frontiers in Human Neuroscience* (2012). Brain imaging research confirms that the transition from strategy-use to automatic retrieval involves shifts in activated brain regions, and that performance variability marks this transition as incomplete.
+- **Reflex Math** explicitly uses "response pattern stability" as a condition for fact certification (Cholmsky, 2011, white paper — commercial document, not peer-reviewed). They can de-certify a fact if variance returns.
 
 ### Competitive Mastery Thresholds
 | Program | Time threshold | Repetition criterion | Variance check |
 |---|---|---|---|
-| XtraMath | ≤3s (adjustable) | 2 of last 3, across sessions | No |
-| Reflex Math | ~1–2s (proprietary) | Proprietary — uses "stability" language | Yes (implied) |
+| XtraMath | Default: 6s. Options: 3s, 6s, 10s, 12s (teacher-set). 12s explicitly for students with disabilities. | 2 of last 3, across sessions | No |
+| Reflex Math | Proprietary. Adapts automatically by measuring keyboard entry speed at session start. Not teacher-adjustable or transparent. | Proprietary — uses "stability" language | Yes (implied) |
 | Rocket Math | Timed (program-set) | 12 consecutive correct | No |
-| Math Flash | ≤3s | 4 of last 5, across 2+ sessions | Yes |
+| Math Flash | ≤3s (default). Teacher-adjustable threshold planned (item 113). | 4 of last 5, across 2+ sessions | Yes |
+
+*Note: the earlier RP version listed XtraMath as "≤3s (adjustable)" — this was inaccurate. The 3s option exists in XtraMath but is the fastest/tightest setting, not the default. The 6s default is closer to a 2x accommodation multiplier applied to the 3s research standard. Corrected Session N.*
 
 ### Errorless Learning vs. Error Correction
 
 **What the industry does:** The ed-tech industry broadly applies "errorless learning" — minimizing visible wrong answers — as a universal default. Wrong answer: show the correct answer briefly, log the miss, move on.
 
-**Where errorless learning actually comes from:** ABA clinical settings for students with significant cognitive disabilities and ASD, where errors can trigger behavioral shutdown and students cannot problem-solve what went wrong. It was not designed as a general pedagogy.
+**Where errorless learning actually comes from:** The technique was not designed as a general pedagogy. Its origin is in basic behavioral research: **Terrace (1963)** demonstrated errorless discrimination learning in animals, building on Skinner's theoretical work. The *application* to humans — specifically individuals with intellectual and developmental disabilities (IDD) and ASD — came in subsequent decades through applied behavior analysis (ABA). The core rationale for that clinical application (errors can trigger behavioral shutdown in some populations; students cannot reliably self-monitor what went wrong) is legitimate in context. The error is in treating a clinical tool as a universal default.
 
-**What the broader research actually says:**
-- Retrieving an error benefits subsequent learning *compared to passive processing*, as long as corrective feedback is provided immediately (Yap & Wong, 2024; PMC, 2022)
-- Students guided to make and then correct errors outperformed errorless learners — not just on familiar problems, but on novel ones, showing better skill transfer
-- There is a documented metacognitive gap: students *predict* they would do better with errorless practice, even when the data shows otherwise
+**What the broader research actually says for typically-developing students:**
+- **Wong, S.S.H., & Lim, S.W.H. (2022).** "Deliberate errors promote meaningful learning." *Journal of Educational Psychology*, 114(8), 1817–1831. Across two experiments, deliberately committing and then correcting errors outperformed errorless study on both retention and higher-order application. The authors termed this the "derring effect."
+- **Yap, J.X., & Wong, S.S.H. (2024).** "Deliberately making and correcting errors in mathematical problem-solving practice improves procedural transfer to more complex problems." *Journal of Educational Psychology*, 116(7), 1112–1128. The math-specific study. University students who deliberately made and corrected errors outperformed errorless practice groups on transfer to novel, more complex problems — including real-life word problems.
+- **Metacognitive gap — confirmed:** Students *predicted* they would do better with errorless practice, even after experiencing the benefit of deliberate erring. Explicitly reported in Yap & Wong (2024).
+- *(Note: the earlier RP citation "Yap & Wong, 2024; PMC, 2022" conflated these as one citation. These are two separate papers from the same research program. The PMC-indexed paper is likely Wong, S.S.H., et al. (2023) — see PMC9902256. All three papers are real; treat as three separate sources.)*
+
+**Important caveat on clinical populations:** Research on clinical populations with disabilities (TBI, aphasia) is more mixed than the above suggests. A 2017 RCT in adults with severe TBI found error-based learners made *fewer* errors post-intervention than errorless learners. The research on ASD and significant cognitive disability populations specifically does support errorless approaches in certain contexts, but the blanket rule "errorless learning is for disabled students" is an oversimplification. Math Flash's nuanced position — offering it as a teacher-controlled toggle rather than a universal default — is the right response to this complexity.
 
 **Why platforms use errorless learning anyway:**
 1. Reduced visible failure improves engagement metrics and subscription retention
@@ -160,29 +171,82 @@ A student who sometimes answers in 1.2s and sometimes in 5.8s is NOT automatic o
 **Math Flash's nuanced position:** The remediation toggle gives teachers the ability to apply errorless-style flow for students where that is clinically appropriate (significant cognitive disabilities, ASD where error correction triggers behavioral shutdown). This is the correct nuanced response — more sophisticated than anything the major platforms offer.
 
 ### Math Anxiety and Timed Assessments
-Timed math tests and punishing platforms genuinely cause math anxiety in some students — the research on this is solid. Brain scans show the amygdala activating after approximately 90 seconds of time pressure. Cortisol release blocks hippocampal consolidation — the platforms are triggering stress responses that block the very learning they are trying to create.
+Timed math tests are consistently associated with elevated math anxiety in a significant proportion of students. The mechanism is well-documented: performance pressure consumes working memory, impairs mathematical reasoning, and creates aversive associations with math practice.
+
+**What the research supports:**
+
+- **Boaler, J. (2014).** "Research suggests timed tests cause math anxiety." *Teaching Children Mathematics*, 20(8), 469–473. NCTM. The primary peer-reviewed citation for this position. *(Note: Boaler also published "Fluency Without Fear" and "Speed and Time Pressure Blocks Working Memory" as position papers via youcubed — these draw on empirical research by others and are useful for public communication, but are not independent empirical studies.)*
+- **Beilock, S.L., & Carr, T.H. (2005).** "When high-powered people fail: Working memory and 'choking under pressure' in math." *Psychological Science*, 16(2), 101–105. Found that performance pressure consumes working memory — and that students *most* reliant on working memory (higher-achieving students) are *most* harmed by time pressure. This is the primary mechanism cited by Boaler and others.
+- **Young, C.B., Wu, S.S., & Menon, V. (2012).** "The neurodevelopmental basis of math anxiety." *Psychological Science*, 23(5), 492–501. fMRI study of 7–9-year-old children. Found that math anxiety is associated with hyperactivity in the right amygdala (fear processing), elevated hippocampal activity, and *reduced* activity in regions involved in mathematical reasoning. These effects were specific to math anxiety, not general anxiety. *(This is the research basis for the amygdala claim — note: the study examines math-anxious children, not a timed assessment trigger directly.)*
+
+**What was removed and why:** An earlier version of this file stated "Brain scans show the amygdala activating after approximately 90 seconds of time pressure." No source for the 90-second figure was found in the Session N literature review. This specific claim appears to derive from popular neuroscience writing (Jill Bolte Taylor), not math anxiety research. It has been removed. Young et al. (2012) is the appropriate citation for the amygdala and math anxiety connection.
+
+**On cortisol:** Elevated stress hormones under performance pressure *can* impair hippocampal function and memory consolidation — this is supported in the broader neuroscience literature. However, cortisol's effects on memory are complex and context-dependent (some studies show facilitation for emotionally salient material). No study directly linking timed math assessments to measurable cortisol release in children was found in this review. The claim "cortisol blocks hippocampal consolidation" should be treated as a plausible mechanism from adjacent research, not a directly proven pathway in the math ed context. Do not use as a standalone claim in marketing copy without further sourcing.
 
 Their response is largely to tell kids to push through it. XtraMath's own documentation states that its program has students "practice near the limit of their abilities — this might be uncomfortable for some students." That is the opposite of student-centered.
 
 **Math Flash's response:** Timer pauses during Practice Quest. No score pressure during learning. The student exits the performance environment entirely and enters a contained, lower-stakes sequence focused on just that one fact.
 
 ### Cognitive Load Theory and Neurodivergence
+
+**Foundation:**
+- **Sweller, J. (1988).** "Cognitive load during problem solving: Effects on learning." *Cognitive Science*, 12, 257–285. The foundational CLT paper. Well-established that when instructional design exceeds working memory capacity, learning fails.
+- The principle that math fact automaticity frees working memory for higher-order problem-solving is also well-supported. When facts are automatized, they consume minimal working memory, freeing capacity for reasoning and novel problem-solving (Geary, D.C. — research from the 1990s–2000s on arithmetic automaticity; full citation needs retrieval).
+
+**CLT and neurodivergence:**
+- **Le Cunff, A-L., et al. (2024).** "Neurophysiological measures and correlates of cognitive load in ADHD, ASD and dyslexia: A scoping review." *European Journal of Neuroscience*, 59. DOI: 10.1111/ejn.16201. A recent scoping review directly addressing how cognitive load interacts with ADHD, ASD, and dyslexia at the neurophysiological level.
+- Children with ADHD frequently show working memory deficits and slower, more variable processing speeds. Processing speed mediates working memory deficits in ADHD, which in turn affects math fluency — this means a student with ADHD may know a fact and still fail to demonstrate it within a timed threshold. Research on ADHD, processing speed, and math fluency in children is documented in the literature (PMC10842998 — full citation not retrieved in this pass).
+- EEG and fMRI research in dyslexia shows reduced working memory resource activation under load (reduced P3 amplitude; hypoactivation of working memory regions as cognitive load increases).
+- *(Gap: Research specifically on cognitive load effects in ASD students during math fact drill was not retrieved in this pass. Further research needed for this claim specifically.)*
+
 Research on cognitive load theory shows that when instructional design overloads working memory, learning slows or stops — and for many autistic and ADHD learners, math becomes harder not because of the math itself, but because of how it is presented.
 
 When a student misses a fact in every major platform: the session keeps moving, pressure keeps building, the missed fact gets logged. The student who just failed is asked to immediately perform again. That is a cognitive load nightmare for a neurodivergent student. The anxiety from the miss is still live, and the next question is already on screen.
 
 **Math Flash:** The miss stops the round. The student exits the pressure environment. They enter a structured remediation sequence for just that one fact. The pressure resets. The learning happens in a structured moment.
 
-### Accommodations — Processing Speed *(research needed)*
-The 3-second threshold and 7-second auto-kick are calibrated for typical processing speeds. Students with slower processing speed (common in learning disabilities, ADHD, anxiety, dyslexia) may be penalized even when they genuinely know a fact.
+### Accommodations — Processing Speed *(research pass completed Session N)*
 
-Questions to research:
-- Published accommodation standards for timed math fact assessments
-- Teacher-adjustable fluency threshold (e.g. 5s instead of 3s)
-- Teacher-adjustable auto-kick timer
-- How to document this in FAQ
+The 3-second threshold and 7-second auto-kick are calibrated for typical processing speeds. Students with slower processing speed (common in learning disabilities, ADHD, anxiety, dyslexia) may be penalized even when they genuinely know a fact. The teacher-adjustable threshold feature (MPF item 113) addresses this directly.
 
-Preliminary design: teacher-adjustable settings in setup screen or teacher panel. Defaults remain research-based (3s / 7s). Print reports reflect the threshold used. This is core to Sparkwright's identity as an Educational Therapy-grounded product.
+**Who is affected — processing speed research by population:**
+
+- **ADHD:** Processing speed deficits are well-documented, particularly in the inattentive presentation. A 2024 meta-analysis (*Journal of Attention Disorders*, Lee 2024) found that processing speed mediates the relationship between inattention symptoms and math fluency specifically. Effect size across studies: approximately **0.76 SD** slower than typically-developing peers (Hedges' g = 0.76); up to 1.3 SD on some processing speed subtests in ADHD-I. ADHD does not impair speed at a basic output level, but slowing becomes more pronounced as task demands increase. Source: Lee (2024); PMC6581645; PMC3309419.
+- **Dyslexia:** Phonological processing deficits in dyslexia impair arithmetic fact retrieval specifically, because facts are stored and retrieved using phonological representations in working memory. Students with dyslexia retrieve fewer facts from long-term memory and are less efficient in doing so. In one cohort study, 66% of children with dyslexia exhibited mathematical deficits; math fact retrieval was among the most common specific difficulties. Source: PubMed 20965205; PMC10869821.
+- **Dyscalculia:** Automaticity of math fact retrieval is a core deficit. Without automaticity, working memory is exhausted on basic computation, leaving insufficient resources for higher-order math. Source: PMC7847199; IntechOpen 78256.
+- **ASD:** A 2022 meta-analysis (*Journal of Autism and Developmental Disorders*, 44 studies, 893 participants) found ASD groups exhibited significantly longer mean reaction times than neurotypical peers, with an effect size of **g = 0.35** (small-to-medium, but consistent and statistically significant). Source: Springer 2022 (doi: 10.1007/s10803-022-05736-3).
+- **Math anxiety:** Anxiety consumes working memory resources on timed tasks, blocking access to stored facts. The students most harmed are often *high-ability* students who rely on working memory-intensive strategies (Beilock & Carr, 2005). Approximately one-third of students may develop math anxiety in the context of timed testing (Boaler, cited in Dyslexic Advantage).
+
+**Accommodation standards — what the research found:**
+
+IEP and 504 frameworks identify extended time as a standard accommodation category, but do not specify multipliers in federal statute. The conventions in practice are **1.5x** (time and a half, most common) and **2x** (double time, for significant processing deficits). These conventions derive from standardized testing practice — no published standard specifically addresses per-fact response time thresholds in practice software. Applied to a 3s default: 1.5x → 4.5s; 2x → 6s. Notably, XtraMath's default of 6s aligns with the 2x convention whether or not this was intentional.
+
+NCTM's January 2023 position statement on Procedural Fluency states that "timed tests should be avoided" as a primary assessment method, defining fluency as including efficiency, flexibility, and accuracy — not speed alone. *This critique applies to timed testing as assessment, not to timing thresholds in a practice tool designed to build automaticity. The context is meaningfully different and Math Flash should make this distinction explicit in FAQ copy.*
+
+**Existing tools with adjustable thresholds (competitive comparison):**
+
+- **XtraMath:** 3s / 6s (default) / 10s / 12s — teacher-set. 12s explicitly documented as appropriate for students with disabilities.
+- **Reflex Math:** Automatically adapts based on entry speed; not teacher-adjustable and not transparent.
+- **MathFactLab:** Teachers can adjust time per student. *(Specific threshold values not verified — needs direct product check.)*
+- **Math Facts Pro:** Uses customized cut-off speeds. *(Specific values not verified — needs direct product check.)*
+
+**The honest design question:**
+
+No study was found that directly validates whether a student answering correctly at 4–6 seconds is *retrieving* vs. *reconstructing* the fact. The research shows processing speed deficits are real and consistent — but cannot yet definitively confirm that a student with ADHD or dyscalculia who answers in 5 seconds is auto-retrieving rather than using a fast strategy. This is a genuine empirical gap.
+
+The honest and defensible framing is: an adjustable threshold *creates conditions for a student with a processing difference to demonstrate reliable retrieval* — which has real educational value and reduces cognitive load — without necessarily meeting the strict definition of neurological automaticity. FAQ and report language should reflect this distinction rather than overclaiming.
+
+**Print report documentation:**
+
+No established convention was found for documenting a custom fluency threshold in an educational therapy or psychoeducational report. The appropriate format follows IEP/504 documentation practice: *"Fluency assessed at 5-second threshold (accommodation for documented processing speed deficit); N = [X] trials."* This gives enough information for the receiving teacher or specialist to interpret the data without overclaiming the finding.
+
+**Design implications (item 113):**
+
+- Default remains 3s (research-based for typically-developing students)
+- Teacher-adjustable range: 3s, 5s, 6s, or custom — with 5s (≈1.5x) and 6s (2x) as principled options grounded in accommodation conventions
+- The feature should be framed as *accommodating processing differences*, not as "making it easier"
+- The Fluent/Almost/Needs Practice labels should note the threshold used (e.g., "Fluent at 5s threshold") if the default is changed
+- Print reports must reflect the threshold used — this is not optional if the data is to be interpreted accurately by other educators
 
 ### Practice Quest Uniqueness — Market Research Finding
 No existing platform does what Practice Quest does.
@@ -266,9 +330,9 @@ Finish this sentence: *"Math Flash is for families who have already tried ______
 - [ ] **Journal — 3-month signals** (see Mentor to Developer)
 - [ ] **Journal — 5-year vision** (see Mentor to Developer)
 - [ ] **Research — play the competition for one hour** (XtraMath, Reflex, one flashcard app)
-- [ ] **Research — literature review pass** (MPF item 116) — errorless learning, math anxiety, cognitive load, neurodivergence, fluency thresholds
+- [x] **Research — literature review pass** (MPF item 116) — completed Session N. Citations verified/corrected, 90s amygdala claim removed, errorless learning history corrected, new citations added.
 - [ ] **Research — full competitive chart** (MPF item 115) — after journaling
-- [ ] **Research — accommodations/processing speed** (MPF item 113) — published standards for timed assessment accommodations
+- [x] **Research — accommodations/processing speed** (MPF item 113) — completed Session N. Full findings in Science & Pedagogy section above. XtraMath threshold data corrected.
 - [ ] **Draft — target user profile** (update section 3 above after journaling)
 - [ ] **Draft — marketing copy sentence** ("Math Flash is for families who...")
 - [ ] **Draft — FAQ outline** (after stats page and print report are designed)
