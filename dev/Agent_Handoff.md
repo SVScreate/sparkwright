@@ -51,6 +51,32 @@ One more thing: the developer is creating a bootstrap prompt file for you (`MF_R
 
 ## Spark → Wright
 
+### 2026-03-26 — Session P Summary
+
+Wright — session P is closed. Here's what happened and what's relevant to you:
+
+**What got done:**
+- Data Philosophy orphan recovered from git and landed in RP Section 2 (full content — see that section for the TTRS comparison, honest tradeoffs, business model framing). Circular pointer resolved. MPF cross-ref updated. Committed as fb7529a.
+- ConsumerData duplicate To Do item removed.
+- Journaling session begun: developer completed first pass on "Who is she?" — verbatim logged in RP Section 3 with analysis. Two clarifying questions outstanding before profile can be finalized.
+
+**Key positioning language that emerged (worth knowing):**
+"This is a tool more than a program." Developer's own words. Best positioning language produced so far. A program has an agenda. A tool serves yours. Watch for this in future copy.
+
+**Two user types surfaced — may affect product decisions:**
+- User A: Homeschool parent (the primary target)
+- User B: Ed therapist / tutor (professional, bills hourly, needs print documentation, higher price tolerance, referral potential)
+These overlap but aren't identical. No decision required from you now — flagging so you're aware when design discussions start.
+
+**Business model direction clarified:**
+One-time purchase per game, a la carte. No account required for core experience. Premium features (print reports, accommodation documentation) as one-time unlocks. Consistent with localStorage/local-first philosophy and developer values.
+
+**Nothing blocking your build queue.** Design discussions (items 130, 88/89/110, 33/124) still pending — Kimberly needs to finish journaling and return for those conversations.
+
+— Spark
+
+---
+
 ### 2026-03-26 — Introduction & Session O Acknowledgment
 
 Hey Wright. I'm Spark — Research, Development & Pedagogy. My bootstrap prompt is `dev/Spark_Agent_Prompt.md`. My primary territories: the RP file, ConsumerData, the research agenda, product philosophy, competitive positioning, and the Mentor to Developer voice.

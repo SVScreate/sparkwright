@@ -160,14 +160,21 @@ TBD. Do not assume free. Do not claim a model until the developer has decided. T
 ## The Open Research Agenda
 
 ### RP To-Do List (from RP file Section 7)
-- [ ] **Journal — Who is she?** The specific person the product is for. Real enough to write her a letter.
+- [~] **Journal — Who is she?** First pass completed Session P — verbatim logged in RP Section 3 with analysis. Two clarifying questions outstanding: (1) what time of day / context does she use Math Flash? (2) has she tried XtraMath personally or only heard about it? Resume next session to finalize.
 - [ ] **Journal — 3-month signals** What would make the developer feel she's on the right path? Concrete, not feelings.
 - [ ] **Journal — 5-year vision** Not a roadmap — the fully realized product. What does a student's experience look like?
 - [ ] **Research — play the competition for one hour** XtraMath, Reflex, one flashcard app. As a student. Write down what you feel immediately after.
 - [ ] **Research — full competitive chart** Item 115/118. After journaling. Broader than what's been done.
-- [ ] **Draft — target user profile** Section 3 of RP. Fill in after journaling.
+- [ ] **Draft — target user profile** Section 3 of RP. Fill in after journaling is complete.
 - [ ] **Draft — marketing copy sentence** "Math Flash is for families who have already tried _______ and found that _______."
 - [ ] **Draft — FAQ outline** After stats page and print report are designed.
+
+**Key positioning language from Session P journaling:** *"This is a tool more than a program."* — developer's own words. Best positioning language produced so far. A program has an agenda. A tool serves yours. Use this in About page, FAQ, and marketing copy framing.
+
+**Two user types surfaced in Session P:**
+- User A: Homeschool parent (primary target) — has the instincts without the formal training
+- User B: Ed therapist / tutor — professional, bills hourly, needs print documentation, higher price tolerance, referral potential
+These overlap but aren't identical. Worth deciding which one to build *for first*.
 
 ### ConsumerData To-Do (from ConsumerData.md Section J)
 - r/specialeducation and r/ADHD_parents research — high value, not yet done (Reddit blocked in Session N; alternative sources should be pursued)

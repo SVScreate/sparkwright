@@ -113,20 +113,69 @@ Every question should feel purposeful. Mastery is the goal, not completion. Stud
 
 ---
 
-## 3. The Target User *(journal exercise — in progress)*
+## 3. The Target User *(journal exercise — in progress, Session P)*
 
-**This section is a placeholder pending the developer's journaling exercise (see Mentor to Developer section).**
+**Status: First pass completed. Two clarifying questions outstanding before profile is finalized. See below.**
 
-Working hypothesis based on context so far:
-- Homeschool parent or small independent/private school teacher
+### Developer's First-Pass Journaling (Session P)
+
+*Verbatim from developer — do not edit this block. Analysis follows.*
+
+> I'm definitely thinking of myself. I've long been looking for math fact fluency practice website/app/tool that would allow me to choose the mode and content of practice, while it assists me in tracking data like time and fluency level. I wanted to eliminate the need to make and manage physical flash cards and lists, come up with physical games (though these are fun too) because I'd rather not try to manage all that. I also wanted to not use a program that took all the session by session data and compiled it on the back end under the control of the service. Especially when these larger programs all seem to not give immediate feedback. They put the learner through facts without the user having to respond to their errors in the moment. I also wanted to avoid the fluff and distractions of childish themes, and time wasting "stores," collectibles, kid areas that users can sink time into and avoid the math like Times Tables Rock Stars and Prodigy. I also don't want bland, boring, and punishing. I also really like when I don't feel forced by a company so I understand why people don't like subscriptions and signing in. I also love local data based sites so I'm in control of my data and can download and print what I need (like SpellingTraining.com). I also found as in our research that so many offerings are school-based only. Hardly anyone thinks of the homeschoolers, parents, tutors, ed therapists. So I would like these games I'm building to be targeting that audience with a strong one to one, or few to one scenarios where the teacher is in charge, not the program, while still offering high end tools and data gathering. I do want to make money for sure. So how do I do that while making users feel respected and not boxed in? How do I make money and avoid sign-ups and subscriptions that people don't like? I did read somewhere of people liking a la carte games, so I'm open to that, not locking people in to my whole site. In addition to all this, being a teacher who almost always works with neurodivergent learners, I don't want one size fits all or have my product assume that it always knows what the learner needs. Again this is a tool more than a program which means the user and teacher are in the driver's seat.
+
+### Key Insight — Positioning Language
+
+**"This is a tool more than a program."** This is the best positioning language produced so far in this project. A program has its own agenda. A tool serves yours. This should inform the About page, the FAQ, and all marketing copy.
+
+### Two User Types Emerging
+
+The developer's description suggests two distinct but overlapping users, not one:
+
+**User A — The Homeschool Parent**
+- Has the same instincts as the developer but without the formal training
+- Skeptical of XtraMath, wants mastery-gating, doesn't want Prodigy
+- Doesn't necessarily know *why* Practice Quest works — just knows she wants the thing that doesn't let her kid skip past a wrong answer
+- Privacy-conscious, no-account preferred, willing to pay once but not monthly
+- The gap between her instincts and the developer's expertise is where the About page, FAQ, and credential framing live
+
+**User B — The Ed Therapist or Tutor**
+- The professional version of the developer
+- Bills by the hour, works 1:1
+- Needs print output and session documentation to hand to parents or put in files
+- Would pay more for a professional tool
+- Would recommend to colleagues — a genuine referral channel
+- Already speaks the language of fluency thresholds, accommodations, processing speed
+
+These are not the same user. Worth deciding which one Math Flash is built *for first*, since they have slightly different needs around documentation, credentialing, and price tolerance.
+
+### Business Model Direction (from Session P discussion)
+
+The tension between "making money" and "no subscriptions/sign-ups" is solvable. The issue isn't money — it's the *power dynamic* of subscriptions (data held hostage, price increases, forget-to-cancel traps).
+
+**Direction: one-time purchase per game, a la carte.**
+- Pay once per game, own it, no account required to play
+- No core features withheld behind a paywall — the full experience is the free experience
+- Premium additions (print reports, accommodation documentation, extended tables) as one-time unlocks, not recurring fees
+- spellingtraining.com is the frictionless benchmark; Math Flash doesn't have to be free — it has to feel like it respects you
+
+This aligns with the developer's values, the Reddit data (explicit "willing to pay, not a monthly subscription"), and the localStorage/local-first philosophy. Consistent with Sparkwright as a collection of individual tools rather than a platform.
+
+### Two Clarifying Questions — Answer Before Finalizing Profile
+
+1. **Context of use:** When she uses Math Flash with her student — what time of day is it, and what's the setup? Morning school block? After-dinner remediation? A tutoring session? This shapes how she thinks of the product and how it should be onboarded/explained.
+
+2. **XtraMath experience:** Has she tried XtraMath personally and lived through the anxiety problem, or is she trying to avoid it based on what she's heard? The parent who survived it is different from the parent who is trying not to repeat someone else's mistake.
+
+*Answer these in the next journaling session. Then the full profile can be written.*
+
+### Working Hypothesis (pre-journaling, still valid as baseline)
+- Homeschool parent or small independent/private school teacher, or ed therapist/tutor
 - Has already tried at least one mainstream platform (XtraMath, TTRS, or similar)
-- Found it cold, clinical, or anxiety-inducing for their child
-- Cares deeply about *how* their child experiences learning, not just whether they pass a test
-- Skeptical of ed-tech data collection — values privacy and simplicity
-- Will pay for something that feels purposeful and was made for them
-- Likely skews toward families who are already attuned to neurodivergence, learning differences, or educational therapy approaches
-
-*This profile sharpens every product and business decision. Do the journal exercise before finalizing.*
+- Found it cold, clinical, or anxiety-inducing for their child/student
+- Cares deeply about *how* the learner experiences the practice, not just whether they pass a test
+- Skeptical of ed-tech data collection — values privacy, local data, simplicity
+- Will pay once for something that feels purposeful and was made for them; hostile to subscriptions
+- Works primarily in 1:1 or small-group contexts; likely working with or attuned to neurodivergent learners
 
 ---
 
@@ -352,7 +401,7 @@ Finish this sentence: *"Math Flash is for families who have already tried ______
 
 ## 7. To Do (RP-Specific)
 
-- [ ] **Journal — Who is she?** (see Mentor to Developer)
+- [~] **Journal — Who is she?** — first pass completed Session P. Verbatim logged in Section 3. Two clarifying questions outstanding (context of use; XtraMath personal experience?). Resume next session to finalize profile.
 - [ ] **Journal — 3-month signals** (see Mentor to Developer)
 - [ ] **Journal — 5-year vision** (see Mentor to Developer)
 - [ ] **Research — play the competition for one hour** (XtraMath, Reflex, one flashcard app)
