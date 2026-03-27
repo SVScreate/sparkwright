@@ -68,14 +68,14 @@ Direct, confident, efficient. You care about quality and craft — the name Wrig
 | `dev/Math_Flash_Code_Rationale.md` | Why the code is structured the way it is |
 | `dev/Sparkwright_File_Manifest.md` | Dev folder structure reference |
 | `dev/Agent_Handoff.md` | Wright ↔ Spark coordination |
-| `games/mathflash/index.html` | Live game (current: v58) |
-| `dev/2026-03-25_1700_Math_Flash_v58_pool-notices-2attempt-pool-guard.html` | Current working backup |
+| `games/mathflash/index.html` | Live game (current: v59) |
+| `dev/2026-03-26_1200_Math_Flash_v59_gold-flash-bug8-bug2-house.html` | Current working backup |
 
 ---
 
 ## Current Version
 
-**Math Flash v58** — `dev/2026-03-25_1700_Math_Flash_v58_pool-notices-2attempt-pool-guard.html`
+**Math Flash v59** — `dev/2026-03-26_1200_Math_Flash_v59_gold-flash-bug8-bug2-house.html`
 Live at: `games/mathflash/index.html`
 
 ---

@@ -1,6 +1,6 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: March 25, 2026 — Session N (setup screen polish, pool notices, v58)*
-*Current Math Flash version: v58 — `2026-03-25_1700_Math_Flash_v58_pool-notices-2attempt-pool-guard.html`*
+*Last updated: March 26, 2026 — Session P (gold flash, bug fixes, house fix, v59)*
+*Current Math Flash version: v59 — `2026-03-26_1200_Math_Flash_v59_gold-flash-bug8-bug2-house.html`*
 *Current Sparkwright landing page: `sparkwright/index.html` (updated session F)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
@@ -350,9 +350,9 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 122. **Stopwatch mode design** — is "Set number of items" under Stopwatch redundant with "Set # of Questions" mode? One is "how long does it take to do N questions" (Stopwatch), one is "do N questions at your own pace" (Set #). May be genuinely distinct but user-facing language is confusing. Design discussion needed. *(Session M)*
 123. **Reverse fact in requeue mechanic** — design question: if a student misses 6×12, should 12×6 also be added to the requeue at least once? Pedagogically, fact families suggest yes — seeing both orientations reinforces the relationship. Design discussion needed before coding. *(Session M)*
 124. **Print output — include round settings** — the print should show what settings were used: mode, tables selected, Easy on/off, question count. Connects to item 33. *(Session M)*
-125. **Find All — correct card visual feedback** — cards should flash and turn gold on correct selection (like Matching game), giving a clear visual signal the student is done and can click to advance. *(Session M)*
+125. ✅ **Find All — correct card visual feedback** — cards flash gold and settle to gold on correct selection (`.fa-card.fa-flash` + updated `.fa-card.fa-good`). Built Session P, v59.
 126. **Find All — wrong answer graphic** — after 3 wrong selections, show a graphic or visual illustrating the fact group (e.g. the fact family or multiplication array). *(Session M)*
-127. **Fact Family Chase — house overlap** — house graphic sits too close to the bottom of the last fact in the visual layout. Cosmetic, low priority. *(Session M)*
+127. ✅ **Fact Family Chase — house overlap** — house SVG extended (y=468→520, height=490→550). Gives ~54px clearance below last chip. Built Session P, v59.
 128. **Settings globalization** — meta discussion: when a fix or feature is built for one mode/operation, ensure it applies consistently across all relevant modes and operations. Avoid whack-a-mole per-branch fixes. Discuss approach before next major feature pass. *(Session M)*
 129. **Easy toggle for ×** — default changed from OFF to ON in Session M. Label rewritten to plain language: "Practice every fact in your chosen table(s) — ON: all facts included. OFF: exclude facts where one of the numbers comes from a table you haven't picked (e.g. ×6, ×7, ×8 selected → no 6×2, 7×5, 8×9)." *(Session M — completed, log only)*
 
@@ -457,6 +457,28 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 ---
 
 ## WHERE TO PICK UP
+
+*Session P ended March 26, 2026 — gold flash, Bug 8, Bug 2, Item 127, v59.*
+
+**Session P covered:**
+
+- Item 125 ✅ — Find All correct cards now flash gold and settle to gold (was green). Reuses `match-flash` animation via new `.fa-card.fa-flash` class. `.fa-card.fa-good` updated to gold styling. `card-pop` (green scale) removed from click handler.
+- Item 68 — Partially built (zone label below fluency bar) then removed at developer request. Bar color states are sufficient. Item closed.
+- Bug 8 (partial) — perQTimer interval reduced from 50ms → 100ms in both `startPerQTimer()` and `resumeTimers()`. Halves DOM write frequency during active questions, expected to reduce typing jank in Safari on low-power hardware. Needs testing to confirm fix.
+- Bug 2 (partial) — q-count input fields now pre-populated from `S.qCount` defaults in `buildSetupUI()`, so they're never empty even if `loadAndApplySettings()` UI restore fails. Addresses most likely cause of "Start does nothing." Needs testing to confirm fix.
+- Item 127 ✅ — Fact Family Chase house SVG extended: bottom wall moved from y=468 → y=520, SVG height 490 → 550, viewBox updated, hardcoded pathLen updated 1330 → 1434. Gives ~54px clearance between last fact chip and house bottom line.
+- Session O Data Philosophy handoff ✅ — Spark resolved: full content recovered from git and added to RP Section 2. MPF cross-reference now points to RP correctly.
+
+**Testing needed next session (all from Session P):**
+- T1 — Bug 8: type 2-digit answers in Per-Question Timer mode as timer gets low — confirm no missed keystrokes
+- T2 — Bug 2: addition-only start (deselect ×, select +, click Start) — confirm game launches
+- T3 — Item 127: Fact Family Chase house — confirm clear space below last chip after house draws
+
+**Immediate next priorities (in order):**
+1. Complete T1/T2/T3 testing from Session P
+2. Design discussion with Spark: print output (items 33 + 124) — has been deferred longest
+3. Design discussion with Spark: Challenge Facts + student stats page (items 88/89/110)
+4. After design discussions: those features become the next build
 
 *Session N ended March 25, 2026 — setup screen polish, pool notices, v58.*
 
@@ -615,6 +637,8 @@ Read this file in full (`dev/Sparkwright_MPF_March_22_2026_v55.md`), then read t
 - Session G (v55): per-fact tracking built — `mathflash_facts` localStorage key, fact record schema, recording hooks in `handleCorrect` / `handleMiss` / `autoKick`, guest skip logic, 20-entry rolling window
 - Session H: per-fact tracking tested and confirmed (item 86 ✅) — two bugs found and fixed: (1) `responseTimes` stored raw timestamp instead of elapsed ms, (2) `qStartTime` not set in non-timer modes. GitHub repo `SVScreate/sparkwright` created, Netlify auto-deploy connected, v55 live on sparkwright.org (items 93 ✅, 99 ✅)
 - Session I (design only — no code): two-level fluency model defined, mastery definition decided (correct in ≤3s on 4/5 attempts, 2+ sessions, low variance), variance research documented (Stickney et al., Reflex white paper), competitive mastery thresholds logged. New items added: 108 (mastery flag), 109 (teacher print report), 110 (consistency labels), 111 (FAQ page), 112–117 (research/design backlog). RP file created and populated.
+- Session P (v59): Item 125 ✅ — Find All correct cards flash gold. Item 68 — zone label built and removed (bar colors sufficient). Bug 8 partial — perQTimer reduced 50ms→100ms. Bug 2 partial — q-count fields pre-populated in buildSetupUI(). Item 127 ✅ — house SVG extended, ~54px clearance. Session O housekeeping completed; Spark resolved Data Philosophy orphan. Tests T1/T2/T3 pending next session.
+- Session O (housekeeping — no code): full dev/ rename pass, Sparkwright_File_Manifest.md created, MPF trimmed 793→620 lines, localStorage schema moved to Code Rationale, dual-agent system (Wright + Spark) established, all committed and pushed.
 - Session K (housekeeping — no code): Code Rationale file created (`dev/Math_Flash_Code_Rationale.md`), 16 decisions documented, HOW TO START A NEW SESSION updated to include it
 - Session J (housekeeping — no code): MPF/RP updated, completed log patched, items 93/99 marked ✅, session-start guidance added for future Claude instances
 - Session G (v55): per-fact tracking built (item 86 — untested), assessment area added to to-do (item 66), Claude Code set up

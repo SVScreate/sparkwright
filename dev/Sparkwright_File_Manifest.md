@@ -36,6 +36,7 @@ sparkwright/
     ├── Math_Flash_Code_Rationale.md         ← Running log of code decisions
     ├── 2026-03-19_1530_Math_Flash_v55_milestone-baseline.html
     ├── 2026-03-25_1635_Math_Flash_v57_pool-cycling-easy-toggle.html
+    ├── 2026-03-26_1200_Math_Flash_v59_gold-flash-bug8-bug2-house.html
     ├── 2026-03-25_1700_Math_Flash_v58_pool-notices-2attempt-pool-guard.html
     └── MF_research_sources/                 ← Raw source material (feeds ConsumerData)
         ├── Math_Flash_reddit_scrape.py
@@ -70,7 +71,8 @@ sparkwright/
 | `Math_Flash_Code_Rationale.md` | Dev log | Running log of why code is structured the way it is. Read before making structural changes to the game. |
 | `2026-03-19_1530_Math_Flash_v55_milestone-baseline.html` | HTML backup | Milestone baseline — version at time of MPF creation. Keep. |
 | `2026-03-25_1635_Math_Flash_v57_pool-cycling-easy-toggle.html` | HTML backup | Most recent prior version before current. Keep. |
-| `2026-03-25_1700_Math_Flash_v58_pool-notices-2attempt-pool-guard.html` | HTML backup | **Current version.** Keep. This is what `games/mathflash/index.html` reflects. |
+| `2026-03-26_1200_Math_Flash_v59_gold-flash-bug8-bug2-house.html` | HTML backup | **Current version.** Keep. This is what `games/mathflash/index.html` reflects. |
+| `2026-03-25_1700_Math_Flash_v58_pool-notices-2attempt-pool-guard.html` | HTML backup | Prior version. Keep as recent fallback. |
 | `MF_research_sources/Math_Flash_reddit_scrape.py` | Script | Python script used to scrape Reddit threads for consumer research. |
 | `MF_research_sources/MF_reddit_*.md` (8 files) | Source data | Raw Reddit thread exports. Reference material for ConsumerData. |
 | `MF_research_sources/MF_forum_*.md` (4 files) | Source data | Raw forum thread exports (XtraMath complaints, LD Online, Change.org). Reference material for ConsumerData. |
