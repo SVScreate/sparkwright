@@ -182,6 +182,102 @@ Wright — resolved. I recovered the full original Data Philosophy section from 
 
 ---
 
+## Spark → Wright — 2026-03-28 — Netlify Forms implementation details
+
+Developer researched and confirmed the following. Use this when building the contact form.
+
+**Enable form detection first:** In the Netlify UI → Forms → Enable form detection. After next deploy, Netlify scans the site automatically.
+
+**Form markup:**
+```html
+<form name="contact" method="POST" data-netlify="true">
+  <p>
+    <label>Your Name: <input type="text" name="name" /></label>
+  </p>
+  <p>
+    <label>Your Email: <input type="email" name="email" /></label>
+  </p>
+  <p>
+    <label>Message: <textarea name="message"></textarea></label>
+  </p>
+  <p>
+    <button type="submit">Send</button>
+  </p>
+</form>
+```
+
+**Rules:**
+- Each form needs a unique `name` attribute on the `<form>` tag
+- Every input field needs a `name` attribute
+- Use `data-netlify="true"` or just `netlify` on the `<form>` tag
+
+**What Netlify provides automatically:**
+- Submissions stored in Netlify dashboard under Forms tab
+- Email notifications on submission (configure destination in dashboard — use `contact@sparkwright.org` once that address is live)
+- Built-in spam filtering
+- Optional: honeypot field or reCAPTCHA for extra spam protection
+
+**Reference:** https://docs.netlify.com/manage/forms/setup/
+
+— Spark
+
+---
+
+## Spark → Wright — 2026-03-28 — Contact form + email
+
+**Contact form:** Build using Netlify Forms. Add a `netlify` attribute to the HTML form — Netlify intercepts submissions automatically, no backend needed. Free tier (100 submissions/month) is fine. Create a `/contact.html` page in site root, same aesthetic as the rest of the site. Fields: Name, Email, Message, Submit. Configure the form notification email in the Netlify dashboard to `contact@sparkwright.org` once that address is live.
+
+**contact@sparkwright.org:** Developer is setting this up via Zoho Mail or ImprovMX (DNS records in Netlify dashboard). Don't configure form notifications until she confirms the address is live — otherwise submissions go nowhere. She'll let you know when it's ready.
+
+**Link the contact page** from the nav and from the footer ("Contact" link alongside Privacy Policy and Terms of Use).
+
+— Spark
+
+---
+
+## Spark → Wright — 2026-03-28 — Legal copy and footer update
+
+Wright — new file: `dev/Sparkwright_Legal_Draft_v1.md`
+
+**What to build:**
+1. Two new static pages: `terms.html` and `privacy.html` — same site aesthetic, static text content from the file. No special functionality.
+2. Update the footer in `index.html` and `games/mathflash/index.html` to include copyright notice and links to both pages. Suggested HTML is in the file's Footer section.
+3. Add `.footer-link` styling (muted, underline on hover) to match existing footer text style.
+
+**Effective date and contact fields in the documents are placeholders** — developer fills those in before publishing. Don't publish these pages live until she confirms the placeholders are filled.
+
+The Cookie Policy is a short section — it can be added to the bottom of the Privacy Policy page rather than its own page.
+
+— Spark
+
+---
+
+## Spark → Wright — 2026-03-28 — Website copy draft ready
+
+Wright — new file: `dev/Sparkwright_Website_Copy_Draft_v1.md`
+
+Contains rough draft copy for three tiers of the site. Developer will edit for voice before anything goes live. Your job is structure — this gives you content to work with.
+
+**What's in the file:**
+- **Tier 1** — Drop-in text for `index.html`: hero eyebrow option, Math Flash game card description, about strip body copy, value bullets
+- **Tier 2** — Full About page draft (first person, developer's voice). Currently no `/about.html` exists — nav "About" is an anchor on the landing page. When the developer is ready to build this out, it needs a real page and a nav link pointing to it (not an anchor).
+- **Tier 3** — Math Flash product page draft. No product page currently exists. Location TBD (see open questions in the file) — flagged for design discussion with Kimberly.
+
+**Nothing in Tier 1 requires structural changes** — it's copy-swap only. Tiers 2 and 3 need new pages built.
+
+**One structural note from reading the landing page:** the hero eyebrow badge currently says "Independent learning tools." The draft suggests replacing it with audience-specific language. If Kimberly confirms this direction, it's a one-word change in the HTML — but wait for her to approve the copy first.
+
+**Open questions in the file (for Kimberly, not you):**
+1. Are the coming-soon card names (Spelling Sprint, Number Sense Lab, Timed Challenge) locked — or placeholders? Affects final card copy.
+2. Where does the Math Flash product page live in the URL structure?
+3. About page: first person or third? (Drafted first person; easy to convert.)
+
+Don't build Tiers 2 or 3 until Kimberly signs off on the copy and decides on the structure questions. Tier 1 is safe to implement whenever she's ready.
+
+— Spark
+
+---
+
 ## Resolved
 
 *(Completed handoffs get moved here with a resolution note)*

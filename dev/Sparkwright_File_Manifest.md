@@ -34,6 +34,10 @@ sparkwright/
     ├── Math_Flash_Research_and_Pedagogy.md  ← Research, pedagogy, philosophy (the "why")
     ├── Math_Flash_ConsumerData.md           ← Consumer research, competitive audit
     ├── Math_Flash_Code_Rationale.md         ← Running log of code decisions
+    ├── Sparkwright_Website_Copy_Draft_v1.md ← Rough draft copy for landing page, About page, Math Flash product page (Session R)
+    ├── Sparkwright_Legal_Draft_v1.md        ← Terms of Use, Privacy Policy, Cookie Policy, footer copy, pre-launch legal checklist (Session R)
+    ├── Sparkwright_Wright_Prompt_SessionR.md ← Paste-in build prompt for Wright covering all Session R tasks (Session R)
+    ├── Sparkwright_Costs_and_Accounting_v1.md ← Recurring costs, one-time costs, anticipated future costs, revenue ledger (Session R)
     ├── 2026-03-19_1530_Math_Flash_v55_milestone-baseline.html
     ├── 2026-03-25_1635_Math_Flash_v57_pool-cycling-easy-toggle.html
     ├── 2026-03-26_1200_Math_Flash_v59_gold-flash-bug8-bug2-house.html

@@ -152,6 +152,20 @@ Global countdown and stopwatch timers pause during Practice Quest — students a
 - **Hosting:** `sparkwright.org` registered March 18, 2026 via Netlify
 - **GitHub repo:** `https://github.com/SVScreate/Math-Flash.git` — not yet connected, Git setup deferred
 
+### Future Games — Concept Backlog
+*(Logged Session R — March 28, 2026. These are concepts, not commitments. Landing page coming-soon cards are currently filler; this backlog is where real candidates live.)*
+
+**Word Flash** *(most developed concept — Session R)*
+The natural next game after Math Flash. Same core mechanic (fluency timing, Practice Quest equivalent, mastery tracking) applied to spelling and/or sight word recognition. A teacher shows a word — student spells it or reads it — response time tracked. Fluency tiers apply. The homeschool and ed therapy market uses spelling/sight word drill constantly and has the same gap: tools that are either boring or fluffy, with no structured in-moment help.
+- Same tech stack as Math Flash — mechanic is half-built
+- Target: grades K–5 primarily, remediation through middle school
+- Word lists: Dolch, Fry, or teacher-custom
+- Could include a "word families" mode (phonics patterns) as a variant
+- Most likely next build after Math Flash reaches v1 release
+
+**Other concepts logged for future consideration:**
+See Spark session R brainstorm. Full list of 10 ideas available for review. Strongest candidates after Word Flash: Clock Flash (telling time / elapsed time — genuine market gap), Fraction Flash (fractions/decimals, same audience as Math Flash), Decode (phonics decoding patterns, aligned with ed therapy work), Sight Word Sprint (high-frequency word fluency, younger students).
+
 ---
 
 ## ✨ Sparkwright — Business & Brand
@@ -453,6 +467,8 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 ### ⚖️ LEGAL / IP
 118. **IP ownership — consult an attorney before commercial launch.** US copyright law requires human authorship; AI-assisted work is a gray area still being settled. The ownership argument is reasonably strong here (developer makes all creative/product/pedagogical decisions; Claude executes them), but this should be reviewed by an IP attorney before selling or licensing the product. Not urgent now — needed before commercial launch. *(Session K)*
 119. **Trademark — "Sparkwright" brand name.** Can a coined/near-coined word be claimed as trademark? What's the difference between common law trademark (use in commerce) vs. registered trademark? What does Google currently define "sparkwright" as? Explore in a dedicated chat session once the product is closer to launch. *(Session D / Session H)*
+137. **Legal copy — Terms of Use and Privacy Policy.** Needed before any commercial activity or public launch. Even with localStorage (no server-side data), a Privacy Policy is standard and sets user expectations. Terms of Use establishes rules for using the site. Both can be drafted by Spark in a chat session using the project's data model and philosophy as inputs; however, the developer should have a real attorney review before publishing. DMCA policy also worth adding once user-submitted content is a possibility. *(Session R — flagged for Spark session)*
+138. **Legal discussion — should a Legal agent be added to the Sparkwright system?** Currently handled in Spark sessions. Discussed briefly Session R — see Agent_Handoff for Spark's recommendation. *(Session R)*
 
 ---
 

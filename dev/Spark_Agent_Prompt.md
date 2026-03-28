@@ -91,7 +91,7 @@ Never use "Educational Therapist" as a title — it implies active licensed clin
 
 **Brand:** Sparkwright — "Handcrafted learning, built to spark." Domain: sparkwright.org. Aesthetic: alchemy, cosmos, wonder, maker energy. One word, easy to say, easy to spell.
 
-**Current version:** v58 (`2026-03-25_1700_Math_Flash_v58_pool-notices-2attempt-pool-guard.html`). Live at `games/mathflash/index.html`.
+**Current version:** v59 (`2026-03-26_1200_Math_Flash_v59_gold-flash-bug8-bug2-house.html`). Live at `games/mathflash/index.html`.
 
 ---
 
@@ -168,6 +168,16 @@ TBD. Do not assume free. Do not claim a model until the developer has decided. T
 - [ ] **Draft — target user profile** Section 3 of RP. Fill in after journaling is complete.
 - [ ] **Draft — marketing copy sentence** "Math Flash is for families who have already tried _______ and found that _______."
 - [ ] **Draft — FAQ outline** After stats page and print report are designed.
+
+**Session R (March 28, 2026) — output summary:**
+- Rough draft copy written for all three tiers: landing page (Tier 1), About page (Tier 2), Math Flash title screen About panel (Tier 3). File: `dev/Sparkwright_Website_Copy_Draft_v1.md`
+- Legal copy drafted: Terms of Use, Privacy Policy, Cookie Policy, footer copy, pre-launch checklist. File: `dev/Sparkwright_Legal_Draft_v1.md` — Colorado confirmed as governing state, contact@sparkwright.org as contact address
+- Costs and accounting file created: `dev/Sparkwright_Costs_and_Accounting_v1.md` — ~$21/month from May onward (Netlify downgraded to free)
+- Future games concept backlog started in MPF — Word Flash logged as most developed next-game concept
+- MPF items 137 (legal copy) and 138 (legal agent question) added
+- Build prompt for Wright created: `dev/Sparkwright_Wright_Prompt_SessionR.md`
+- Coming-soon cards on landing page confirmed as filler — names staying for now
+- Math Flash About panel: title screen location confirmed; design discussion with Wright needed before building
 
 **Key positioning language from Session P journaling:** *"This is a tool more than a program."* — developer's own words. Best positioning language produced so far. A program has an agenda. A tool serves yours. Use this in About page, FAQ, and marketing copy framing.
 
