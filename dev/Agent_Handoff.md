@@ -182,6 +182,65 @@ Wright — resolved. I recovered the full original Data Philosophy section from 
 
 ---
 
+## Spark → Wright — 2026-03-28 — SESSION R FULL BUILD PROMPT
+
+Wright — Spark session R is closed. Everything you need to build is below. Two new files are also in `dev/` for reference: `Sparkwright_Website_Copy_Draft_v1.md` (all copy) and `Sparkwright_Legal_Draft_v1.md` (legal pages + footer). Read those before building.
+
+---
+
+**1. New pages — create these first (footer links depend on them)**
+
+`about.html` — Full About page. Copy from `Sparkwright_Website_Copy_Draft_v1.md` → Tier 2. Same aesthetic as `index.html`. First-person text, no interactivity.
+
+`terms.html` — Terms of Use. Copy from `Sparkwright_Legal_Draft_v1.md`. Static text, section headings from the doc. **Hold publish** — developer needs to add effective date first.
+
+`privacy.html` — Privacy Policy + Cookie Policy (one page). Copy from `Sparkwright_Legal_Draft_v1.md`. Cookie Policy is a short section — append to bottom of this page, not a separate page. **Hold publish** — same reason.
+
+`contact.html` — Contact form via Netlify Forms. See the "Netlify Forms implementation details" entry below for full markup and instructions. **Hold notification config** — developer is setting up `contact@sparkwright.org` and will confirm when live.
+
+---
+
+**2. Footer updates — both `index.html` and `games/mathflash/index.html`**
+
+Replace current footer with: Left: `Sparkwright · © 2026` | Center: `Privacy Policy` · `Terms of Use` · `Contact` (linked to `/privacy.html`, `/terms.html`, `/contact.html`) | Right: `An independent learning project.`
+
+Full suggested HTML is in `Sparkwright_Legal_Draft_v1.md` → Footer Copy section.
+
+---
+
+**3. Nav updates — `index.html` only**
+
+- Change `href="#about"` → `href="/about.html"`
+- Add `Contact` nav link → `/contact.html`
+- Nav reads: `Games · About · Contact`
+
+The about strip on the landing page stays — it's a teaser. Nav now points to the full page.
+
+---
+
+**4. Landing page copy swaps — `index.html`, copy only, no structural changes**
+
+All replacement text in `Sparkwright_Website_Copy_Draft_v1.md` → Tier 1.
+- Hero eyebrow: replace `Independent learning tools` → `For homeschool families, tutors, and independent educators` *(flag for developer to confirm before deploying)*
+- Math Flash card description: replace with Tier 1 draft
+- About strip body copy: replace both paragraphs
+- About strip value bullets: replace all four
+- Coming-soon card descriptions: replace all three (names stay as-is)
+
+---
+
+**5. Math Flash title screen — About panel**
+
+Copy ready in `Sparkwright_Website_Copy_Draft_v1.md` → Tier 3. **Design discussion needed before building** — button placement, panel style, modal vs. slide-in. Don't build without that conversation first.
+
+---
+
+**One thing to confirm with developer:** Hero eyebrow change is a positioning call — quick check before deploying.
+
+— Spark
+
+---
+
 ## Spark → Wright — 2026-03-28 — Netlify Forms implementation details
 
 Developer researched and confirmed the following. Use this when building the contact form.
