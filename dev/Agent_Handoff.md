@@ -1,6 +1,9 @@
 # Agent Handoff — Wright ↔ Spark
 *Shared coordination file between the two Sparkwright Claude agents.*
-*Last updated: 2026-03-26 — Session O (both agents online)*
+*Last updated: 2026-03-28 — Session S*
+
+**Wright** — Coding & Project Management *(the craft, the build, the how)*
+**Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
 
 ---
 
