@@ -168,51 +168,63 @@ These overlap but aren't identical. The product hasn't yet committed to which on
 One-time purchase per game, a la carte. No account required for core experience. Premium features (print reports, accommodation documentation) as one-time unlocks. Consistent with localStorage/local-first philosophy. Decision is not final — do not present as locked.
 
 ### Competitive Summary
-- **XtraMath** — near-universal awareness. 6s default (not 3s), sequential operations, no in-moment remediation. Free. The tool parents leave and can't find a replacement for.
+- **XtraMath** — near-universal awareness. 6s default, five static teacher-set tiers (1.5/2/3/6/12s), no in-moment remediation, no auto-shrinking timer (Penny M. claim unverifiable — do not use). Free basic.
 - **Reflex Math** — school-focused, proprietary variance-based mastery, not teacher-adjustable. Commercial.
 - **Rocket Math** — worksheet-adjacent, 12 consecutive correct, no variance check.
 - **TTRS** — subscription, server-based, monthly summaries only. Widely disliked by students.
 - **IXL / iReady / Zearn / Khan** — institutional tools, compliance reporting, not designed for the moment of failure.
-- **Imagine Math Facts (BigBrainz)** — the product parents miss. Acquired by Imagine Learning 2016, now school-only. Currently inaccessible to homeschool families. Math Flash is operating in the space it left.
-- **Full competitive chart** — not yet completed. Do after journaling is fully closed.
+- **Imagine Math Facts (BigBrainz)** — the product parents miss. Acquired by Imagine Learning 2016, now school-only. Math Flash is operating in the space it left.
+- **Master competitive chart** — built Session S in ConsumerData Section I. Covers primary competitors + institutional tools + 6 tools flagged for personal investigation.
 
 ---
 
 ## Current State of Open Work
+*(Replace this section at each session end — do not append)*
 
-### RP To-Do (as of Session S, March 28, 2026)
+### As of Session S — March 28, 2026
+
+**What happened this session:**
+- Spark prompt rewritten (reading order, phrase bank, Current State section, voice)
+- Agent_Handoff updated: role labels added to header, archival practice established (delete resolved entries, don't accumulate)
+- Bootstrap prompts confirmed and finalized for both agents — stored in their respective prompt files
+- Workflow discussion: one-window (Claude Code) approach confirmed as right for this developer
+- XtraMath timer claim (Penny M. "3s→2.6s→1.5s") investigated and retired — unverifiable for current XtraMath; do not use in positioning
+- Master competitive chart built in ConsumerData Section I — verified column-by-column; in-moment remediation row is Math Flash alone
+- App store survey completed — gap confirmed; no tool has no-account + localStorage + in-moment remediation
+- Phrase bank updated: "No account. Your data. In-the-moment remediation." logged as the three-part formula
+- MPF item 132 corrected; MPF item 139 added (tiered threshold design: Challenge/Standard/Extended/Extended+)
+- Personal investigation list created in ConsumerData Section J for 6 tools needing firsthand use
+
+### RP To-Do
 
 **Journaling — first passes done, loose ends remain:**
-- [~] **Who is she?** — first pass logged in RP Section 3. Two clarifying questions still unanswered: (1) context of use — what time of day, what's the setup? (2) XtraMath — personal experience or avoiding by reputation? Answer these before writing the final target user profile.
-- [~] **3-month signals** — first pass logged in RP Section 6. Open question: what are the pre-launch signals, before there are users to message? What would you observe from your own students or testing that tells you the product is ready to be seen publicly?
-- [~] **5-year vision** — first pass logged in RP Section 6. Open question: mobile priority — iOS app vs. PWA?
+- [~] **Who is she?** — Two clarifying questions unanswered: (1) context of use — what time of day, what's the setup? (2) XtraMath — personal experience or avoiding by reputation?
+- [~] **3-month signals** — Open: what are the pre-launch signals before there are users to message?
+- [~] **5-year vision** — Open: mobile priority — iOS app vs. PWA?
 
 **Still not done:**
-- [ ] Play the competition for one hour. XtraMath, Reflex, one flashcard app. As a student. Write down what you feel immediately after. This keeps getting deferred. It matters.
-- [ ] Full competitive chart (item 115). After journaling is fully closed.
-- [ ] Draft — target user profile final version (after clarifying questions answered).
+- [ ] Play the competition for one hour. XtraMath, Reflex, one flashcard app. As a student. Keeps getting deferred. Matters.
+- [ ] Draft — target user profile final version (after clarifying questions answered)
 - [ ] Draft — marketing copy sentence: *"Math Flash is for families who have already tried \_\_\_\_ and found that \_\_\_\_."*
-- [ ] Draft — FAQ outline. After stats page and print report are designed.
+- [ ] Draft — FAQ outline (after stats page and print report are designed)
 
 ### ConsumerData To-Do
-- [ ] r/specialeducation + r/ADHD_parents — Reddit was blocked in Session N. High value. Retry or find alternative sources.
-- [ ] Well-Trained Mind forum threads — 403 errors during fetch. Developer needs to open in browser and paste content manually. URLs in ConsumerData Section J.
-- [ ] XtraMath shrinking timer — verify firsthand. Penny M. (ADHD, SmartCustomer review) reported timer dropping from 3s → 2.6s → 1.5s. Cannot use in positioning until confirmed.
-- [ ] App store search: "math facts mastery" — check whether the gap Math Flash fills already exists somewhere that hasn't surfaced on Reddit.
+- [ ] r/specialeducation + r/ADHD_parents — Reddit blocked in Session N. High value. Defer to a token-rich session.
+- [ ] Well-Trained Mind forum threads — 403 errors. Developer opens in browser, pastes manually. URLs in ConsumerData Section J.
+- [ ] Personal investigation: 6 tools flagged in ConsumerData Section J (Smart Math Flashcards, Time4MathFacts, Factivation!, DeltaMath for Home, MobyMax, Imagine Math Facts mourning threads). Use each firsthand, record observations.
 
 ### Design Discussions (blocking Wright's build queue)
-These are Spark + developer conversations that need to happen before Wright can build:
-- **Item 130** — Teacher-adjustable fluency threshold (3s default, 5s/6s accommodation options). Research complete; design discussion needed.
+- **Item 130** — Teacher-adjustable fluency threshold. Research complete; design discussion needed.
+- **Item 139** — Tiered threshold design (Challenge/Standard/Extended/Extended+). New this session; design discussion needed before coding.
 - **Items 88/89/110** — Challenge Facts workspace + student stats page.
 - **Items 33/124** — Print output / teacher print report.
-- **Math Flash title screen About panel** — copy ready in `Sparkwright_Website_Copy_Draft_v1.md` → Tier 3. Button placement, panel style, modal vs. slide-in — design discussion needed before Wright builds.
+- **Math Flash title screen About panel** — copy ready in `Sparkwright_Website_Copy_Draft_v1.md` → Tier 3. Design discussion needed before Wright builds.
 
-### Files Produced in Session R (March 28, 2026)
-- `dev/Sparkwright_Website_Copy_Draft_v1.md` — rough draft copy for all three tiers: landing page, About page, Math Flash title screen About panel
-- `dev/Sparkwright_Legal_Draft_v1.md` — Terms of Use, Privacy Policy, Cookie Policy, footer copy, pre-launch checklist
-- `dev/Sparkwright_Costs_and_Accounting_v1.md` — ~$21/month from May onward (Netlify downgraded to free)
-- Build prompt for Wright created: `dev/Sparkwright_Wright_Prompt_SessionR.md`
-- Future games concept backlog started in MPF — Word Flash logged as most developed next-game concept
+### Key Files (current)
+- `dev/Sparkwright_Website_Copy_Draft_v1.md` — landing page, About page, Math Flash About panel copy drafts
+- `dev/Sparkwright_Legal_Draft_v1.md` — Terms, Privacy, Cookie Policy, footer copy
+- `dev/Sparkwright_Costs_and_Accounting_v1.md` — ~$21/month from May onward
+- `dev/Sparkwright_Wright_Prompt_SessionR.md` — build prompt for Wright (Session R)
 
 ---
 
