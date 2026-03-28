@@ -527,10 +527,10 @@ One thing to add to future research: find out what happened to Imagine Math Fact
 **Price:** Free basic; $2/year family premium; $50/year per teacher; $500/year school.
 **Operations:** Addition, subtraction, multiplication, division. Sequential by default — must complete one operation before advancing to the next. A parent or teacher *can* change the assigned operation, but students cannot skip on their own.
 **Mastery definition:** Score of 100 in current operation by answering each fact correctly in successive attempts.
-**Timer:** Default 6 seconds. Extended 12-second option available for early learners and students with disabilities. Customization below 6 seconds (3s, 2s, 1.5s) requires Premium. Timer can be hidden for anxious students (recent update).
-**Account required:** Yes. Family account setup required even for home use.
-**Accommodation features:** 12-second timer option; timer can be hidden. No mention of other accommodations.
-**Notable:** Does not teach strategies — practice and recall only. Recent 2025 updates added timer progress bar, moveable keyboard. Reddit data shows consistent anxiety/shame reports despite accommodation options existing.
+**Timer:** Five static, teacher-set thresholds: 12s (early learners/disability), 6s (default), 3s, 2s, 1.5s. The 3s/2s/1.5s options require Premium. Timer is fixed for the session — it does NOT auto-shrink during practice. The "Race the Teacher" activity is competitive but runs at the set threshold, not a progressively faster one. Timer can be hidden for anxious students. *(Session S: verified from official support pages. The Penny M. "3s→2.6s→1.5s" review describes something unverifiable against current XtraMath — do not cite in positioning.)*
+**Account required:** Yes. Family account setup required even for home use. ✓
+**Accommodation features:** 12-second timer option; timer can be hidden. No other documented accommodations.
+**Notable:** Does not teach strategies — practice and recall only. Recent updates added timer progress bar, moveable keyboard. Reddit data shows consistent anxiety/shame reports despite accommodation options existing. XtraMath's default (6s) is equivalent to a 2× processing speed accommodation — notable that their baseline is our accommodation threshold.
 
 Sources: [How XtraMath Works](https://home.xtramath.org/support/how-does-xtramath-work) · [Timer Options](https://home.xtramath.org/support/what-are-the-timer-options-and-how-do-they-benefit-students) · [Pricing](https://home.xtramath.org/pricing)
 
@@ -564,21 +564,58 @@ Sources: [Imagine Learning product page](https://www.imaginelearning.com/product
 
 ---
 
-### Comparison Summary
+### Master Competitive Chart
+*Last updated: Session S, March 28, 2026. ✓ = verified from official source or firsthand. *(nv)* = not yet verified — needs personal investigation. TBD = Math Flash feature not yet built or decided. Blank = unknown.*
 
-| | XtraMath | Math Facts Pro | Imagine Math Facts | Math Flash |
-|---|---|---|---|---|
-| Account required | Yes | Optional | Yes (school only) | No |
-| Free tier | Yes (limited) | Yes (limited) | No | TBD |
-| Web-based | Yes | Yes | No (app only) | Yes |
-| Mastery-gating | Yes (sequential ops) | Yes (per fact) | Yes | Yes |
-| Skip/reorder operations | Teacher/parent only | Unknown | Unknown | TBD |
-| Timer accommodation | Yes (12s, hidden) | Adaptive | Unknown | TBD |
-| Beyond ×12 | No | No | Unknown | Yes (planned) |
-| Print output | Premium only | Unknown | No | Planned |
-| Homeschool-explicit | Yes | Yes | No | Yes |
+**Key finding: no existing fact fluency tool has all three of — no account required + localStorage data model + in-moment remediation. Math Flash is alone in this combination.**
 
-*Math Flash column reflects known/planned features — verify against current build before using for positioning.*
+#### Primary Competitors
+
+| | **XtraMath** | **Reflex Math** | **Rocket Math** | **TTRS** | **Math Facts Pro** | **Math Flash** |
+|---|---|---|---|---|---|---|
+| **Wrong answer response** | Shows correct, student types to confirm, moves on ✓ | Correct flashes red briefly, moves on ✓ | Fact recycles sooner, no sequence ✓ | Shows correct, moves on *(nv)* | Errorless — never shows wrong ✓ | Round stops. Find It → mini-game → Prove It ✓ |
+| **In-moment remediation** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| **Mastery definition** | Score 100 in operation, successive correct ✓ | Proprietary stability algorithm ✓ | 12 consecutive correct ✓ | Unknown *(nv)* | 9/10 correct + fast ✓ | 4/5 correct ≤3s, 2+ sessions, low variance |
+| **Variance check** | ❌ ✓ | ✅ implied ✓ | ❌ ✓ | ❌ *(nv)* | Adaptive speed *(nv)* | ✅ planned |
+| **Timer model** | 5 tiers: 12s / 6s default / 3s / 2s / 1.5s. Static, teacher-set. Hideable. ✓ | Proprietary, adapts from keyboard entry speed at session start. Not teacher-adjustable. ✓ | Timed *(nv specific)* | Timed *(nv)* | Adaptive per student ✓ | 3s default; tiered accommodation planned (item 139) |
+| **Operation isolation** | Sequential; teacher can reassign ✓ | Adaptive — not teacher-controlled ✓ | Sequential *(nv)* | Unknown *(nv)* | Per-fact ✓ | ✅ teacher-set |
+| **Tables beyond ×12** | ❌ ✓ | ❌ ✓ | ❌ *(nv)* | ❌ *(nv)* | ❌ ✓ | ✅ planned |
+| **Account required** | ✅ ✓ | ✅ ✓ | ✅ ✓ | ✅ ✓ | Optional ✓ | ❌ |
+| **Data model** | Server ✓ | Server ✓ | Server ✓ | Server ✓ | Server ✓ | localStorage ✓ |
+| **Print output** | Premium only ✓ | Unknown *(nv)* | Worksheets *(nv)* | Monthly report ✓ | Unknown *(nv)* | Planned |
+| **ND accommodation** | 12s timer, hideable ✓ | None visible *(nv)* | None visible *(nv)* | None visible *(nv)* | Adaptive speed *(nv)* | Tiered thresholds planned (item 139) |
+| **Price model** | Free basic; $2/yr family; $50/yr teacher ✓ | School subscription ✓ | ~$3/mo teacher *(nv)* | School subscription *(nv)* | Free lite; $1/student/yr ✓ | TBD (one-time purchase direction) |
+| **Primary market** | School + family ✓ | School ✓ | School + homeschool ✓ | School ✓ | School + family ✓ | Homeschool + independent |
+| **Homeschool-explicit** | Yes ✓ | No ✓ | Yes *(nv)* | No *(nv)* | Yes ✓ | Yes |
+
+#### Institutional Tools (lower priority — not direct competitors)
+
+| | **IXL** | **iReady** | **Khan Academy** | **99Math** | **MathFactLab** |
+|---|---|---|---|---|---|
+| **Wrong answer** | Shows explanation, retry *(nv)* | Shows explanation *(nv)* | Shows explanation *(nv)* | Competitive multiplayer *(nv)* | Visual/strategy model *(nv)* |
+| **In-moment remediation** | ❌ | ❌ | ❌ | ❌ | ❌ *(different lane)* |
+| **Account required** | ✅ | ✅ | ✅ | ✅ teacher | ✅ |
+| **Data model** | Server | Server | Server | Server | Server |
+| **Price model** | ~$20/mo family *(nv)* | School only *(nv)* | Free ✓ | Free *(nv)* | School subscription *(nv)* |
+| **Primary market** | School + family | School | Broad | Classroom | School |
+| **Notes** | Broad curriculum, not fluency-focused | Intervention-focused, student-loathed ✓ | Conceptual, not drill | Competitive engagement, classroom only | Visual strategies, younger/conceptual lane |
+
+#### Needs Personal Investigation *(flagged Session S)*
+
+The following tools surfaced in the Session S competitive survey and need to be used firsthand before their chart entries can be completed. Do not use in positioning until verified.
+
+| Tool | URL | Why it matters | What to check |
+|---|---|---|---|
+| **Smart Math Flashcards** | App Store | Repeats wrong facts — closest app-store tool to mastery-gating | Does it stop and remediate, or just re-show? Account required? |
+| **Time4MathFacts** | time4mathfacts.com | Adaptive, tracks mastery, engaging format | Wrong answer handling? Account? Timer? |
+| **Factivation!** | factivation.com | New 2025-26, teacher-coached model | What IS this exactly? Wrong answer? Data? |
+| **DeltaMath for Home** | modulo.app review | New family-facing subscription, immediate feedback | Is there any remediation, or just correction? |
+| **MobyMax Fact Fluency** | mobymax.com | School tool with fact fluency module | Wrong answer handling? ND accommodation? |
+| **Imagine Math Facts** *(mourning threads)* | Reddit search | Parents who lost access — what are they using now? | Search "Imagine Math Facts alternative" or "BigBrainz" in r/homeschool |
+
+*How to investigate: use each tool as a student would for 10–15 minutes. Answer wrong intentionally on several facts. Note exactly what happens. Record timer behavior, wrong-answer response, whether an account was required to start, and what the data looks like afterward. Write observations immediately after.*
+
+*Math Flash column reflects current build + planned features. Verify planned items against current game before using for positioning.*
 
 ---
 
@@ -606,12 +643,23 @@ Sources: [Imagine Math Facts — Imagine Learning](https://www.imaginelearning.c
 - [x] Find forum/review sources on timed math tools and learning differences. **Done Session N** — see forum index above. r/specialeducation and r/ADHD_parents Reddit scraping was blocked; substituted LD Online, Change.org, SmartCustomer reviews.
 - [ ] **Manual copy — Well-Trained Mind forums.** Two threads were found but blocked (403) during Session N fetch attempts. These are high-value: homeschool parents discussing Reflex Math and XtraMath directly. Developer to open in browser and paste content for saving. URLs: https://forums.welltrainedmind.com/topic/623033-reflex-math/ and https://forums.welltrainedmind.com/topic/508525-xtra-math-question/ — save as `forum_WellTrainedMind_reflexmath.md` and `forum_WellTrainedMind_xtramath.md` using the same format as existing forum files.
 - [ ] **Manual copy — any other worthy sources** found during browsing. Same process: paste content, save as `forum_[Source]_[topic].md`, add to the index table above.
-- [ ] Actually use XtraMath and Math Facts Pro personally. Not to review them — to understand exactly what they do and don't do. You can't claim a gap you haven't personally verified. **Note: while doing this, specifically observe whether XtraMath's timer actually shrinks as you practice (student reviewer Penny M., ADHD, reported: "you only get 3 SECONDS TO ANSWER! Then its 2.6 then its 1.5!"). Verify this mechanic firsthand before using it in positioning copy.**
+- [ ] Actually use XtraMath and Math Facts Pro personally. Not to review them — to understand exactly what they do and don't do. You can't claim a gap you haven't personally verified. **Note: Session S research found the Penny M. "3s→2.6s→1.5s" shrinking timer claim is unverifiable — the timer is static and teacher-set in current XtraMath. Still worth using firsthand to observe the Race the Teacher mechanic, the anxiety experience, and overall feel. Do not use the shrinking timer claim.**
+
+### Personal Investigation — New Tools *(flagged Session S)*
+
+The following tools were surfaced in the Session S competitive survey. Each needs to be used firsthand before chart entries can be completed. Use each as a student for 10–15 minutes. Answer wrong intentionally on several facts. Write observations immediately after.
+
+- [ ] **Smart Math Flashcards** (App Store) — repeats wrong facts; check: does it stop and remediate or just re-show? Account required?
+- [ ] **Time4MathFacts** (time4mathfacts.com) — adaptive, tracks mastery; check: wrong answer handling, account requirement, timer model
+- [ ] **Factivation!** (factivation.com) — new 2025-26, teacher-coached; check: what is this exactly, wrong answer, data model
+- [ ] **DeltaMath for Home** (family subscription) — immediate feedback; check: any in-moment remediation or just correction?
+- [ ] **MobyMax Fact Fluency** (mobymax.com) — school tool; check: wrong answer, ND accommodation, data model
+- [ ] **Reddit: "Imagine Math Facts alternative"** — search r/homeschool for parents who lost access and what they tried next
 
 ### To Prove or Disprove Redundancy
 
 - [ ] Search for any thread where someone says "I found something that does mastery-gating, no account, no ads, free" and it's a current live product. If that thread exists and the product still works, that's your answer.
-- [ ] Search app stores for "math facts mastery" — the Reddit threads are consumer sentiment, not exhaustive market surveys. The product could exist in the App Store and just not be discussed on Reddit yet.
+- [x] Search app stores for "math facts mastery" — **done Session S.** No tool found with in-moment remediation. Gap confirmed at this pass. Personal investigation list above covers remaining unknowns.
 
 ---
 

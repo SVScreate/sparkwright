@@ -437,6 +437,7 @@ This is a running log of positioning phrases that emerged in the developer's own
 - **"Teaching tools that care more about you seeing progress than proving a metric or selling to districts."** *(Session Q)* — The full argument compressed. A little long; the soul of it is right.
 - **"Tools for teachers, not schools."** *(Session Q)* — Clean binary that positions the market correctly.
 - **"Painstakingly handmade."** *(Session Q)* — Already in the tagline as "handcrafted." Appears naturally in the developer's writing. Trust this word.
+- **"No account. Your data. In-the-moment remediation."** *(Session S)* — The three-part formula that no competitor has. Not a tagline yet — a recipe. The combination of no-account + localStorage data model + in-moment remediation is the secret sauce. No existing fact fluency tool has all three. Use when naming the gap Math Flash fills.
 
 *Do not use these in copy yet — they are raw material. When drafting the marketing copy sentence, draw from this bank.*
 
