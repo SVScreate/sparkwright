@@ -1,6 +1,6 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: March 26, 2026 — Session P (gold flash, bug fixes, house fix, v59)*
-*Current Math Flash version: v59 — `2026-03-26_1200_Math_Flash_v59_gold-flash-bug8-bug2-house.html`*
+*Last updated: March 28, 2026 — Session R (scroll fix, house spacing, placeholder, maxlength, v60)*
+*Current Math Flash version: v60 — `2026-03-28_1530_Math_Flash_v60_scroll-house-placeholder-maxlength.html`*
 *Current Sparkwright landing page: `sparkwright/index.html` (updated session F)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
@@ -473,6 +473,27 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 ---
 
 ## WHERE TO PICK UP
+
+*Session R ended March 28, 2026 — scroll fix, house spacing, placeholder, maxlength, v60.*
+
+**Session R covered:**
+
+- **T1 (Bug 8)** — Typing jank in Per-Question Timer mode: developer reports "seems fine right now." Monitor.
+- **T2 (Bug 2)** — Addition-only start confirmed working. Leading zero input bug discovered and fixed (see below).
+- **T3 / Item 127 ✅** — Fact Family Chase house spacing finalized. House bottom at y=480, SVG 510px, pathLen=1354. Matches horizontal side margins.
+- **Placeholder opacity ✅** — `.num-input::placeholder` set to `rgba(240,240,255,0.25)` — clearly faded standby text.
+- **Practice Quest scroll fix ✅** — Three-part fix: (1) `min-height:0` on `.remed-body` so flex properly constrains it; (2) `flex-shrink:0` on `.remed-card` so it holds full height instead of silently clipping; (3) `::before/::after` flex spacers center short content and collapse when tall content needs scroll. Scrollbar appears only when window is too small to fit content.
+- **Leading zeros fix ✅** — `inp.maxLength` set dynamically to `String(q.a).length` in `showQuestion()`. Prevents "011" being accepted when answer is "11". Field width now always matches answer digit count.
+
+**No testing needed next session** — all items from Session R confirmed by developer.
+
+**Immediate next priorities:**
+1. Check Agent_Handoff — Spark has design work from Session Q journaling (3-month signals, 5-year vision, positioning phrase bank). Design discussions likely ready to hand off.
+2. Design discussion with Spark: print output (items 33 + 124)
+3. Design discussion with Spark: Challenge Facts + student stats page (items 88/89/110)
+4. Build follows design discussions
+
+*Session Q ended March 28, 2026 — Spark only (journaling). No code changes.*
 
 *Session P ended March 26, 2026 — gold flash, Bug 8, Bug 2, Item 127, v59.*
 
