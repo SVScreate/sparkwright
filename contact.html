@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Sparkwright</title>
+<meta name="description" content="Get in touch with Sparkwright.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0c0c18;
+    --surface:   #13132a;
+    --surface2:  #1c1c38;
+    --border:    rgba(120, 100, 200, 0.18);
+    --border-hi: rgba(160, 130, 255, 0.35);
+    --a4: #4d96ff;
+    --a5: #c77dff;
+    --a6: #ff9f43;
+    --a7: #3dd6c8;
+    --text:      #e8e4f0;
+    --text-muted:#9a93b5;
+    --text-dim:  #5a5375;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(77, 150, 255, 0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(199, 125, 255, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 55% 45%, rgba(61, 214, 200, 0.04) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(120, 100, 200, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(120, 100, 200, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: relative;
+    z-index: 10;
+    padding: 28px 0 0;
+  }
+
+  nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .wordmark {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .wordmark-spark {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .wordmark-spark svg { width: 100%; height: 100%; }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── Page header ── */
+  .page-header {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+  }
+
+  .page-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+
+  .page-title {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .page-sub {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  /* ── Contact form ── */
+  .contact-wrap {
+    max-width: 560px;
+    padding-bottom: 100px;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-field label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .form-field input,
+  .form-field textarea {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+
+  .form-field input::placeholder,
+  .form-field textarea::placeholder {
+    color: var(--text-dim);
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus {
+    border-color: var(--border-hi);
+    box-shadow: 0 0 0 3px rgba(160, 130, 255, 0.1);
+  }
+
+  .form-field textarea {
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.6;
+  }
+
+  .btn-submit {
+    align-self: flex-start;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    background: linear-gradient(135deg, rgba(77,150,255,0.15), rgba(199,125,255,0.15));
+    border: 1px solid rgba(199,125,255,0.35);
+    border-radius: 999px;
+    padding: 12px 28px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-submit:hover {
+    background: linear-gradient(135deg, rgba(77,150,255,0.25), rgba(199,125,255,0.25));
+    transform: translateY(-1px);
+    box-shadow: 0 8px 28px rgba(100,80,200,0.2);
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 0;
+  }
+
+  footer .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-wordmark {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-dim);
+  }
+
+  .footer-sep { color: var(--text-dim); opacity: 0.4; }
+  .footer-copy { font-size: 13px; color: var(--text-dim); }
+
+  .footer-center {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer-link {
+    font-size: 13px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-link:hover {
+    color: var(--text-muted);
+    text-decoration: underline;
+  }
+
+  .footer-right { font-size: 13px; color: var(--text-dim); }
+
+  @media (max-width: 640px) {
+    .footer-center { display: none; }
+    .nav-links { gap: 20px; }
+    .btn-submit { align-self: stretch; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="wordmark">
+      <span class="wordmark-spark">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="14,2 17,11 26,11 19,17 22,26 14,20 6,26 9,17 2,11 11,11" fill="none" stroke="url(#sparkGrad)" stroke-width="1.8" stroke-linejoin="round"/>
+          <circle cx="14" cy="14" r="3" fill="url(#sparkGrad)" opacity="0.6"/>
+          <defs>
+            <linearGradient id="sparkGrad" x1="2" y1="2" x2="26" y2="26">
+              <stop offset="0%" stop-color="#4d96ff"/>
+              <stop offset="50%" stop-color="#c77dff"/>
+              <stop offset="100%" stop-color="#ff9f43"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      Sparkwright
+    </a>
+    <ul class="nav-links">
+      <li><a href="/#games">Games</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/contact.html" class="active">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="wrap">
+    <p class="page-label">Get in touch</p>
+    <h1 class="page-title">Contact</h1>
+    <p class="page-sub">Questions, feedback, or just want to say hi — use the form below.</p>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+    <div class="contact-wrap">
+      <form name="contact" method="POST" data-netlify="true" class="contact-form">
+        <div class="form-field">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" name="name" placeholder="First name is fine" required>
+        </div>
+        <div class="form-field">
+          <label for="email">Your Email</label>
+          <input type="email" id="email" name="email" placeholder="So I can write back" required>
+        </div>
+        <div class="form-field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="What's on your mind?" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">
+          Send
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2.5l4.5 4.5-4.5 4.5M2.5 7h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-left">
+      <span class="footer-wordmark">Sparkwright</span>
+      <span class="footer-sep">·</span>
+      <span class="footer-copy">© 2026</span>
+    </div>
+    <div class="footer-center">
+      <a href="/privacy.html" class="footer-link">Privacy Policy</a>
+      <span class="footer-sep">·</span>
+      <a href="/terms.html" class="footer-link">Terms of Use</a>
+      <span class="footer-sep">·</span>
+      <a href="/contact.html" class="footer-link">Contact</a>
+    </div>
+    <div class="footer-right">An independent learning project.</div>
+  </div>
+</footer>
+
+</body>
+</html>

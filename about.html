@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Sparkwright</title>
+<meta name="description" content="Sparkwright is an independent collection of educational tools built by a teacher with a Master's in Educational Therapy and 15+ years in the classroom.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0c0c18;
+    --surface:   #13132a;
+    --surface2:  #1c1c38;
+    --border:    rgba(120, 100, 200, 0.18);
+    --border-hi: rgba(160, 130, 255, 0.35);
+    --a4: #4d96ff;
+    --a5: #c77dff;
+    --a6: #ff9f43;
+    --a7: #3dd6c8;
+    --text:      #e8e4f0;
+    --text-muted:#9a93b5;
+    --text-dim:  #5a5375;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(77, 150, 255, 0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(199, 125, 255, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 55% 45%, rgba(61, 214, 200, 0.04) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(120, 100, 200, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(120, 100, 200, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: relative;
+    z-index: 10;
+    padding: 28px 0 0;
+  }
+
+  nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .wordmark {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .wordmark-spark {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .wordmark-spark svg { width: 100%; height: 100%; }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a.active { color: var(--text); }
+
+  /* ── Page header ── */
+  .page-header {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+  }
+
+  .page-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+
+  .page-title {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: var(--text);
+  }
+
+  /* ── Prose ── */
+  .prose {
+    max-width: 700px;
+    padding-bottom: 100px;
+  }
+
+  .prose-opening {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: clamp(20px, 2.5vw, 26px);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.45;
+    margin-bottom: 12px;
+  }
+
+  .prose-opening-sub {
+    font-size: 16px;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 56px;
+  }
+
+  .prose-section {
+    margin-bottom: 48px;
+  }
+
+  .prose-section h2 {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.3px;
+    margin-bottom: 16px;
+  }
+
+  .prose-section p {
+    font-size: 16px;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+
+  .prose-section p:last-child { margin-bottom: 0; }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 0;
+  }
+
+  footer .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-wordmark {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-dim);
+  }
+
+  .footer-sep { color: var(--text-dim); opacity: 0.4; }
+
+  .footer-copy { font-size: 13px; color: var(--text-dim); }
+
+  .footer-center {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer-link {
+    font-size: 13px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-link:hover {
+    color: var(--text-muted);
+    text-decoration: underline;
+  }
+
+  .footer-right { font-size: 13px; color: var(--text-dim); }
+
+  @media (max-width: 640px) {
+    .footer-center { display: none; }
+    .nav-links { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="wordmark">
+      <span class="wordmark-spark">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="14,2 17,11 26,11 19,17 22,26 14,20 6,26 9,17 2,11 11,11" fill="none" stroke="url(#sparkGrad)" stroke-width="1.8" stroke-linejoin="round"/>
+          <circle cx="14" cy="14" r="3" fill="url(#sparkGrad)" opacity="0.6"/>
+          <defs>
+            <linearGradient id="sparkGrad" x1="2" y1="2" x2="26" y2="26">
+              <stop offset="0%" stop-color="#4d96ff"/>
+              <stop offset="50%" stop-color="#c77dff"/>
+              <stop offset="100%" stop-color="#ff9f43"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      Sparkwright
+    </a>
+    <ul class="nav-links">
+      <li><a href="/#games">Games</a></li>
+      <li><a href="/about.html" class="active">About</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="wrap">
+    <p class="page-label">About Sparkwright</p>
+    <h1 class="page-title">Built by a teacher,<br>for real students.</h1>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+    <div class="prose">
+
+      <p class="prose-opening">I couldn't find what I needed, so I built it.</p>
+      <p class="prose-opening-sub">That's the honest version. The longer version takes a minute.</p>
+
+      <div class="prose-section">
+        <h2>Who Built This</h2>
+        <p>I'm a teacher. Master's in Educational Therapy, 15+ years working with students across public schools, private schools, and homeschool settings — many of them struggling, most of them capable, all of them deserving better than what the mainstream tools were offering.</p>
+        <p>I'm not a software company. I'm not venture-backed. I built these tools because I kept running into the same gap: there was nothing that handled the moment a student got an answer wrong the way that moment deserved to be handled.</p>
+      </div>
+
+      <div class="prose-section">
+        <h2>Why These Tools Exist</h2>
+        <p>Most math practice software does the same thing when a student misses an answer: it shows the correct answer, logs the miss, and moves on. The algorithm will show that fact again sometime. Maybe today, maybe in three days.</p>
+        <p>That's not remediation. That's deferral.</p>
+        <p>I wanted a tool that stopped at the moment of failure and actually did something about it — right then, before the student moved on. That tracked which facts a student had genuinely internalized versus which ones they were reconstructing on the fly each time. That let the teacher stay in control of what was practiced, at what pace, with what accommodations.</p>
+        <p>I also didn't want to hand over a child's practice data to a server somewhere so it could surface in a monthly report the teacher reads six weeks later.</p>
+        <p>I looked for that tool for a long time. I couldn't find it. So I built it.</p>
+      </div>
+
+      <div class="prose-section">
+        <h2>A Tool, Not a Program</h2>
+        <p>There's a real difference between the two. A program has its own agenda: it decides what the student does next, in what order, at what pace. The teacher manages the program. The student complies.</p>
+        <p>A tool does what you tell it. The teacher decides what to practice. The student and teacher stay in the driver's seat. The tool tracks what happens and gives you something useful at the end.</p>
+        <p>Every design decision in Sparkwright tools comes back to that distinction. The settings exist because you know your student better than any algorithm does. The data is readable because you should be able to understand it without a dashboard. The accommodations are there because one size hasn't fit all the students I've worked with, and it won't fit yours either.</p>
+      </div>
+
+      <div class="prose-section">
+        <h2>Your Data Stays With You</h2>
+        <p>Sparkwright tools store data in your browser's local storage. No account required to play. No server, no subscription keeping your history hostage, no data harvested or analyzed by a third party.</p>
+        <p>If you stop using a Sparkwright tool, your session history stays in your browser until you clear it — and eventually, there will be an export option so you can keep it on your own terms.</p>
+        <p>This is a choice, not a limitation. The value isn't "we hold your data and show you charts." It's a better learning experience, and the data is yours.</p>
+      </div>
+
+      <div class="prose-section">
+        <h2>On the Research</h2>
+        <p>The design decisions here aren't guesses.</p>
+        <p>The 3-second fluency threshold comes from research on what distinguishes automatic retrieval from effortful calculation — a fact answered in under 3 seconds is almost certainly pulled from memory, not reconstructed. The in-moment remediation approach is grounded in work on error correction: for most learners, structured feedback at the moment of failure produces better retention than errorless practice. The accommodation options reflect what's known about processing speed differences in students with ADHD, dyslexia, and dyscalculia.</p>
+        <p>The citations are in the documentation — not paraphrased from a white paper, but read and verified. Where the research is unclear or a claim can't be sourced, it's marked that way. I'd rather leave an honest gap than fill it with a confident-sounding guess.</p>
+        <p>None of this means Sparkwright tools have been clinically validated. They haven't. What it means is that the principles they're built on are real, cited honestly, and applied with the same care I'd want from a tool being used with my own students.</p>
+      </div>
+
+      <div class="prose-section">
+        <h2>Who This Is For</h2>
+        <p>Homeschool families working one-on-one with their kids. Independent tutors and educational therapists who need session-level data they can actually hand to parents. Small classroom teachers who want something that works without an IT ticket.</p>
+        <p>Specifically: people who've tried the mainstream platforms and found them cold, or overwhelming, or just not built for the moment when a student actually needs help.</p>
+        <p>If you've ever watched a child get anxious at a ticking timer, or wondered what a monthly report was actually telling you, or wished you could just skip the operation your student already knows and go straight to what they're working on — this is built for you.</p>
+      </div>
+
+      <div class="prose-section">
+        <h2>A Last Note</h2>
+        <p>Sparkwright is one person building tools she believes in. There's no team, no roadmap deck, no growth metrics. There's a teacher who spent years in the room with students and finally has the means to build what she always wanted to use.</p>
+        <p>The work is careful. The standards are high. The goal is simple: a student who walks away knowing something they didn't know when they sat down.</p>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-left">
+      <span class="footer-wordmark">Sparkwright</span>
+      <span class="footer-sep">·</span>
+      <span class="footer-copy">© 2026</span>
+    </div>
+    <div class="footer-center">
+      <a href="/privacy.html" class="footer-link">Privacy Policy</a>
+      <span class="footer-sep">·</span>
+      <a href="/terms.html" class="footer-link">Terms of Use</a>
+      <span class="footer-sep">·</span>
+      <a href="/contact.html" class="footer-link">Contact</a>
+    </div>
+    <div class="footer-right">An independent learning project.</div>
+  </div>
+</footer>
+
+</body>
+</html>

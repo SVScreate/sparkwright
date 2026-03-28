@@ -115,6 +115,25 @@ body {
 .screen { display: none; }
 .screen.active { display: flex; flex-direction: column; flex: 1; min-height: 0; }
 
+/* ── Game footer ── */
+.game-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 10px 24px;
+  border-top: 1px solid rgba(120, 100, 200, 0.12);
+  flex-shrink: 0;
+}
+.game-footer a {
+  font-size: 12px;
+  color: var(--dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.game-footer a:hover { color: var(--muted); text-decoration: underline; }
+.game-footer-sep { font-size: 12px; color: var(--dim); opacity: 0.4; }
+
 /* ── TITLE SCREEN ── */
 #title-screen {
   align-items: center;
@@ -4156,5 +4175,15 @@ function endGame() {
 
 // ── end ──
 </script>
+
+<div class="game-footer">
+  <a href="/">Sparkwright</a>
+  <span class="game-footer-sep">·</span>
+  <a href="/privacy.html">Privacy Policy</a>
+  <span class="game-footer-sep">·</span>
+  <a href="/terms.html">Terms of Use</a>
+  <span class="game-footer-sep">·</span>
+  <a href="/contact.html">Contact</a>
+</div>
 </body>
 </html>

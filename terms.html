@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Use — Sparkwright</title>
+<meta name="description" content="Terms of Use for sparkwright.org and all Sparkwright tools and games.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0c0c18;
+    --surface:   #13132a;
+    --surface2:  #1c1c38;
+    --border:    rgba(120, 100, 200, 0.18);
+    --border-hi: rgba(160, 130, 255, 0.35);
+    --a4: #4d96ff;
+    --a5: #c77dff;
+    --a6: #ff9f43;
+    --a7: #3dd6c8;
+    --text:      #e8e4f0;
+    --text-muted:#9a93b5;
+    --text-dim:  #5a5375;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(77, 150, 255, 0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(199, 125, 255, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 55% 45%, rgba(61, 214, 200, 0.04) 0%, transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(120, 100, 200, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(120, 100, 200, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: relative;
+    z-index: 10;
+    padding: 28px 0 0;
+  }
+
+  nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .wordmark {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .wordmark-spark {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .wordmark-spark svg { width: 100%; height: 100%; }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── Page header ── */
+  .page-header {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+  }
+
+  .page-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+
+  .page-title {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .page-meta {
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  /* ── Legal prose ── */
+  .legal-wrap {
+    max-width: 720px;
+    padding-bottom: 100px;
+  }
+
+  .legal-intro {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 24px;
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin-bottom: 48px;
+    font-style: italic;
+  }
+
+  .legal-section {
+    margin-bottom: 40px;
+  }
+
+  .legal-section h2 {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.2px;
+    margin-bottom: 12px;
+  }
+
+  .legal-section p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 12px;
+  }
+
+  .legal-section p:last-child { margin-bottom: 0; }
+
+  .legal-section ul {
+    margin: 10px 0 12px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .legal-section li {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 36px 0;
+  }
+
+  footer .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .footer-wordmark {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-dim);
+  }
+
+  .footer-sep { color: var(--text-dim); opacity: 0.4; }
+  .footer-copy { font-size: 13px; color: var(--text-dim); }
+
+  .footer-center {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer-link {
+    font-size: 13px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-link:hover {
+    color: var(--text-muted);
+    text-decoration: underline;
+  }
+
+  .footer-right { font-size: 13px; color: var(--text-dim); }
+
+  @media (max-width: 640px) {
+    .footer-center { display: none; }
+    .nav-links { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="wordmark">
+      <span class="wordmark-spark">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="14,2 17,11 26,11 19,17 22,26 14,20 6,26 9,17 2,11 11,11" fill="none" stroke="url(#sparkGrad)" stroke-width="1.8" stroke-linejoin="round"/>
+          <circle cx="14" cy="14" r="3" fill="url(#sparkGrad)" opacity="0.6"/>
+          <defs>
+            <linearGradient id="sparkGrad" x1="2" y1="2" x2="26" y2="26">
+              <stop offset="0%" stop-color="#4d96ff"/>
+              <stop offset="50%" stop-color="#c77dff"/>
+              <stop offset="100%" stop-color="#ff9f43"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      Sparkwright
+    </a>
+    <ul class="nav-links">
+      <li><a href="/#games">Games</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="wrap">
+    <p class="page-label">Legal</p>
+    <h1 class="page-title">Terms of Use</h1>
+    <p class="page-meta">Effective: [DATE] &nbsp;·&nbsp; sparkwright.org</p>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+    <div class="legal-wrap">
+
+      <p class="legal-intro">The short version: Sparkwright tools are built for learning. Use them for that. Don't copy them, resell them, or claim them as your own. We're not responsible if something goes wrong technically. That's it, mostly.</p>
+
+      <div class="legal-section">
+        <h2>1. What Sparkwright Is</h2>
+        <p>Sparkwright (sparkwright.org) is an independent collection of educational tools and games designed for use in home, tutoring, and small classroom settings. These tools are built to support learning — they are not clinical services, therapeutic interventions, or substitutes for professional evaluation or instruction.</p>
+        <p>The tools are built by a teacher with a background in educational therapy. That background informs the design. It does not make Sparkwright a licensed clinical practice, and nothing on this site should be interpreted as a medical or therapeutic recommendation.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2>2. Accepting These Terms</h2>
+        <p>By using sparkwright.org or any Sparkwright tool, you agree to these Terms of Use. If you're using a Sparkwright tool with a child, you're responsible for ensuring that use is appropriate for that child's needs.</p>
+        <p>These terms may change. If they change in a meaningful way, we'll update the date at the top of this page. Continued use of the site after a change means you accept the updated terms.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2>3. Who Can Use Sparkwright</h2>
+        <p>Sparkwright tools are designed for use by adults (parents, teachers, tutors, educational therapists) with or on behalf of students. Students may use the tools directly, but account for this is the responsibility of the supervising adult.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2>4. What You Can Do</h2>
+        <ul>
+          <li>Use Sparkwright tools for personal, educational, and small-group instructional purposes</li>
+          <li>Print session results for educational records or share them with other educators working with the same student</li>
+          <li>Share links to Sparkwright tools with other educators and families</li>
+        </ul>
+      </div>
+
+      <div class="legal-section">
+        <h2>5. What You Cannot Do</h2>
+        <ul>
+          <li>Copy, reproduce, or distribute any Sparkwright tool, game, page, or underlying code without written permission</li>
+          <li>Claim any Sparkwright content — including the tools, games, design, educational methods, or written materials — as your own work</li>
+          <li>Use any Sparkwright tool for commercial purposes without a license (e.g., reselling access, including them in a paid product or curriculum package)</li>
+          <li>Attempt to reverse-engineer, scrape, or systematically extract content from Sparkwright tools</li>
+          <li>Use Sparkwright tools in any way that violates applicable law</li>
+        </ul>
+      </div>
+
+      <div class="legal-section">
+        <h2>6. Intellectual Property</h2>
+        <p>All content on sparkwright.org — including the tools, games, design, copy, educational methodology, and visual elements — is the property of Sparkwright. All rights reserved.</p>
+        <p>The educational methods and pedagogical design reflected in Sparkwright tools (including the Practice Quest remediation approach and the two-level fluency model in Math Flash) represent original work by the developer. While the underlying research is cited and credited, the application, design, and implementation are Sparkwright's own.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2>7. Your Data</h2>
+        <p>Sparkwright tools store session data in your browser's local storage. See the Privacy Policy for details. Short version: your data stays on your device. We don't collect it, store it on a server, or share it with anyone.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2>8. No Warranties</h2>
+        <p>Sparkwright tools are provided as-is. We make no guarantees about uptime, error-free operation, or specific educational outcomes. Learning is complex and no tool produces identical results for every student.</p>
+        <p>We believe these tools are well-designed and grounded in solid research. That's a different thing from a warranty.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2>9. Limitation of Liability</h2>
+        <p>To the extent permitted by law, Sparkwright is not liable for any indirect, incidental, or consequential damages arising from your use of these tools — including data loss, educational outcomes, or technical failures.</p>
+        <p>Your data is stored in your browser. If you clear your browser data, that history is gone. That's the tradeoff of local storage. Back up what you need to keep.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2>10. Governing Law</h2>
+        <p>These terms are governed by the laws of the State of Colorado, United States.</p>
+      </div>
+
+      <div class="legal-section">
+        <h2>11. Contact</h2>
+        <p>Questions about these terms: Use the <a href="/contact.html" style="color: var(--text-muted); text-decoration: underline;">contact form</a> or email <a href="mailto:contact@sparkwright.org" style="color: var(--text-muted); text-decoration: underline;">contact@sparkwright.org</a>.</p>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-left">
+      <span class="footer-wordmark">Sparkwright</span>
+      <span class="footer-sep">·</span>
+      <span class="footer-copy">© 2026</span>
+    </div>
+    <div class="footer-center">
+      <a href="/privacy.html" class="footer-link">Privacy Policy</a>
+      <span class="footer-sep">·</span>
+      <a href="/terms.html" class="footer-link">Terms of Use</a>
+      <span class="footer-sep">·</span>
+      <a href="/contact.html" class="footer-link">Contact</a>
+    </div>
+    <div class="footer-right">An independent learning project.</div>
+  </div>
+</footer>
+
+</body>
+</html>
