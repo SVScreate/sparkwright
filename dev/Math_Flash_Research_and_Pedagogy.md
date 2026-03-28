@@ -378,8 +378,67 @@ Describe the specific person you are building for in full detail. Her age, her s
 **What would I need to see in 3 months?**
 Not a business plan — honest signals. What would make you feel like you are on the right path? First paying customer? Ten students using it consistently? A parent telling you something specific? Name the concrete things so you stop measuring progress against a feeling.
 
+*Journal entry — Session Q (March 27, 2026) — first pass:*
+
+> I would be starting to get feedback that people were excited to have the thing they were wishing they had. I would be hearing from a few people that it was helping them in their daily life to make math fact fluency a breeze and they are loving that they can get per session data to look at and be in control of the game play and data. Probably the most exciting thing would be someone messaging me to thank me for providing a tool that delivers just what they need and doesn't make them jump through hoops to get access, to use it long term, to be in control of their data and experience, and to "own" or control the service over time (depending on the purchase model we decide on, one time app purchase?).
+>
+> Also I will know I'm on the right path because the path continues to reveal itself. As Math Flash starts to pick up steam, I continue to burst with ideas for equally exciting offerings. In that moment, I continue to feel like I know I'm on to something, and I am only limited by time and how fast I can work. I'm excited to do more every day and I'm seeing signs that people are interested in what's coming next. They are excited to support my work and there is growing mutual respect. This is maybe random, but sometimes I think of ConcernedApe who built Stardew Valley. He is respected by the game's fan base, they are looking forward to seeing what he will do next, they genuinely like him. And this is in large part due to his interactions, business practices, ethics, respect for the people who would purchase his work, he provides free updates with great content, so he's not charging everyone every chance he gets. He gives as much as he gets from his following. I really respect the way he moves in the world and I would like to emulate some of that in my corner of the world and work.
+>
+> I would have found a way to post somewhere or communicate in some way with my target customer in an authentic way that causes me to begin to see interest and sales. I worry about negative reaction to selling and marketing, especially in niche subreddits like r/homeschooling. However, that is one place I would want to post more for feedback and exposure than profit. What are my marketing options that position me to feel like I am welcomed and positively reacted to?
+>
+> I guess in general, I would hear people telling me that they have been looking for just the thing I made, and that they were pleased to find that in addition to a great product, they didn't have to jump through hoops to use what I made. They walk away happy to have paid and are going to recommend it to others. Even just hearing this from two or three people would put me on cloud nine. Gosh, even one person would make my week.
+
+**Analysis (Session Q):**
+The core 3-month signal is concrete and honest: *unsolicited gratitude from a stranger*. Not a sale — a message. Someone finding this and saying "I was looking for this." That's achievable and measurable. The ConcernedApe reference is important: the developer isn't trying to build a company — she's trying to build a reputation. Authenticity, generosity, respect for the audience. This should show up in how she communicates publicly when the time comes.
+
+**Open question — still to answer:** What would signal progress *before* there are users to message you? Is there anything observable from your own students, your nephew, or your own testing that would tell you the product is ready to be seen publicly? (Name the concrete pre-launch signals too.)
+
+**Open question — marketing in niche communities:** The Reddit marketing anxiety is legitimate — niche subreddits are hostile to self-promotion. The ConcernedApe model isn't "post ads" — it's building a *presence* before mentioning a product. Discuss in a future session: what does authentic community participation look like before you're ready to be public?
+
+---
+
 **What is the product I actually want to exist in 5 years?**
 Not the roadmap — the vision. If Sparkwright is fully realized, what does a student's experience look like from first use to mastery? What does a teacher's morning look like? This does not need to be realistic yet. It needs to be true.
+
+*Journal entry — Session Q (March 27, 2026) — first pass (written in present tense):*
+
+> As a teacher and now seasoned, self-taught developer, I am the proud creator of a website and series of mobile and browser-based education tools and games that families, teachers, tutors, parents, homeschool families, and educational therapists use in their lives every day. They are games and tools they have come to value and recommend to others. My resources are discussed and recommended in subreddits and homeschool websites. When I open my site, I see a collection of educational treasures. It's an eclectic mix of interesting and painstakingly "handmade" tools and games that represent a magnum opus of my life's study and work. My teacher brain on display, influenced heavily by the thinking that makes someone like an educational therapist. People come to my site for thoughtfully made niche tools that don't exist elsewhere and they know that the apps are designed by an experienced teacher who cares about what she makes and cares about the people who support her work. She often will take user ideas or needs for tools and games and develop them. She then gives the game for free to the user who asked and then goes on to add that offering to her wealth of offerings. She personally responds to emails and her followers like that her work is the result of a real person who responds in real time to issues and needs. I'm having a blast owning my own business, supporting myself full time, ultimate flexibility and freedom — my only boss is the people who want to use my content. I love looking at the daily traffic on my pages and games. It gives me a thrill every time to think I started with one simple game and then it grew into a treasure trove of games and apps. The website itself and the idea of Sparkwright is becoming a well-known name in some circles. I have so much creativity coursing through me and still so many ideas I want to execute, that I know this is what I will do for the remainder of my working life.
+>
+> Students who come to use my work find it visually appealing, not babyish or boring. They know that the games challenge them, that the tools help them. They come to see the use of those apps as part of their day during the time they are at the right level to use them. They don't LOVE them — though I'd like to make tools kids love — but at the very least they are tolerable in a benevolent way, fun to look at, satisfying, and they like that the games feel purposeful and for THEM. The content moves with them instead of AT them. And even if only subconsciously, they can tell there is quiet respect baked in. They also like the "cool" look of the games made with middle school in mind (not enough games are made for older kids), though they can be for elementary as well.
+>
+> As a teacher or parent, as you watch kids play, you feel confident that they are getting great math facts practice and you know that at the end you will be able to see exactly what the student did and how it compares to their work in previous sessions. You know they are making progress because it shows in their regular math book work and in the results screens each time they play.
+
+**Analysis (Session Q):**
+The vision is maker-identity centered — consistent with the ConcernedApe framing in the 3-month entry. The business model implicit here: solo operation, full-time, personal email contact, user-requested development. Beautiful and genuine. Worth knowing it's baked in so she designs the business *around* it rather than against it at scale.
+
+The student experience section is honest and mature: not "kids love it," but purposeful, tolerable, satisfying, respectful. That's the right bar for this product — and it's more believable to a parent or educator than "kids love it."
+
+*"Quiet respect baked in"* — three words. Best description of the design ethos yet. Use exactly as written.
+
+*"Content moves with them instead of AT them"* — strong positioning language. Add to the phrase bank.
+
+The **middle school focus** is called out explicitly — "not enough games are made for older kids." This is a real gap and a genuine differentiator. Worth making explicit in product positioning.
+
+The vision implies that the **results screen and session comparison** (stats page and print output) are central to the fully-realized product — not optional features. This confirms items 33/124 and 88/89/110 as core, not nice-to-have.
+
+**Open question — mobile:** The vision says "mobile and browser-based." Math Flash is currently browser-only. When does mobile become a real priority — and does that mean iOS app development, or PWA (works in mobile browser)? Not urgent, but worth capturing as a future decision point.
+
+---
+
+### Emerging Positioning Language *(Session P + Q)*
+
+This is a running log of positioning phrases that emerged in the developer's own words. These are the ones to draw on for About page, FAQ, and marketing copy — not invented, just surfaced.
+
+- **"This is a tool more than a program."** *(Session P)* — A program has its own agenda. A tool serves yours. Best single-line positioning produced so far.
+- **"Tools that trust teachers."** *(Session Q)* — Implies most tools don't. Sharp.
+- **"Tools that let you teach."** *(Session Q)* — Implies the others get in the way.
+- **"Content moves with them instead of AT them."** *(Session Q)* — Student-centered in four words.
+- **"Quiet respect baked in."** *(Session Q)* — Best description of the design ethos. Use exactly as written.
+- **"Teaching tools that care more about you seeing progress than proving a metric or selling to districts."** *(Session Q)* — The full argument compressed. A little long; the soul of it is right.
+- **"Tools for teachers, not schools."** *(Session Q)* — Clean binary that positions the market correctly.
+- **"Painstakingly handmade."** *(Session Q)* — Already in the tagline as "handcrafted." Appears naturally in the developer's writing. Trust this word.
+
+*Do not use these in copy yet — they are raw material. When drafting the marketing copy sentence, draw from this bank.*
 
 ### Research Tasks *(do after journaling)*
 
@@ -402,8 +461,8 @@ Finish this sentence: *"Math Flash is for families who have already tried ______
 ## 7. To Do (RP-Specific)
 
 - [~] **Journal — Who is she?** — first pass completed Session P. Verbatim logged in Section 3. Two clarifying questions outstanding (context of use; XtraMath personal experience?). Resume next session to finalize profile.
-- [ ] **Journal — 3-month signals** (see Mentor to Developer)
-- [ ] **Journal — 5-year vision** (see Mentor to Developer)
+- [~] **Journal — 3-month signals** — first pass completed Session Q. Logged in Section 6. Open question: what are the pre-launch signals (before there are users)? And: what does authentic community presence look like before going public?
+- [~] **Journal — 5-year vision** — first pass completed Session Q. Logged in Section 6. Open question: mobile priority (iOS app vs. PWA)?
 - [ ] **Research — play the competition for one hour** (XtraMath, Reflex, one flashcard app)
 - [x] **Research — literature review pass** (MPF item 116) — completed Session N. Citations verified/corrected, 90s amygdala claim removed, errorless learning history corrected, new citations added.
 - [ ] **Research — full competitive chart** (MPF item 115) — after journaling
