@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sparkwright — Font Exploration v1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;800&family=Poppins:wght@400;600;700&family=Quicksand:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void:    #0c0c18;
+      --deep:    #13132a;
+      --ember:   #ff9f43;
+      --flash:   #ffd93d;
+      --arc:     #c77dff;
+      --ghost:   #e8e4f0;
+      --mist:    #9a93b5;
+      --dusk:    #5a5375;
+      --border:  rgba(120, 100, 200, 0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--void);
+      color: var(--ghost);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+    }
+
+    body {
+      background-image: radial-gradient(circle, rgba(120,100,200,0.13) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    /* ── BANNER ── */
+    .banner {
+      background: rgba(255,159,67,0.07);
+      border-bottom: 1px solid rgba(255,159,67,0.22);
+      padding: 9px 32px;
+      text-align: center;
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      color: var(--ember);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 860px; margin: 0 auto; padding: 56px 32px 80px; }
+
+    .page-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dusk);
+      margin-bottom: 8px;
+    }
+
+    .page-desc {
+      font-size: 14px;
+      color: var(--mist);
+      margin-bottom: 56px;
+      line-height: 1.5;
+    }
+
+    /* ── FONT ROW ── */
+    .font-row {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--deep);
+      padding: 36px 40px;
+      margin-bottom: 24px;
+    }
+
+    .font-meta {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .font-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ember);
+    }
+
+    .font-note {
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      color: var(--dusk);
+    }
+
+    .font-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 28px;
+    }
+
+    /* Logo line */
+    .logo-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .logo-mark-sm {
+      width: 22px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+
+    /* Headline sample */
+    .headline-sample {
+      line-height: 1.08;
+      letter-spacing: -1px;
+      color: var(--ghost);
+      margin-bottom: 12px;
+    }
+
+    .headline-accent {
+      background: linear-gradient(90deg, var(--ember) 0%, var(--flash) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .body-sample {
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      color: var(--mist);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+
+    /* ── FONT-SPECIFIC STYLES ── */
+
+    /* 1. Fredoka */
+    .f-fredoka .logo-wordmark {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: 22px;
+      letter-spacing: 0.2px;
+    }
+    .f-fredoka .headline-sample {
+      font-family: 'Fredoka', sans-serif;
+      font-weight: 600;
+      font-size: clamp(36px, 5vw, 54px);
+    }
+
+    /* 2. Poppins */
+    .f-poppins .logo-wordmark {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: -0.3px;
+    }
+    .f-poppins .headline-sample {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: clamp(34px, 4.8vw, 52px);
+      letter-spacing: -1.5px;
+    }
+
+    /* 3. Quicksand */
+    .f-quicksand .logo-wordmark {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0px;
+    }
+    .f-quicksand .headline-sample {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: clamp(36px, 5vw, 54px);
+      letter-spacing: -0.5px;
+    }
+
+    /* 4. Nunito Heavy (already in use — push it harder) */
+    .f-nunito .logo-wordmark {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -0.3px;
+    }
+    .f-nunito .headline-sample {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: clamp(36px, 5vw, 54px);
+      letter-spacing: -1px;
+    }
+
+    /* 5. Comfortaa — current, for reference */
+    .f-comfortaa .logo-wordmark {
+      font-family: 'Comfortaa', sans-serif;
+      font-weight: 700;
+      font-size: 21px;
+      letter-spacing: 0px;
+    }
+    .f-comfortaa .headline-sample {
+      font-family: 'Comfortaa', sans-serif;
+      font-weight: 700;
+      font-size: clamp(34px, 4.8vw, 50px);
+      letter-spacing: -0.5px;
+    }
+
+    .current-tag {
+      display: inline-block;
+      font-family: 'Outfit', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(90,83,117,0.4);
+      color: var(--dusk);
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .w-spark  { color: var(--ember); }
+    .w-wright { color: var(--ghost); }
+  </style>
+</head>
+<body>
+
+  <div class="banner">Font Exploration v1 &nbsp;&middot;&nbsp; Pip &nbsp;&middot;&nbsp; 2026-03-29 &nbsp;&middot;&nbsp; not live</div>
+
+  <div class="page">
+    <p class="page-title">Font Exploration — v1</p>
+    <p class="page-desc">Each row shows the same logo + headline + body in a different font. Body copy stays Nunito throughout — that's not changing. The question is what goes on the logo and headings.</p>
+
+    <!-- Shared inline spark mark SVG (reused in each row) -->
+    <svg style="display:none">
+      <defs>
+        <linearGradient id="mg" x1="0.5" y1="1" x2="0.5" y2="0">
+          <stop offset="0%" stop-color="#ff9f43"/>
+          <stop offset="100%" stop-color="#ffd93d"/>
+        </linearGradient>
+        <filter id="mglow" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="1" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- ── 1. FREDOKA ── -->
+    <div class="font-row f-fredoka">
+      <div class="font-meta">
+        <span class="font-name">Fredoka</span>
+        <span class="font-note">Rounded, warm, energetic — more character than Comfortaa</span>
+      </div>
+      <div class="font-divider"></div>
+
+      <div class="logo-line">
+        <svg class="logo-mark-sm" viewBox="0 0 26 32" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 13 0 L 15.83 12.17 L 25 16 L 15.83 19.83 L 13 32 L 10.17 19.83 L 1 16 L 10.17 12.17 Z" fill="url(#mg)" filter="url(#mglow)"/>
+          <circle cx="24" cy="4" r="1.5" fill="#ffd93d" opacity="0.75"/>
+          <circle cx="25" cy="10" r="0.9" fill="#ff9f43" opacity="0.5"/>
+        </svg>
+        <span class="logo-wordmark"><span class="w-spark">spark</span><span class="w-wright">wright</span></span>
+      </div>
+
+      <p class="headline-sample">Handcrafted learning,<br>built to <span class="headline-accent">spark.</span></p>
+      <p class="body-sample">Independent tools designed around how learning actually happens — with friction, with feedback, and with a student who deserves more than a multiple-choice quiz.</p>
+    </div>
+
+    <!-- ── 2. POPPINS ── -->
+    <div class="font-row f-poppins">
+      <div class="font-meta">
+        <span class="font-name">Poppins</span>
+        <span class="font-note">Geometric, clean — warmer than Outfit, more forward than Comfortaa</span>
+      </div>
+      <div class="font-divider"></div>
+
+      <div class="logo-line">
+        <svg class="logo-mark-sm" viewBox="0 0 26 32" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 13 0 L 15.83 12.17 L 25 16 L 15.83 19.83 L 13 32 L 10.17 19.83 L 1 16 L 10.17 12.17 Z" fill="url(#mg)" filter="url(#mglow)"/>
+          <circle cx="24" cy="4" r="1.5" fill="#ffd93d" opacity="0.75"/>
+          <circle cx="25" cy="10" r="0.9" fill="#ff9f43" opacity="0.5"/>
+        </svg>
+        <span class="logo-wordmark"><span class="w-spark">spark</span><span class="w-wright">wright</span></span>
+      </div>
+
+      <p class="headline-sample">Handcrafted learning,<br>built to <span class="headline-accent">spark.</span></p>
+      <p class="body-sample">Independent tools designed around how learning actually happens — with friction, with feedback, and with a student who deserves more than a multiple-choice quiz.</p>
+    </div>
+
+    <!-- ── 3. QUICKSAND ── -->
+    <div class="font-row f-quicksand">
+      <div class="font-meta">
+        <span class="font-name">Quicksand</span>
+        <span class="font-note">Soft geometric — gentle energy, very legible, slightly quieter</span>
+      </div>
+      <div class="font-divider"></div>
+
+      <div class="logo-line">
+        <svg class="logo-mark-sm" viewBox="0 0 26 32" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 13 0 L 15.83 12.17 L 25 16 L 15.83 19.83 L 13 32 L 10.17 19.83 L 1 16 L 10.17 12.17 Z" fill="url(#mg)" filter="url(#mglow)"/>
+          <circle cx="24" cy="4" r="1.5" fill="#ffd93d" opacity="0.75"/>
+          <circle cx="25" cy="10" r="0.9" fill="#ff9f43" opacity="0.5"/>
+        </svg>
+        <span class="logo-wordmark"><span class="w-spark">spark</span><span class="w-wright">wright</span></span>
+      </div>
+
+      <p class="headline-sample">Handcrafted learning,<br>built to <span class="headline-accent">spark.</span></p>
+      <p class="body-sample">Independent tools designed around how learning actually happens — with friction, with feedback, and with a student who deserves more than a multiple-choice quiz.</p>
+    </div>
+
+    <!-- ── 4. NUNITO HEAVY ── -->
+    <div class="font-row f-nunito">
+      <div class="font-meta">
+        <span class="font-name">Nunito 800</span>
+        <span class="font-note">Already your body font — pushed heavier. Familiar, warm, zero new load cost</span>
+      </div>
+      <div class="font-divider"></div>
+
+      <div class="logo-line">
+        <svg class="logo-mark-sm" viewBox="0 0 26 32" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 13 0 L 15.83 12.17 L 25 16 L 15.83 19.83 L 13 32 L 10.17 19.83 L 1 16 L 10.17 12.17 Z" fill="url(#mg)" filter="url(#mglow)"/>
+          <circle cx="24" cy="4" r="1.5" fill="#ffd93d" opacity="0.75"/>
+          <circle cx="25" cy="10" r="0.9" fill="#ff9f43" opacity="0.5"/>
+        </svg>
+        <span class="logo-wordmark"><span class="w-spark">spark</span><span class="w-wright">wright</span></span>
+      </div>
+
+      <p class="headline-sample">Handcrafted learning,<br>built to <span class="headline-accent">spark.</span></p>
+      <p class="body-sample">Independent tools designed around how learning actually happens — with friction, with feedback, and with a student who deserves more than a multiple-choice quiz.</p>
+    </div>
+
+    <!-- ── 5. COMFORTAA — current reference ── -->
+    <div class="font-row f-comfortaa" style="border-color: rgba(90,83,117,0.4); opacity: 0.8;">
+      <div class="font-meta">
+        <span class="font-name">Comfortaa <span class="current-tag">current</span></span>
+        <span class="font-note">Reference — what the site uses now</span>
+      </div>
+      <div class="font-divider"></div>
+
+      <div class="logo-line">
+        <svg class="logo-mark-sm" viewBox="0 0 26 32" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 13 0 L 15.83 12.17 L 25 16 L 15.83 19.83 L 13 32 L 10.17 19.83 L 1 16 L 10.17 12.17 Z" fill="url(#mg)" filter="url(#mglow)"/>
+          <circle cx="24" cy="4" r="1.5" fill="#ffd93d" opacity="0.75"/>
+          <circle cx="25" cy="10" r="0.9" fill="#ff9f43" opacity="0.5"/>
+        </svg>
+        <span class="logo-wordmark"><span class="w-spark">spark</span><span class="w-wright">wright</span></span>
+      </div>
+
+      <p class="headline-sample">Handcrafted learning,<br>built to <span class="headline-accent">spark.</span></p>
+      <p class="body-sample">Independent tools designed around how learning actually happens — with friction, with feedback, and with a student who deserves more than a multiple-choice quiz.</p>
+    </div>
+
+  </div><!-- /page -->
+
+</body>
+</html>

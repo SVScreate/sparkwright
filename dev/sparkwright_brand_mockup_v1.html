@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sparkwright — Brand Mockup v1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── BRAND TOKENS ──────────────────────────── */
+    :root {
+      --void:      #0c0c18;
+      --deep:      #13132a;
+      --layer:     #1c1c38;
+      --ember:     #ff9f43;
+      --flash:     #ffd93d;
+      --electric:  #4d96ff;
+      --arc:       #c77dff;
+      --ghost:     #e8e4f0;
+      --mist:      #9a93b5;
+      --dusk:      #5a5375;
+      --border:    rgba(120, 100, 200, 0.18);
+      --border-hi: rgba(160, 130, 255, 0.32);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--void);
+      color: var(--ghost);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+    }
+
+    body {
+      background-image: radial-gradient(circle, rgba(120,100,200,0.13) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ── MOCKUP BANNER ──────────────────────────── */
+    .mockup-banner {
+      background: rgba(255, 159, 67, 0.07);
+      border-bottom: 1px solid rgba(255, 159, 67, 0.22);
+      padding: 9px 0;
+      text-align: center;
+    }
+    .mockup-banner p {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      color: var(--ember);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── NAV ────────────────────────────────────── */
+    nav {
+      padding: 20px 0 18px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(12, 12, 24, 0.92);
+    }
+
+    .nav-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-mark { width: 26px; height: 32px; flex-shrink: 0; }
+
+    .logo-wordmark {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 21px;
+      letter-spacing: -0.3px;
+      line-height: 1;
+    }
+
+    .w-spark  { color: var(--ember); }
+    .w-wright { color: var(--ghost); }
+
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      color: var(--mist);
+      text-decoration: none;
+    }
+
+    /* ── HERO ───────────────────────────────────── */
+    .hero {
+      padding: 96px 0 80px;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 26px;
+    }
+
+    .hero-headline {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: clamp(38px, 5.5vw, 60px);
+      line-height: 1.07;
+      letter-spacing: -1.5px;
+      color: var(--ghost);
+      margin-bottom: 22px;
+    }
+
+    .hero-headline .accent {
+      background: linear-gradient(90deg, var(--ember) 0%, var(--flash) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-family: 'Nunito', sans-serif;
+      font-size: 17px;
+      color: var(--mist);
+      line-height: 1.65;
+      max-width: 520px;
+      margin: 0 auto 38px;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--ember);
+      color: #0c0c18;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 14px 34px;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+
+    /* ── SECTION LABEL ──────────────────────────── */
+    .section-label {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--dusk);
+      margin-bottom: 28px;
+    }
+
+    /* ── CARDS ──────────────────────────────────── */
+    .cards-section { padding: 60px 0 80px; }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--deep);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+
+    .card-badge {
+      display: inline-block;
+      font-family: 'Outfit', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+
+    .badge-live  { background: rgba(107,203,119,0.12); color: #6bcb77; }
+    .badge-soon  { background: rgba(90,83,117,0.3);    color: var(--dusk); }
+
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 19px;
+      color: var(--ghost);
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--mist);
+    }
+
+    .card-featured {
+      background: linear-gradient(135deg,
+        rgba(77,150,255,0.07) 0%,
+        rgba(199,125,255,0.07) 50%,
+        rgba(255,159,67,0.05) 100%);
+      border-color: rgba(160, 130, 255, 0.28);
+    }
+
+    /* ── PALETTE REFERENCE ──────────────────────── */
+    .palette-strip {
+      padding: 56px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .swatches {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .swatch-dot {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .swatch-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--mist);
+    }
+
+    .swatch-hex {
+      font-family: 'Outfit', sans-serif;
+      font-size: 10px;
+      color: var(--dusk);
+    }
+
+    .swatch-gap { width: 12px; }
+
+    /* ── ABOUT STRIP ────────────────────────────── */
+    .about-strip {
+      padding: 72px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .about-heading {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 30px;
+      color: var(--ghost);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .about-heading .accent { color: var(--arc); }
+
+    .about-body {
+      font-size: 16px;
+      color: var(--mist);
+      line-height: 1.65;
+      max-width: 600px;
+      margin-bottom: 32px;
+    }
+
+    .values-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 600px;
+    }
+
+    .values-list li {
+      font-size: 15px;
+      color: var(--mist);
+      line-height: 1.5;
+      padding-left: 22px;
+      position: relative;
+    }
+
+    .values-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--ember);
+      font-size: 12px;
+      top: 3px;
+    }
+
+    .values-list strong { color: var(--ghost); }
+
+    /* ── FOOTER ─────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 26px 0;
+    }
+
+    .footer-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-copy { font-size: 13px; color: var(--dusk); }
+  </style>
+</head>
+<body>
+
+  <!-- Mockup label -->
+  <div class="mockup-banner">
+    <p>Brand Mockup v1 &nbsp;&middot;&nbsp; Pip &nbsp;&middot;&nbsp; 2026-03-29 &nbsp;&middot;&nbsp; not live</p>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="#">
+
+        <!-- Inline SVG spark mark — 4-pointed star -->
+        <svg class="logo-mark" viewBox="0 0 26 32" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g" x1="0.5" y1="1" x2="0.5" y2="0">
+              <stop offset="0%" stop-color="#ff9f43"/>
+              <stop offset="100%" stop-color="#ffd93d"/>
+            </linearGradient>
+            <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="1.2" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- center (13,16), vert R=16, horiz R=12, inner r=4 -->
+          <path d="M 13 0 L 15.83 12.17 L 25 16 L 15.83 19.83 L 13 32 L 10.17 19.83 L 1 16 L 10.17 12.17 Z"
+                fill="url(#g)" filter="url(#glow)"/>
+          <!-- scatter sparks -->
+          <circle cx="24" cy="4"  r="1.6" fill="#ffd93d" opacity="0.75"/>
+          <circle cx="25" cy="10" r="1.0" fill="#ff9f43" opacity="0.50"/>
+        </svg>
+
+        <span class="logo-wordmark">
+          <span class="w-spark">spark</span><span class="w-wright">wright</span>
+        </span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#">Games</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero-eyebrow">For homeschool families, tutors &amp; independent educators</p>
+      <h1 class="hero-headline">
+        Handcrafted learning,<br>
+        built to <span class="accent">spark.</span>
+      </h1>
+      <p class="hero-sub">
+        Independent tools designed around how learning actually happens —
+        with friction, with feedback, and with a student who deserves more
+        than a multiple-choice quiz.
+      </p>
+      <a href="#" class="btn-primary">See what's here</a>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section class="cards-section">
+    <div class="container">
+      <p class="section-label">Games &amp; Tools</p>
+      <div class="cards-grid">
+
+        <div class="card card-featured">
+          <span class="card-badge badge-live">Live now</span>
+          <h2 class="card-title">Math Flash</h2>
+          <p class="card-desc">Math fact practice built around what happens when a student misses an answer. Most tools mark the miss and move on. Math Flash stops and teaches it right then.</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge badge-soon">Coming soon</span>
+          <h2 class="card-title">Spelling Sprint</h2>
+          <p class="card-desc">Spelling practice built around pattern recognition and word structure — the kind that makes the rules stick, not just the words.</p>
+        </div>
+
+        <div class="card">
+          <span class="card-badge badge-soon">Coming soon</span>
+          <h2 class="card-title">Number Sense Lab</h2>
+          <p class="card-desc">Visual tools for understanding how numbers actually work — fractions, place value, and mental math with something to look at, not just something to memorize.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PALETTE REFERENCE -->
+  <section class="palette-strip">
+    <div class="container">
+      <p class="section-label">Brand Palette — v1 Reference (not a live page section)</p>
+      <div class="swatches">
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#0c0c18; border-color:rgba(255,255,255,0.2)"></div>
+          <span class="swatch-name">Void</span><span class="swatch-hex">#0c0c18</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#13132a"></div>
+          <span class="swatch-name">Deep</span><span class="swatch-hex">#13132a</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#1c1c38"></div>
+          <span class="swatch-name">Layer</span><span class="swatch-hex">#1c1c38</span>
+        </div>
+        <div class="swatch-gap"></div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#ff9f43"></div>
+          <span class="swatch-name">Ember</span><span class="swatch-hex">#ff9f43</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#ffd93d"></div>
+          <span class="swatch-name">Flash</span><span class="swatch-hex">#ffd93d</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#4d96ff"></div>
+          <span class="swatch-name">Electric</span><span class="swatch-hex">#4d96ff</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#c77dff"></div>
+          <span class="swatch-name">Arc</span><span class="swatch-hex">#c77dff</span>
+        </div>
+        <div class="swatch-gap"></div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#e8e4f0"></div>
+          <span class="swatch-name">Ghost</span><span class="swatch-hex">#e8e4f0</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#9a93b5"></div>
+          <span class="swatch-name">Mist</span><span class="swatch-hex">#9a93b5</span>
+        </div>
+        <div class="swatch">
+          <div class="swatch-dot" style="background:#5a5375"></div>
+          <span class="swatch-name">Dusk</span><span class="swatch-hex">#5a5375</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT STRIP -->
+  <section class="about-strip">
+    <div class="container">
+      <h2 class="about-heading">Built by a teacher,<br>for <span class="accent">real students.</span></h2>
+      <p class="about-body">
+        Sparkwright comes from a teacher with a Master's in Educational Therapy
+        and 15+ years in classrooms — public schools, private schools, homeschool settings.
+        These tools exist because the right ones didn't.
+      </p>
+      <ul class="values-list">
+        <li><strong>Practice with purpose</strong> — No filler, no busywork. Every question has a reason to be there.</li>
+        <li><strong>Mastery, not completion</strong> — The goal isn't to finish the round. It's to actually know it.</li>
+        <li><strong>Design that respects students</strong> — Clean, readable, built for middle schoolers as much as second graders.</li>
+        <li><strong>Made by hand</strong> — No venture backing, no growth team. One educator doing careful work.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">&copy; 2026 Sparkwright</span>
+      <span class="footer-copy">sparkwright.org</span>
+    </div>
+  </footer>
+
+</body>
+</html>

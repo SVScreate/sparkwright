@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sparkwright — Final Logo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void:    #0c0c18;
+      --deep:    #13132a;
+      --ember:   #ff9f43;
+      --flash:   #ffd93d;
+      --ghost:   #e8e4f0;
+      --mist:    #9a93b5;
+      --dusk:    #5a5375;
+      --border:  rgba(120,100,200,0.18);
+      --border-hi: rgba(160,130,255,0.32);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--void);
+      color: var(--ghost);
+      font-family: 'Nunito', sans-serif;
+    }
+
+    body {
+      background-image: radial-gradient(circle, rgba(120,100,200,0.13) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    .banner {
+      background: rgba(255,159,67,0.07);
+      border-bottom: 1px solid rgba(255,159,67,0.22);
+      padding: 9px 32px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--ember);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .page { max-width: 880px; margin: 0 auto; padding: 56px 32px 80px; }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--dusk);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-weight: 800;
+      font-size: 22px;
+      color: var(--ghost);
+      margin-bottom: 6px;
+    }
+
+    .section-desc {
+      font-size: 14px;
+      color: var(--mist);
+      margin-bottom: 48px;
+      line-height: 1.55;
+    }
+
+    /* Scale row */
+    .scale-row {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      padding: 40px;
+      background: var(--deep);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .scale-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .size-label {
+      font-size: 10px;
+      color: var(--dusk);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* Lockup row */
+    .lockup-row {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      padding: 36px 40px;
+      background: var(--deep);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .lockup {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .wm {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.3px;
+    }
+
+    .w-s { color: var(--ember); }
+    .w-w { color: var(--ghost); }
+
+    /* Divider */
+    .divider { height: 1px; background: var(--border); margin: 52px 0; }
+
+    /* Full mockup */
+    .mock-frame {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .mock-nav {
+      background: rgba(12,12,24,0.95);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mock-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+      color: var(--mist);
+    }
+
+    .mock-hero {
+      padding: 80px 48px 72px;
+      text-align: center;
+      background: radial-gradient(ellipse at 50% -5%, rgba(199,125,255,0.08) 0%, transparent 65%);
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 24px;
+    }
+
+    .headline {
+      font-weight: 800;
+      font-size: clamp(38px, 5vw, 54px);
+      line-height: 1.07;
+      letter-spacing: -1px;
+      color: var(--ghost);
+      margin-bottom: 20px;
+    }
+
+    .headline-accent {
+      background: linear-gradient(90deg, var(--ember) 0%, var(--flash) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sub {
+      font-size: 16px;
+      color: var(--mist);
+      line-height: 1.65;
+      max-width: 500px;
+      margin: 0 auto 34px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--ember);
+      color: #0c0c18;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 13px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+
+    /* Dark swatch background for the mark alone */
+    .on-dark {
+      background: #000;
+      border-radius: 12px;
+      padding: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="banner">Logo Final — Sparkler Mark &nbsp;&middot;&nbsp; Pip &nbsp;&middot;&nbsp; 2026-03-29</div>
+
+<!-- Shared SVG defs -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Triple-layer glow: outer halo + mid glow + sharp lines -->
+    <filter id="sparkGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="outerHalo"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.4" result="midGlow"/>
+      <feMerge>
+        <feMergeNode in="outerHalo"/>
+        <feMergeNode in="midGlow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Favicon-optimised glow (less blur at tiny size) -->
+    <filter id="sparkGlowSm" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+</svg>
+
+<div class="page">
+
+  <!-- ══ MARK AT SCALE ══ -->
+  <p class="section-label">Sparkler Mark — Final</p>
+  <h2 class="section-title">Reference: sparkler tip</h2>
+  <p class="section-desc">22 wispy radiating lines from a bright white-gold core — irregular lengths, slight variation in color from white-gold at source to amber at tips. Small secondary dots at the ends of the longest arms. Triple-layer glow filter.</p>
+
+  <div class="scale-row">
+
+    <!-- 16px favicon -->
+    <div class="scale-item">
+      <div class="on-dark">
+        <svg width="16" height="16" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#sparkGlowSm)">
+            <line x1="30" y1="30" x2="30" y2="4"  stroke="#fff8e0" stroke-width="1.8" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="48" y2="11" stroke="#ffd93d" stroke-width="1.6" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="54" y2="30" stroke="#fff0aa" stroke-width="1.7" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="48" y2="49" stroke="#ffb347" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="30" y2="56" stroke="#ffd93d" stroke-width="1.8" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="12" y2="49" stroke="#ff9f43" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="6"  y2="30" stroke="#ffd93d" stroke-width="1.7" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="12" y2="11" stroke="#fff0aa" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="4" fill="#fffde0"/>
+          </g>
+        </svg>
+      </div>
+      <span class="size-label">16px favicon</span>
+    </div>
+
+    <!-- 24px nav small -->
+    <div class="scale-item">
+      <svg width="24" height="24" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#sparkGlow)">
+          <!-- 22 lines: white-gold near center tones -->
+          <line x1="30" y1="30" x2="30" y2="3"  stroke="#fff8e0" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="47.4" y2="25.3" stroke="#fff0aa" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="49.1" y2="19"   stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="48.4" y2="11.6" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="38"   y2="16.1" stroke="#ffca2c" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="36.5" y2="5.8"  stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="24.6" y2="9.7"  stroke="#ffd93d" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="13"   y2="13"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="5.8"  y2="23.5" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="8"    y2="30"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="10.1" y2="41.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="18.7" y2="41.3" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="19"   y2="49"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="25.3" y2="47.4" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="30"   y2="54"   stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="41"   y2="49"   stroke="#ffca2c" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="51.7" y2="42.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="49.3" y2="35.2" stroke="#ffca2c" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="54"   y2="30"   stroke="#fff0aa" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="43.4" y2="43.4" stroke="#ff9f43" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="23"   y2="17.9" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="13.5" y2="20.5" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <!-- tiny secondary sparks at tips of longest arms -->
+          <circle cx="30"  cy="3"    r="0.8" fill="#fff5cc" opacity="0.9"/>
+          <circle cx="36.5" cy="5.8" r="0.7" fill="#ffd93d" opacity="0.85"/>
+          <circle cx="54"  cy="30"   r="0.8" fill="#fff0aa" opacity="0.85"/>
+          <circle cx="30"  cy="54"   r="0.8" fill="#fff5cc" opacity="0.9"/>
+          <circle cx="8"   cy="30"   r="0.7" fill="#ffd93d" opacity="0.8"/>
+          <circle cx="10.1" cy="41.5" r="0.6" fill="#ffb347" opacity="0.75"/>
+          <circle cx="51.7" cy="42.5" r="0.7" fill="#ffd93d" opacity="0.8"/>
+          <circle cx="13"  cy="13"   r="0.6" fill="#ffd93d" opacity="0.75"/>
+          <!-- bright core -->
+          <circle cx="30" cy="30" r="3.5" fill="#fffde0"/>
+          <circle cx="30" cy="30" r="1.8" fill="#ffffff" opacity="0.9"/>
+        </g>
+      </svg>
+      <span class="size-label">24px nav</span>
+    </div>
+
+    <!-- 48px medium -->
+    <div class="scale-item">
+      <svg width="48" height="48" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#sparkGlow)">
+          <line x1="30" y1="30" x2="30" y2="3"  stroke="#fff8e0" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="47.4" y2="25.3" stroke="#fff0aa" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="49.1" y2="19"   stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="48.4" y2="11.6" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="38"   y2="16.1" stroke="#ffca2c" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="36.5" y2="5.8"  stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="24.6" y2="9.7"  stroke="#ffd93d" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="13"   y2="13"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="5.8"  y2="23.5" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="8"    y2="30"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="10.1" y2="41.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="18.7" y2="41.3" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="19"   y2="49"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="25.3" y2="47.4" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="30"   y2="54"   stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="41"   y2="49"   stroke="#ffca2c" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="51.7" y2="42.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="49.3" y2="35.2" stroke="#ffca2c" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="54"   y2="30"   stroke="#fff0aa" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="43.4" y2="43.4" stroke="#ff9f43" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="23"   y2="17.9" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="13.5" y2="20.5" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <circle cx="30"  cy="3"    r="0.8" fill="#fff5cc" opacity="0.9"/>
+          <circle cx="36.5" cy="5.8" r="0.7" fill="#ffd93d" opacity="0.85"/>
+          <circle cx="54"  cy="30"   r="0.8" fill="#fff0aa" opacity="0.85"/>
+          <circle cx="30"  cy="54"   r="0.8" fill="#fff5cc" opacity="0.9"/>
+          <circle cx="8"   cy="30"   r="0.7" fill="#ffd93d" opacity="0.8"/>
+          <circle cx="10.1" cy="41.5" r="0.6" fill="#ffb347" opacity="0.75"/>
+          <circle cx="51.7" cy="42.5" r="0.7" fill="#ffd93d" opacity="0.8"/>
+          <circle cx="13"  cy="13"   r="0.6" fill="#ffd93d" opacity="0.75"/>
+          <circle cx="30" cy="30" r="3.5" fill="#fffde0"/>
+          <circle cx="30" cy="30" r="1.8" fill="#ffffff" opacity="0.9"/>
+        </g>
+      </svg>
+      <span class="size-label">48px</span>
+    </div>
+
+    <!-- 96px hero -->
+    <div class="scale-item">
+      <svg width="96" height="96" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#sparkGlow)">
+          <line x1="30" y1="30" x2="30" y2="3"  stroke="#fff8e0" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="47.4" y2="25.3" stroke="#fff0aa" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="49.1" y2="19"   stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="48.4" y2="11.6" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="38"   y2="16.1" stroke="#ffca2c" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="36.5" y2="5.8"  stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="24.6" y2="9.7"  stroke="#ffd93d" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="13"   y2="13"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="5.8"  y2="23.5" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="8"    y2="30"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="10.1" y2="41.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="18.7" y2="41.3" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="19"   y2="49"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="25.3" y2="47.4" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="30"   y2="54"   stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="41"   y2="49"   stroke="#ffca2c" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="51.7" y2="42.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="49.3" y2="35.2" stroke="#ffca2c" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="54"   y2="30"   stroke="#fff0aa" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="43.4" y2="43.4" stroke="#ff9f43" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="23"   y2="17.9" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="13.5" y2="20.5" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <circle cx="30"  cy="3"    r="0.8" fill="#fff5cc" opacity="0.9"/>
+          <circle cx="36.5" cy="5.8" r="0.7" fill="#ffd93d" opacity="0.85"/>
+          <circle cx="54"  cy="30"   r="0.8" fill="#fff0aa" opacity="0.85"/>
+          <circle cx="30"  cy="54"   r="0.8" fill="#fff5cc" opacity="0.9"/>
+          <circle cx="8"   cy="30"   r="0.7" fill="#ffd93d" opacity="0.8"/>
+          <circle cx="10.1" cy="41.5" r="0.6" fill="#ffb347" opacity="0.75"/>
+          <circle cx="51.7" cy="42.5" r="0.7" fill="#ffd93d" opacity="0.8"/>
+          <circle cx="13"  cy="13"   r="0.6" fill="#ffd93d" opacity="0.75"/>
+          <circle cx="30" cy="30" r="3.5" fill="#fffde0"/>
+          <circle cx="30" cy="30" r="1.8" fill="#ffffff" opacity="0.9"/>
+        </g>
+      </svg>
+      <span class="size-label">96px hero</span>
+    </div>
+
+    <!-- 160px standalone -->
+    <div class="scale-item">
+      <svg width="160" height="160" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#sparkGlow)">
+          <line x1="30" y1="30" x2="30" y2="3"  stroke="#fff8e0" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="47.4" y2="25.3" stroke="#fff0aa" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="49.1" y2="19"   stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="48.4" y2="11.6" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="38"   y2="16.1" stroke="#ffca2c" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="36.5" y2="5.8"  stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="24.6" y2="9.7"  stroke="#ffd93d" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="13"   y2="13"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="5.8"  y2="23.5" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="8"    y2="30"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="10.1" y2="41.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="18.7" y2="41.3" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="19"   y2="49"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="25.3" y2="47.4" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="30"   y2="54"   stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="41"   y2="49"   stroke="#ffca2c" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="51.7" y2="42.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="49.3" y2="35.2" stroke="#ffca2c" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="54"   y2="30"   stroke="#fff0aa" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="43.4" y2="43.4" stroke="#ff9f43" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="23"   y2="17.9" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="13.5" y2="20.5" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <circle cx="30"  cy="3"    r="0.8" fill="#fff5cc" opacity="0.9"/>
+          <circle cx="36.5" cy="5.8" r="0.7" fill="#ffd93d" opacity="0.85"/>
+          <circle cx="54"  cy="30"   r="0.8" fill="#fff0aa" opacity="0.85"/>
+          <circle cx="30"  cy="54"   r="0.8" fill="#fff5cc" opacity="0.9"/>
+          <circle cx="8"   cy="30"   r="0.7" fill="#ffd93d" opacity="0.8"/>
+          <circle cx="10.1" cy="41.5" r="0.6" fill="#ffb347" opacity="0.75"/>
+          <circle cx="51.7" cy="42.5" r="0.7" fill="#ffd93d" opacity="0.8"/>
+          <circle cx="13"  cy="13"   r="0.6" fill="#ffd93d" opacity="0.75"/>
+          <circle cx="30" cy="30" r="3.5" fill="#fffde0"/>
+          <circle cx="30" cy="30" r="1.8" fill="#ffffff" opacity="0.9"/>
+        </g>
+      </svg>
+      <span class="size-label">160px standalone</span>
+    </div>
+
+  </div><!-- /scale-row -->
+
+  <!-- ══ LOCKUPS ══ -->
+  <div class="lockup-row">
+    <!-- small nav lockup -->
+    <div class="lockup">
+      <svg width="26" height="26" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#sparkGlow)">
+          <line x1="30" y1="30" x2="30" y2="3"  stroke="#fff8e0" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="49.1" y2="19" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="54"   y2="30" stroke="#fff0aa" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="51.7" y2="42.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="30"   y2="54" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="10.1" y2="41.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="8"    y2="30" stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="13"   y2="13" stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="36.5" y2="5.8" stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="48.4" y2="11.6" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="5.8"  y2="23.5" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="19"   y2="49"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="43.4" y2="43.4" stroke="#ff9f43" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="24.6" y2="9.7"  stroke="#ffd93d" stroke-width="1.0" stroke-linecap="round"/>
+          <circle cx="30" cy="30" r="3.5" fill="#fffde0"/>
+          <circle cx="30" cy="30" r="1.8" fill="#ffffff" opacity="0.9"/>
+        </g>
+      </svg>
+      <span class="wm" style="font-size:20px;"><span class="w-s">spark</span><span class="w-w">wright</span></span>
+    </div>
+
+    <!-- medium lockup -->
+    <div class="lockup">
+      <svg width="40" height="40" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#sparkGlow)">
+          <line x1="30" y1="30" x2="30" y2="3"  stroke="#fff8e0" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="49.1" y2="19" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="54"   y2="30" stroke="#fff0aa" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="51.7" y2="42.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="30"   y2="54" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="10.1" y2="41.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="8"    y2="30" stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="13"   y2="13" stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="36.5" y2="5.8" stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="48.4" y2="11.6" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="5.8"  y2="23.5" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="19"   y2="49"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="43.4" y2="43.4" stroke="#ff9f43" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="24.6" y2="9.7"  stroke="#ffd93d" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="13.5" y2="20.5" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+          <line x1="30" y1="30" x2="18.7" y2="41.3" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+          <circle cx="30"  cy="3"    r="0.8" fill="#fff5cc" opacity="0.9"/>
+          <circle cx="54"  cy="30"   r="0.8" fill="#fff0aa" opacity="0.85"/>
+          <circle cx="30"  cy="54"   r="0.8" fill="#fff5cc" opacity="0.9"/>
+          <circle cx="8"   cy="30"   r="0.7" fill="#ffd93d" opacity="0.8"/>
+          <circle cx="30" cy="30" r="3.5" fill="#fffde0"/>
+          <circle cx="30" cy="30" r="1.8" fill="#ffffff" opacity="0.9"/>
+        </g>
+      </svg>
+      <span class="wm" style="font-size:30px; letter-spacing:-0.5px;"><span class="w-s">spark</span><span class="w-w">wright</span></span>
+    </div>
+  </div>
+
+  <!-- ══ FULL HERO ══ -->
+  <div class="divider"></div>
+  <p class="section-label" style="margin-bottom:16px;">In context — full landing page nav + hero</p>
+
+  <div class="mock-frame">
+    <div class="mock-nav">
+      <div class="mock-logo">
+        <svg width="28" height="28" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#sparkGlow)">
+            <line x1="30" y1="30" x2="30" y2="3"  stroke="#fff8e0" stroke-width="1.3" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="49.1" y2="19" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="54"   y2="30" stroke="#fff0aa" stroke-width="1.1" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="51.7" y2="42.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="30"   y2="54" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="10.1" y2="41.5" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="8"    y2="30" stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="13"   y2="13" stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="36.5" y2="5.8" stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="48.4" y2="11.6" stroke="#fff0aa" stroke-width="1.0" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="5.8"  y2="23.5" stroke="#ffca2c" stroke-width="0.9" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="19"   y2="49"   stroke="#ffd93d" stroke-width="1.1" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="43.4" y2="43.4" stroke="#ff9f43" stroke-width="1.0" stroke-linecap="round"/>
+            <line x1="30" y1="30" x2="24.6" y2="9.7"  stroke="#ffd93d" stroke-width="1.0" stroke-linecap="round"/>
+            <circle cx="30" cy="30" r="3.5" fill="#fffde0"/>
+            <circle cx="30" cy="30" r="1.8" fill="#ffffff" opacity="0.9"/>
+          </g>
+        </svg>
+        <span style="font-family:'Nunito',sans-serif; font-weight:800; font-size:21px; letter-spacing:-0.2px; line-height:1;">
+          <span class="w-s">spark</span><span class="w-w">wright</span>
+        </span>
+      </div>
+      <div class="nav-links">
+        <span>Games</span>
+        <span>About</span>
+      </div>
+    </div>
+
+    <div class="mock-hero">
+      <p class="eyebrow">For homeschool families, tutors &amp; independent educators</p>
+      <h1 class="headline">Handcrafted learning,<br>built to <span class="headline-accent">spark.</span></h1>
+      <p class="sub">Independent tools designed around how learning actually happens — with friction, with feedback, and with a student who deserves more than a multiple-choice quiz.</p>
+      <a href="#" class="btn">See what's here</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

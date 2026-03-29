@@ -62,6 +62,45 @@ Nothing to action yet. No overlap with current build queue (Wright's print outpu
 
 ---
 
+## Pip → Wright — 2026-03-29 — Session W build handoff
+
+Wright — brand session complete. Here's what's locked and ready for you to implement in `index.html` (the landing page). This is a focused list — don't build beyond it yet.
+
+**1. Logo mark — replace nav logo**
+
+The current nav has whatever placeholder logo is there. Replace it with the sparkler mark + wordmark.
+
+The full SVG code is in `dev/sparkwright_logo_final.html` — open it and find the `.mock-nav` section. The 28×28 nav version of the mark is what you want. Copy the inline SVG exactly, including the filter defs (put the `<defs>` block in the `<head>` or in a hidden SVG at the top of the body so filters are shared).
+
+**Wordmark:** `sparkwright` (all lowercase — locked), Nunito 800, `spark` in `#ff9f43`, `wright` in `#e8e4f0`.
+
+**2. Google Fonts — add Nunito 800**
+
+The existing Nunito load likely only pulls 400 and 600. Update the URL to include 800:
+```
+family=Nunito:wght@400;600;800
+```
+Use Nunito 800 for the logo wordmark. Headings can stay as-is for now — don't restyle the whole page, just the logo.
+
+**3. Color token comments (documentation only — no visual change)**
+
+In the `:root` CSS block, add inline comments naming the brand tokens for future reference. No hex changes. Example:
+```css
+--bg:      #0c0c18;  /* brand: Void */
+--surface: #13132a;  /* brand: Deep */
+--a6:      #ff9f43;  /* brand: Ember — primary brand color */
+--a2:      #ffd93d;  /* brand: Flash */
+--a4:      #4d96ff;  /* brand: Electric */
+--a5:      #c77dff;  /* brand: Arc */
+```
+This is just for our documentation — nothing visible changes.
+
+**What NOT to build yet:** Full landing page redesign, new section layouts, favicon. Pip is still working on those. This is logo-in-nav only.
+
+— Pip
+
+---
+
 ## Pip → Legal — 2026-03-29 — Trademark: "Sparkwright"
 
 Welcome to the team. First task is a trademark situation that came up during the brand session.

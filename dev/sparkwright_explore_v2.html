@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sparkwright — Sparkler Mark Exploration v2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void:    #0c0c18;
+      --deep:    #13132a;
+      --layer:   #1c1c38;
+      --ember:   #ff9f43;
+      --flash:   #ffd93d;
+      --ghost:   #e8e4f0;
+      --mist:    #9a93b5;
+      --dusk:    #5a5375;
+      --border:  rgba(120,100,200,0.18);
+      --border-hi: rgba(160,130,255,0.35);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--void);
+      color: var(--ghost);
+      font-family: 'Nunito', sans-serif;
+    }
+
+    body {
+      background-image: radial-gradient(circle, rgba(120,100,200,0.13) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    .banner {
+      background: rgba(255,159,67,0.07);
+      border-bottom: 1px solid rgba(255,159,67,0.22);
+      padding: 9px 32px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--ember);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .page { max-width: 960px; margin: 0 auto; padding: 56px 32px 80px; }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--dusk);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      color: var(--ghost);
+      margin-bottom: 6px;
+    }
+
+    .section-desc {
+      font-size: 14px;
+      color: var(--mist);
+      margin-bottom: 48px;
+      line-height: 1.55;
+      max-width: 680px;
+    }
+
+    /* ── CONCEPT CARDS ── */
+    .concepts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 56px;
+    }
+
+    .concept-card {
+      background: var(--deep);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px 24px;
+    }
+
+    .concept-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 3px;
+    }
+
+    .concept-name {
+      font-weight: 800;
+      font-size: 15px;
+      color: var(--ghost);
+      margin-bottom: 4px;
+    }
+
+    .concept-desc {
+      font-size: 12px;
+      color: var(--mist);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .mark-sizes {
+      display: flex;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mark-size-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .size-label {
+      font-size: 10px;
+      color: var(--dusk);
+      letter-spacing: 0.5px;
+    }
+
+    /* Logo lockup */
+    .lockup {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .wm {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 19px;
+      letter-spacing: -0.2px;
+      line-height: 1;
+    }
+
+    .w-s { color: var(--ember); }
+    .w-w { color: var(--ghost); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 56px 0;
+    }
+
+    /* ── FULL HERO MOCKUP ── */
+    .mock-frame {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .mock-nav {
+      background: rgba(12,12,24,0.95);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mock-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .mock-wm {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.2px;
+      line-height: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      font-size: 13px;
+      color: var(--mist);
+    }
+
+    .mock-hero {
+      padding: 72px 48px 64px;
+      text-align: center;
+      background: radial-gradient(ellipse at 50% -10%, rgba(199,125,255,0.07) 0%, transparent 65%);
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 22px;
+    }
+
+    .headline {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: clamp(36px, 5vw, 52px);
+      line-height: 1.07;
+      letter-spacing: -1px;
+      color: var(--ghost);
+      margin-bottom: 20px;
+    }
+
+    .headline-accent {
+      background: linear-gradient(90deg, var(--ember) 0%, var(--flash) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sub {
+      font-size: 16px;
+      color: var(--mist);
+      line-height: 1.65;
+      max-width: 500px;
+      margin: 0 auto 32px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--ember);
+      color: #0c0c18;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 13px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+
+    /* ── SCALE COMPARISON ── (big marks side by side) */
+    .scale-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 56px;
+      padding: 40px;
+      background: var(--deep);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .scale-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .scale-item-label {
+      font-size: 11px;
+      color: var(--dusk);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<div class="banner">Sparkler Mark Exploration v2 &nbsp;&middot;&nbsp; Pip &nbsp;&middot;&nbsp; 2026-03-29 &nbsp;&middot;&nbsp; not live</div>
+
+<div class="page">
+
+  <p class="section-label">Logo Mark — v2</p>
+  <h2 class="section-title">Sparkler tip variations</h2>
+  <p class="section-desc">Three takes on a single bright source with radiating lines — the tip of a lit sparkler. The difference between them is density, length, and how "wild" the energy feels. All share the same amber-to-gold color and glow.</p>
+
+  <!-- ── THREE CONCEPTS ── -->
+  <div class="concepts-grid">
+
+    <!-- S1: TIGHT — few long spikes, more restrained -->
+    <div class="concept-card">
+      <p class="concept-tag">Variant S1</p>
+      <p class="concept-name">Tight Spark</p>
+      <p class="concept-desc">Fewer, longer lines. More restrained — closer to a refined starburst. Reads cleanest at very small sizes.</p>
+
+      <div class="mark-sizes">
+        <!-- Small -->
+        <div class="mark-size-item">
+          <svg width="20" height="20" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="gs1" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1.8" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <g filter="url(#gs1)">
+              <!-- 8 irregular spikes from center (22,22) -->
+              <line x1="22" y1="22" x2="22" y2="5"  stroke="#ffd93d" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="35" y2="9"  stroke="#ffca2c" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="39" y2="22" stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="36" y2="34" stroke="#ff9f43" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="22" y2="39" stroke="#ffb347" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="9"  y2="35" stroke="#ff9f43" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="5"  y2="22" stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="8"  y2="10" stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+              <!-- bright core -->
+              <circle cx="22" cy="22" r="2.8" fill="#fff5cc"/>
+            </g>
+          </svg>
+          <span class="size-label">nav</span>
+        </div>
+        <!-- Medium -->
+        <div class="mark-size-item">
+          <svg width="52" height="52" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#gs1)">
+              <line x1="22" y1="22" x2="22" y2="5"  stroke="#ffd93d" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="35" y2="9"  stroke="#ffca2c" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="39" y2="22" stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="36" y2="34" stroke="#ff9f43" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="22" y2="39" stroke="#ffb347" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="9"  y2="35" stroke="#ff9f43" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="5"  y2="22" stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="8"  y2="10" stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+              <circle cx="22" cy="22" r="2.8" fill="#fff5cc"/>
+            </g>
+          </svg>
+          <span class="size-label">medium</span>
+        </div>
+        <!-- Large -->
+        <div class="mark-size-item">
+          <svg width="88" height="88" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#gs1)">
+              <line x1="22" y1="22" x2="22" y2="5"  stroke="#ffd93d" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="35" y2="9"  stroke="#ffca2c" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="39" y2="22" stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="36" y2="34" stroke="#ff9f43" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="22" y2="39" stroke="#ffb347" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="9"  y2="35" stroke="#ff9f43" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="5"  y2="22" stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="8"  y2="10" stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+              <circle cx="22" cy="22" r="2.8" fill="#fff5cc"/>
+            </g>
+          </svg>
+          <span class="size-label">large</span>
+        </div>
+      </div>
+
+      <!-- Lockup -->
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#gs1)">
+            <line x1="22" y1="22" x2="22" y2="5"  stroke="#ffd93d" stroke-width="1.6" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="35" y2="9"  stroke="#ffca2c" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="39" y2="22" stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="36" y2="34" stroke="#ff9f43" stroke-width="1.3" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="22" y2="39" stroke="#ffb347" stroke-width="1.6" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="9"  y2="35" stroke="#ff9f43" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="5"  y2="22" stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="8"  y2="10" stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+            <circle cx="22" cy="22" r="2.8" fill="#fff5cc"/>
+          </g>
+        </svg>
+        <span class="wm"><span class="w-s">spark</span><span class="w-w">wright</span></span>
+      </div>
+    </div>
+
+    <!-- S2: FULL SPARKLER — more spikes, varied lengths, organic -->
+    <div class="concept-card" style="border-color: rgba(255,159,67,0.25);">
+      <p class="concept-tag">Variant S2 ✦ preferred</p>
+      <p class="concept-name">Full Sparkler</p>
+      <p class="concept-desc">More spikes at more varied lengths. This is what the end of a sparkler actually looks like — a dense, irregular burst. The most organic and alive of the three.</p>
+
+      <div class="mark-sizes">
+        <div class="mark-size-item">
+          <svg width="20" height="20" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="gs2" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <g filter="url(#gs2)">
+              <!-- 12 spikes, irregular angles + lengths -->
+              <line x1="22" y1="22" x2="22" y2="4"   stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="30" y2="6"   stroke="#fff0aa" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="37" y2="11"  stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="40" y2="20"  stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="38" y2="31"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="32" y2="38"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="22" y2="40"  stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="13" y2="37"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="6"  y2="32"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="4"  y2="22"  stroke="#ffd93d" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="6"  y2="11"  stroke="#ffca2c" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="14" y2="5"   stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+              <!-- tiny stray sparks at tips -->
+              <circle cx="22" cy="4"  r="0.9" fill="#fff5cc" opacity="0.9"/>
+              <circle cx="40" cy="20" r="0.7" fill="#ffd93d" opacity="0.8"/>
+              <circle cx="4"  cy="22" r="0.8" fill="#ffd93d" opacity="0.8"/>
+              <circle cx="22" cy="40" r="0.9" fill="#fff5cc" opacity="0.85"/>
+              <circle cx="37" cy="11" r="0.6" fill="#ffd93d" opacity="0.7"/>
+              <circle cx="6"  cy="32" r="0.6" fill="#ff9f43" opacity="0.7"/>
+              <!-- bright core -->
+              <circle cx="22" cy="22" r="3.2" fill="#fff8e0"/>
+            </g>
+          </svg>
+          <span class="size-label">nav</span>
+        </div>
+        <div class="mark-size-item">
+          <svg width="52" height="52" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#gs2)">
+              <line x1="22" y1="22" x2="22" y2="4"   stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="30" y2="6"   stroke="#fff0aa" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="37" y2="11"  stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="40" y2="20"  stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="38" y2="31"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="32" y2="38"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="22" y2="40"  stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="13" y2="37"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="6"  y2="32"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="4"  y2="22"  stroke="#ffd93d" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="6"  y2="11"  stroke="#ffca2c" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="14" y2="5"   stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+              <circle cx="22" cy="4"  r="0.9" fill="#fff5cc" opacity="0.9"/>
+              <circle cx="40" cy="20" r="0.7" fill="#ffd93d" opacity="0.8"/>
+              <circle cx="4"  cy="22" r="0.8" fill="#ffd93d" opacity="0.8"/>
+              <circle cx="22" cy="40" r="0.9" fill="#fff5cc" opacity="0.85"/>
+              <circle cx="37" cy="11" r="0.6" fill="#ffd93d" opacity="0.7"/>
+              <circle cx="6"  cy="32" r="0.6" fill="#ff9f43" opacity="0.7"/>
+              <circle cx="22" cy="22" r="3.2" fill="#fff8e0"/>
+            </g>
+          </svg>
+          <span class="size-label">medium</span>
+        </div>
+        <div class="mark-size-item">
+          <svg width="88" height="88" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#gs2)">
+              <line x1="22" y1="22" x2="22" y2="4"   stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="30" y2="6"   stroke="#fff0aa" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="37" y2="11"  stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="40" y2="20"  stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="38" y2="31"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="32" y2="38"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="22" y2="40"  stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="13" y2="37"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="6"  y2="32"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="4"  y2="22"  stroke="#ffd93d" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="6"  y2="11"  stroke="#ffca2c" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="22" x2="14" y2="5"   stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+              <circle cx="22" cy="4"  r="0.9" fill="#fff5cc" opacity="0.9"/>
+              <circle cx="40" cy="20" r="0.7" fill="#ffd93d" opacity="0.8"/>
+              <circle cx="4"  cy="22" r="0.8" fill="#ffd93d" opacity="0.8"/>
+              <circle cx="22" cy="40" r="0.9" fill="#fff5cc" opacity="0.85"/>
+              <circle cx="37" cy="11" r="0.6" fill="#ffd93d" opacity="0.7"/>
+              <circle cx="6"  cy="32" r="0.6" fill="#ff9f43" opacity="0.7"/>
+              <circle cx="22" cy="22" r="3.2" fill="#fff8e0"/>
+            </g>
+          </svg>
+          <span class="size-label">large</span>
+        </div>
+      </div>
+
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#gs2)">
+            <line x1="22" y1="22" x2="22" y2="4"   stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="30" y2="6"   stroke="#fff0aa" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="37" y2="11"  stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="40" y2="20"  stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="38" y2="31"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="32" y2="38"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="22" y2="40"  stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="13" y2="37"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="6"  y2="32"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="4"  y2="22"  stroke="#ffd93d" stroke-width="1.3" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="6"  y2="11"  stroke="#ffca2c" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="14" y2="5"   stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+            <circle cx="22" cy="4"  r="0.9" fill="#fff5cc" opacity="0.9"/>
+            <circle cx="40" cy="20" r="0.7" fill="#ffd93d" opacity="0.8"/>
+            <circle cx="4"  cy="22" r="0.8" fill="#ffd93d" opacity="0.8"/>
+            <circle cx="22" cy="40" r="0.9" fill="#fff5cc" opacity="0.85"/>
+            <circle cx="22" cy="22" r="3.2" fill="#fff8e0"/>
+          </g>
+        </svg>
+        <span class="wm"><span class="w-s">spark</span><span class="w-w">wright</span></span>
+      </div>
+    </div>
+
+    <!-- S3: ASYMMETRIC — spikes weighted upward, like a sparkler held in hand -->
+    <div class="concept-card">
+      <p class="concept-tag">Variant S3</p>
+      <p class="concept-name">Upward Burst</p>
+      <p class="concept-desc">Spikes weighted toward the top — like holding a sparkler, where the sparks rise. Slightly asymmetric and directional. The energy goes somewhere.</p>
+
+      <div class="mark-sizes">
+        <div class="mark-size-item">
+          <svg width="20" height="20" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="gs3" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1.8" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <g filter="url(#gs3)">
+              <!-- More and longer spikes going up, fewer/shorter going down -->
+              <line x1="22" y1="25" x2="22" y2="3"   stroke="#ffd93d" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="31" y2="5"   stroke="#fff0aa" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="38" y2="10"  stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="40" y2="21"  stroke="#ffca2c" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="13" y2="6"   stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="5"  y2="13"  stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="4"  y2="24"  stroke="#ffb347" stroke-width="1.2" stroke-linecap="round"/>
+              <!-- Short downward spikes -->
+              <line x1="22" y1="25" x2="33" y2="37"  stroke="#ff9f43" stroke-width="1.1" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="22" y2="40"  stroke="#ffb347" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="11" y2="37"  stroke="#ff9f43" stroke-width="1.0" stroke-linecap="round"/>
+              <!-- tip dots -->
+              <circle cx="22" cy="3"  r="1.0" fill="#fff5cc" opacity="0.9"/>
+              <circle cx="38" cy="10" r="0.7" fill="#ffd93d" opacity="0.8"/>
+              <circle cx="5"  cy="13" r="0.6" fill="#ffd93d" opacity="0.7"/>
+              <!-- core — shifted slightly below center -->
+              <circle cx="22" cy="25" r="3.0" fill="#fff8e0"/>
+            </g>
+          </svg>
+          <span class="size-label">nav</span>
+        </div>
+        <div class="mark-size-item">
+          <svg width="52" height="52" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#gs3)">
+              <line x1="22" y1="25" x2="22" y2="3"   stroke="#ffd93d" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="31" y2="5"   stroke="#fff0aa" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="38" y2="10"  stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="40" y2="21"  stroke="#ffca2c" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="13" y2="6"   stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="5"  y2="13"  stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="4"  y2="24"  stroke="#ffb347" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="33" y2="37"  stroke="#ff9f43" stroke-width="1.1" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="22" y2="40"  stroke="#ffb347" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="11" y2="37"  stroke="#ff9f43" stroke-width="1.0" stroke-linecap="round"/>
+              <circle cx="22" cy="3"  r="1.0" fill="#fff5cc" opacity="0.9"/>
+              <circle cx="38" cy="10" r="0.7" fill="#ffd93d" opacity="0.8"/>
+              <circle cx="5"  cy="13" r="0.6" fill="#ffd93d" opacity="0.7"/>
+              <circle cx="22" cy="25" r="3.0" fill="#fff8e0"/>
+            </g>
+          </svg>
+          <span class="size-label">medium</span>
+        </div>
+        <div class="mark-size-item">
+          <svg width="88" height="88" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#gs3)">
+              <line x1="22" y1="25" x2="22" y2="3"   stroke="#ffd93d" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="31" y2="5"   stroke="#fff0aa" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="38" y2="10"  stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="40" y2="21"  stroke="#ffca2c" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="13" y2="6"   stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="5"  y2="13"  stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="4"  y2="24"  stroke="#ffb347" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="33" y2="37"  stroke="#ff9f43" stroke-width="1.1" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="22" y2="40"  stroke="#ffb347" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="22" y1="25" x2="11" y2="37"  stroke="#ff9f43" stroke-width="1.0" stroke-linecap="round"/>
+              <circle cx="22" cy="3"  r="1.0" fill="#fff5cc" opacity="0.9"/>
+              <circle cx="38" cy="10" r="0.7" fill="#ffd93d" opacity="0.8"/>
+              <circle cx="5"  cy="13" r="0.6" fill="#ffd93d" opacity="0.7"/>
+              <circle cx="22" cy="25" r="3.0" fill="#fff8e0"/>
+            </g>
+          </svg>
+          <span class="size-label">large</span>
+        </div>
+      </div>
+
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#gs3)">
+            <line x1="22" y1="25" x2="22" y2="3"   stroke="#ffd93d" stroke-width="1.6" stroke-linecap="round"/>
+            <line x1="22" y1="25" x2="31" y2="5"   stroke="#fff0aa" stroke-width="1.3" stroke-linecap="round"/>
+            <line x1="22" y1="25" x2="38" y2="10"  stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="22" y1="25" x2="40" y2="21"  stroke="#ffca2c" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="22" y1="25" x2="13" y2="6"   stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="22" y1="25" x2="5"  y2="13"  stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+            <line x1="22" y1="25" x2="4"  y2="24"  stroke="#ffb347" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="22" y1="25" x2="33" y2="37"  stroke="#ff9f43" stroke-width="1.1" stroke-linecap="round"/>
+            <line x1="22" y1="25" x2="22" y2="40"  stroke="#ffb347" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="22" y1="25" x2="11" y2="37"  stroke="#ff9f43" stroke-width="1.0" stroke-linecap="round"/>
+            <circle cx="22" cy="3"  r="1.0" fill="#fff5cc" opacity="0.9"/>
+            <circle cx="22" cy="25" r="3.0" fill="#fff8e0"/>
+          </g>
+        </svg>
+        <span class="wm"><span class="w-s">spark</span><span class="w-w">wright</span></span>
+      </div>
+    </div>
+
+  </div><!-- /concepts-grid -->
+
+  <!-- ── SCALE COMPARISON: S2 at big sizes ── -->
+  <div class="divider"></div>
+
+  <p class="section-label">How S2 scales</p>
+  <p class="section-desc" style="margin-bottom:24px;">The full sparkler mark at sizes it will actually appear on screen — favicon, nav, hero, and standalone.</p>
+
+  <div class="scale-row">
+    <!-- Favicon 16px -->
+    <div class="scale-item">
+      <svg width="16" height="16" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#gs2)">
+          <line x1="22" y1="22" x2="22" y2="4"   stroke="#ffd93d" stroke-width="2" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="37" y2="11"  stroke="#ffd93d" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="40" y2="20"  stroke="#ffca2c" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="32" y2="38"  stroke="#ffb347" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="22" y2="40"  stroke="#ffd93d" stroke-width="2"   stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="6"  y2="32"  stroke="#ffb347" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="4"  y2="22"  stroke="#ffd93d" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="8"  y2="10"  stroke="#ffca2c" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="22" cy="22" r="3.5" fill="#fff8e0"/>
+        </g>
+      </svg>
+      <span class="scale-item-label">16px favicon</span>
+    </div>
+
+    <!-- Nav 28px -->
+    <div class="scale-item">
+      <svg width="28" height="28" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#gs2)">
+          <line x1="22" y1="22" x2="22" y2="4"   stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="30" y2="6"   stroke="#fff0aa" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="37" y2="11"  stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="40" y2="20"  stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="38" y2="31"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="32" y2="38"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="22" y2="40"  stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="13" y2="37"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="6"  y2="32"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="4"  y2="22"  stroke="#ffd93d" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="6"  y2="11"  stroke="#ffca2c" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="14" y2="5"   stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="22" cy="22" r="3.2" fill="#fff8e0"/>
+        </g>
+      </svg>
+      <span class="scale-item-label">28px nav</span>
+    </div>
+
+    <!-- Hero 64px -->
+    <div class="scale-item">
+      <svg width="64" height="64" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#gs2)">
+          <line x1="22" y1="22" x2="22" y2="4"   stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="30" y2="6"   stroke="#fff0aa" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="37" y2="11"  stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="40" y2="20"  stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="38" y2="31"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="32" y2="38"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="22" y2="40"  stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="13" y2="37"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="6"  y2="32"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="4"  y2="22"  stroke="#ffd93d" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="6"  y2="11"  stroke="#ffca2c" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="14" y2="5"   stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="22" cy="4"  r="0.9" fill="#fff5cc" opacity="0.9"/>
+          <circle cx="40" cy="20" r="0.7" fill="#ffd93d" opacity="0.8"/>
+          <circle cx="4"  cy="22" r="0.8" fill="#ffd93d" opacity="0.8"/>
+          <circle cx="22" cy="40" r="0.9" fill="#fff5cc" opacity="0.85"/>
+          <circle cx="22" cy="22" r="3.2" fill="#fff8e0"/>
+        </g>
+      </svg>
+      <span class="scale-item-label">64px hero</span>
+    </div>
+
+    <!-- Standalone 120px -->
+    <div class="scale-item">
+      <svg width="120" height="120" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#gs2)">
+          <line x1="22" y1="22" x2="22" y2="4"   stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="30" y2="6"   stroke="#fff0aa" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="37" y2="11"  stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="40" y2="20"  stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="38" y2="31"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="32" y2="38"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="22" y2="40"  stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="13" y2="37"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="6"  y2="32"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="4"  y2="22"  stroke="#ffd93d" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="6"  y2="11"  stroke="#ffca2c" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="14" y2="5"   stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="22" cy="4"  r="0.9" fill="#fff5cc" opacity="0.9"/>
+          <circle cx="40" cy="20" r="0.7" fill="#ffd93d" opacity="0.8"/>
+          <circle cx="4"  cy="22" r="0.8" fill="#ffd93d" opacity="0.8"/>
+          <circle cx="22" cy="40" r="0.9" fill="#fff5cc" opacity="0.85"/>
+          <circle cx="37" cy="11" r="0.6" fill="#ffd93d" opacity="0.7"/>
+          <circle cx="6"  cy="32" r="0.6" fill="#ff9f43" opacity="0.7"/>
+          <circle cx="22" cy="22" r="3.2" fill="#fff8e0"/>
+        </g>
+      </svg>
+      <span class="scale-item-label">120px standalone</span>
+    </div>
+  </div>
+
+  <!-- ── FULL HERO MOCKUP ── -->
+  <div class="divider"></div>
+
+  <p class="section-label">S2 in context</p>
+  <p class="section-desc" style="margin-bottom: 24px;">The S2 mark in a full nav + hero — Nunito 800, which you said you're keeping for now.</p>
+
+  <div class="mock-frame">
+    <div class="mock-nav">
+      <div class="mock-logo">
+        <svg width="28" height="28" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+          <g filter="url(#gs2)">
+            <line x1="22" y1="22" x2="22" y2="4"   stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="30" y2="6"   stroke="#fff0aa" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="37" y2="11"  stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="40" y2="20"  stroke="#ffca2c" stroke-width="1.3" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="38" y2="31"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="32" y2="38"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="22" y2="40"  stroke="#ffd93d" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="13" y2="37"  stroke="#ff9f43" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="6"  y2="32"  stroke="#ffb347" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="4"  y2="22"  stroke="#ffd93d" stroke-width="1.3" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="6"  y2="11"  stroke="#ffca2c" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="22" y1="22" x2="14" y2="5"   stroke="#ffd93d" stroke-width="1.4" stroke-linecap="round"/>
+            <circle cx="22" cy="22" r="3.2" fill="#fff8e0"/>
+          </g>
+        </svg>
+        <span class="mock-wm"><span class="w-s">spark</span><span class="w-w">wright</span></span>
+      </div>
+      <div class="nav-links">
+        <span>Games</span>
+        <span>About</span>
+      </div>
+    </div>
+
+    <div class="mock-hero">
+      <p class="eyebrow">For homeschool families, tutors &amp; independent educators</p>
+      <h1 class="headline">Handcrafted learning,<br>built to <span class="headline-accent">spark.</span></h1>
+      <p class="sub">Independent tools designed around how learning actually happens — with friction, with feedback, and with a student who deserves more than a multiple-choice quiz.</p>
+      <a href="#" class="btn">See what's here</a>
+    </div>
+  </div>
+
+</div><!-- /page -->
+</body>
+</html>

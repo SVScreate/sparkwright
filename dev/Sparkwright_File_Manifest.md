@@ -1,5 +1,5 @@
 # Sparkwright — Dev File Manifest
-*Last updated: 2026-03-26 — Session O (housekeeping pass, file renames, subfolder)*
+*Last updated: 2026-03-29 — Session W (Pip brand session — logo + palette)*
 
 ---
 
@@ -42,6 +42,15 @@ sparkwright/
     ├── 2026-03-25_1635_Math_Flash_v57_pool-cycling-easy-toggle.html
     ├── 2026-03-26_1200_Math_Flash_v59_gold-flash-bug8-bug2-house.html
     ├── 2026-03-25_1700_Math_Flash_v58_pool-notices-2attempt-pool-guard.html
+    ├── Pip_Agent_Prompt.md                  ← Bootstrap prompt for Pip (Brand & Visual Design) — also serves as restart prompt
+    ├── Pop_Agent_Prompt.md                  ← Bootstrap prompt for Pop (Digital Printable Products agent)
+    ├── Pip_Brand_v1.md                      ← Brand identity: locked palette, typography, logo rationale + next session to-do (Session W)
+    ├── sparkwright_logo_v1.svg              ← Early logo SVG concept (superseded by HTML files below)
+    ├── sparkwright_logo_final.html          ← Current best logo mark — open in Safari (Session W)
+    ├── sparkwright_brand_mockup_v1.html     ← Full landing page brand mockup (Session W)
+    ├── sparkwright_fonts_v1.html            ← Font comparison: Fredoka / Poppins / Quicksand / Nunito / Comfortaa (Session W)
+    ├── sparkwright_explore_v1.html          ← Logo exploration: scatter dots + arc directions (Session W)
+    ├── sparkwright_explore_v2.html          ← Logo exploration: sparkler mark v1 (Session W)
     └── MF_research_sources/                 ← Raw source material (feeds ConsumerData)
         ├── Math_Flash_reddit_scrape.py
         ├── MF_reddit_rTeachers_math-facts-controversial.md

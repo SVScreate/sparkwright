@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sparkwright — Logo + Font Exploration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void:    #0c0c18;
+      --deep:    #13132a;
+      --layer:   #1c1c38;
+      --ember:   #ff9f43;
+      --flash:   #ffd93d;
+      --arc-c:   #c77dff;
+      --ghost:   #e8e4f0;
+      --mist:    #9a93b5;
+      --dusk:    #5a5375;
+      --border:  rgba(120,100,200,0.18);
+      --border-hi: rgba(160,130,255,0.32);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: var(--void);
+      color: var(--ghost);
+      font-family: 'Nunito', sans-serif;
+    }
+
+    body {
+      background-image: radial-gradient(circle, rgba(120,100,200,0.13) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    /* ── BANNER ── */
+    .banner {
+      background: rgba(255,159,67,0.07);
+      border-bottom: 1px solid rgba(255,159,67,0.22);
+      padding: 9px 32px;
+      text-align: center;
+      font-family: 'Nunito', sans-serif;
+      font-size: 11px;
+      color: var(--ember);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── SECTION WRAPPER ── */
+    .section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 64px 32px;
+    }
+
+    .section + .section {
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-family: 'Nunito', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--dusk);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 26px;
+      color: var(--ghost);
+      margin-bottom: 6px;
+    }
+
+    .section-desc {
+      font-size: 14px;
+      color: var(--mist);
+      margin-bottom: 48px;
+      line-height: 1.55;
+    }
+
+    /* ── LOGO CONCEPTS GRID ── */
+    .concepts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .concept-card {
+      background: var(--deep);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px;
+    }
+
+    .concept-card:hover {
+      border-color: var(--border-hi);
+    }
+
+    .concept-tag {
+      font-family: 'Nunito', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 4px;
+    }
+
+    .concept-name {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--ghost);
+      margin-bottom: 4px;
+    }
+
+    .concept-desc {
+      font-size: 13px;
+      color: var(--mist);
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+
+    /* Mark sizes row */
+    .mark-sizes {
+      display: flex;
+      align-items: flex-end;
+      gap: 24px;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mark-size-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mark-size-label {
+      font-size: 10px;
+      color: var(--dusk);
+      letter-spacing: 1px;
+    }
+
+    /* Logo lockup */
+    .logo-lockup {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .lockup-wordmark {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .w-spark  { color: var(--ember); }
+    .w-wright { color: var(--ghost); }
+
+    /* ── FONT SECTION — shared nav/hero styles ── */
+    .font-block {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+
+    .font-block-label {
+      background: var(--layer);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .font-block-name {
+      font-family: 'Nunito', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ember);
+    }
+
+    .font-block-note {
+      font-size: 12px;
+      color: var(--dusk);
+    }
+
+    /* Mini nav inside font block */
+    .mock-nav {
+      background: rgba(12,12,24,0.95);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mock-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .mock-logo-mark {
+      flex-shrink: 0;
+    }
+
+    .mock-nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .mock-nav-links li {
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      color: var(--mist);
+    }
+
+    /* Hero inside font block */
+    .mock-hero {
+      padding: 72px 48px 64px;
+      text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(199,125,255,0.06) 0%, transparent 70%);
+    }
+
+    .mock-eyebrow {
+      font-family: 'Nunito', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 22px;
+    }
+
+    .mock-headline {
+      line-height: 1.07;
+      color: var(--ghost);
+      margin-bottom: 20px;
+    }
+
+    .headline-accent {
+      background: linear-gradient(90deg, var(--ember) 0%, var(--flash) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .mock-sub {
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      color: var(--mist);
+      line-height: 1.65;
+      max-width: 500px;
+      margin: 0 auto 32px;
+    }
+
+    .mock-btn {
+      display: inline-block;
+      background: var(--ember);
+      color: #0c0c18;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 13px 32px;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+
+    /* ── FONT-SPECIFIC ── */
+
+    /* Fredoka */
+    .f-fredoka .lockup-wordmark { font-family: 'Fredoka', sans-serif; }
+    .f-fredoka .mock-logo .lockup-wordmark { font-family: 'Fredoka', sans-serif; font-size: 22px; font-weight: 600; }
+    .f-fredoka .mock-headline { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(36px, 5vw, 54px); letter-spacing: -0.5px; }
+    .f-fredoka .mock-btn { font-family: 'Fredoka', sans-serif; }
+
+    /* Nunito 800 */
+    .f-nunito .lockup-wordmark { font-family: 'Nunito', sans-serif; font-weight: 800; }
+    .f-nunito .mock-logo .lockup-wordmark { font-family: 'Nunito', sans-serif; font-size: 21px; font-weight: 800; letter-spacing: -0.3px; }
+    .f-nunito .mock-headline { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: clamp(36px, 5vw, 54px); letter-spacing: -1px; }
+    .f-nunito .mock-btn { font-family: 'Nunito', sans-serif; font-weight: 800; }
+
+    /* ── DIVIDER LABEL ── */
+    .divider-label {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 64px 0 48px;
+    }
+
+    .divider-label::before,
+    .divider-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .divider-label span {
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--dusk);
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">Logo + Font Exploration v1 &nbsp;&middot;&nbsp; Pip &nbsp;&middot;&nbsp; 2026-03-29 &nbsp;&middot;&nbsp; not live</div>
+
+  <!-- ════════════════════════════════════════════
+       SECTION 1 — LOGO MARK CONCEPTS
+       ════════════════════════════════════════════ -->
+  <div class="section">
+    <p class="section-label">Part 1 of 2</p>
+    <h2 class="section-title">Logo mark exploration</h2>
+    <p class="section-desc">Four directions — two from the "scatter sparks" family (B), two from the "arc" family (E). Each shown at small, medium, and large scale, plus in the logo lockup so you can see how they sit next to the wordmark.</p>
+
+    <div class="concepts-grid">
+
+      <!-- ── B1: RADIAL SCATTER ── -->
+      <div class="concept-card">
+        <p class="concept-tag">Direction B</p>
+        <p class="concept-name">Radial Scatter</p>
+        <p class="concept-desc">Particles radiating from a bright center — like looking straight into a sparkler. Organic, warm, suggests energy in all directions.</p>
+
+        <div class="mark-sizes">
+          <!-- Small: 24px -->
+          <div class="mark-size-item">
+            <svg width="24" height="24" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="rg1" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#ffd93d"/>
+                  <stop offset="100%" stop-color="#ff9f43"/>
+                </radialGradient>
+                <filter id="glow1"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <g filter="url(#glow1)">
+                <circle cx="20" cy="20" r="3.5" fill="#ffd93d"/>
+                <circle cx="32" cy="20" r="2.2" fill="#ff9f43" opacity="0.9"/>
+                <circle cx="27" cy="10" r="2.6" fill="#ffd93d" opacity="0.85"/>
+                <circle cx="15" cy="11" r="1.7" fill="#ff9f43" opacity="0.8"/>
+                <circle cx="8"  cy="20" r="2.0" fill="#ffb347" opacity="0.75"/>
+                <circle cx="14" cy="30" r="2.1" fill="#ff9f43" opacity="0.8"/>
+                <circle cx="27" cy="30" r="1.5" fill="#ffd93d" opacity="0.7"/>
+                <circle cx="35" cy="10" r="1.2" fill="#ffd93d" opacity="0.6"/>
+                <circle cx="7"  cy="11" r="0.9" fill="#ff9f43" opacity="0.5"/>
+              </g>
+            </svg>
+            <span class="mark-size-label">nav</span>
+          </div>
+          <!-- Medium: 56px -->
+          <div class="mark-size-item">
+            <svg width="56" height="56" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <g filter="url(#glow1)">
+                <circle cx="20" cy="20" r="3.5" fill="#ffd93d"/>
+                <circle cx="32" cy="20" r="2.2" fill="#ff9f43" opacity="0.9"/>
+                <circle cx="27" cy="10" r="2.6" fill="#ffd93d" opacity="0.85"/>
+                <circle cx="15" cy="11" r="1.7" fill="#ff9f43" opacity="0.8"/>
+                <circle cx="8"  cy="20" r="2.0" fill="#ffb347" opacity="0.75"/>
+                <circle cx="14" cy="30" r="2.1" fill="#ff9f43" opacity="0.8"/>
+                <circle cx="27" cy="30" r="1.5" fill="#ffd93d" opacity="0.7"/>
+                <circle cx="35" cy="10" r="1.2" fill="#ffd93d" opacity="0.6"/>
+                <circle cx="7"  cy="11" r="0.9" fill="#ff9f43" opacity="0.5"/>
+              </g>
+            </svg>
+            <span class="mark-size-label">medium</span>
+          </div>
+          <!-- Large: 96px -->
+          <div class="mark-size-item">
+            <svg width="96" height="96" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <g filter="url(#glow1)">
+                <circle cx="20" cy="20" r="3.5" fill="#ffd93d"/>
+                <circle cx="32" cy="20" r="2.2" fill="#ff9f43" opacity="0.9"/>
+                <circle cx="27" cy="10" r="2.6" fill="#ffd93d" opacity="0.85"/>
+                <circle cx="15" cy="11" r="1.7" fill="#ff9f43" opacity="0.8"/>
+                <circle cx="8"  cy="20" r="2.0" fill="#ffb347" opacity="0.75"/>
+                <circle cx="14" cy="30" r="2.1" fill="#ff9f43" opacity="0.8"/>
+                <circle cx="27" cy="30" r="1.5" fill="#ffd93d" opacity="0.7"/>
+                <circle cx="35" cy="10" r="1.2" fill="#ffd93d" opacity="0.6"/>
+                <circle cx="7"  cy="11" r="0.9" fill="#ff9f43" opacity="0.5"/>
+              </g>
+            </svg>
+            <span class="mark-size-label">large</span>
+          </div>
+        </div>
+
+        <!-- Lockup -->
+        <div class="logo-lockup f-nunito">
+          <svg width="28" height="28" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#glow1)">
+              <circle cx="20" cy="20" r="3.5" fill="#ffd93d"/>
+              <circle cx="32" cy="20" r="2.2" fill="#ff9f43" opacity="0.9"/>
+              <circle cx="27" cy="10" r="2.6" fill="#ffd93d" opacity="0.85"/>
+              <circle cx="15" cy="11" r="1.7" fill="#ff9f43" opacity="0.8"/>
+              <circle cx="8"  cy="20" r="2.0" fill="#ffb347" opacity="0.75"/>
+              <circle cx="14" cy="30" r="2.1" fill="#ff9f43" opacity="0.8"/>
+              <circle cx="27" cy="30" r="1.5" fill="#ffd93d" opacity="0.7"/>
+              <circle cx="35" cy="10" r="1.2" fill="#ffd93d" opacity="0.6"/>
+              <circle cx="7"  cy="11" r="0.9" fill="#ff9f43" opacity="0.5"/>
+            </g>
+          </svg>
+          <span class="lockup-wordmark"><span class="w-spark">spark</span><span class="w-wright">wright</span></span>
+        </div>
+      </div>
+
+      <!-- ── B2: DIRECTIONAL SCATTER ── -->
+      <div class="concept-card">
+        <p class="concept-tag">Direction B</p>
+        <p class="concept-name">Directional Scatter</p>
+        <p class="concept-desc">Sparks flying upward from a source — like struck metal or a match. Suggests motion, initiation, the moment energy is released. More dynamic than radial.</p>
+
+        <div class="mark-sizes">
+          <div class="mark-size-item">
+            <svg width="24" height="24" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <filter id="glow2"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <g filter="url(#glow2)">
+                <!-- Source glow bottom-left -->
+                <circle cx="10" cy="32" r="3.8" fill="#ff9f43" opacity="0.95"/>
+                <!-- Particles flying upper-right, getting smaller -->
+                <circle cx="17" cy="24" r="2.8" fill="#ffb347" opacity="0.9"/>
+                <circle cx="24" cy="17" r="3.2" fill="#ffd93d" opacity="0.85"/>
+                <circle cx="30" cy="11" r="2.2" fill="#ffd93d" opacity="0.78"/>
+                <circle cx="35" cy="6"  r="1.6" fill="#ffd93d" opacity="0.65"/>
+                <!-- Stray sparks -->
+                <circle cx="33" cy="15" r="1.3" fill="#ff9f43" opacity="0.55"/>
+                <circle cx="26" cy="7"  r="1.0" fill="#ffd93d" opacity="0.5"/>
+                <circle cx="38" cy="10" r="0.8" fill="#ffd93d" opacity="0.4"/>
+              </g>
+            </svg>
+            <span class="mark-size-label">nav</span>
+          </div>
+          <div class="mark-size-item">
+            <svg width="56" height="56" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <g filter="url(#glow2)">
+                <circle cx="10" cy="32" r="3.8" fill="#ff9f43" opacity="0.95"/>
+                <circle cx="17" cy="24" r="2.8" fill="#ffb347" opacity="0.9"/>
+                <circle cx="24" cy="17" r="3.2" fill="#ffd93d" opacity="0.85"/>
+                <circle cx="30" cy="11" r="2.2" fill="#ffd93d" opacity="0.78"/>
+                <circle cx="35" cy="6"  r="1.6" fill="#ffd93d" opacity="0.65"/>
+                <circle cx="33" cy="15" r="1.3" fill="#ff9f43" opacity="0.55"/>
+                <circle cx="26" cy="7"  r="1.0" fill="#ffd93d" opacity="0.5"/>
+                <circle cx="38" cy="10" r="0.8" fill="#ffd93d" opacity="0.4"/>
+              </g>
+            </svg>
+            <span class="mark-size-label">medium</span>
+          </div>
+          <div class="mark-size-item">
+            <svg width="96" height="96" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <g filter="url(#glow2)">
+                <circle cx="10" cy="32" r="3.8" fill="#ff9f43" opacity="0.95"/>
+                <circle cx="17" cy="24" r="2.8" fill="#ffb347" opacity="0.9"/>
+                <circle cx="24" cy="17" r="3.2" fill="#ffd93d" opacity="0.85"/>
+                <circle cx="30" cy="11" r="2.2" fill="#ffd93d" opacity="0.78"/>
+                <circle cx="35" cy="6"  r="1.6" fill="#ffd93d" opacity="0.65"/>
+                <circle cx="33" cy="15" r="1.3" fill="#ff9f43" opacity="0.55"/>
+                <circle cx="26" cy="7"  r="1.0" fill="#ffd93d" opacity="0.5"/>
+                <circle cx="38" cy="10" r="0.8" fill="#ffd93d" opacity="0.4"/>
+              </g>
+            </svg>
+            <span class="mark-size-label">large</span>
+          </div>
+        </div>
+
+        <div class="logo-lockup f-nunito">
+          <svg width="28" height="28" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#glow2)">
+              <circle cx="10" cy="32" r="3.8" fill="#ff9f43" opacity="0.95"/>
+              <circle cx="17" cy="24" r="2.8" fill="#ffb347" opacity="0.9"/>
+              <circle cx="24" cy="17" r="3.2" fill="#ffd93d" opacity="0.85"/>
+              <circle cx="30" cy="11" r="2.2" fill="#ffd93d" opacity="0.78"/>
+              <circle cx="35" cy="6"  r="1.6" fill="#ffd93d" opacity="0.65"/>
+              <circle cx="33" cy="15" r="1.3" fill="#ff9f43" opacity="0.55"/>
+              <circle cx="26" cy="7"  r="1.0" fill="#ffd93d" opacity="0.5"/>
+              <circle cx="38" cy="10" r="0.8" fill="#ffd93d" opacity="0.4"/>
+            </g>
+          </svg>
+          <span class="lockup-wordmark"><span class="w-spark">spark</span><span class="w-wright">wright</span></span>
+        </div>
+      </div>
+
+      <!-- ── E1: CLEAN ARC ── -->
+      <div class="concept-card">
+        <p class="concept-tag">Direction E</p>
+        <p class="concept-name">Clean Arc</p>
+        <p class="concept-desc">A single bold stroke arcing from lower-left to upper-right. Like an electrical discharge path — the shortest route between two points. Minimal, distinctive, scalable.</p>
+
+        <div class="mark-sizes">
+          <div class="mark-size-item">
+            <svg width="24" height="24" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="arcgrad1" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#ff9f43"/>
+                  <stop offset="100%" stop-color="#ffd93d"/>
+                </linearGradient>
+                <filter id="glow3"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <path d="M 7 35 Q 6 8 33 7" stroke="url(#arcgrad1)" stroke-width="3.5" stroke-linecap="round" fill="none" filter="url(#glow3)"/>
+            </svg>
+            <span class="mark-size-label">nav</span>
+          </div>
+          <div class="mark-size-item">
+            <svg width="56" height="56" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 7 35 Q 6 8 33 7" stroke="url(#arcgrad1)" stroke-width="3.5" stroke-linecap="round" fill="none" filter="url(#glow3)"/>
+            </svg>
+            <span class="mark-size-label">medium</span>
+          </div>
+          <div class="mark-size-item">
+            <svg width="96" height="96" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 7 35 Q 6 8 33 7" stroke="url(#arcgrad1)" stroke-width="3.5" stroke-linecap="round" fill="none" filter="url(#glow3)"/>
+            </svg>
+            <span class="mark-size-label">large</span>
+          </div>
+        </div>
+
+        <div class="logo-lockup f-nunito">
+          <svg width="26" height="28" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 7 35 Q 6 8 33 7" stroke="url(#arcgrad1)" stroke-width="3.5" stroke-linecap="round" fill="none" filter="url(#glow3)"/>
+          </svg>
+          <span class="lockup-wordmark"><span class="w-spark">spark</span><span class="w-wright">wright</span></span>
+        </div>
+      </div>
+
+      <!-- ── E2: ARC + TERMINALS ── -->
+      <div class="concept-card">
+        <p class="concept-tag">Direction E</p>
+        <p class="concept-name">Arc + Terminals</p>
+        <p class="concept-desc">Same arc with two electrode endpoints — the classic electrical arc symbol. The moment electricity jumps the gap. References neuroscience (synaptic gap) as much as electricity.</p>
+
+        <div class="mark-sizes">
+          <div class="mark-size-item">
+            <svg width="24" height="24" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="arcgrad2" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#ff9f43"/>
+                  <stop offset="100%" stop-color="#ffd93d"/>
+                </linearGradient>
+                <filter id="glow4"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <g filter="url(#glow4)">
+                <path d="M 7 35 Q 6 8 33 7" stroke="url(#arcgrad2)" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+                <circle cx="7"  cy="35" r="3.2" fill="#ff9f43"/>
+                <circle cx="33" cy="7"  r="3.2" fill="#ffd93d"/>
+              </g>
+            </svg>
+            <span class="mark-size-label">nav</span>
+          </div>
+          <div class="mark-size-item">
+            <svg width="56" height="56" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <g filter="url(#glow4)">
+                <path d="M 7 35 Q 6 8 33 7" stroke="url(#arcgrad2)" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+                <circle cx="7"  cy="35" r="3.2" fill="#ff9f43"/>
+                <circle cx="33" cy="7"  r="3.2" fill="#ffd93d"/>
+              </g>
+            </svg>
+            <span class="mark-size-label">medium</span>
+          </div>
+          <div class="mark-size-item">
+            <svg width="96" height="96" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+              <g filter="url(#glow4)">
+                <path d="M 7 35 Q 6 8 33 7" stroke="url(#arcgrad2)" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+                <circle cx="7"  cy="35" r="3.2" fill="#ff9f43"/>
+                <circle cx="33" cy="7"  r="3.2" fill="#ffd93d"/>
+              </g>
+            </svg>
+            <span class="mark-size-label">large</span>
+          </div>
+        </div>
+
+        <div class="logo-lockup f-nunito">
+          <svg width="26" height="28" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#glow4)">
+              <path d="M 7 35 Q 6 8 33 7" stroke="url(#arcgrad2)" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+              <circle cx="7"  cy="35" r="3.2" fill="#ff9f43"/>
+              <circle cx="33" cy="7"  r="3.2" fill="#ffd93d"/>
+            </g>
+          </svg>
+          <span class="lockup-wordmark"><span class="w-spark">spark</span><span class="w-wright">wright</span></span>
+        </div>
+      </div>
+
+    </div><!-- /concepts-grid -->
+  </div><!-- /section 1 -->
+
+
+  <!-- ════════════════════════════════════════════
+       SECTION 2 — FONT COMPARISON
+       ════════════════════════════════════════════ -->
+  <div class="section">
+    <p class="section-label">Part 2 of 2</p>
+    <h2 class="section-title">Font comparison — full context</h2>
+    <p class="section-desc">Both options shown as a full nav + hero. Body text stays Nunito 400 in both. The B2 (Directional Scatter) mark is used here so you can see font + logo interaction — swap in whichever mark you prefer mentally.</p>
+
+    <!-- ── FREDOKA ── -->
+    <div class="font-block f-fredoka">
+      <div class="font-block-label">
+        <span class="font-block-name">Option 1 — Fredoka</span>
+        <span class="font-block-note">Rounded, warm, energetic. More personality than Comfortaa.</span>
+      </div>
+
+      <div class="mock-nav">
+        <div class="mock-logo">
+          <svg class="mock-logo-mark" width="26" height="26" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#glow2)">
+              <circle cx="10" cy="32" r="3.8" fill="#ff9f43" opacity="0.95"/>
+              <circle cx="17" cy="24" r="2.8" fill="#ffb347" opacity="0.9"/>
+              <circle cx="24" cy="17" r="3.2" fill="#ffd93d" opacity="0.85"/>
+              <circle cx="30" cy="11" r="2.2" fill="#ffd93d" opacity="0.78"/>
+              <circle cx="35" cy="6"  r="1.6" fill="#ffd93d" opacity="0.65"/>
+              <circle cx="33" cy="15" r="1.3" fill="#ff9f43" opacity="0.55"/>
+              <circle cx="26" cy="7"  r="1.0" fill="#ffd93d" opacity="0.5"/>
+            </g>
+          </svg>
+          <span class="lockup-wordmark" style="font-family:'Fredoka',sans-serif; font-weight:600; font-size:22px;"><span class="w-spark">spark</span><span class="w-wright">wright</span></span>
+        </div>
+        <ul class="mock-nav-links">
+          <li>Games</li>
+          <li>About</li>
+        </ul>
+      </div>
+
+      <div class="mock-hero">
+        <p class="mock-eyebrow">For homeschool families, tutors &amp; independent educators</p>
+        <h1 class="mock-headline">Handcrafted learning,<br>built to <span class="headline-accent">spark.</span></h1>
+        <p class="mock-sub">Independent tools designed around how learning actually happens — with friction, with feedback, and with a student who deserves more than a multiple-choice quiz.</p>
+        <a href="#" class="mock-btn">See what's here</a>
+      </div>
+    </div>
+
+    <!-- ── NUNITO 800 ── -->
+    <div class="font-block f-nunito">
+      <div class="font-block-label">
+        <span class="font-block-name">Option 2 — Nunito 800</span>
+        <span class="font-block-note">Already your body font, pushed heavier. Warm, cohesive, zero new weight to load.</span>
+      </div>
+
+      <div class="mock-nav">
+        <div class="mock-logo">
+          <svg class="mock-logo-mark" width="26" height="26" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#glow2)">
+              <circle cx="10" cy="32" r="3.8" fill="#ff9f43" opacity="0.95"/>
+              <circle cx="17" cy="24" r="2.8" fill="#ffb347" opacity="0.9"/>
+              <circle cx="24" cy="17" r="3.2" fill="#ffd93d" opacity="0.85"/>
+              <circle cx="30" cy="11" r="2.2" fill="#ffd93d" opacity="0.78"/>
+              <circle cx="35" cy="6"  r="1.6" fill="#ffd93d" opacity="0.65"/>
+              <circle cx="33" cy="15" r="1.3" fill="#ff9f43" opacity="0.55"/>
+              <circle cx="26" cy="7"  r="1.0" fill="#ffd93d" opacity="0.5"/>
+            </g>
+          </svg>
+          <span class="lockup-wordmark" style="font-family:'Nunito',sans-serif; font-weight:800; font-size:21px; letter-spacing:-0.3px;"><span class="w-spark">spark</span><span class="w-wright">wright</span></span>
+        </div>
+        <ul class="mock-nav-links">
+          <li>Games</li>
+          <li>About</li>
+        </ul>
+      </div>
+
+      <div class="mock-hero">
+        <p class="mock-eyebrow">For homeschool families, tutors &amp; independent educators</p>
+        <h1 class="mock-headline">Handcrafted learning,<br>built to <span class="headline-accent">spark.</span></h1>
+        <p class="mock-sub">Independent tools designed around how learning actually happens — with friction, with feedback, and with a student who deserves more than a multiple-choice quiz.</p>
+        <a href="#" class="mock-btn">See what's here</a>
+      </div>
+    </div>
+
+  </div><!-- /section 2 -->
+
+</body>
+</html>

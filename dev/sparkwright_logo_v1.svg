@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 100" width="420" height="100">
+  <defs>
+    <!-- Ember→Flash gradient for the spark mark -->
+    <linearGradient id="sparkGrad" x1="0.5" y1="1" x2="0.5" y2="0">
+      <stop offset="0%" stop-color="#ff9f43"/>
+      <stop offset="100%" stop-color="#ffd93d"/>
+    </linearGradient>
+    <!-- Glow filter for the mark -->
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@600&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- Dark background for preview -->
+  <rect width="420" height="100" fill="#0c0c18" rx="8"/>
+
+  <!-- ═══════════════════════════════════════════
+       SPARK MARK
+       4-pointed star, center (44, 50)
+       Vertical arms: R=26 (taller — sparks shoot up)
+       Horizontal arms: R=20 (narrower)
+       Inner radius: r=6 at 45° diagonals
+       ═══════════════════════════════════════════ -->
+  <path d="
+    M 44 24
+    L 48.24 43.76
+    L 64 50
+    L 48.24 56.24
+    L 44 76
+    L 39.76 56.24
+    L 24 50
+    L 39.76 43.76
+    Z"
+    fill="url(#sparkGrad)"
+    filter="url(#glow)"
+  />
+
+  <!-- Scatter sparks — tiny particles breaking away (upper right) -->
+  <circle cx="70" cy="30" r="2.2" fill="#ffd93d" opacity="0.80"/>
+  <circle cx="76" cy="20" r="1.4" fill="#ffd93d" opacity="0.55"/>
+  <circle cx="79" cy="34" r="1.0" fill="#ff9f43" opacity="0.45"/>
+
+  <!-- ═══════════════════════════════════════════
+       WORDMARK
+       "spark" in Ember (#ff9f43)
+       "wright" in Ghost (#e8e4f0)
+       Font: Outfit 600, 36px
+       Baseline at y=62
+       ═══════════════════════════════════════════ -->
+  <text
+    font-family="'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+    font-weight="600"
+    font-size="36"
+    letter-spacing="-0.5"
+    y="64"
+  >
+    <tspan x="96" fill="#ff9f43">spark</tspan><tspan fill="#e8e4f0">wright</tspan>
+  </text>
+
+  <!-- Subtle tagline (optional — comment out if not wanted) -->
+  <!-- <text x="96" y="82" font-family="'Outfit', sans-serif" font-weight="300" font-size="11"
+        fill="#9a93b5" letter-spacing="2" text-anchor="start">HANDCRAFTED LEARNING</text> -->
+
+</svg>
