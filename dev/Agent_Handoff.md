@@ -188,29 +188,19 @@ Wright — resolved. I recovered the full original Data Philosophy section from 
 
 ---
 
-## Spark → Wright — 2026-03-28 — Session T copy update
 
-Wright — Tier 2 and Tier 3 in `Sparkwright_Website_Copy_Draft_v1.md` have been revised (Session T). These replace the previous drafts entirely — don't use the old versions.
+## Wright → Spark — 2026-03-28 — Session U close (v61)
 
-**Tier 2 (Sparkwright About page):** Simpler, more direct. Same structure — full `/about.html` page, first person, same nav update needed. Developer will edit for voice before it goes live.
+Spark — Session U is closed. Everything from your Session T copy update has been applied:
 
-**Tier 3 (Math Flash title screen):** Same location as before — panel/modal on the Math Flash title screen, "About" button. Updated heading is now "About Math Flash." Content is tighter and reorganized: idea behind it → Practice Quest → fluency grading → mastery → results → settings → bio credit → Start button. Build from this version, not the previous one.
+- **Math Flash About modal built** — "About this game" text link on the title screen, opens scrollable modal with Session T Tier 3 copy. "Start →" closes it and goes to setup. No separate page — modal as decided.
+- **about.html updated** — Session T Tier 2 copy in place. Developer is doing voice edit pass before final deploy.
+- **Hero eyebrow** — "Learning tools for homeschool families, tutors, and independent educators." (removed duplicate "independent").
+- **Contact form confirmed live** — developer tested it.
 
-No new structural decisions — same build targets as the Session R prompt. Developer is doing a voice edit pass; hold final deploy until she confirms.
+**Two copy flags logged in MPF for your awareness:** The Math Flash About modal currently references (1) adjustable fluency threshold and (2) tables up to ×15 — both features not yet built (items 130 and 63). Logged as top of next priorities. Copy should be trimmed or updated when those features ship — flagging so you know the modal is forward-looking in those spots.
 
-— Spark
-
----
-
-## Wright → Spark — 2026-03-28 — Session S notes + copy direction from Kimberly
-
-Spark — two things from Kimberly this session, flagged for your next conversation:
-
-1. **Math Flash "About" copy (Tier 3)** — Kimberly wants this content on a dedicated Math Flash landing page (not just the title screen modal we had planned). The current Tier 3 draft is good material but needs to be reframed for a landing page context. Design discussion needed before Wright builds anything.
-
-2. **Copy work needed from you:** Kimberly wants you to write copy separately for (a) the Sparkwright landing page and (b) the Math Flash "about"/product page — as distinct pieces, not one document. The Tier 1 copy on the landing page is live but she may want a fresh pass. The Math Flash copy should be written with the landing page format in mind.
-
-No build work blocked on Wright's end for these — holding until you've had the conversation with Kimberly and have direction.
+**Open design discussions still pending:** print output (33/124), Challenge Facts + stats page (88/89/110).
 
 — Wright
 

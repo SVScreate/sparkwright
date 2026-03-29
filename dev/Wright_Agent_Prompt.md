@@ -77,7 +77,7 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Flash v60** — `dev/2026-03-28_1530_Math_Flash_v60_scroll-house-placeholder-maxlength.html`
+**Math Flash v61** — `dev/2026-03-28_2345_Math_Flash_v61_about-modal.html`
 Live at: `games/mathflash/index.html`
 
 ---

@@ -170,6 +170,13 @@
     margin-bottom: 48px;
   }
 
+  .about-email {
+    color: var(--a7);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(61,214,200,0.35);
+  }
+  .about-email:hover { border-bottom-color: var(--a7); }
+
   .prose-section h2 {
     font-family: 'Comfortaa', sans-serif;
     font-size: 21px;
@@ -284,57 +291,30 @@
   <div class="wrap">
     <div class="prose">
 
-      <p class="prose-opening">I couldn't find what I needed, so I built it.</p>
-      <p class="prose-opening-sub">That's the honest version. The longer version takes a minute.</p>
+      <p class="prose-opening">I'm a teacher with a Master's in Educational Therapy and 15+ years working with students — public schools, private schools, homeschool settings, a lot of one-on-one work with kids who learn differently. Over those years I kept running into the same problem: the tools that existed were built for schools, not for the people actually sitting with a student. Account systems, admin dashboards, monthly reports. Nothing designed for a tutor with one kid and 45 minutes.</p>
+      <p class="prose-opening-sub">Sparkwright is me finally building what I kept looking for.</p>
+      <p class="prose-opening-sub">The plan is a growing collection of games and tools — made one at a time, grounded in real teaching experience and research I've actually read. Math Flash is the first. Each one starts with a specific gap I identified in my own work and ends with something I'd use with my own students.</p>
 
       <div class="prose-section">
-        <h2>Who Built This</h2>
-        <p>I'm a teacher. Master's in Educational Therapy, 15+ years working with students across public schools, private schools, and homeschool settings — many of them struggling, most of them capable, all of them deserving better than what the mainstream tools were offering.</p>
-        <p>I'm not a software company. I'm not venture-backed. I built these tools because I kept running into the same gap: there was nothing that handled the moment a student got an answer wrong the way that moment deserved to be handled.</p>
+        <h2>How these tools work</h2>
+        <p>No accounts, no subscriptions. Session data stays in the student's browser — not on a server, not in a system I control. You decide what to practice, at what pace, with what settings. The software tracks what happens and gives you something readable at the end.</p>
+        <p>That's the design philosophy in plain terms: you and the student are in charge, not the program.</p>
       </div>
 
       <div class="prose-section">
-        <h2>Why These Tools Exist</h2>
-        <p>Most math practice software does the same thing when a student misses an answer: it shows the correct answer, logs the miss, and moves on. The algorithm will show that fact again sometime. Maybe today, maybe in three days.</p>
-        <p>That's not remediation. That's deferral.</p>
-        <p>I wanted a tool that stopped at the moment of failure and actually did something about it — right then, before the student moved on. That tracked which facts a student had genuinely internalized versus which ones they were reconstructing on the fly each time. That let the teacher stay in control of what was practiced, at what pace, with what accommodations.</p>
-        <p>I also didn't want to hand over a child's practice data to a server somewhere so it could surface in a monthly report the teacher reads six weeks later.</p>
-        <p>I looked for that tool for a long time. I couldn't find it. So I built it.</p>
+        <h2>The research behind the design</h2>
+        <p>My training in Educational Therapy means I've read the research on fluency thresholds, error correction, cognitive load, and processing speed differences in students with ADHD, dyslexia, and dyscalculia. The design decisions here come from those sources, not from gut instinct or convention.</p>
+        <p>I cite what I use. Where a claim is sourced, I can tell you exactly where it comes from. Where something can't be verified, I say so rather than papering over the gap.</p>
       </div>
 
       <div class="prose-section">
-        <h2>A Tool, Not a Program</h2>
-        <p>There's a real difference between the two. A program has its own agenda: it decides what the student does next, in what order, at what pace. The teacher manages the program. The student complies.</p>
-        <p>A tool does what you tell it. The teacher decides what to practice. The student and teacher stay in the driver's seat. The tool tracks what happens and gives you something useful at the end.</p>
-        <p>Every design decision in Sparkwright tools comes back to that distinction. The settings exist because you know your student better than any algorithm does. The data is readable because you should be able to understand it without a dashboard. The accommodations are there because one size hasn't fit all the students I've worked with, and it won't fit yours either.</p>
+        <h2>Who this is for</h2>
+        <p>Homeschool families, tutors, educational therapists, and independent teachers who want tools that work in small settings without an IT setup. If you've used one of the major platforms and found it either too anxiety-inducing for your student, too locked-down in how it operates, or just not designed for the way you actually work — that's the gap these tools are meant to fill.</p>
       </div>
 
       <div class="prose-section">
-        <h2>Your Data Stays With You</h2>
-        <p>Sparkwright tools store data in your browser's local storage. No account required to play. No server, no subscription keeping your history hostage, no data harvested or analyzed by a third party.</p>
-        <p>If you stop using a Sparkwright tool, your session history stays in your browser until you clear it — and eventually, there will be an export option so you can keep it on your own terms.</p>
-        <p>This is a choice, not a limitation. The value isn't "we hold your data and show you charts." It's a better learning experience, and the data is yours.</p>
-      </div>
-
-      <div class="prose-section">
-        <h2>On the Research</h2>
-        <p>The design decisions here aren't guesses.</p>
-        <p>The 3-second fluency threshold comes from research on what distinguishes automatic retrieval from effortful calculation — a fact answered in under 3 seconds is almost certainly pulled from memory, not reconstructed. The in-moment remediation approach is grounded in work on error correction: for most learners, structured feedback at the moment of failure produces better retention than errorless practice. The accommodation options reflect what's known about processing speed differences in students with ADHD, dyslexia, and dyscalculia.</p>
-        <p>The citations are in the documentation — not paraphrased from a white paper, but read and verified. Where the research is unclear or a claim can't be sourced, it's marked that way. I'd rather leave an honest gap than fill it with a confident-sounding guess.</p>
-        <p>None of this means Sparkwright tools have been clinically validated. They haven't. What it means is that the principles they're built on are real, cited honestly, and applied with the same care I'd want from a tool being used with my own students.</p>
-      </div>
-
-      <div class="prose-section">
-        <h2>Who This Is For</h2>
-        <p>Homeschool families working one-on-one with their kids. Independent tutors and educational therapists who need session-level data they can actually hand to parents. Small classroom teachers who want something that works without an IT ticket.</p>
-        <p>Specifically: people who've tried the mainstream platforms and found them cold, or overwhelming, or just not built for the moment when a student actually needs help.</p>
-        <p>If you've ever watched a child get anxious at a ticking timer, or wondered what a monthly report was actually telling you, or wished you could just skip the operation your student already knows and go straight to what they're working on — this is built for you.</p>
-      </div>
-
-      <div class="prose-section">
-        <h2>A Last Note</h2>
-        <p>Sparkwright is one person building tools she believes in. There's no team, no roadmap deck, no growth metrics. There's a teacher who spent years in the room with students and finally has the means to build what she always wanted to use.</p>
-        <p>The work is careful. The standards are high. The goal is simple: a student who walks away knowing something they didn't know when they sat down.</p>
+        <p>Sparkwright is one person. I respond to emails personally and take feedback seriously. If something doesn't work the way you expected, I want to know.</p>
+        <p><a href="mailto:contact@sparkwright.org" class="about-email">contact@sparkwright.org</a></p>
       </div>
 
     </div>

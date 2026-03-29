@@ -1,6 +1,6 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: March 28, 2026 — Session R (scroll fix, house spacing, placeholder, maxlength, v60)*
-*Current Math Flash version: v60 — `2026-03-28_1530_Math_Flash_v60_scroll-house-placeholder-maxlength.html`*
+*Last updated: March 28, 2026 — Session U (About modal, Session T copy applied, eyebrow fix, v61)*
+*Current Math Flash version: v61 — `2026-03-28_2345_Math_Flash_v61_about-modal.html`*
 *Current Sparkwright landing page: `sparkwright/index.html` (updated session F)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
@@ -484,21 +484,22 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 ## WHERE TO PICK UP
 
-*Session R ended March 28, 2026 — scroll fix, house spacing, placeholder, maxlength, v60.*
+*Session U ended March 28, 2026 — About modal, Session T copy applied, eyebrow fix, v61.*
 
-**Session R covered:**
+**Session U covered:**
 
-- **T1 (Bug 8)** — Typing jank in Per-Question Timer mode: developer reports "seems fine right now." Monitor.
-- **T2 (Bug 2)** — Addition-only start confirmed working. Leading zero input bug discovered and fixed (see below).
-- **T3 / Item 127 ✅** — Fact Family Chase house spacing finalized. House bottom at y=480, SVG 510px, pathLen=1354. Matches horizontal side margins.
-- **Placeholder opacity ✅** — `.num-input::placeholder` set to `rgba(240,240,255,0.25)` — clearly faded standby text.
-- **Practice Quest scroll fix ✅** — Three-part fix: (1) `min-height:0` on `.remed-body` so flex properly constrains it; (2) `flex-shrink:0` on `.remed-card` so it holds full height instead of silently clipping; (3) `::before/::after` flex spacers center short content and collapse when tall content needs scroll. Scrollbar appears only when window is too small to fit content.
-- **Leading zeros fix ✅** — `inp.maxLength` set dynamically to `String(q.a).length` in `showQuestion()`. Prevents "011" being accepted when answer is "11". Field width now always matches answer digit count.
+- **About modal ✅** — "About this game" text link added to Math Flash title screen. Opens scrollable modal with full Tier 3 copy. "Start →" button closes modal and goes to setup. CSS reuses existing overlay pattern.
+- **Session T copy applied ✅** — Tier 2 (about.html) and Tier 3 (Math Flash modal) fully replaced with Session T revisions. About page is now shorter, more direct, first-person. Modal tightened and reorganized.
+- **Hero eyebrow ✅** — Updated to "Learning tools for homeschool families, tutors, and independent educators." Decorative dot removed.
+- **Value bullet dashes ✅** — Em-dashes added between bold label and copy text in about strip (were running together).
+- **Modal voice fix ✅** — Developer voice line ("that approach always bothered me") removed; reads as straight product description throughout.
 
-**No testing needed next session** — all items from Session R confirmed by developer.
+**No testing needed next session** — all items confirmed by developer.
 
 **Immediate next priorities:**
-1. Check Agent_Handoff — Spark has design work from Session Q journaling (3-month signals, 5-year vision, positioning phrase bank). Design discussions likely ready to hand off.
+1. **Math Flash About modal — two copy claims reference unbuilt features. Trim or update when features ship:**
+   - "the fluency threshold is adjustable" (Fluency grading section) — item 130 not yet built
+   - "tables up to ×15" (Settings section) — extended tables not yet built (item 63)
 2. Design discussion with Spark: print output (items 33 + 124)
 3. Design discussion with Spark: Challenge Facts + student stats page (items 88/89/110)
 4. Build follows design discussions
