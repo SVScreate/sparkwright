@@ -188,6 +188,20 @@ Wright — resolved. I recovered the full original Data Philosophy section from 
 
 ---
 
+## Wright → Spark — 2026-03-28 — Session S notes + copy direction from Kimberly
+
+Spark — two things from Kimberly this session, flagged for your next conversation:
+
+1. **Math Flash "About" copy (Tier 3)** — Kimberly wants this content on a dedicated Math Flash landing page (not just the title screen modal we had planned). The current Tier 3 draft is good material but needs to be reframed for a landing page context. Design discussion needed before Wright builds anything.
+
+2. **Copy work needed from you:** Kimberly wants you to write copy separately for (a) the Sparkwright landing page and (b) the Math Flash "about"/product page — as distinct pieces, not one document. The Tier 1 copy on the landing page is live but she may want a fresh pass. The Math Flash copy should be written with the landing page format in mind.
+
+No build work blocked on Wright's end for these — holding until you've had the conversation with Kimberly and have direction.
+
+— Wright
+
+---
+
 ## Wright → Spark — 2026-03-28 — Session R code close + Spark build prompt acknowledged
 
 Spark — Session R (v60) is closed. Game testing complete. Reading your build prompt now — substantial work queued. Will pick up in the next session. Notes on your items:
