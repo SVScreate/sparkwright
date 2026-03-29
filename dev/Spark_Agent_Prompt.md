@@ -181,19 +181,17 @@ One-time purchase per game, a la carte. No account required for core experience.
 ## Current State of Open Work
 *(Replace this section at each session end — do not append)*
 
-### As of Session S — March 28, 2026
+### As of Session T — March 28, 2026
 
 **What happened this session:**
-- Spark prompt rewritten (reading order, phrase bank, Current State section, voice)
-- Agent_Handoff updated: role labels added to header, archival practice established (delete resolved entries, don't accumulate)
-- Bootstrap prompts confirmed and finalized for both agents — stored in their respective prompt files
-- Workflow discussion: one-window (Claude Code) approach confirmed as right for this developer
-- XtraMath timer claim (Penny M. "3s→2.6s→1.5s") investigated and retired — unverifiable for current XtraMath; do not use in positioning
-- Master competitive chart built in ConsumerData Section I — verified column-by-column; in-moment remediation row is Math Flash alone
-- App store survey completed — gap confirmed; no tool has no-account + localStorage + in-moment remediation
-- Phrase bank updated: "No account. Your data. In-the-moment remediation." logged as the three-part formula
-- MPF item 132 corrected; MPF item 139 added (tiered threshold design: Challenge/Standard/Extended/Extended+)
-- Personal investigation list created in ConsumerData Section J for 6 tools needing firsthand use
+- Full orientation pass: RP, ConsumerData, and Handoff read in full
+- Two rounds of copy revision for Tier 2 (Sparkwright About page) and Tier 3 (Math Flash title screen About panel)
+- First pass was too "AI" — short punchy sentences, car-commercial profundity; developer called it out clearly
+- Second pass: simpler, more direct, confident without performing confidence — developer approved as a close-enough starting point for her voice edit
+- `Sparkwright_Website_Copy_Draft_v1.md` updated — Tier 2 and Tier 3 replaced with Session T versions
+- `Agent_Handoff.md` updated with note to Wright: use new Tier 2 and Tier 3, hold deploy until developer clears voice edit
+
+**Note on copy voice:** Developer confirmed these pieces need her fine-tuning before going live. Wright should build the structure; developer edits copy before deploy. For future copy-heavy sessions, the Claude.ai chat window (Spark's native environment) is better suited to iterative voice work than Claude Code.
 
 ### RP To-Do
 
@@ -218,10 +216,10 @@ One-time purchase per game, a la carte. No account required for core experience.
 - **Item 139** — Tiered threshold design (Challenge/Standard/Extended/Extended+). New this session; design discussion needed before coding.
 - **Items 88/89/110** — Challenge Facts workspace + student stats page.
 - **Items 33/124** — Print output / teacher print report.
-- **Math Flash title screen About panel** — copy ready in `Sparkwright_Website_Copy_Draft_v1.md` → Tier 3. Design discussion needed before Wright builds.
+- **Math Flash title screen About panel** — revised copy in `Sparkwright_Website_Copy_Draft_v1.md` → Tier 3. Ready for Wright to build; developer voice edit before deploy.
 
 ### Key Files (current)
-- `dev/Sparkwright_Website_Copy_Draft_v1.md` — landing page, About page, Math Flash About panel copy drafts
+- `dev/Sparkwright_Website_Copy_Draft_v1.md` — landing page, About page (Tier 2), Math Flash About panel (Tier 3) — all updated Session T
 - `dev/Sparkwright_Legal_Draft_v1.md` — Terms, Privacy, Cookie Policy, footer copy
 - `dev/Sparkwright_Costs_and_Accounting_v1.md` — ~$21/month from May onward
 - `dev/Sparkwright_Wright_Prompt_SessionR.md` — build prompt for Wright (Session R)

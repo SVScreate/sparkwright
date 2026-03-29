@@ -1,7 +1,8 @@
 # Sparkwright — Website Copy Draft
 *Created: 2026-03-28 — Session R*
+*Updated: 2026-03-28 — Session T (Tier 2 and Tier 3 revised; developer to fine-tune voice)*
 *Author: Spark (Research & Pedagogy agent)*
-*Status: Rough draft — awaiting developer review and edit pass*
+*Status: Rough draft — developer edit pass needed before anything goes live*
 
 ---
 
@@ -127,7 +128,7 @@ This file contains rough draft copy for three tiers of the site. Nothing here is
 
 *This does not currently exist as a standalone page. The nav "About" link scrolls to the about strip on the landing page. This draft is for a full `/about.html` page, linked from the nav. Wright: add "About" to the nav as a page link (not anchor) when this is built.*
 
-*Voice note: drafted in first person — the developer's voice, not a brand voice. She should edit this to sound like herself. This is a starting point, not a script.*
+*Voice note: drafted in first person — the developer's voice. She will edit this to sound like herself before it goes live. This is a starting point, not a final script.*
 
 ---
 
@@ -137,83 +138,39 @@ This file contains rough draft copy for three tiers of the site. Nothing here is
 
 ---
 
-### Opening
+I'm a teacher with a Master's in Educational Therapy and 15+ years working with students — public schools, private schools, homeschool settings, a lot of one-on-one work with kids who learn differently. Over those years I kept running into the same problem: the tools that existed were built for schools, not for the people actually sitting with a student. Account systems, admin dashboards, monthly reports. Nothing designed for a tutor with one kid and 45 minutes.
 
-I couldn't find what I needed, so I built it.
+Sparkwright is me finally building what I kept looking for.
 
-That's the honest version. The longer version takes a minute.
-
----
-
-### Who Built This
-
-I'm a teacher. Master's in Educational Therapy, 15+ years working with students across public schools, private schools, and homeschool settings — many of them struggling, most of them capable, all of them deserving better than what the mainstream tools were offering.
-
-I'm not a software company. I'm not venture-backed. I built these tools because I kept running into the same gap: there was nothing that handled the moment a student got an answer wrong the way that moment deserved to be handled.
+The plan is a growing collection of games and tools — made one at a time, grounded in real teaching experience and research I've actually read. Math Flash is the first. Each one starts with a specific gap I identified in my own work and ends with something I'd use with my own students.
 
 ---
 
-### Why These Tools Exist
+### How these tools work
 
-Most math practice software does the same thing when a student misses an answer: it shows the correct answer, logs the miss, and moves on. The algorithm will show that fact again sometime. Maybe today, maybe in three days.
+No accounts, no subscriptions. Session data stays in the student's browser — not on a server, not in a system I control. You decide what to practice, at what pace, with what settings. The software tracks what happens and gives you something readable at the end.
 
-That's not remediation. That's deferral.
-
-I wanted a tool that stopped at the moment of failure and actually did something about it — right then, before the student moved on. That tracked which facts a student had genuinely internalized versus which ones they were reconstructing on the fly each time. That let the teacher stay in control of what was practiced, at what pace, with what accommodations.
-
-I also didn't want to hand over a child's practice data to a server somewhere so it could surface in a monthly report the teacher reads six weeks later.
-
-I looked for that tool for a long time. I couldn't find it. So I built it.
+That's the design philosophy in plain terms: you and the student are in charge, not the program.
 
 ---
 
-### A Tool, Not a Program
+### The research behind the design
 
-There's a real difference between the two. A program has its own agenda: it decides what the student does next, in what order, at what pace. The teacher manages the program. The student complies.
+My training in Educational Therapy means I've read the research on fluency thresholds, error correction, cognitive load, and processing speed differences in students with ADHD, dyslexia, and dyscalculia. The design decisions here come from those sources, not from gut instinct or convention.
 
-A tool does what you tell it. The teacher decides what to practice. The student and teacher stay in the driver's seat. The tool tracks what happens and gives you something useful at the end.
-
-Every design decision in Sparkwright tools comes back to that distinction. The settings exist because you know your student better than any algorithm does. The data is readable because you should be able to understand it without a dashboard. The accommodations are there because one size hasn't fit all the students I've worked with, and it won't fit yours either.
+I cite what I use. Where a claim is sourced, I can tell you exactly where it comes from. Where something can't be verified, I say so rather than papering over the gap.
 
 ---
 
-### Your Data Stays With You
+### Who this is for
 
-Sparkwright tools store data in your browser's local storage. No account required to play. No server, no subscription keeping your history hostage, no data harvested or analyzed by a third party.
-
-If you stop using a Sparkwright tool, your session history stays in your browser until you clear it — and eventually, there will be an export option so you can keep it on your own terms.
-
-This is a choice, not a limitation. The value isn't "we hold your data and show you charts." It's a better learning experience, and the data is yours.
+Homeschool families, tutors, educational therapists, and independent teachers who want tools that work in small settings without an IT setup. If you've used one of the major platforms and found it either too anxiety-inducing for your student, too locked-down in how it operates, or just not designed for the way you actually work — that's the gap these tools are meant to fill.
 
 ---
 
-### On the Research
+Sparkwright is one person. I respond to emails personally and take feedback seriously. If something doesn't work the way you expected, I want to know.
 
-The design decisions here aren't guesses.
-
-The 3-second fluency threshold comes from research on what distinguishes automatic retrieval from effortful calculation — a fact answered in under 3 seconds is almost certainly pulled from memory, not reconstructed. The in-moment remediation approach is grounded in work on error correction: for most learners, structured feedback at the moment of failure produces better retention than errorless practice. The accommodation options reflect what's known about processing speed differences in students with ADHD, dyslexia, and dyscalculia.
-
-The citations are in the documentation — not paraphrased from a white paper, but read and verified. Where the research is unclear or a claim can't be sourced, it's marked that way. I'd rather leave an honest gap than fill it with a confident-sounding guess.
-
-None of this means Sparkwright tools have been clinically validated. They haven't. What it means is that the principles they're built on are real, cited honestly, and applied with the same care I'd want from a tool being used with my own students.
-
----
-
-### Who This Is For
-
-Homeschool families working one-on-one with their kids. Independent tutors and educational therapists who need session-level data they can actually hand to parents. Small classroom teachers who want something that works without an IT ticket.
-
-Specifically: people who've tried the mainstream platforms and found them cold, or overwhelming, or just not built for the moment when a student actually needs help.
-
-If you've ever watched a child get anxious at a ticking timer, or wondered what a monthly report was actually telling you, or wished you could just skip the operation your student already knows and go straight to what they're working on — this is built for you.
-
----
-
-### A Last Note
-
-Sparkwright is one person building tools she believes in. There's no team, no roadmap deck, no growth metrics. There's a teacher who spent years in the room with students and finally has the means to build what she always wanted to use.
-
-The work is careful. The standards are high. The goal is simple: a student who walks away knowing something they didn't know when they sat down.
+[contact@sparkwright.org]
 
 ---
 
@@ -221,96 +178,79 @@ The work is careful. The standards are high. The goal is simple: a student who w
 
 ## Tier 3 — Math Flash "About" (Title Screen)
 
-*Per developer direction (Session R): this copy lives as a dedicated About section accessible from the Math Flash title screen — not a standalone webpage. Wright: build this as a panel or modal reachable from a button on the game's title/setup screen (e.g., "About Math Flash" or "How this works"). Not a separate HTML page.*
+*Per developer direction (Sessions R + T): this copy lives as a panel or modal on the Math Flash title screen, accessible from an "About" button. NOT a standalone webpage. Wright: build as a scrollable panel or modal reachable from the title/setup screen. Not a separate HTML page.*
 
 *Audience: the parent or teacher looking at the game for the first time and trying to understand what it is and why it works the way it does. Not the student mid-session.*
 
 ---
 
-### Page Heading
+### Panel Heading
 
-**Math Flash**
-
-*Math fact fluency practice built around the moment a student gets an answer wrong.*
+**About Math Flash**
 
 ---
 
-### The Problem With Most Math Drill Tools
-
-Most of them handle a missed answer the same way: show the right answer, log the miss, keep going. The algorithm decides when to show that fact again. The student moves on.
-
-The problem isn't the algorithm. It's the timing. The moment a student misses a fact is the exact moment they're primed to learn it — attention is up, the error is fresh, the brain is looking for the correction. That window closes fast. By the time the fact recycles, it's just another card.
-
-Math Flash was designed to work in that window.
+Math Flash is a math fact practice game for grades 2–8, designed for 1:1 and small-group use with a teacher or parent in the room.
 
 ---
 
-### What Happens When a Student Misses an Answer
+### The idea behind it
 
-The round stops. No score penalty, no alarm. The student enters a Practice Quest: a short, structured sequence built around that one fact.
-
-**Find It** — The student locates the correct answer. Low pressure, no timer.
-
-**Practice** — A brief mini-game reinforces the fact in a different mode. The goal is to separate it from the pressure context where it just failed.
-
-**Prove It** — The student answers the fact correctly before returning to the round.
-
-The round timer pauses for the entire sequence. When Practice Quest is complete, the round resumes where it left off.
-
-This isn't a punishment mechanic. Research on error correction consistently shows that structured feedback at the moment of failure produces better long-term retention than errorless approaches — where errors are minimized and the student just keeps moving. Practice Quest is the direct design response to that research.
+Most math fact tools handle a missed answer the same way: show the right answer, log the miss, and keep going. The algorithm will show that fact again sometime. That approach always bothered me — the moment a student misses something is exactly when they're ready to work on it. Math Flash stops at that moment and does something about it.
 
 ---
 
-### How Fluency Is Measured
+### Practice Quest
 
-Math Flash tracks not just whether an answer was correct, but how fast it came.
+When a student misses a fact after two attempts, the round stops and Practice Quest begins:
 
-**Fluent (⚡)** — Correct in 3 seconds or under. At this speed, the fact is being retrieved from memory, not recalculated.
+**Find It** — Locate the correct answer. No timer, no pressure.
 
-**Almost (🔄)** — Correct in 4–6 seconds. The student knows it; it isn't automatic yet.
+**Practice** — A short activity with the fact in a different mode, outside the timed context where it just failed.
 
-**Needs Practice (📚)** — Wrong answer, or no answer within the time limit.
+**Prove It** — Answer the fact correctly before returning to the round.
 
-The 3-second threshold comes from research on math fact automaticity — specifically, the point at which response time suggests direct memory retrieval rather than effortful calculation. Students working at 4–6 seconds may know the fact but haven't yet internalized it to the point where it's freeing up working memory for harder math.
-
-**Accommodation options.** For students with documented processing speed differences, the fluency threshold is adjustable. A 5-second threshold aligns with a 1.5× extended-time accommodation; 6 seconds aligns with 2×. These correspond to conventions used in IEP and 504 practice. The labels on the results screen update to reflect whatever threshold is in use.
+The round timer pauses for the full sequence and resumes where it left off. There's no score penalty for a miss — Practice Quest is a learning moment, not a punishment. Research on error correction consistently shows that structured practice at the moment of failure produces better long-term retention than errorless approaches, where mistakes are minimized and the student moves on. No major math fact platform handles a wrong answer this way.
 
 ---
 
-### Mastery Tracking
+### Fluency grading
 
-A single fast answer isn't mastery. Math Flash defines a fact as mastered when a student has answered correctly in under the fluency threshold on 4 of their last 5 attempts, across at least 2 separate sessions, with consistent response times.
+Math Flash measures response time, not just accuracy.
 
-The two-session requirement is there because one good day isn't mastery. The consistency check is there because a student who answers in 1 second sometimes and 6 seconds other times isn't automatic on that fact — they're alternating between retrieval and calculation.
+**⚡ Fluent** — Correct in 3 seconds or under. At this speed the fact is coming from memory, not calculation.
 
----
+**🔄 Almost** — Correct in 4–6 seconds. The student knows it — it just isn't automatic yet.
 
-### After the Round
+**📚 Needs Practice** — Wrong answer, or no answer within the time limit.
 
-The results screen shows what happened: which facts were fluent, which are developing, which triggered Practice Quest. Print it or keep it on screen. The data is readable without a manual — a teacher who's never used Math Flash before can look at the results and understand what they mean.
-
-There is no login, no monthly report, no dashboard. What happened in this session is visible right now, in plain language. That's the design intent.
+The 3-second threshold comes from math fact automaticity research: below 3 seconds generally indicates direct memory retrieval; 4–6 seconds suggests the student is still calculating, even when they get it right. For students with documented processing speed differences, the threshold is adjustable. 5 seconds aligns with a 1.5× extended-time accommodation; 6 seconds with 2×. Results labels update to reflect whatever threshold is in use.
 
 ---
 
-### Who Math Flash Is Designed For
+### Mastery
 
-Students in grades 2–8 working on multiplication and division fluency. It works well in 1:1 and small-group settings where a teacher or parent can watch what's happening and adjust settings mid-session if needed.
+A fact isn't marked as mastered from one good session. Math Flash calls a fact mastered when a student answers correctly within the fluency threshold on 4 of their last 5 attempts, across at least 2 separate sessions, with consistent response times.
 
-Particularly useful for:
-- Students who've had anxiety with timed tools — the round timer pauses during Practice Quest, and there's a no-timer mode for students who need it
-- Students working past ×12 (Math Flash supports tables up to ×15, a range most tools don't cover)
-- Teachers who use mastery-based curricula and need a tool that matches that philosophy rather than pushing students forward before facts are solid
+The two-session requirement is there because one good day isn't mastery. The consistency check matters because a student whose response times swing widely between attempts isn't retrieving automatically — they're somewhere in between.
 
 ---
 
-### Your Data
+### Results
 
-Math Flash stores session data in your browser's local storage. No account required. No data sent to any server. If you share a device, multiple student profiles are supported — each with their own history, stored separately.
+After the round, the results screen shows what happened: fluent facts, developing facts, anything that went to Practice Quest. It's readable without a manual and printable if you want a record. No login, no dashboard, no waiting for a report.
 
 ---
 
-### [Play Math Flash →]
+### Settings
+
+You choose the facts, the timer mode, the fluency threshold, and whether Practice Quest is on. Math Flash covers addition, subtraction, multiplication, and division, including tables up to ×15.
+
+---
+
+*Built by a teacher with a Master's in Educational Therapy and 15+ years working with students across public, private, and homeschool settings.*
+
+**[Start →]**
 
 ---
 

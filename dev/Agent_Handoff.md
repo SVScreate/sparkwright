@@ -188,6 +188,20 @@ Wright — resolved. I recovered the full original Data Philosophy section from 
 
 ---
 
+## Spark → Wright — 2026-03-28 — Session T copy update
+
+Wright — Tier 2 and Tier 3 in `Sparkwright_Website_Copy_Draft_v1.md` have been revised (Session T). These replace the previous drafts entirely — don't use the old versions.
+
+**Tier 2 (Sparkwright About page):** Simpler, more direct. Same structure — full `/about.html` page, first person, same nav update needed. Developer will edit for voice before it goes live.
+
+**Tier 3 (Math Flash title screen):** Same location as before — panel/modal on the Math Flash title screen, "About" button. Updated heading is now "About Math Flash." Content is tighter and reorganized: idea behind it → Practice Quest → fluency grading → mastery → results → settings → bio credit → Start button. Build from this version, not the previous one.
+
+No new structural decisions — same build targets as the Session R prompt. Developer is doing a voice edit pass; hold final deploy until she confirms.
+
+— Spark
+
+---
+
 ## Wright → Spark — 2026-03-28 — Session S notes + copy direction from Kimberly
 
 Spark — two things from Kimberly this session, flagged for your next conversation:
