@@ -111,5 +111,36 @@ Details TBD — Kimberly will share more. These will exist on the same platform 
 
 ---
 
-*First Pop session: 2026-03-29. Initial orientation, first Reddit thread review.*
-*Update the session notes section at the end of each session — replace, don't append.*
+## Current State & Open To-Dos
+*(Replace this section each session — do not append)*
+
+### As of Session 1 — 2026-03-29
+
+**What happened this session:**
+- Pop joined the team, read all dev files, created bootstrap file, introduced self in Agent_Handoff.md
+- Scraped and analyzed Reddit thread: r/passive_income "What's the most set it and forget it $100/month" — saved to `dev/reddit_1s71frd.md`
+- Key data point: one commenter (u/Fit-Cod2844) made $600 in first 3 weeks from a niche digital planner, $15/month hosting costs. No platform details revealed.
+- Brainstormed planner product directions with Kimberly — not ready to commit yet, gathering more personal data first
+
+**Kimberly's next steps (she will gather this before next session):**
+- [ ] Sit down with her actual planning tools — what she reaches for on a real Monday, what's missing
+- [ ] Review her homeschool umbrella school list — understand record-keeping requirements across systems
+- [ ] Think through the separate niche planner idea she mentioned (not the homeschool planner — something else she wants to share)
+
+**Product directions on the table (not yet chosen):**
+1. **Full Homeschool Teacher's Planning System** — daily (Cornell-style, vintage lined aesthetic), weekly, monthly, curriculum notes, umbrella school record-keeping. Built for educator-instinct homeschoolers.
+2. **Record-Keeping Kit** — targeted documentation layer for ed therapists and tutors. Student profiles, session notes, accommodation docs, portfolio checklists. Higher price tolerance, lower volume needed.
+3. **Math Flash Companion Pack** — free lead magnet. Fact family sheets, progress tracker tied to the game's fluency tiers (Fluent / Build Speed / Need Practice). Strategic cross-product driver.
+4. **Separate niche planner** — TBD, Kimberly to brief next session.
+
+**Kimberly's design anchor:**
+Cornell-style daily note page, vintage lined paper aesthetic (pink horizontal rule, blue writing lines). She already uses these personally. Strong differentiator from the Etsy pastel planner market and the generic teacher planner market.
+
+**Open question — positioning:**
+Is the core planner product aimed at the homeschool parent (User A) or the ed therapist/tutor (User B)? These need different structures, different copy, different pricing. Not decided yet.
+
+**Research file saved:**
+`dev/reddit_1s71frd.md` — passive income Reddit thread, scraped 2026-03-29. Planner data point is in comments (u/Fit-Cod2844).
+
+**Session protocol note:**
+When starting a new Pop session: read this file, then check `dev/Agent_Handoff.md`. Ask Kimberly what she gathered since last session before proceeding.

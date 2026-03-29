@@ -44,6 +44,7 @@ sparkwright/
     ├── 2026-03-25_1700_Math_Flash_v58_pool-notices-2attempt-pool-guard.html
     ├── Pip_Agent_Prompt.md                  ← Bootstrap prompt for Pip (Brand & Visual Design) — also serves as restart prompt
     ├── Pop_Agent_Prompt.md                  ← Bootstrap prompt for Pop (Digital Printable Products agent)
+    ├── reddit_1s71frd.md                    ← Scraped r/passive_income thread — niche planner data point (Pop session 1)
     ├── Pip_Brand_v1.md                      ← Brand identity: locked palette, typography, logo rationale + next session to-do (Session W)
     ├── sparkwright_logo_v1.svg              ← Early logo SVG concept (superseded by HTML files below)
     ├── sparkwright_logo_final.html          ← Current best logo mark — open in Safari (Session W)

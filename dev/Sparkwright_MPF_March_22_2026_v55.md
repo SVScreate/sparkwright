@@ -1,6 +1,6 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: March 28, 2026 — Session U (About modal, Session T copy applied, eyebrow fix, v61)*
-*Current Math Flash version: v61 — `2026-03-28_2345_Math_Flash_v61_about-modal.html`*
+*Last updated: March 29, 2026 — Session W (stats page, print redesign, fluency tiers, extended tables, logo, v62)*
+*Current Math Flash version: v62 — `2026-03-29_1800_Math_Flash_v62_stats-print-tiers-tables-logo.html`*
 *Current Sparkwright landing page: `sparkwright/index.html` (updated session F)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
@@ -350,7 +350,7 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 ### 🔧 UI / COPY
 6–31. *(all completed — see COMPLETED log)*
 32. Auto-advance / "Student Speed Mode" toggle *(discussed, not yet designed)*
-33. **Print output** — functional via popup. Needs real-world testing and refinement.
+33. ✅ **Print output** — redesigned Session W (v62). Settings block, summary, fluency counts, fact chips, fluency key, notes lines.
 34. ✅ "Format" → "Mode" — renamed (v52)
 35. ✅ "— no time pressure." copy — removed (v52)
 36. ✅ Typing field character limit — 4 characters max (v52)
@@ -486,25 +486,29 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 ## WHERE TO PICK UP
 
-*Session U ended March 28, 2026 — About modal, Session T copy applied, eyebrow fix, v61.*
+*Session W ended March 29, 2026 — massive feature pass, v62.*
 
-**Session U covered:**
+**Session W covered:**
 
-- **About modal ✅** — "About this game" text link added to Math Flash title screen. Opens scrollable modal with full Tier 3 copy. "Start →" button closes modal and goes to setup. CSS reuses existing overlay pattern.
-- **Session T copy applied ✅** — Tier 2 (about.html) and Tier 3 (Math Flash modal) fully replaced with Session T revisions. About page is now shorter, more direct, first-person. Modal tightened and reorganized.
-- **Hero eyebrow ✅** — Updated to "Learning tools for homeschool families, tutors, and independent educators." Decorative dot removed.
-- **Value bullet dashes ✅** — Em-dashes added between bold label and copy text in about strip (were running together).
-- **Modal voice fix ✅** — Developer voice line ("that approach always bothered me") removed; reads as straight product description throughout.
+- **Extended tables ×13–×20 ✅** — `buildTableGrid()` loop updated to 20, `buildMults()` Easy array to 20, Select All arrays to 20. All four operations support extended range. Modal copy updated: "×15" → "×20". (Item 63)
+- **Print output redesign ✅** — Full new layout: header, student name, settings block (mode/tables/questions/easy/tier), summary (score/time/streak/practice quests), fluency counts (pertimer), facts sections (pertimer: all three tiers; non-pertimer: wrong answers only), fluency key, notes lines. Practice Quest count (`G.questCount`) and wrong facts array (`G.wrongFacts`) added to G. (Items 33 + 124)
+- **Fluency threshold tiers ✅** — Advanced Settings collapsible on setup screen. 4 pills: Challenge (2s), Standard (3s default), Extended (5s), Extended+ (6s). Auto-kick scales with tier (threshold + 4s). `S.fluencyTier` added to S and settings persistence. Timer logic in `startPerQTimer()`, `resumeTimers()`, `recordFluency()`, `autoKick()` all updated to use active tier. Print output dynamically reflects tier. (Items 130 + 139)
+- **Stats page ✅** — New "stats-screen." Entry from title screen ("My Progress") and results screen ("View Progress"). Tiles grouped by table, colored by tier (gold=Mastered, orange=Building, purple=Not Yet). Challenge Facts section at bottom (top 10 non-mastered by miss rate + variance). Empty state for new users. `buildStatsScreen()` populates on navigation. (Items 88 + 89 + 110)
+- **Sparkwright landing page logo ✅** — Pip's sparkler mark SVG in nav (28×28, sparkGlow filter). Wordmark updated: Nunito 800, `spark` in #ff9f43 (Ember), `wright` in #e8e4f0. Nunito 800 added to font load. CSS token comments added to `:root`. (Pip Session W)
+- **Bug 9 fixed ✅** — Pool notice / validation error conflict in `num-input-msg` div. Validation error setter now strips `info` class before writing error text.
 
-**No testing needed next session** — all items confirmed by developer.
+**Needs testing:**
+- T1: Extended tables — does ×13–×20 appear in selector? Does Easy ON work with extended tables selected?
+- T2: Print output — run a pertimer round, open print. Check: settings block, fluency counts, three fact sections, fluency key, notes lines.
+- T3: Advanced Settings — collapses/expands, pill selection changes tier desc, tier persists in localStorage.
+- T4: Pertimer with Extended tier — does auto-kick fire at 9s? Does fluency bar match?
+- T5: Stats page — run a few rounds, open My Progress. Check: tiles appear, Challenge Facts section shows if misses exist.
+- T6: Landing page logo — sparkler mark in nav, correct font/colors.
 
 **Immediate next priorities:**
-1. **Math Flash About modal — two copy claims reference unbuilt features. Trim or update when features ship:**
-   - "the fluency threshold is adjustable" (Fluency grading section) — item 130 not yet built
-   - "tables up to ×15" (Settings section) — extended tables not yet built (item 63)
-2. Design discussion with Spark: print output (items 33 + 124)
-3. Design discussion with Spark: Challenge Facts + student stats page (items 88/89/110)
-4. Build follows design discussions
+1. Test pass above — confirm all v62 items
+2. Design discussion with Spark: items still pending (print report 109, FAQ 111, teacher shareable links 130-URL)
+3. Stats page: once tested, Spark may want to refine tile layout or labels
 
 *Session Q ended March 28, 2026 — Spark only (journaling). No code changes.*
 
