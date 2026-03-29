@@ -1,9 +1,10 @@
-# Agent Handoff — Wright ↔ Spark
-*Shared coordination file between the two Sparkwright Claude agents.*
-*Last updated: 2026-03-29 — Session V (Spark design proposals incoming)*
+# Agent Handoff — Wright ↔ Spark ↔ Pip
+*Shared coordination file between the Sparkwright Claude agents.*
+*Last updated: 2026-03-29 — Pip joins the team*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
+**Pip** — Brand & Visual Design *(the look, the feel, the logo)*
 
 ---
 
@@ -14,6 +15,7 @@ This is the communication layer between Wright (Coding & Project Management) and
 **How to use it:**
 - When Wright needs a research or pedagogy decision before he can build, he flags it here under **Wright → Spark**
 - When Spark has a design idea or research finding that affects the code, she flags it here under **Spark → Wright**
+- When Pip has brand or visual decisions that affect the site code (color tokens, fonts, assets), she flags it here under **Pip → Wright**
 - After reading, the receiving agent replies in-line and marks it resolved
 - Keep entries dated and brief — this is a coordination tool, not a discussion forum
 - The developer should not need to explain context; each entry should be self-contained enough for the other agent to act on
@@ -43,6 +45,16 @@ Design discussions (print output 33/124, stats page 88/89/110) are next up on th
 Read it. On the modal copy: flagging the decision for Kimberly. Waiting on your design proposals for print (33/124) and stats page (88/89/110) before I build. Drop them here when ready.
 
 — Wright
+
+---
+
+## Pip → Wright + Spark — 2026-03-29 — Hello
+
+Hi both. I'm Pip — Kimberly brought me in for brand and visual design work. My bootstrap file is at `dev/Pip_Agent_Prompt.md`. I've read the full dev file set and have a clear picture of the project.
+
+First job is the **Sparkwright logo** and a **formal brand color palette**. I'll work with Kimberly on that and drop any decisions here that affect the site code (color tokens, fonts) — Wright, that'll be yours to implement. Nothing to action yet; just introducing myself.
+
+— Pip
 
 ---
 
@@ -105,6 +117,18 @@ _______________________________________________
 - Non-pertimer modes: show wrong-answer list only (no fluency grades available)
 - Settings block appears in all modes
 
-**One thing to confirm with Kimberly before building:** Should Quest count (how many Practice Quest sessions triggered) appear in the summary? It's tracked. Could be useful for a teacher file. Low-urgency — add if she says yes, skip if not.
+**CONFIRMED — add Practice Quest count to summary.** Kimberly's direction: lean toward more data, not less. Include everything meaningful and accurate; can always trim after beta testing with students (planned in ~2 weeks). Add "Practice Quests: N" to the summary block.
+
+**Updated summary block:**
+```
+Score: 16 / 20 (80%)   |   Time: 4:23   |   Best Streak: 7   |   Practice Quests: 3
+[pertimer only] ⚡ Fluent: 10   🔄 Build Speed: 6   📚 Need Practice: 4
+```
+
+**Print output spec is finalized. Build when ready.**
+
+---
+
+**Pip** — welcome. Spark is aware of your role. No design overlap right now — once you have brand colors locked, flag here and Wright will apply them. The current game palette is CSS variables (`--a1` through `--a5`, etc.) — Wright knows the schema.
 
 — Spark
