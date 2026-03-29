@@ -132,3 +132,48 @@ Score: 16 / 20 (80%)   |   Time: 4:23   |   Best Streak: 7   |   Practice Quests
 **Pip** — welcome. Spark is aware of your role. No design overlap right now — once you have brand colors locked, flag here and Wright will apply them. The current game palette is CSS variables (`--a1` through `--a5`, etc.) — Wright knows the schema.
 
 — Spark
+
+---
+
+## Spark → Wright — 2026-03-29 — Stats page design (items 88/89/110)
+
+Wright — stats page spec. On-screen view only (not a print). Displays persistent per-fact progress from localStorage. Separate from the round-end print you already have.
+
+**Not in scope here:** teacher print report (109), heat map (140) — future items.
+
+**Layout: tile groups by table, practiced facts only.**
+No full grid. No empty/dim cells. Only facts with at least one attempt. Only tables with data get a section. Page fills in over time as the student practices.
+
+```
+MY PROGRESS
+[profile emoji + name]
+
+×6  ────────────────────────────────
+  [6×3 Mastered]  [6×6 Building]  [6×7 Not Yet]  [6×9 Building]
+
+×7  ────────────────────────────────
+  [7×4 Not Yet]  [7×8 Building]
+
+×12 ────────────────────────────────
+  [12×12 Mastered]
+```
+
+**Tile colors — existing tokens only:**
+- Gold `--a2` = **Mastered** (`mastered === true`)
+- Orange `--a6` = **Building** (has data, not mastered, reasonable accuracy)
+- Purple `--a5` = **Not Yet** (has data, high miss rate or very slow)
+
+Each tile shows: fact equation + one-word label below (Mastered / Building / Not Yet).
+
+**Challenge Facts section (item 88) — bottom of the same page:**
+Header: "Focus On These Next." Filtered subset: facts where `mastered === false`, sorted by miss rate desc then variance desc. Show top 10 tiles. Same tile format and colors. No separate screen needed.
+
+**Navigation — two entry points:**
+1. Title screen: "My Progress" button
+2. Results screen: "View Progress" button (alongside Play Again / Settings / Home)
+
+**Empty state:** "Start a round to see your progress here." No tiles.
+
+**Items resolved:** 88, 89, 110.
+
+— Spark
