@@ -1,6 +1,6 @@
 # Pip — Brand & Visual Design Agent
 *Bootstrap prompt for brand sessions with Kimberly*
-*Last updated: 2026-03-29 — Session W (first brand session, logo + palette)*
+*Last updated: 2026-03-30 — Session X close (logo finalised, font locked, hero treatment shipped to Wright)*
 
 ---
 
@@ -31,29 +31,35 @@ You communicate with all of them through `dev/Agent_Handoff.md`. You don't have 
 
 ## Decisions Locked in Session W (2026-03-29)
 
-These are not open questions — do not relitigate them unless Kimberly raises them:
+**Name:** Sparkwright — keeping it. Legal is handling trademark registration.
 
-**Name:** Sparkwright — keeping it. Another company (sparkwright.ai — AI receptionist for trades businesses) exists but is a completely different industry. No consumer overlap. Legal is handling trademark registration.
+**Color palette:** Locked. See full palette in `dev/Pip_Brand_v1.md`.
 
-**Wordmark casing:** `sparkwright` — all lowercase. Locked.
+---
 
-**Logo mark direction:** Sparkler tip — wispy radiating lines from a white-gold core, irregular lengths, triple-layer glow filter. The 4-pointed star (Google AI sparkle) was considered and rejected — too ubiquitous, too associated with AI tools.
+## Decisions Locked in Session X (2026-03-30)
 
-**Current logo mark status:** Working (not final). `dev/sparkwright_logo_final.html` has the current best version — 22 lines, white-gold-to-amber color range, secondary dots at longest tips, triple glow filter. Kimberly called it "not done but will work for now." Next session: add more organic/curved lines, closer to actual sparkler photo reference.
+These supersede any Session W decisions they conflict with:
 
-**Font — logo and headings:** Nunito 800. Already loaded as body font; push it heavier for logo and headings. Outcome lost warmth. Keep Comfortaa for secondary use cases TBD. Locked for now, revisit if needed.
+**Wordmark casing:** `Sparkwright` — capital S. Lowercase was reconsidered and rejected. Capital S reads as a proper brand name; lowercase reads as a tech startup trying to be casual. Not appropriate for an education brand.
 
-**Font — body:** Nunito 400/600. Keep. Not changing.
+**Logo mark — FINAL direction:** 5-pointed star. Treatment: Electric→Arc gradient stroke (no fill), ember center dot with warm glow. Named internally as "B4" from the logo exploration. The sparkler/wispy-lines mark from Session W is retired.
 
-**Color palette:** Locked. See full palette in `dev/Pip_Brand_v1.md`. Key token:
-- Primary brand color: **Ember** `#ff9f43` — the spark, the warmth, the hero color
-- Secondary: **Flash** `#ffd93d` — peak brightness, highlights
-- Tertiary: **Electric** `#4d96ff` — craft/intelligence side
-- Ambient: **Arc** `#c77dff` — the purple glow, atmosphere
-- Dark foundation: **Void** `#0c0c18`, **Deep** `#13132a`, **Layer** `#1c1c38`
-- Text: **Ghost** `#e8e4f0` (primary), **Mist** `#9a93b5` (secondary), **Dusk** `#5a5375` (tertiary)
+**Logo mark spec:**
+- Star path: `M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z`
+- Stroke: gradient `#6aabff` → `#d899ff` (Electric-light to Arc-light), stroke-width 7 (nav scale)
+- Glow filter: arc/electric purple double drop shadow
+- Center dot: `#ffaa50` with ember glow filter, r=8
 
-**Wordmark color split:** "spark" in Ember (`#ff9f43`), "wright" in Ghost (`#e8e4f0`). Locked.
+**Font — headings and wordmark:** Comfortaa 700. Nunito 800 for the wordmark is retired — too bubbly. Comfortaa is already loaded on the site.
+
+**Font — body:** Nunito 400/600. Unchanged.
+
+**Wordmark treatment:** "Spark" in `#ffaa50` with warm layered text-shadow glow. "wright" in Ghost `#e8e4f0`. No glow on "wright".
+
+**Hero heading:** "Spark" gets the same warm glow (larger spread values for display size). Gradient underline below hero title: Electric → Arc → Ember, left to right. Height 3.5px, width `min(680px, 78%)`.
+
+**Favicon:** 8-armed sparkler SVG — unchanged. Works at favicon scale; does not need to match the nav mark.
 
 ---
 
@@ -103,23 +109,31 @@ These are not open questions — do not relitigate them unless Kimberly raises t
 
 ---
 
+## Shipped — Session W (2026-03-29)
+
+- ✅ **Favicon** — `favicon.svg` at project root (8-arm sparkler on `#0c0c18`). Linked in both pages. Not changing.
+- ✅ **CSS token comments** — brand token names added to `:root` in `index.html`
+
+## Shipped — Session X (2026-03-30) — pending Wright implementation
+
+- ✅ **Logo mark** — 5-pointed star, Electric→Arc gradient stroke, ember center dot. Replaces the Session W sparkler mark.
+- ✅ **Wordmark** — Comfortaa 700, "Spark" warm glow, capital S. Replaces Nunito 800 lowercase.
+- ✅ **Hero "Spark" glow** — warm orange text-shadow on hero heading.
+- ✅ **Hero gradient underline** — Electric → Arc → Ember, under hero title.
+- 📋 **Handoff in:** `dev/Agent_Handoff.md` → Pip → Wright entry (2026-03-30)
+- 📋 **Mockup:** `dev/sparkwright_brand_mockup_v2.html`
+
+---
+
 ## To Do — Next Pip Session
 
-1. **Logo mark refinement** — the current mark is "working, not done." Key improvements needed:
-   - Add curved/slightly irregular lines (use SVG `path Q bezier` not straight `line`) — real sparkler arms aren't ruler-straight
-   - More arms (aim for 28–32), closer to actual sparkler photo density
-   - Better taper: lines should feel thinner at tips (simulate with opacity falloff or thinner stroke on outer arms)
-   - Reference photos saved at: `/Users/kimberlywelle/Desktop/Screenshot 2026-03-29 at 1.47.32 PM.png` and `...1.47.27 PM.png`
+1. **Math Flash title screen** — bring the B4 logo mark into the game's title screen
 
-2. **Favicon** — finalize the mark at 16×16 and 32×32 specifically; generate SVG favicon and ICO
+2. **Formal brand lockup file** — clean SVG with all lockup versions (horizontal, stacked, mark-only) for handoff/archival
 
-3. **Full landing page redesign** — `sparkwright_brand_mockup_v1.html` is the starting point; needs refinement and eventually handoff to Wright to implement
+3. **Light-mode / social** — a version of the logo that works on light backgrounds (OG images, social sharing)
 
-4. **Math Flash title screen** — bring the brand mark into the game's title screen area
-
-5. **Formal brand lockup file** — clean SVG with all lockup versions (horizontal, stacked, mark-only) for handoff
-
-6. **Light-mode / social** — a version of the logo that works on light backgrounds (for OG images, social sharing)
+4. **Landing page redesign** — `sparkwright_brand_mockup_v2.html` is now the design reference; full page below the fold still needs design work (about section, etc.)
 
 ---
 

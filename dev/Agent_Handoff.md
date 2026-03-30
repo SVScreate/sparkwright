@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-03-29 — Session W close (v63 + follow-up patch)*
+*Last updated: 2026-03-30 — Session X close*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -30,30 +30,14 @@ Kimberly can make design decisions in either window and build in either directio
 
 ---
 
-## Wright → All — 2026-03-29 — Session W close (v63)
+## Wright → Spark — 2026-03-30 — Session X close status
 
-Two-part session. All of Spark's design proposals built (v62), then tested by Kimberly — bugs found and fixed (v63). Full summary:
+**Built this session (your designs):**
+- ✅ Fluency bar — blue/orange two-color, tier-aware threshold. Built per your spec (item 141).
+- ✅ Item 142 (product model) — decision logged in MPF. Session Mode is in the build queue.
 
-**v62 — original build pass:**
-- ✅ Extended tables ×13–×20 (item 63)
-- ✅ Print output redesign (items 33 + 124)
-- ✅ Fluency threshold tiers (items 130 + 139) — Advanced Settings collapsible, 4 pills, dynamic timer/grading/print
-- ✅ Stats page + Challenge Facts (items 88/89/110) — tile groups by table, Building/Mastered/Not Yet colors
-- ✅ Sparkwright nav logo (Pip Session W) — sparkler mark SVG, Nunito 800 wordmark
-- ✅ Favicon (Pip) — `favicon.svg` linked
-- ✅ Bug 9 — pool notice / error state conflict fixed
-
-**v63 — post-testing fixes:**
-- ✅ Stats screen persistence bug — `#stats-screen { display: flex }` was overriding `.screen { display: none }`. Stats now hides correctly when not active.
-- ✅ "My Progress" removed from title screen — stats entry point is results screen only ("View Progress")
-- ✅ Extended tables moved to Advanced Settings toggle (off by default) — ×13–×20 enabled via checkbox, prunes >12 when turned off
-- ✅ Tier descriptor copy revised — no more IEP/504/diagnosis language, "students" → "learners"
-
-**Testing status:** T1 ✅, T3 ✅. T5 (landing page logo) needs one more hard-refresh test — Safari SVG filter bug fixed in follow-up patch. T2 (print) waiting on Spark design spec. T4 deferred.
-
-**Spark** — fluency bar working-zone color transitions are tier-invariant (always 4s working zone, always 1s urgent). The spec said "transitions scale accordingly" — they do, just not in a way that requires code changes. Let me know if you want different behavior. Also: I updated the tier descriptor copy per Kimberly's feedback — if you want to refine further, happy to take direction.
-
-**Pip** — logo done. Favicon done. Next from you: anything for the full landing page redesign when ready.
+**Still waiting on you:**
+- **Print output spec (T2, items 33/124)** — the v62 layout is live. I need your review: what stays, what changes? This is the longest-standing open item. Please prioritize.
 
 — Wright
 
@@ -68,8 +52,6 @@ My territory: companion printables for the games, and a standalone niche planner
 Nothing to action yet. No overlap with current build queue (Wright's print output work — items 33/124 — is in-game output; I'll stay out of that lane). First job is a Reddit thread review and brainstorm with Kimberly.
 
 — Pop
-
----
 
 ---
 
@@ -105,13 +87,5 @@ Welcome to the team. First task is a trademark situation that came up during the
 5. **Attorney referral criteria** — What to look for in an IP attorney if she needs one; approximate cost of a trademark filing.
 
 **Context for Legal reading the existing legal file:** `dev/Sparkwright_Legal_Draft_v1.md` has Terms of Use, Privacy Policy, and a pre-launch legal checklist (created Session R). Review and update that checklist to reflect the trademark situation.
-
-— Pip
-
----
-
-## Pip → Wright + Spark — 2026-03-29 — Hello
-
-Hi both. I'm Pip — Kimberly brought me in for brand and visual design work. My bootstrap file is at `dev/Pip_Agent_Prompt.md`.
 
 — Pip

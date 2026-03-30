@@ -1106,24 +1106,15 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   height: 100%;
   width: 100%;
   border-radius: 3px;
-  background: var(--a2);
-  box-shadow: 0 0 8px 2px rgba(255,217,61,0.6);
+  background: #4d96ff;
+  box-shadow: 0 0 8px 2px rgba(77,150,255,0.6);
   transform-origin: left center;
   transition: background 0.4s, box-shadow 0.4s;
 }
-.fluency-bar-fill.working {
-  background: var(--a6);
-  box-shadow: 0 0 8px 2px rgba(255,159,67,0.5);
+.fluency-bar-fill.almost {
+  background: #ff9f43;
+  box-shadow: 0 0 8px 2px rgba(255,159,67,0.6);
 }
-.fluency-bar-fill.urgent {
-  background: var(--a5);
-  box-shadow: 0 0 10px 3px rgba(199,125,255,0.7);
-}
-@keyframes fuse-pulse {
-  0%,100% { box-shadow: 0 0 10px 3px rgba(199,125,255,0.7); }
-  50%      { box-shadow: 0 0 18px 6px rgba(199,125,255,1); }
-}
-.fluency-bar-fill.urgent { animation: fuse-pulse 0.4s ease-in-out infinite; }
 
 /* ── REMEDIATION SCREEN ── */
 #remediation-screen { position: relative; overflow: hidden; }
@@ -1733,11 +1724,11 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   </div>
   <div class="title-btn-row">
     <button class="btn-primary" onclick="goSetup()">Let's Go →</button>
-    <button class="btn-ghost"   onclick="showOverlay('howto-overlay')">How to Play</button>
+    <button class="btn-ghost" onclick="showOverlay('howto-overlay')">How to Play</button>
+    <button class="btn-ghost" onclick="showScreen('stats-screen')">My Progress</button>
   </div>
   <div class="title-link-row">
     <button class="title-about-link" onclick="showOverlay('about-overlay')">About this game</button>
-    <button class="title-about-link" onclick="showScreen('stats-screen')">My Progress</button>
   </div>
 </div>
 
@@ -2405,6 +2396,7 @@ function buildSetupUI() {
       buildTableGrid('x');
       buildTableGrid('/');
       updatePoolNotice();
+      saveSettings();
     });
   }
 
@@ -2480,6 +2472,11 @@ function loadAndApplySettings() {
     }
     if (typeof saved.extendedTables === 'boolean') {
       S.extendedTables = saved.extendedTables;
+    }
+    // Defensive guard: prune any stale extended tables if flag is false
+    if (!S.extendedTables) {
+      S.tables.x    = S.tables.x.filter(function(n) { return n <= 12; });
+      S.tables['/'] = S.tables['/'].filter(function(n) { return n <= 12; });
     }
 
     // ── Sync UI to restored S ──
@@ -3302,10 +3299,11 @@ function updateFluencyBar(left, total) {
   if (!fill) return;
   const pct = (left / total) * 100;
   fill.style.width = pct + '%';
-  fill.classList.remove('working','urgent');
-  if (left <= 1)      fill.classList.add('urgent');
-  else if (left <= 4) fill.classList.add('working');
-
+  // Tier-aware threshold: amber = fluent zone, blue = almost zone
+  const fluentSecs = S.fluencyTier ? S.fluencyTier.fluencyMs / 1000 : 3;
+  const autokickSecs = S.fluencyTier ? S.fluencyTier.autokickMs / 1000 : 7;
+  const almostThreshold = autokickSecs - fluentSecs; // seconds remaining when fluent zone ends
+  fill.classList.toggle('almost', left <= almostThreshold);
 }
 
 function autoKick() {
@@ -4614,14 +4612,26 @@ function buildStatsScreen() {
     return;
   }
 
-  // Group facts by operation + table (first factor for ×/÷, first factor for +/-)
-  // factKey format: "6x3", "18/3", "6+7", "9-4"
+  // Group facts by operation + table
+  // factKey formats: "mul_6x3", "div_18d3", "add_6p7", "sub_9m4"
   var groups = {}; // key: display label like "×6", value: array of { eq, tier }
+
+  function parseFk(fk) {
+    var m;
+    m = fk.match(/^mul_(\d+)x(\d+)$/);
+    if (m) return { a: +m[1], b: +m[2], opSym: '×' };
+    m = fk.match(/^div_(\d+)d(\d+)$/);
+    if (m) return { a: +m[1], b: +m[2], opSym: '÷' };
+    m = fk.match(/^add_(\d+)p(\d+)$/);
+    if (m) return { a: +m[1], b: +m[2], opSym: '+' };
+    m = fk.match(/^sub_(\d+)m(\d+)$/);
+    if (m) return { a: +m[1], b: +m[2], opSym: '−' };
+    return null;
+  }
 
   function tierClass(rec) {
     if (rec.mastered) return 'mastered';
-    // "Not Yet" = miss rate > 50% over last 5, or < 3 total attempts
-    var total = rec.attempts || 0;
+    var total = (rec.correct || 0) + (rec.incorrect || 0);
     if (total < 2) return 'not-yet';
     var recent = rec.recentAttempts || [];
     if (recent.length < 3) return 'building';
@@ -4635,14 +4645,11 @@ function buildStatsScreen() {
 
   keys.forEach(function(fk) {
     var rec = userFacts[fk];
-    // Parse factKey — e.g. "6x3", "18/3", "6+7", "9-4"
-    var m = fk.match(/^(\d+)([x\/\+\-])(\d+)$/);
-    if (!m) return;
-    var a = parseInt(m[1]), op = m[2], b = parseInt(m[3]);
-    var opSym = { 'x': '×', '/': '÷', '+': '+', '-': '−' }[op] || op;
-    var groupKey = opSym + a;
-    var eqStr = a + ' ' + opSym + ' ' + b;
-    if (!groups[groupKey]) groups[groupKey] = { label: groupKey, tiles: [], sortKey: a };
+    var p = parseFk(fk);
+    if (!p) return;
+    var groupKey = p.opSym + p.a;
+    var eqStr = p.a + ' ' + p.opSym + ' ' + p.b;
+    if (!groups[groupKey]) groups[groupKey] = { label: groupKey, tiles: [], sortKey: p.a };
     var cls = tierClass(rec);
     groups[groupKey].tiles.push({ eq: eqStr, cls: cls });
   });
@@ -4675,7 +4682,7 @@ function buildStatsScreen() {
   var challengeFacts = keys
     .filter(function(fk) {
       var rec = userFacts[fk];
-      return rec && !rec.mastered && (rec.attempts || 0) >= 2;
+      return rec && !rec.mastered && ((rec.correct || 0) + (rec.incorrect || 0)) >= 2;
     })
     .map(function(fk) {
       var rec = userFacts[fk];
@@ -4683,10 +4690,9 @@ function buildStatsScreen() {
       var misses = recent.filter(function(a) { return !a.correct; }).length;
       var missRate = recent.length ? misses / recent.length : 0;
       var sd = (typeof calcResponseSD === 'function') ? calcResponseSD(recent.filter(function(a){return a.ms !== null;}).map(function(a){return a.ms;})) : 0;
-      var m = fk.match(/^(\d+)([x\/\+\-])(\d+)$/);
-      if (!m) return null;
-      var opSym = { 'x': '×', '/': '÷', '+': '+', '-': '−' }[m[2]] || m[2];
-      var eqStr = m[1] + ' ' + opSym + ' ' + m[3];
+      var p = parseFk(fk);
+      if (!p) return null;
+      var eqStr = p.a + ' ' + p.opSym + ' ' + p.b;
       var cls = tierClass(rec);
       return { eq: eqStr, cls: cls, missRate: missRate, sd: sd };
     })

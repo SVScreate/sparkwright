@@ -1,7 +1,7 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: March 29, 2026 — Session W close (v63 + follow-up patch)*
-*Current Math Flash version: v63 — `2026-03-29_2200_Math_Flash_v63_stats-fix-ext-tables-tier-copy.html`*
-*Current Sparkwright landing page: `sparkwright/index.html` (updated session F)*
+*Last updated: March 30, 2026 — Session X close (v64)*
+*Current Math Flash version: v64 — live at `games/mathflash/index.html` (no backup file this session — all changes committed directly)*
+*Current Sparkwright landing page: `sparkwright/index.html` (updated Session X — new logo, hero treatment, sparks)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
 ---
@@ -350,6 +350,9 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 ### 🔧 UI / COPY
 6–31. *(all completed — see COMPLETED log)*
 32. Auto-advance / "Student Speed Mode" toggle *(discussed, not yet designed)*
+143. **Print button on My Progress / Stats page** — add a print pill button to the stats screen so teachers/parents can print a snapshot of progress. Style consistent with results screen print button. *(Session X)*
+144. **Logo update — all pages** — new nav logo (5-pointed star SVG, Comfortaa 700 wordmark, Spark glow) was applied to `index.html` (landing page) in Session X. Needs to be applied to `games/mathflash/index.html` and any other pages. *(Session X)*
+145. **Advanced Settings — body text spacing** — the content inside the Advanced Settings card begins too close to the section title ("ADVANCED SETTINGS ▾"). Add top padding or margin to the content area inside the collapsible. *(Session X)*
 33. ✅ **Print output** — redesigned Session W (v62). Settings block, summary, fluency counts, fact chips, fluency key, notes lines.
 34. ✅ "Format" → "Mode" — renamed (v52)
 35. ✅ "— no time pressure." copy — removed (v52)
@@ -370,7 +373,8 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 128. **Settings globalization** — meta discussion: when a fix or feature is built for one mode/operation, ensure it applies consistently across all relevant modes and operations. Avoid whack-a-mole per-branch fixes. Discuss approach before next major feature pass. *(Session M)*
 129. **Easy toggle for ×** — default changed from OFF to ON in Session M. Label rewritten to plain language: "Practice every fact in your chosen table(s) — ON: all facts included. OFF: exclude facts where one of the numbers comes from a table you haven't picked (e.g. ×6, ×7, ×8 selected → no 6×2, 7×5, 8×9)." *(Session M — completed, log only)*
 
-100. **Math Flash title screen overhaul** — change tagline (sounds AI-generated), rethink layout, replace four example facts with four operation symbols, add button placeholder for future areas, review "How to Play" content. *(Session F — design discussion needed)*
+100. **Math Flash title screen overhaul** — change tagline (sounds AI-generated), rethink layout, replace four example facts with four operation symbols, add button placeholder for future areas, review "How to Play" content. Button hierarchy: "Let's Go" (primary), "How to Play" + "My Progress" (btn-ghost pills, same row), "About" (text link below). My Progress promoted to pill style in Session X — full hierarchy discussion still open. *(Session F/X — design discussion needed)*
+141. **Fluency bar purple zone design decision** — Bar has 3 states: gold (fluent zone), orange (almost zone), purple (last 1s before autokick). Purple doesn't map to a grade — it's a fuse warning. 3 colors, only 2 grade outcomes. Options: keep as-is, remove purple (drain orange to 0), or change to red for urgency. Route to Spark for input. *(Session X)*
 101. **Teacher fact-picker** — per-operation panel dropdown/selector allowing teacher to hand-pick specific facts a student will practice. *(Session F — design discussion needed)*
 
 ### 🏗️ CORE MECHANICS — PRIORITY
@@ -464,6 +468,8 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 97. ✅ Math Flash header bar showing active profile (session F)
 105. **Guest play UX** — currently guests can play freely but tracking is silently skipped and there is no logout button (only "Switch Profile"). Design discussion needed: should the game prompt "Create a profile to save your progress" before starting, or allow frictionless guest play? Also consider: should a logout/guest option be added to the profile switcher? *(Session H)*
 
+142. **Product model: tool vs. platform — design discussion needed (soon)** — Core tension: Math Flash works right now as a free tool anyone can use however they want. But the teacher use case wants something different: teacher configures settings, student plays, teacher reviews progress and controls what the student can see/access. Those are two different product models. Several existing features are already pulling toward the platform model (shareable links #130, assessment area #66, stats page, Advanced Settings, fluency threshold). Before building more infrastructure, a design discussion is needed to decide: (1) Does Math Flash have a concept of user *roles* (student vs. teacher/parent)? (2) Are some settings teacher-only — hidden from the student by default? (3) Does account setup ask "how are you using this?" to configure the experience (family at home, classroom, tutor/therapist, independent student)? (4) How does the assessment area (#66) fit — is it always available, or teacher-gated? This decision will shape the profile system, the setup screen, Advanced Settings visibility, stats access, and the assessment area. Do not build new settings infrastructure until this is resolved. Connected to: #66 (assessment), #101 (teacher fact-picker), #105 (guest play), #109 (teacher print report), #130 (shareable links). *(Session X — design discussion with Spark, soon)*
+
 ### 🌐 HOSTING / DEPLOYMENT
 91. ✅ Domain registered — `sparkwright.org` via Netlify, March 18, 2026
 92. ✅ Sparkwright landing page built — Session E
@@ -486,6 +492,30 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 ## WHERE TO PICK UP
 
+*Session X close — March 30, 2026 — v64 committed.*
+
+**Session X full build log:**
+- ✅ Extended tables persistence bug — `saveSettings()` now fires on toggle change; defensive prune on load
+- ✅ Stats screen blank bug — `parseFk()` helper fixes factKey regex mismatch; `rec.attempts` → `correct + incorrect`
+- ✅ My Progress button — promoted to `btn-ghost` pill, moved to same row as "How to Play"
+- ✅ Fluency bar — blue (Fluent zone) → orange (Almost zone), tier-aware threshold, two colors only (item 141 ✅)
+- ✅ Landing page brand — new 5-pointed star logo, Comfortaa 700 wordmark, Spark glow, hero underline gradient, hero-spark treatment
+- ✅ Landing page sparks — 24 particles, evenly distributed position/size/color/delay, slow calm rise, full-width coverage
+- ✅ Items 143–145 logged (print button on stats page, logo on all pages, Advanced Settings spacing)
+- ✅ Item 142 logged + Spark decision received: two modes (Open Play / Session Mode), no roles, no PIN
+
+**Testing still needed:**
+- T5 — hard refresh landing page (Cmd+Shift+R), confirm new star logo and Comfortaa wordmark render in Safari
+- T7 — play a round with a profile active → results → View Progress → confirm fact tiles appear
+
+**Build queue for next session (priority order):**
+1. **Item 144** — apply new nav logo to `games/mathflash/index.html` (quick)
+2. **Item 145** — Advanced Settings card body text spacing (quick)
+3. **Item 143** — print pill button on My Progress/Stats page
+4. **T2** — print output revision (waiting on Spark's spec — she's been asked, follow up)
+5. **Session Mode (item 142)** — big feature, own session when ready
+6. **Item 100** — title screen overhaul (design discussion first)
+
 *Session W (continued) — March 29, 2026 — bug fix pass + UX revision, v63.*
 
 **v63 covered (in-session fixes after testing feedback):**
@@ -505,19 +535,6 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 - **Sparkwright logo ✅** — Pip's sparkler mark, Nunito 800 wordmark.
 - **Favicon ✅**
 - **Bug 9 fixed ✅** — Pool notice / validation error conflict.
-
-**Testing status (v63 + follow-up patch):**
-- T1 ✅ — Stats screen CSS bug fixed. My Progress restored to title screen. Stats no longer persists across other screens.
-- T2 — Print output: Spark has not finalized design spec for this. Holding. Print button is functional; output layout from v62 is in place.
-- T3 ✅ — Advanced Settings confirmed working (tier pills, extended tables toggle).
-- T4 — Deferred. (Per-question timer + Extended tier auto-kick timing — niche combo, low priority.)
-- T5 — Landing page SVG filter bug fixed (cross-SVG filter reference doesn't work reliably in Safari; filter moved inline). Needs one more test pass with hard refresh (Cmd+Shift+R).
-
-**Immediate next priorities:**
-1. T5 retest — hard refresh landing page, confirm sparkler mark and font render correctly
-2. T2 — coordinate with Spark on print output design spec when ready
-3. Design discussion with Spark: items still pending (print report 109, FAQ 111, teacher shareable links 130-URL)
-4. Stats page: Spark may want to refine tile layout or labels
 
 *Session Q ended March 28, 2026 — Spark only (journaling). No code changes.*
 

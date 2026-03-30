@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sparkwright — Logo Options v2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void: #0c0c18; --deep: #13132a; --layer: #1c1c38;
+      --ember: #ff9f43; --flash: #ffd93d; --electric: #4d96ff; --arc: #c77dff;
+      --ghost: #e8e4f0; --mist: #9a93b5; --dusk: #5a5375;
+      --border: rgba(120,100,200,0.18);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--void); color: var(--ghost); font-family: 'Nunito', sans-serif; min-height: 100vh; }
+    body { background-image: radial-gradient(circle, rgba(120,100,200,0.13) 1px, transparent 1px); background-size: 48px 48px; }
+
+    .banner { background: rgba(199,125,255,0.06); border-bottom: 1px solid rgba(199,125,255,0.2); padding: 10px 32px; font-family: 'Outfit', sans-serif; font-size: 11px; color: var(--mist); letter-spacing: 1.5px; text-transform: uppercase; text-align: center; }
+
+    .page { max-width: 1080px; margin: 0 auto; padding: 52px 32px 100px; }
+
+    .page-header { margin-bottom: 44px; }
+    .page-header h1 { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 26px; color: var(--ghost); margin-bottom: 6px; }
+    .page-header p { font-size: 13px; color: var(--mist); }
+
+    .section-header { margin-bottom: 18px; margin-top: 48px; border-left: 3px solid var(--border); padding-left: 14px; }
+    .section-header:first-of-type { margin-top: 0; }
+    .section-tag { font-family: 'Outfit', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--dusk); margin-bottom: 3px; }
+    .section-name { font-family: 'Outfit', sans-serif; font-size: 17px; font-weight: 600; color: var(--ghost); }
+    .section-note { font-size: 12px; color: var(--mist); margin-top: 3px; }
+
+    .options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
+
+    .opt-card { background: var(--deep); border: 1px solid var(--border); border-radius: 12px; padding: 22px 20px 18px; }
+
+    .opt-tag { font-family: 'Outfit', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--dusk); margin-bottom: 3px; }
+    .opt-name { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; color: var(--ghost); margin-bottom: 5px; }
+    .opt-desc { font-size: 11.5px; color: var(--mist); line-height: 1.5; margin-bottom: 20px; }
+
+    .mark-row { display: flex; align-items: flex-end; gap: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+    .mark-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    .sz-lbl { font-size: 9px; color: var(--dusk); font-family: 'Outfit', sans-serif; }
+
+    .lockup { display: flex; align-items: center; gap: 8px; }
+    .wm { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px; letter-spacing: -0.2px; line-height: 1; }
+    .wm .sp { color: var(--ember); }
+    .wm .wr { color: var(--ghost); }
+
+    /* highlight card */
+    .opt-card.hero { border-color: rgba(199,125,255,0.45); background: rgba(25,20,45,0.9); }
+    .opt-card.fave { border-color: rgba(255,159,67,0.4); background: rgba(30,20,15,0.5); }
+
+    /* comparison */
+    .cmp-section { margin-top: 56px; }
+    .cmp-lbl { font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--dusk); margin-bottom: 22px; }
+    .cmp-strip { background: var(--deep); border: 1px solid var(--border); border-radius: 12px; padding: 32px; display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap; }
+    .cmp { display: flex; flex-direction: column; align-items: center; gap: 9px; }
+    .cmp-name { font-size: 9px; color: var(--dusk); font-family: 'Outfit', sans-serif; letter-spacing: 0.8px; text-transform: uppercase; text-align: center; max-width: 76px; line-height: 1.4; }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 48px 0 0; }
+  </style>
+</head>
+<body>
+
+<!-- SHARED DEFS -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden">
+  <defs>
+    <!-- gradients -->
+    <linearGradient id="g-cosmic" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff9f43"/>
+      <stop offset="50%" stop-color="#c77dff"/>
+      <stop offset="100%" stop-color="#4d96ff"/>
+    </linearGradient>
+    <linearGradient id="g-ea" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4d96ff"/>
+      <stop offset="100%" stop-color="#c77dff"/>
+    </linearGradient>
+    <linearGradient id="g-ef" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff9f43"/>
+      <stop offset="100%" stop-color="#ffd93d"/>
+    </linearGradient>
+    <linearGradient id="g-cosmic-stroke" gradientUnits="userSpaceOnUse" x1="10" y1="8" x2="90" y2="84">
+      <stop offset="0%" stop-color="#ff9f43"/>
+      <stop offset="50%" stop-color="#c77dff"/>
+      <stop offset="100%" stop-color="#4d96ff"/>
+    </linearGradient>
+    <linearGradient id="g-ea-stroke" gradientUnits="userSpaceOnUse" x1="10" y1="8" x2="90" y2="84">
+      <stop offset="0%" stop-color="#4d96ff"/>
+      <stop offset="100%" stop-color="#c77dff"/>
+    </linearGradient>
+    <!-- filters -->
+    <filter id="f-ember" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#ff9f43" flood-opacity="0.85"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#ff7700" flood-opacity="0.45"/>
+    </filter>
+    <filter id="f-electric" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#4d96ff" flood-opacity="0.85"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#1a50cc" flood-opacity="0.45"/>
+    </filter>
+    <filter id="f-ghost" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#e8e4f0" flood-opacity="0.55"/>
+    </filter>
+    <filter id="f-arc" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#c77dff" flood-opacity="0.85"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#8833cc" flood-opacity="0.45"/>
+    </filter>
+    <filter id="f-cosmic" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#c77dff" flood-opacity="0.6"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="11" flood-color="#4d96ff" flood-opacity="0.3"/>
+    </filter>
+    <filter id="f-warm-halo" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#ff9f43" flood-opacity="0.7"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#ffd93d" flood-opacity="0.35"/>
+    </filter>
+    <filter id="f-mixed" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#ff9f43" flood-opacity="0.55"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#c77dff" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="banner">Pip — Logo Options v2 · 2026-03-30 · Open in Safari · Design exploration</div>
+
+<div class="page">
+
+  <div class="page-header">
+    <h1>Logo Exploration — v2</h1>
+    <p>Two tracks: variations on Option 6 (Full Spectrum), and the range between Option 1 (Electric Outline) and Option 5 (Electric→Arc).</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECTION A: FROM OPTION 6               -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-tag">Section A</div>
+    <div class="section-name">Built from Option 6 — Full Spectrum</div>
+    <div class="section-note">Ember → Arc → Electric gradient base. Six variations.</div>
+  </div>
+
+  <div class="options-grid">
+
+    <!-- A1: Ghost rim + warm glow (the specific request) -->
+    <div class="opt-card hero">
+      <div class="opt-tag">A1 — Requested</div>
+      <div class="opt-name">Spectrum + Ghost Rim + Warm Halo</div>
+      <div class="opt-desc">Full spectrum fill, white outline, warm amber glow radiating outward. Cosmic on the inside, fire on the edge.</div>
+      <div class="mark-row">
+        <div class="mark-item">
+          <svg width="26" height="26" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" stroke="#e8e4f0" stroke-width="4" stroke-linejoin="round" filter="url(#f-warm-halo)"/>
+          </svg>
+          <span class="sz-lbl">nav</span>
+        </div>
+        <div class="mark-item">
+          <svg width="68" height="68" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" stroke="#e8e4f0" stroke-width="4" stroke-linejoin="round" filter="url(#f-warm-halo)"/>
+          </svg>
+          <span class="sz-lbl">large</span>
+        </div>
+      </div>
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" stroke="#e8e4f0" stroke-width="4" stroke-linejoin="round" filter="url(#f-warm-halo)"/>
+        </svg>
+        <span class="wm"><span class="sp">spark</span><span class="wr">wright</span></span>
+      </div>
+    </div>
+
+    <!-- A2: Spectrum + Ember rim -->
+    <div class="opt-card">
+      <div class="opt-tag">A2</div>
+      <div class="opt-name">Spectrum + Ember Rim</div>
+      <div class="opt-desc">Full spectrum fill with an amber stroke instead of white. The warm edge coordinates with the orange end of the gradient.</div>
+      <div class="mark-row">
+        <div class="mark-item">
+          <svg width="26" height="26" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" stroke="#ff9f43" stroke-width="4" stroke-linejoin="round" filter="url(#f-ember)"/>
+          </svg>
+          <span class="sz-lbl">nav</span>
+        </div>
+        <div class="mark-item">
+          <svg width="68" height="68" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" stroke="#ff9f43" stroke-width="4" stroke-linejoin="round" filter="url(#f-ember)"/>
+          </svg>
+          <span class="sz-lbl">large</span>
+        </div>
+      </div>
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" stroke="#ff9f43" stroke-width="4" stroke-linejoin="round" filter="url(#f-ember)"/>
+        </svg>
+        <span class="wm"><span class="sp">spark</span><span class="wr">wright</span></span>
+      </div>
+    </div>
+
+    <!-- A3: Spectrum + Flash center dot -->
+    <div class="opt-card">
+      <div class="opt-tag">A3</div>
+      <div class="opt-name">Spectrum + Flash Dot</div>
+      <div class="opt-desc">Full spectrum fill with a bright gold center dot. The dot acts as the ignition point — the peak of the spark.</div>
+      <div class="mark-row">
+        <div class="mark-item">
+          <svg width="26" height="26" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" filter="url(#f-cosmic)"/>
+            <circle cx="50" cy="50" r="8" fill="#ffd93d"/>
+          </svg>
+          <span class="sz-lbl">nav</span>
+        </div>
+        <div class="mark-item">
+          <svg width="68" height="68" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" filter="url(#f-cosmic)"/>
+            <circle cx="50" cy="50" r="8" fill="#ffd93d"/>
+          </svg>
+          <span class="sz-lbl">large</span>
+        </div>
+      </div>
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" filter="url(#f-cosmic)"/>
+          <circle cx="50" cy="50" r="8" fill="#ffd93d"/>
+        </svg>
+        <span class="wm"><span class="sp">spark</span><span class="wr">wright</span></span>
+      </div>
+    </div>
+
+    <!-- A4: Spectrum + Ember center dot -->
+    <div class="opt-card">
+      <div class="opt-tag">A4</div>
+      <div class="opt-name">Spectrum + Ember Dot</div>
+      <div class="opt-desc">Full spectrum with an amber center dot — warmer and slightly more grounded than the Flash dot. Echoes Option 1's detail.</div>
+      <div class="mark-row">
+        <div class="mark-item">
+          <svg width="26" height="26" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" filter="url(#f-cosmic)"/>
+            <circle cx="50" cy="50" r="8" fill="#ff9f43"/>
+          </svg>
+          <span class="sz-lbl">nav</span>
+        </div>
+        <div class="mark-item">
+          <svg width="68" height="68" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" filter="url(#f-cosmic)"/>
+            <circle cx="50" cy="50" r="8" fill="#ff9f43"/>
+          </svg>
+          <span class="sz-lbl">large</span>
+        </div>
+      </div>
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" filter="url(#f-cosmic)"/>
+          <circle cx="50" cy="50" r="8" fill="#ff9f43"/>
+        </svg>
+        <span class="wm"><span class="sp">spark</span><span class="wr">wright</span></span>
+      </div>
+    </div>
+
+    <!-- A5: Spectrum + Orbit -->
+    <div class="opt-card">
+      <div class="opt-tag">A5</div>
+      <div class="opt-name">Spectrum + Orbit</div>
+      <div class="opt-desc">Full spectrum star with a tilted arc orbit ring. The orbit is Arc-purple — same family as the gradient mid-tone.</div>
+      <div class="mark-row">
+        <div class="mark-item">
+          <svg width="26" height="26" viewBox="0 0 100 100">
+            <ellipse cx="50" cy="50" rx="46" ry="13" transform="rotate(20 50 50)" fill="none" stroke="#c77dff" stroke-width="2.8" opacity="0.75"/>
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" filter="url(#f-cosmic)"/>
+          </svg>
+          <span class="sz-lbl">nav</span>
+        </div>
+        <div class="mark-item">
+          <svg width="68" height="68" viewBox="0 0 100 100">
+            <ellipse cx="50" cy="50" rx="46" ry="13" transform="rotate(20 50 50)" fill="none" stroke="#c77dff" stroke-width="2.8" opacity="0.75"/>
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" filter="url(#f-cosmic)"/>
+          </svg>
+          <span class="sz-lbl">large</span>
+        </div>
+      </div>
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 100 100">
+          <ellipse cx="50" cy="50" rx="46" ry="13" transform="rotate(20 50 50)" fill="none" stroke="#c77dff" stroke-width="2.8" opacity="0.75"/>
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" filter="url(#f-cosmic)"/>
+        </svg>
+        <span class="wm"><span class="sp">spark</span><span class="wr">wright</span></span>
+      </div>
+    </div>
+
+    <!-- A6: Spectrum outline only (gradient stroke, no fill) -->
+    <div class="opt-card">
+      <div class="opt-tag">A6</div>
+      <div class="opt-name">Spectrum Outline</div>
+      <div class="opt-desc">No fill at all — just the cosmic gradient as a glowing stroke. Like neon tubing in star form. Clean silhouette, maximum color.</div>
+      <div class="mark-row">
+        <div class="mark-item">
+          <svg width="26" height="26" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="url(#g-cosmic-stroke)" stroke-width="5.5" stroke-linejoin="round" filter="url(#f-mixed)"/>
+          </svg>
+          <span class="sz-lbl">nav</span>
+        </div>
+        <div class="mark-item">
+          <svg width="68" height="68" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="url(#g-cosmic-stroke)" stroke-width="5.5" stroke-linejoin="round" filter="url(#f-mixed)"/>
+          </svg>
+          <span class="sz-lbl">large</span>
+        </div>
+      </div>
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="url(#g-cosmic-stroke)" stroke-width="5.5" stroke-linejoin="round" filter="url(#f-mixed)"/>
+        </svg>
+        <span class="wm"><span class="sp">spark</span><span class="wr">wright</span></span>
+      </div>
+    </div>
+
+  </div><!-- end section A grid -->
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECTION B: SPECTRUM FROM 1 → 5         -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-tag">Section B</div>
+    <div class="section-name">The range between Option 1 and Option 5</div>
+    <div class="section-note">From clean Electric outline → to full Electric→Arc gradient fill. Six steps across that spectrum.</div>
+  </div>
+
+  <div class="options-grid">
+
+    <!-- B1: Option 1 baseline -->
+    <div class="opt-card">
+      <div class="opt-tag">B1 — From v1</div>
+      <div class="opt-name">Electric Outline + Ember Dot</div>
+      <div class="opt-desc">Option 1 from v1, reproduced here as the anchor. Clean blue lines, warm amber center. Maximum restraint.</div>
+      <div class="mark-row">
+        <div class="mark-item">
+          <svg width="26" height="26" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="#4d96ff" stroke-width="5" stroke-linejoin="round"/>
+            <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+          </svg>
+          <span class="sz-lbl">nav</span>
+        </div>
+        <div class="mark-item">
+          <svg width="68" height="68" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="#4d96ff" stroke-width="5" stroke-linejoin="round"/>
+            <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+          </svg>
+          <span class="sz-lbl">large</span>
+        </div>
+      </div>
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="#4d96ff" stroke-width="5" stroke-linejoin="round"/>
+          <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+        </svg>
+        <span class="wm"><span class="sp">spark</span><span class="wr">wright</span></span>
+      </div>
+    </div>
+
+    <!-- B2: Electric outline + glow + ember dot -->
+    <div class="opt-card">
+      <div class="opt-tag">B2</div>
+      <div class="opt-name">Electric Outline + Glow + Ember Dot</div>
+      <div class="opt-desc">Option 1 with the electric glow turned on. Same mark, more energy. The blue lines now radiate. The dot gets a warmth contrast.</div>
+      <div class="mark-row">
+        <div class="mark-item">
+          <svg width="26" height="26" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="#4d96ff" stroke-width="5" stroke-linejoin="round" filter="url(#f-electric)"/>
+            <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+          </svg>
+          <span class="sz-lbl">nav</span>
+        </div>
+        <div class="mark-item">
+          <svg width="68" height="68" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="#4d96ff" stroke-width="5" stroke-linejoin="round" filter="url(#f-electric)"/>
+            <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+          </svg>
+          <span class="sz-lbl">large</span>
+        </div>
+      </div>
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="#4d96ff" stroke-width="5" stroke-linejoin="round" filter="url(#f-electric)"/>
+          <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+        </svg>
+        <span class="wm"><span class="sp">spark</span><span class="wr">wright</span></span>
+      </div>
+    </div>
+
+    <!-- B3: Electric outline + subtle Arc fill inside -->
+    <div class="opt-card">
+      <div class="opt-tag">B3</div>
+      <div class="opt-name">Electric Outline + Atmospheric Fill</div>
+      <div class="opt-desc">Blue stroke with a very subtle arc-purple atmosphere inside. The star has depth now — not just lines. Halfway between 1 and 5.</div>
+      <div class="mark-row">
+        <div class="mark-item">
+          <svg width="26" height="26" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="rgba(199,125,255,0.18)" stroke="#4d96ff" stroke-width="5" stroke-linejoin="round" filter="url(#f-electric)"/>
+            <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+          </svg>
+          <span class="sz-lbl">nav</span>
+        </div>
+        <div class="mark-item">
+          <svg width="68" height="68" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="rgba(199,125,255,0.18)" stroke="#4d96ff" stroke-width="5" stroke-linejoin="round" filter="url(#f-electric)"/>
+            <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+          </svg>
+          <span class="sz-lbl">large</span>
+        </div>
+      </div>
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="rgba(199,125,255,0.18)" stroke="#4d96ff" stroke-width="5" stroke-linejoin="round" filter="url(#f-electric)"/>
+          <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+        </svg>
+        <span class="wm"><span class="sp">spark</span><span class="wr">wright</span></span>
+      </div>
+    </div>
+
+    <!-- B4: Ea gradient stroke outline, no fill -->
+    <div class="opt-card">
+      <div class="opt-tag">B4</div>
+      <div class="opt-name">Electric→Arc Outline (no fill)</div>
+      <div class="opt-desc">Like B1's clean outline but the stroke itself shifts from blue to violet. No fill — just the gradient line. More atmospheric than Option 1, cleaner than Option 5.</div>
+      <div class="mark-row">
+        <div class="mark-item">
+          <svg width="26" height="26" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="url(#g-ea-stroke)" stroke-width="5.5" stroke-linejoin="round" filter="url(#f-arc)"/>
+            <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+          </svg>
+          <span class="sz-lbl">nav</span>
+        </div>
+        <div class="mark-item">
+          <svg width="68" height="68" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="url(#g-ea-stroke)" stroke-width="5.5" stroke-linejoin="round" filter="url(#f-arc)"/>
+            <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+          </svg>
+          <span class="sz-lbl">large</span>
+        </div>
+      </div>
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="url(#g-ea-stroke)" stroke-width="5.5" stroke-linejoin="round" filter="url(#f-arc)"/>
+          <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+        </svg>
+        <span class="wm"><span class="sp">spark</span><span class="wr">wright</span></span>
+      </div>
+    </div>
+
+    <!-- B5: Electric→Arc fill + Electric outline on top -->
+    <div class="opt-card">
+      <div class="opt-tag">B5</div>
+      <div class="opt-name">Electric→Arc Fill + Electric Stroke</div>
+      <div class="opt-desc">Option 5's gradient fill with a crisp blue stroke on top. The stroke unifies it — makes it feel more drawn, less pure digital gradient.</div>
+      <div class="mark-row">
+        <div class="mark-item">
+          <svg width="26" height="26" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-ea)" stroke="#4d96ff" stroke-width="3.5" stroke-linejoin="round" filter="url(#f-electric)"/>
+          </svg>
+          <span class="sz-lbl">nav</span>
+        </div>
+        <div class="mark-item">
+          <svg width="68" height="68" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-ea)" stroke="#4d96ff" stroke-width="3.5" stroke-linejoin="round" filter="url(#f-electric)"/>
+          </svg>
+          <span class="sz-lbl">large</span>
+        </div>
+      </div>
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-ea)" stroke="#4d96ff" stroke-width="3.5" stroke-linejoin="round" filter="url(#f-electric)"/>
+        </svg>
+        <span class="wm"><span class="sp">spark</span><span class="wr">wright</span></span>
+      </div>
+    </div>
+
+    <!-- B6: Option 5 (baseline, for comparison) -->
+    <div class="opt-card">
+      <div class="opt-tag">B6 — From v1</div>
+      <div class="opt-name">Electric→Arc (Option 5, pure)</div>
+      <div class="opt-desc">Option 5 from v1, reproduced as the other anchor. Full blue-to-purple gradient, arc glow. The far end of the 1→5 spectrum.</div>
+      <div class="mark-row">
+        <div class="mark-item">
+          <svg width="26" height="26" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-ea)" filter="url(#f-arc)"/>
+          </svg>
+          <span class="sz-lbl">nav</span>
+        </div>
+        <div class="mark-item">
+          <svg width="68" height="68" viewBox="0 0 100 100">
+            <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-ea)" filter="url(#f-arc)"/>
+          </svg>
+          <span class="sz-lbl">large</span>
+        </div>
+      </div>
+      <div class="lockup">
+        <svg width="24" height="24" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-ea)" filter="url(#f-arc)"/>
+        </svg>
+        <span class="wm"><span class="sp">spark</span><span class="wr">wright</span></span>
+      </div>
+    </div>
+
+  </div><!-- end section B grid -->
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- COMPARISON STRIP                        -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="cmp-section">
+    <div class="cmp-lbl">All twelve — same 68px size</div>
+    <div class="cmp-strip">
+
+      <div class="cmp">
+        <svg width="68" height="68" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" stroke="#e8e4f0" stroke-width="4" stroke-linejoin="round" filter="url(#f-warm-halo)"/>
+        </svg>
+        <span class="cmp-name">A1 Ghost Rim</span>
+      </div>
+
+      <div class="cmp">
+        <svg width="68" height="68" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" stroke="#ff9f43" stroke-width="4" stroke-linejoin="round" filter="url(#f-ember)"/>
+        </svg>
+        <span class="cmp-name">A2 Ember Rim</span>
+      </div>
+
+      <div class="cmp">
+        <svg width="68" height="68" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" filter="url(#f-cosmic)"/>
+          <circle cx="50" cy="50" r="8" fill="#ffd93d"/>
+        </svg>
+        <span class="cmp-name">A3 Flash Dot</span>
+      </div>
+
+      <div class="cmp">
+        <svg width="68" height="68" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" filter="url(#f-cosmic)"/>
+          <circle cx="50" cy="50" r="8" fill="#ff9f43"/>
+        </svg>
+        <span class="cmp-name">A4 Ember Dot</span>
+      </div>
+
+      <div class="cmp">
+        <svg width="68" height="68" viewBox="0 0 100 100">
+          <ellipse cx="50" cy="50" rx="46" ry="13" transform="rotate(20 50 50)" fill="none" stroke="#c77dff" stroke-width="2.8" opacity="0.75"/>
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-cosmic)" filter="url(#f-cosmic)"/>
+        </svg>
+        <span class="cmp-name">A5 Orbit</span>
+      </div>
+
+      <div class="cmp">
+        <svg width="68" height="68" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="url(#g-cosmic-stroke)" stroke-width="5.5" stroke-linejoin="round" filter="url(#f-mixed)"/>
+        </svg>
+        <span class="cmp-name">A6 Spectrum Outline</span>
+      </div>
+
+      <div class="cmp">
+        <svg width="68" height="68" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="#4d96ff" stroke-width="5" stroke-linejoin="round"/>
+          <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+        </svg>
+        <span class="cmp-name">B1 Option 1</span>
+      </div>
+
+      <div class="cmp">
+        <svg width="68" height="68" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="#4d96ff" stroke-width="5" stroke-linejoin="round" filter="url(#f-electric)"/>
+          <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+        </svg>
+        <span class="cmp-name">B2 +Glow</span>
+      </div>
+
+      <div class="cmp">
+        <svg width="68" height="68" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="rgba(199,125,255,0.18)" stroke="#4d96ff" stroke-width="5" stroke-linejoin="round" filter="url(#f-electric)"/>
+          <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+        </svg>
+        <span class="cmp-name">B3 Atmos Fill</span>
+      </div>
+
+      <div class="cmp">
+        <svg width="68" height="68" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="none" stroke="url(#g-ea-stroke)" stroke-width="5.5" stroke-linejoin="round" filter="url(#f-arc)"/>
+          <circle cx="50" cy="50" r="7" fill="#ff9f43"/>
+        </svg>
+        <span class="cmp-name">B4 Gradient Outline</span>
+      </div>
+
+      <div class="cmp">
+        <svg width="68" height="68" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-ea)" stroke="#4d96ff" stroke-width="3.5" stroke-linejoin="round" filter="url(#f-electric)"/>
+        </svg>
+        <span class="cmp-name">B5 Fill +Stroke</span>
+      </div>
+
+      <div class="cmp">
+        <svg width="68" height="68" viewBox="0 0 100 100">
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z" fill="url(#g-ea)" filter="url(#f-arc)"/>
+        </svg>
+        <span class="cmp-name">B6 Option 5</span>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end page -->
+</body>
+</html>
