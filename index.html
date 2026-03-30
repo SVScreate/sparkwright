@@ -929,7 +929,18 @@
     <a href="/" class="wordmark">
       <span class="wordmark-spark">
         <svg width="28" height="28" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-          <g filter="url(#sparkGlow)">
+          <defs>
+            <filter id="sparkGlowNav" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="outerHalo"/>
+              <feGaussianBlur in="SourceGraphic" stdDeviation="1.4" result="midGlow"/>
+              <feMerge>
+                <feMergeNode in="outerHalo"/>
+                <feMergeNode in="midGlow"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <g filter="url(#sparkGlowNav)">
             <line x1="30" y1="30" x2="30" y2="3"  stroke="#fff8e0" stroke-width="1.3" stroke-linecap="round"/>
             <line x1="30" y1="30" x2="49.1" y2="19" stroke="#ffd93d" stroke-width="1.2" stroke-linecap="round"/>
             <line x1="30" y1="30" x2="54"   y2="30" stroke="#fff0aa" stroke-width="1.1" stroke-linecap="round"/>
