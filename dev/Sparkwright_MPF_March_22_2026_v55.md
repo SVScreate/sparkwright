@@ -1,5 +1,5 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: March 29, 2026 — Session W continued (stats screen fix, extended tables toggle, tier copy, v63)*
+*Last updated: March 29, 2026 — Session W close (v63 + follow-up patch)*
 *Current Math Flash version: v63 — `2026-03-29_2200_Math_Flash_v63_stats-fix-ext-tables-tier-copy.html`*
 *Current Sparkwright landing page: `sparkwright/index.html` (updated session F)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
@@ -506,17 +506,18 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 - **Favicon ✅**
 - **Bug 9 fixed ✅** — Pool notice / validation error conflict.
 
-**Needs testing (v63):**
-- T1: Stats screen — run a round, finish, click "View Progress." Check: loads cleanly, tiles show. Navigate back to title. Check: stats screen not visible on title, setup, or game screens.
-- T2: Print output — run a pertimer round, open print. Check: settings block, fluency counts, three fact sections, fluency key, notes lines.
-- T3: Advanced Settings — Extended tables toggle: off by default, enables ×13–×20 chips when on, prunes selection when turned off. Tier pills still work.
-- T4: Pertimer with Extended tier — does auto-kick fire at 9s? Does fluency bar match?
-- T5: Landing page logo — sparkler mark in nav, correct font/colors, favicon shows.
+**Testing status (v63 + follow-up patch):**
+- T1 ✅ — Stats screen CSS bug fixed. My Progress restored to title screen. Stats no longer persists across other screens.
+- T2 — Print output: Spark has not finalized design spec for this. Holding. Print button is functional; output layout from v62 is in place.
+- T3 ✅ — Advanced Settings confirmed working (tier pills, extended tables toggle).
+- T4 — Deferred. (Per-question timer + Extended tier auto-kick timing — niche combo, low priority.)
+- T5 — Landing page SVG filter bug fixed (cross-SVG filter reference doesn't work reliably in Safari; filter moved inline). Needs one more test pass with hard refresh (Cmd+Shift+R).
 
 **Immediate next priorities:**
-1. Test pass above — confirm all v63 items
-2. Design discussion with Spark: items still pending (print report 109, FAQ 111, teacher shareable links 130-URL)
-3. Stats page: Spark may want to refine tile layout or labels after testing
+1. T5 retest — hard refresh landing page, confirm sparkler mark and font render correctly
+2. T2 — coordinate with Spark on print output design spec when ready
+3. Design discussion with Spark: items still pending (print report 109, FAQ 111, teacher shareable links 130-URL)
+4. Stats page: Spark may want to refine tile layout or labels
 
 *Session Q ended March 28, 2026 — Spark only (journaling). No code changes.*
 

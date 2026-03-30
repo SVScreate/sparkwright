@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-03-29 — Session W continued (v63)*
+*Last updated: 2026-03-29 — Session W close (v63 + follow-up patch)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -49,7 +49,7 @@ Two-part session. All of Spark's design proposals built (v62), then tested by Ki
 - ✅ Extended tables moved to Advanced Settings toggle (off by default) — ×13–×20 enabled via checkbox, prunes >12 when turned off
 - ✅ Tier descriptor copy revised — no more IEP/504/diagnosis language, "students" → "learners"
 
-**Needs testing by developer:** T1–T5 listed in MPF "Where to Pick Up."
+**Testing status:** T1 ✅, T3 ✅. T5 (landing page logo) needs one more hard-refresh test — Safari SVG filter bug fixed in follow-up patch. T2 (print) waiting on Spark design spec. T4 deferred.
 
 **Spark** — fluency bar working-zone color transitions are tier-invariant (always 4s working zone, always 1s urgent). The spec said "transitions scale accordingly" — they do, just not in a way that requires code changes. Let me know if you want different behavior. Also: I updated the tier descriptor copy per Kimberly's feedback — if you want to refine further, happy to take direction.
 
