@@ -1,6 +1,6 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: March 29, 2026 — Session W (stats page, print redesign, fluency tiers, extended tables, logo, v62)*
-*Current Math Flash version: v62 — `2026-03-29_1800_Math_Flash_v62_stats-print-tiers-tables-logo.html`*
+*Last updated: March 29, 2026 — Session W continued (stats screen fix, extended tables toggle, tier copy, v63)*
+*Current Math Flash version: v63 — `2026-03-29_2200_Math_Flash_v63_stats-fix-ext-tables-tier-copy.html`*
 *Current Sparkwright landing page: `sparkwright/index.html` (updated session F)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
@@ -486,29 +486,37 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 ## WHERE TO PICK UP
 
-*Session W ended March 29, 2026 — massive feature pass, v62.*
+*Session W (continued) — March 29, 2026 — bug fix pass + UX revision, v63.*
 
-**Session W covered:**
+**v63 covered (in-session fixes after testing feedback):**
 
-- **Extended tables ×13–×20 ✅** — `buildTableGrid()` loop updated to 20, `buildMults()` Easy array to 20, Select All arrays to 20. All four operations support extended range. Modal copy updated: "×15" → "×20". (Item 63)
-- **Print output redesign ✅** — Full new layout: header, student name, settings block (mode/tables/questions/easy/tier), summary (score/time/streak/practice quests), fluency counts (pertimer), facts sections (pertimer: all three tiers; non-pertimer: wrong answers only), fluency key, notes lines. Practice Quest count (`G.questCount`) and wrong facts array (`G.wrongFacts`) added to G. (Items 33 + 124)
-- **Fluency threshold tiers ✅** — Advanced Settings collapsible on setup screen. 4 pills: Challenge (2s), Standard (3s default), Extended (5s), Extended+ (6s). Auto-kick scales with tier (threshold + 4s). `S.fluencyTier` added to S and settings persistence. Timer logic in `startPerQTimer()`, `resumeTimers()`, `recordFluency()`, `autoKick()` all updated to use active tier. Print output dynamically reflects tier. (Items 130 + 139)
-- **Stats page ✅** — New "stats-screen." Entry from title screen ("My Progress") and results screen ("View Progress"). Tiles grouped by table, colored by tier (gold=Mastered, orange=Building, purple=Not Yet). Challenge Facts section at bottom (top 10 non-mastered by miss rate + variance). Empty state for new users. `buildStatsScreen()` populates on navigation. (Items 88 + 89 + 110)
-- **Sparkwright landing page logo ✅** — Pip's sparkler mark SVG in nav (28×28, sparkGlow filter). Wordmark updated: Nunito 800, `spark` in #ff9f43 (Ember), `wright` in #e8e4f0. Nunito 800 added to font load. CSS token comments added to `:root`. (Pip Session W)
-- **Bug 9 fixed ✅** — Pool notice / validation error conflict in `num-input-msg` div. Validation error setter now strips `info` class before writing error text.
+- **Stats screen persistence bug fixed ✅** — `#stats-screen { display: flex }` was overriding `.screen { display: none }`. Removed `display` from the ID rule; `.screen.active` now fully controls visibility. Stats no longer leaks into Setup or game round.
+- **"My Progress" removed from title screen ✅** — Button deleted from `.title-link-row`. Stats accessible from results screen ("View Progress") only.
+- **Extended tables moved to Advanced Settings toggle ✅** — ×13–×20 is now off by default. New checkbox "Extended tables (×13–×20)" in Advanced Settings. `buildTableGrid()`, `updateSelAllLabel()`, `updateEasyLabel()`, `buildMults()`, and Select All handlers all respect `S.extendedTables`. Prunes selected tables > 12 when toggled off. Saved/loaded in localStorage.
+- **Tier descriptor copy revised ✅** — Removed IEP/504/diagnosis language. "students" → "learners" throughout tier descs. New copy: Challenge: "For learners who've mastered 3s automaticity." / Standard: "Research-based fluency threshold — the default for most learners." / Extended: "For learners who work best with more response time." / Extended+: "For learners who benefit from significantly more response time." Updated in TIER_DESCS map AND in the duplicate copy inside `loadAndApplySettings`.
+- **About modal copy updated ✅** — Tables line updated: "up to ×12 (or up to ×20 with extended tables enabled in Advanced Settings)."
 
-**Needs testing:**
-- T1: Extended tables — does ×13–×20 appear in selector? Does Easy ON work with extended tables selected?
+**Session W original features (v62):**
+
+- **Extended tables ×13–×20 ✅** — Now behind a toggle (see above). (Item 63)
+- **Print output redesign ✅** — Full new layout: header, student name, settings block, summary, fluency counts, fact chips, fluency key, notes lines. (Items 33 + 124)
+- **Fluency threshold tiers ✅** — Advanced Settings collapsible, 4 pills, dynamic timer/grading/print. (Items 130 + 139)
+- **Stats page ✅** — Tiles by table (gold/orange/purple), Challenge Facts section. (Items 88 + 89 + 110)
+- **Sparkwright logo ✅** — Pip's sparkler mark, Nunito 800 wordmark.
+- **Favicon ✅**
+- **Bug 9 fixed ✅** — Pool notice / validation error conflict.
+
+**Needs testing (v63):**
+- T1: Stats screen — run a round, finish, click "View Progress." Check: loads cleanly, tiles show. Navigate back to title. Check: stats screen not visible on title, setup, or game screens.
 - T2: Print output — run a pertimer round, open print. Check: settings block, fluency counts, three fact sections, fluency key, notes lines.
-- T3: Advanced Settings — collapses/expands, pill selection changes tier desc, tier persists in localStorage.
+- T3: Advanced Settings — Extended tables toggle: off by default, enables ×13–×20 chips when on, prunes selection when turned off. Tier pills still work.
 - T4: Pertimer with Extended tier — does auto-kick fire at 9s? Does fluency bar match?
-- T5: Stats page — run a few rounds, open My Progress. Check: tiles appear, Challenge Facts section shows if misses exist.
-- T6: Landing page logo — sparkler mark in nav, correct font/colors.
+- T5: Landing page logo — sparkler mark in nav, correct font/colors, favicon shows.
 
 **Immediate next priorities:**
-1. Test pass above — confirm all v62 items
+1. Test pass above — confirm all v63 items
 2. Design discussion with Spark: items still pending (print report 109, FAQ 111, teacher shareable links 130-URL)
-3. Stats page: once tested, Spark may want to refine tile layout or labels
+3. Stats page: Spark may want to refine tile layout or labels after testing
 
 *Session Q ended March 28, 2026 — Spark only (journaling). No code changes.*
 

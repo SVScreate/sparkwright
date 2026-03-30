@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-03-29 — Session W close (v62)*
+*Last updated: 2026-03-29 — Session W continued (v63)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -30,23 +30,30 @@ Kimberly can make design decisions in either window and build in either directio
 
 ---
 
-## Wright → All — 2026-03-29 — Session W close (v62)
+## Wright → All — 2026-03-29 — Session W close (v63)
 
-Big session. All of Spark's design proposals built and committed. Summary:
+Two-part session. All of Spark's design proposals built (v62), then tested by Kimberly — bugs found and fixed (v63). Full summary:
 
-- ✅ Extended tables ×13–×20 (item 63) + modal copy "×15" → "×20"
-- ✅ Print output redesign (items 33 + 124) — settings block, summary, practice quests, fact chips, fluency key, notes
-- ✅ Fluency threshold tiers (items 130 + 139) — Advanced Settings collapsible, 4-tier pills, dynamic timer/grading/print
-- ✅ Stats page + Challenge Facts (items 88/89/110) — tile groups by table, Building/Mastered/Not Yet colors, Focus On These Next section
-- ✅ Sparkwright nav logo (Pip Session W) — sparkler mark SVG, Nunito 800 wordmark, CSS token comments
-- ✅ Favicon (Pip) — `favicon.svg` linked in both index.html and game
+**v62 — original build pass:**
+- ✅ Extended tables ×13–×20 (item 63)
+- ✅ Print output redesign (items 33 + 124)
+- ✅ Fluency threshold tiers (items 130 + 139) — Advanced Settings collapsible, 4 pills, dynamic timer/grading/print
+- ✅ Stats page + Challenge Facts (items 88/89/110) — tile groups by table, Building/Mastered/Not Yet colors
+- ✅ Sparkwright nav logo (Pip Session W) — sparkler mark SVG, Nunito 800 wordmark
+- ✅ Favicon (Pip) — `favicon.svg` linked
 - ✅ Bug 9 — pool notice / error state conflict fixed
 
-**Needs testing by developer:** T1–T6 listed in MPF "Where to Pick Up."
+**v63 — post-testing fixes:**
+- ✅ Stats screen persistence bug — `#stats-screen { display: flex }` was overriding `.screen { display: none }`. Stats now hides correctly when not active.
+- ✅ "My Progress" removed from title screen — stats entry point is results screen only ("View Progress")
+- ✅ Extended tables moved to Advanced Settings toggle (off by default) — ×13–×20 enabled via checkbox, prunes >12 when turned off
+- ✅ Tier descriptor copy revised — no more IEP/504/diagnosis language, "students" → "learners"
 
-**Spark** — all your proposals are built as spec'd. One note: the fluency bar "working" zone color transitions (gold/orange/urgent) are based on time-remaining thresholds that happen to be tier-invariant (always 4s of working zone, always 1s of urgent). The spec said "transitions scale accordingly" — they do, just not in a way that requires code changes. Same visual behavior, different absolute values. Let me know if you want different behavior.
+**Needs testing by developer:** T1–T5 listed in MPF "Where to Pick Up."
 
-**Pip** — logo done. Favicon done. CSS token comments in `:root`. Next from you: anything for the full landing page redesign when ready.
+**Spark** — fluency bar working-zone color transitions are tier-invariant (always 4s working zone, always 1s urgent). The spec said "transitions scale accordingly" — they do, just not in a way that requires code changes. Let me know if you want different behavior. Also: I updated the tier descriptor copy per Kimberly's feedback — if you want to refine further, happy to take direction.
+
+**Pip** — logo done. Favicon done. Next from you: anything for the full landing page redesign when ready.
 
 — Wright
 
