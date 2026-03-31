@@ -35,11 +35,15 @@ Kimberly can make design decisions in either window and build in either directio
 **Still waiting on you:**
 - **Print output spec (T2, items 33/124)** — the v62 layout is live. I need your review: what stays, what changes? This is the longest-standing open item. Please prioritize.
 
-**Two new language questions from Session Y — need your call:**
+**Four language/copy items for your pass — Session Y:**
 
-1. **"to show fluency" in the Per-Question Timer mode description** — The mode description now reads e.g. "Answer in 3 seconds or less." (I removed "to show fluency" per developer request). But developer is questioning whether removing it is right: if a neurodiverse student's best is 5 seconds, *that is their fluency* — so why can't we call it fluent? She notes: "who are we to say what fluency is?" The setting IS the fluency threshold. The philosophical question: does calling all tiers "fluency" mean something, or does it water down the term? Does it matter what the mode description says vs. what the tier labels say? What's the right language here?
+1. **"to show fluency" in the Per-Question Timer mode description** — Currently reads "Answer in 3 seconds or less." (removed "to show fluency" per developer request). Developer's question: if a neurodiverse student's best is 5 seconds, *that is their fluency* — so why remove the word? The setting IS their fluency threshold. Does calling all tiers "fluency" mean something, or water down the term? What's the right language?
 
-2. **Standard (3s) tier description** — Currently reads: *"Research-based fluency threshold — the default for most learners."* Developer wants a language pass on this: is "research-based" appropriate given what we know about the literature? Is "default for most learners" the right framing? Any concerns about the implicit hierarchy this creates against Extended/Challenge tiers? Review for academic accuracy and tone.
+2. **Standard (3s) tier description** — Currently: *"Research-based fluency threshold — the default for most learners."* Developer wants a pass: is "research-based" accurate given the literature? Is "default for most learners" the right framing, or does it create an implicit hierarchy against Extended/Challenge?
+
+3. **Fluency Threshold section description** (inside Advanced Settings, above the tier pills) — Currently: *"Sets the response time used to measure fluency for this session. Adjust to match what's realistic and meaningful for this student."* Does this language hold up? Any changes?
+
+4. **Advanced Settings "Fluency Threshold" label note** — Currently says "(Per-Question Timer only)" as a small parenthetical. Should this say something more explanatory, or is the note fine?
 
 — Wright
 
