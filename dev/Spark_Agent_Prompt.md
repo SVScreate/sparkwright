@@ -181,48 +181,61 @@ One-time purchase per game, a la carte. No account required for core experience.
 ## Current State of Open Work
 *(Replace this section at each session end — do not append)*
 
-### As of Session T — March 28, 2026
+### As of Session Y — March 31, 2026
 
-**What happened this session:**
-- Full orientation pass: RP, ConsumerData, and Handoff read in full
-- Two rounds of copy revision for Tier 2 (Sparkwright About page) and Tier 3 (Math Flash title screen About panel)
-- First pass was too "AI" — short punchy sentences, car-commercial profundity; developer called it out clearly
-- Second pass: simpler, more direct, confident without performing confidence — developer approved as a close-enough starting point for her voice edit
-- `Sparkwright_Website_Copy_Draft_v1.md` updated — Tier 2 and Tier 3 replaced with Session T versions
-- `Agent_Handoff.md` updated with note to Wright: use new Tier 2 and Tier 3, hold deploy until developer clears voice edit
+**What Wright built since Session T (v62/v63):**
+- ✅ Extended tables ×13–×20 (Advanced Settings toggle, off by default)
+- ✅ Print output redesign (items 33/124) — layout live, spec still pending from Spark
+- ✅ Fluency threshold tiers (items 130/139) — 4 pills, Advanced Settings collapsible
+- ✅ Stats page + Challenge Facts (items 88/89/110)
+- ✅ Sparkwright nav logo + favicon (Pip)
+- ✅ Fluency bar: amber `#ff9f43` (fluent) + blue `#4d96ff` (almost), purple dropped, tier-scaling (item 141) — built Session X
 
-**Note on copy voice:** Developer confirmed these pieces need her fine-tuning before going live. Wright should build the structure; developer edits copy before deploy. For future copy-heavy sessions, the Claude.ai chat window (Spark's native environment) is better suited to iterative voice work than Claude Code.
+**What happened Session X (Spark):**
+- Product model decision (item 142): two modes — Open Play (default, full access) + Session Mode (settings lock toggle, no PIN, teacher-in-room assumption). Assessment gated per student profile in Session Mode. Scheduling = v2. Shareable links without student identity = deferred. Shipped to Wright.
+- Fluency bar colors, tier scaling, terminology (fluency in-game / automaticity in FAQ) — all decided and shipped.
+- Print spec: partially scoped (5 decisions), held pending mastery build testing + Pip branding settling.
 
-### RP To-Do
+**What happened this session (Session Y — Spark):**
+- Tier rename decision: rename all four tier pills to spelled-out time values — "3 Seconds," "5 Seconds," etc. No editorial, no implied hierarchy. Shipped to Wright.
+- Copy principle locked: **"Describe the setting. Don't interpret the student."** Applies to all Advanced Settings UI copy.
+- Four Wright copy items resolved — see handoff for full spec.
+- Fluency/automaticity terminology distinction written to RP Section 4. Includes developer's framing: *"Automaticity is the state where retrieval is spontaneous for this person. You're not saying what speed that happens at. You're just naming what you're building toward."*
+- "Program vs. tool" — confirmed: the *product model decision* (Open Play / Session Mode) was made and shipped Session X. The *positioning language* ("This is a tool more than a program") is in the phrase bank but copy is not yet developed.
+- Home page copy pass: developer doing her own pass; status unknown. Check at next session start.
+
+**Note on required reading (token efficiency):**
+Not every session needs the full RP + ConsumerData. Check the "Required reading this session" flag below before reading both in full.
+
+**Required reading this session:** Bootstrap + Handoff only unless session involves research, citations, consumer data, or positioning copy. Read RP when: citing research, updating pedagogy, reviewing competitive landscape. Read ConsumerData when: consumer research, positioning copy, target user profile work.
+
+### Open Items
+
+**Blocking Wright (highest priority):**
+- [ ] **Print spec (T2, items 33/124)** — partially scoped Session X. Resume: 5 decisions to make. Re-scope from the v62 layout. Longest-standing open item.
+
+**Design discussions still needed:**
+- [ ] **Session Mode UX** (item 142) — product model decided; Wright needs UX spec for how the lock looks and how teacher accesses settings.
+- [ ] **Assessment area (#66)** — how it's accessed, what it looks like, gating in Session Mode.
 
 **Journaling — first passes done, loose ends remain:**
-- [~] **Who is she?** — Two clarifying questions unanswered: (1) context of use — what time of day, what's the setup? (2) XtraMath — personal experience or avoiding by reputation?
-- [~] **3-month signals** — Open: what are the pre-launch signals before there are users to message?
-- [~] **5-year vision** — Open: mobile priority — iOS app vs. PWA?
+- [~] **Who is she?** — Two clarifying questions unanswered: (1) context of use; (2) XtraMath personal experience or by reputation?
+- [~] **3-month signals** — Open: pre-launch signals before there are users.
+- [~] **5-year vision** — Open: mobile priority (iOS vs. PWA)?
 
-**Still not done:**
-- [ ] Play the competition for one hour. XtraMath, Reflex, one flashcard app. As a student. Keeps getting deferred. Matters.
-- [ ] Draft — target user profile final version (after clarifying questions answered)
-- [ ] Draft — marketing copy sentence: *"Math Flash is for families who have already tried \_\_\_\_ and found that \_\_\_\_."*
-- [ ] Draft — FAQ outline (after stats page and print report are designed)
-
-### ConsumerData To-Do
-- [ ] r/specialeducation + r/ADHD_parents — Reddit blocked in Session N. High value. Defer to a token-rich session.
-- [ ] Well-Trained Mind forum threads — 403 errors. Developer opens in browser, pastes manually. URLs in ConsumerData Section J.
-- [ ] Personal investigation: 6 tools flagged in ConsumerData Section J (Smart Math Flashcards, Time4MathFacts, Factivation!, DeltaMath for Home, MobyMax, Imagine Math Facts mourning threads). Use each firsthand, record observations.
-
-### Design Discussions (blocking Wright's build queue)
-- **Item 130** — Teacher-adjustable fluency threshold. Research complete; design discussion needed.
-- **Item 139** — Tiered threshold design (Challenge/Standard/Extended/Extended+). New this session; design discussion needed before coding.
-- **Items 88/89/110** — Challenge Facts workspace + student stats page.
-- **Items 33/124** — Print output / teacher print report.
-- **Math Flash title screen About panel** — revised copy in `Sparkwright_Website_Copy_Draft_v1.md` → Tier 3. Ready for Wright to build; developer voice edit before deploy.
+**Research/copy still not done:**
+- [ ] Play the competition for one hour. Keeps getting deferred. Matters.
+- [ ] Draft — target user profile final version
+- [ ] Draft — marketing copy sentence ("Math Flash is for families who...")
+- [ ] Draft — FAQ outline (after print spec and assessment area designed)
+- [ ] Copy pass — home page game cards + value list (developer doing; update Spark when done)
+- [ ] r/specialeducation + r/ADHD_parents — Reddit blocked Session N. High value, token-rich session.
+- [ ] Well-Trained Mind forums — developer opens manually, pastes. URLs in ConsumerData Section J.
 
 ### Key Files (current)
-- `dev/Sparkwright_Website_Copy_Draft_v1.md` — landing page, About page (Tier 2), Math Flash About panel (Tier 3) — all updated Session T
+- `dev/Sparkwright_Website_Copy_Draft_v1.md` — landing page, About page (Tier 2), Math Flash About panel (Tier 3) — updated Session T, pending developer voice edit
 - `dev/Sparkwright_Legal_Draft_v1.md` — Terms, Privacy, Cookie Policy, footer copy
 - `dev/Sparkwright_Costs_and_Accounting_v1.md` — ~$21/month from May onward
-- `dev/Sparkwright_Wright_Prompt_SessionR.md` — build prompt for Wright (Session R)
 
 ---
 

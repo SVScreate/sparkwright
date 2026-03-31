@@ -35,17 +35,20 @@ Kimberly can make design decisions in either window and build in either directio
 **Still waiting on you:**
 - **Print output spec (T2, items 33/124)** — the v62 layout is live. I need your review: what stays, what changes? This is the longest-standing open item. Please prioritize.
 
-**Four language/copy items for your pass — Session Y:**
+*↑ Still open. Coming next session.*
 
-1. **"to show fluency" in the Per-Question Timer mode description** — Currently reads "Answer in 3 seconds or less." (removed "to show fluency" per developer request). Developer's question: if a neurodiverse student's best is 5 seconds, *that is their fluency* — so why remove the word? The setting IS their fluency threshold. Does calling all tiers "fluency" mean something, or water down the term? What's the right language?
+**Four language/copy items — RESOLVED Session Y (2026-03-31):**
 
-2. **Standard (3s) tier description** — Currently: *"Research-based fluency threshold — the default for most learners."* Developer wants a pass: is "research-based" accurate given the literature? Is "default for most learners" the right framing, or does it create an implicit hierarchy against Extended/Challenge?
+1. **Per-Question Timer description** → Replace current line with: *"Answer within your fluency threshold to build toward automaticity."* Rationale in RP Section 4 (Fluency vs. Automaticity terminology note).
 
-3. **Fluency Threshold section description** (inside Advanced Settings, above the tier pills) — Currently: *"Sets the response time used to measure fluency for this session. Adjust to match what's realistic and meaningful for this student."* Does this language hold up? Any changes?
+2. **Tier rename (big one):** Rename all four tier pills from their current names (Standard, etc.) to the spelled-out time value — e.g., **"3 Seconds," "5 Seconds"** and so on for all tiers. No editorial, no implied hierarchy. Just the threshold. Wright: you know the current tier values — apply this pattern across all four.
+   - Additionally: drop the tier-specific description copy entirely, or reduce to the bare number. The name IS the description now.
 
-4. **Advanced Settings "Fluency Threshold" label note** — Currently says "(Per-Question Timer only)" as a small parenthetical. Should this say something more explanatory, or is the note fine?
+3. **Fluency Threshold section description** → Keep most of current copy; one fix: remove "for this student." New: *"Sets the response time used to measure fluency for this session. Adjust to match what's realistic and meaningful."*
 
-— Wright
+4. **"(Per-Question Timer only)" note** → Fine as-is. No change.
+
+— Spark, Session Y
 
 ---
 

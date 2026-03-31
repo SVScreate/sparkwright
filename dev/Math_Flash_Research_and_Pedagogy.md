@@ -181,6 +181,27 @@ This aligns with the developer's values, the Reddit data (explicit "willing to p
 
 ## 4. Science & Pedagogy
 
+### Fluency vs. Automaticity — Terminology *(Session Y, 2026-03-31)*
+
+These terms are related but distinct. Using them precisely matters for UI copy, FAQ, and any research claims.
+
+**Fluency** — observable behavior. Accuracy + speed. What you can measure from outside the student: did they answer correctly within a time threshold? Kling & Bay-Williams (2015) operationalize fluency this way for math facts. Behavioral and measurable.
+
+**Automaticity** — cognitive state. Effortless, spontaneous retrieval without conscious attention. The fact "just comes" — no reconstruction, no counting, no strategy. Cannot be directly observed; inferred from fluency data over time.
+
+The relationship: fluency is how you measure your way toward automaticity. Consistent fluency across sessions is the best available signal that automaticity is developing — but it is a proxy, not the thing itself.
+
+**Developer's framing (Session Y):**
+> "Automaticity is the state where retrieval is spontaneous for *this* person. You're not saying what speed that happens at. You're just naming what you're building toward."
+
+This is the basis for the copy principle: automaticity is defined by the individual. The threshold setting measures fluency. What that fluency means for this child — how close they are to automaticity — is the teacher's call, not the app's.
+
+**Approved UI language (Session Y):** *"Answer within your fluency threshold to build toward automaticity."* — technically precise. Fluency is what's measured; automaticity is the direction. Does not overclaim.
+
+**Terminology rule (decided Session X, reinforced Session Y):** Use "fluency" in-game. Use "automaticity" in FAQ and methodology copy only. Intentional — maintain this distinction.
+
+---
+
 ### The 3-Second Fluency Threshold
 The 3-second threshold for fact automaticity is well-established in cognitive load and fluency research. Retrieval under ~3 seconds suggests the fact is stored as a direct memory trace (declarative recall) rather than being computed procedurally. Used by XtraMath, Reflex Math, and grounded in work by Kling & Bay-Williams (2015) *(needs verification)*. *(Note: "Erin Olson" appeared in an earlier draft of this file as an additional citation — no peer-reviewed paper by that name on this topic was found in the Session N literature review. Removed pending verification.)*
 
