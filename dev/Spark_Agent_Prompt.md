@@ -181,28 +181,28 @@ One-time purchase per game, a la carte. No account required for core experience.
 ## Current State of Open Work
 *(Replace this section at each session end — do not append)*
 
-### As of Session Y — March 31, 2026
+### As of Session Z — March 31, 2026
 
 **What Wright built since Session T (v62/v63):**
 - ✅ Extended tables ×13–×20 (Advanced Settings toggle, off by default)
-- ✅ Print output redesign (items 33/124) — layout live, spec still pending from Spark
+- ✅ Print output redesign (items 33/124) — done, developer using in practice
 - ✅ Fluency threshold tiers (items 130/139) — 4 pills, Advanced Settings collapsible
 - ✅ Stats page + Challenge Facts (items 88/89/110)
 - ✅ Sparkwright nav logo + favicon (Pip)
 - ✅ Fluency bar: amber `#ff9f43` (fluent) + blue `#4d96ff` (almost), purple dropped, tier-scaling (item 141) — built Session X
 
-**What happened Session X (Spark):**
-- Product model decision (item 142): two modes — Open Play (default, full access) + Session Mode (settings lock toggle, no PIN, teacher-in-room assumption). Assessment gated per student profile in Session Mode. Scheduling = v2. Shareable links without student identity = deferred. Shipped to Wright.
-- Fluency bar colors, tier scaling, terminology (fluency in-game / automaticity in FAQ) — all decided and shipped.
-- Print spec: partially scoped (5 decisions), held pending mastery build testing + Pip branding settling.
+**What happened Session Y (Spark):**
+- Tier rename decision: spelled-out time values — "3 Seconds," "5 Seconds," etc.
+- Copy principle locked: **"Describe the setting. Don't interpret the student."**
+- Fluency/automaticity terminology distinction written to RP Section 4.
 
-**What happened this session (Session Y — Spark):**
-- Tier rename decision: rename all four tier pills to spelled-out time values — "3 Seconds," "5 Seconds," etc. No editorial, no implied hierarchy. Shipped to Wright.
-- Copy principle locked: **"Describe the setting. Don't interpret the student."** Applies to all Advanced Settings UI copy.
-- Four Wright copy items resolved — see handoff for full spec.
-- Fluency/automaticity terminology distinction written to RP Section 4. Includes developer's framing: *"Automaticity is the state where retrieval is spontaneous for this person. You're not saying what speed that happens at. You're just naming what you're building toward."*
-- "Program vs. tool" — confirmed: the *product model decision* (Open Play / Session Mode) was made and shipped Session X. The *positioning language* ("This is a tool more than a program") is in the phrase bank but copy is not yet developed.
-- Home page copy pass: developer doing her own pass; status unknown. Check at next session start.
+**What happened this session (Session Z — Spark):**
+- **Assessment Mode (items 147 + 66 = same feature):** Baseline = Assessment 1. Systematic all-facts probe, one attempt per fact, no Practice Quest, teacher-configurable timer (defaults to fluency threshold). Separate data storage from practice data — non-negotiable. Records stamped with number, date, threshold used. My Progress draws from both practice + assessment data.
+- **My Progress → Student Dashboard (item 140):** Three-section structure: (1) Fact Constellation — hero visual, (2) Facts to Watch — elevated challenge facts, (3) Assessment Records + Run Assessment button.
+- **Fact Constellation design locked:** Color = tier (existing system). Glow/intensity = how established. Aesthetic: warm forge/alchemy — NOT cold space. Pip star (5-pointed logo mark) = mastery badge. Unpracticed facts = barely visible, always present in full grid.
+- **New items flagged for MPF:** Animation pass (spark-pop on open, change-over-time slider — log, don't build yet). Threshold visibility on dashboard. Threshold-change data integrity (new item — design before building, connects to items 130/131/106).
+- **Key architecture decision:** Items 147 + 66 + 140 are one design territory. Don't build in isolation. Title screen (item 100) should not be finalized until assessment access in dashboard is confirmed.
+- Shipped to Wright via handoff.
 
 **Note on required reading (token efficiency):**
 Not every session needs the full RP + ConsumerData. Check the "Required reading this session" flag below before reading both in full.
@@ -212,11 +212,13 @@ Not every session needs the full RP + ConsumerData. Check the "Required reading 
 ### Open Items
 
 **Blocking Wright (highest priority):**
-- [ ] **Print spec (T2, items 33/124)** — partially scoped Session X. Resume: 5 decisions to make. Re-scope from the v62 layout. Longest-standing open item.
+- [ ] **Student Dashboard / Assessment Mode (items 147 + 66 + 140)** — spec shipped to Wright this session. Ready to build.
 
 **Design discussions still needed:**
 - [ ] **Session Mode UX** (item 142) — product model decided; Wright needs UX spec for how the lock looks and how teacher accesses settings.
-- [ ] **Assessment area (#66)** — how it's accessed, what it looks like, gating in Session Mode.
+- [ ] **localStorage vs. server accounts (item 151)** — Wright flagged for Spark. Product/positioning questions: how to communicate the account tier without undermining "no sign-up" selling point; what "you own your data" means when a server exists. Come with a recommendation.
+- [ ] **Market size analysis** — Wright flagged for Spark. TAM for indie ed-tech in homeschool + tutor/ed therapist space. What does a successful indie launch look like?
+- [ ] **Threshold-change data integrity (new item)** — what happens to My Progress tier colors when fluency threshold is changed? Design before building.
 
 **Journaling — first passes done, loose ends remain:**
 - [~] **Who is she?** — Two clarifying questions unanswered: (1) context of use; (2) XtraMath personal experience or by reputation?
@@ -224,10 +226,10 @@ Not every session needs the full RP + ConsumerData. Check the "Required reading 
 - [~] **5-year vision** — Open: mobile priority (iOS vs. PWA)?
 
 **Research/copy still not done:**
-- [ ] Play the competition for one hour. Keeps getting deferred. Matters.
+- [ ] Play the competition for one hour. Keeps getting deferred. Matters — XtraMath heat map format still unverified.
 - [ ] Draft — target user profile final version
 - [ ] Draft — marketing copy sentence ("Math Flash is for families who...")
-- [ ] Draft — FAQ outline (after print spec and assessment area designed)
+- [ ] Draft — FAQ outline (after assessment area designed)
 - [ ] Copy pass — home page game cards + value list (developer doing; update Spark when done)
 - [ ] r/specialeducation + r/ADHD_parents — Reddit blocked Session N. High value, token-rich session.
 - [ ] Well-Trained Mind forums — developer opens manually, pastes. URLs in ConsumerData Section J.

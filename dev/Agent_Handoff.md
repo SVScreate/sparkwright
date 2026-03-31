@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-03-30 — Session X close*
+*Last updated: 2026-03-31 — Session Z close (Spark)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -32,13 +32,90 @@ Kimberly can make design decisions in either window and build in either directio
 
 ## Wright → Spark — 2026-03-31 — Session Z close
 
-**Items 33 + 124 (print output):** Developer confirmed the v62 layout looks good and is marking both done. She'll use it in practice and give feedback later. No spec review needed — you're off the hook on this one.
+**localStorage vs. server accounts (item 151) — needs your input:** Kimberly is wrestling with the right architecture path. She values the "no account, you own your data" philosophy as a differentiator, but the classroom teacher use case (item 150) and eventual business model both push toward server accounts. My technical read: opt-in server accounts (core game always works without an account; sync and teacher features are the opt-in layer) is the right path and preserves the ethos. But the product and positioning questions are yours: (1) how do we communicate the account tier without undermining the "no sign-up" selling point? (2) what does "you own your data" mean when a server exists? (3) does the free tier remain genuinely useful or quietly degrade? This decision affects marketing copy, legal/privacy, and business model. Please come with a recommendation. Full context in items 150–151 in the MPF.
 
-**New item 147 — initial assessment:** Developer wants a baseline check before regular practice. She's ready to discuss the design. Key questions in item 147 in the MPF. Please think through: (1) formal timed test vs. lighter diagnostic, (2) how it seeds localStorage data, (3) relationship to the assessment area (item 66). This is a big design discussion — come with a recommendation.
-
-**My Progress / heat map (item 140):** Blocking items 143 (print button) and tier improvements. When you're ready, bring a design direction.
+**Market size analysis (new):** Kimberly wants a realistic picture of TAM for indie ed-tech in the homeschool + independent tutor/ed therapist space (not district/school market). Key questions: what does a successful indie launch look like in this category — 1K, 10K, 100K users? At what user count does she need to move from localStorage to server accounts? What's the ceiling for a solo educator-built product without VC or school district adoption?
 
 — Wright
+
+---
+
+## Spark → Wright — 2026-03-31 — Session Z
+
+**Items 147 + 66 + 140 are the same design territory — Student Dashboard. Design and build together, not in isolation.**
+
+---
+
+### Assessment Mode (items 147 + 66 — now the same feature)
+
+Item 66 (Assessment area) and item 147 (baseline check) are one feature: Assessment Mode. The baseline is just Assessment 1.
+
+**Instrument design:**
+- All selected facts tested — systematic, not random sample
+- Randomized order (prevents sequence effects)
+- One attempt per fact — no Practice Quest during assessment, no retry
+- Fixed timer — teacher-configurable, defaults to current fluency threshold setting
+- Response time recorded to ms precision
+- **Separate data storage from practice data — non-negotiable.** A probe attempt and a practice attempt are not the same signal. Mixing them pollutes variance calculations and mastery flags.
+- Each assessment record stamped with: assessment number, date, timer threshold used
+
+**Records:**
+- Assessment 1 = Baseline (special label, always)
+- Assessment 2, 3, 4... — numbered with date
+- Each printable as its own report
+- Future: comparison view (Assessment 1 vs. Assessment 4) — not now
+
+**Access:** From My Progress / Student Dashboard (Section 3 below). Not on the title screen.
+
+**My Progress data model:** Must draw from both practice data AND assessment data. Per-fact record stays as-is (raw response times); tier rendering reads from all attempts tagged by source (practice vs. assessment). If they're siloed, the dashboard is incoherent.
+
+---
+
+### My Progress → Student Dashboard (item 140)
+
+**Three-section structure:**
+
+**Section 1 — Fact Constellation (hero visual)**
+12×12 grid, always full size. Every fact always visible — unpracticed facts are dim, practiced/fluent facts glow. Filterable by operation. Student name + date visible for printing. Print pill on this section.
+
+**Visual encoding — two dimensions:**
+- **Color = tier** — existing system. Amber (#ff9f43) = fluent, blue (#4d96ff) = almost, muted/dim = not yet practiced.
+- **Glow/intensity = how established** — recently fluent = soft glow. Long-mastered = bright steady glow. Same tier, different weight.
+
+**Aesthetic:** Warm forge/alchemy energy — NOT cold space. Sparks, glowing embers, maker energy. Dark background, warm light. Points of light that feel like they have heat behind them.
+
+**Pip star as mastery badge:** Tiny 5-pointed star (the Sparkwright logo mark) appears on a fact at mastered status. Not decoration — meaningful indicator.
+
+**Unpracticed facts:** Always present, barely visible — like unlit embers.
+
+**Section 2 — Facts to Watch**
+Not all facts — just the ones worth surfacing: challenge facts, facts close to mastery, facts that have regressed. Replaces the current pile of tiles.
+
+**Section 3 — Assessment Records**
+Assessment history listed by date. "Run Assessment" button lives here.
+
+---
+
+### New items to log in MPF
+
+**Animation pass (new item — log, don't build yet):**
+- "What's new" spark-pop: when My Progress opens, newly mastered facts since last visit animate briefly. Replay button. Same visual vocabulary as the game (gold flash, spark pop).
+- Change-over-time slider: animate constellation changing between two assessments. Defer until comparison view exists.
+
+**Threshold visibility on dashboard (add to items 130/139):**
+Display current fluency threshold on My Progress — small, contextual. E.g. *"Fluency graded at 3-second threshold."* Not a button to change it. Just tells you what you're looking at.
+
+**Threshold-change data integrity (new item — design before building):**
+What happens to My Progress tier colors and practice data when the fluency threshold is changed? Assessment records are solved (stamped with threshold). Practice data is the open question. Do not build the threshold-change mechanic until this is designed. Connects to items 130, 131, 106.
+
+---
+
+### Build sequencing notes
+- Don't finalize title screen (item 100) until assessment access in the dashboard is confirmed.
+- My Progress tier improvements + item 143 (print pill) — still holding until dashboard redesign is in.
+- Animation pass is not blocking — build core constellation first, animate later.
+
+— Spark
 
 ---
 
