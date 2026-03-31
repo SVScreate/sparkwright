@@ -6,6 +6,9 @@
 <title>Math Flash</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -62,22 +65,32 @@ body {
 #sw-home-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   text-decoration: none;
-  color: rgba(154, 147, 181, 0.8);
-  font-size: 13px;
-  font-weight: 600;
-  padding: 5px 10px;
+  padding: 4px 8px;
   border-radius: 8px;
-  transition: color 0.18s, background 0.18s;
+  transition: background 0.18s;
   white-space: nowrap;
 }
-#sw-home-btn:hover {
-  color: #e8e4f0;
-  background: rgba(120, 100, 200, 0.12);
+#sw-home-btn:hover { background: rgba(120, 100, 200, 0.12); }
+#sw-home-btn:hover .sw-logo-wright { opacity: 1; }
+.sw-logo-star { display: flex; width: 22px; height: 22px; flex-shrink: 0; }
+.sw-logo-wordmark {
+  font-family: 'Comfortaa', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.1px;
+  line-height: 1;
 }
-#sw-home-btn svg { flex-shrink: 0; opacity: 0.7; }
-#sw-home-btn:hover svg { opacity: 1; }
+.sw-logo-spark {
+  color: #ffaa50;
+  text-shadow: 0 0 8px rgba(255,170,80,0.9), 0 0 16px rgba(255,130,40,0.5);
+}
+.sw-logo-wright {
+  color: #e8e4f0;
+  opacity: 0.7;
+  transition: opacity 0.18s;
+}
 #sw-divider {
   width: 1px;
   height: 18px;
@@ -725,7 +738,7 @@ input:checked + .switch-track::after { left: 22px; background: var(--correct); }
 .advanced-settings-toggle::after { content: ' ▸'; }
 details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 .advanced-settings-body {
-  padding: 0 16px 14px;
+  padding: 14px 16px 14px;
   border-top: 1px solid var(--border);
 }
 .option-label-note {
@@ -1697,11 +1710,27 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <div id="sw-header">
   <div id="sw-header-left">
     <a id="sw-home-btn" href="../../" title="Back to Sparkwright">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.8"
-              stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Sparkwright
+      <span class="sw-logo-star">
+        <svg width="22" height="22" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sw-logo-grad" gradientUnits="userSpaceOnUse" x1="10" y1="8" x2="90" y2="84">
+              <stop offset="0%" stop-color="#6aabff"/>
+              <stop offset="100%" stop-color="#d899ff"/>
+            </linearGradient>
+            <filter id="sw-logo-glow" x="-60%" y="-60%" width="220%" height="220%">
+              <feDropShadow dx="0" dy="0" stdDeviation="4.5" flood-color="#a070ff" flood-opacity="0.95"/>
+              <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#4d96ff" flood-opacity="0.55"/>
+            </filter>
+            <filter id="sw-dot-glow" x="-100%" y="-100%" width="300%" height="300%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#ff9f43" flood-opacity="0.9"/>
+            </filter>
+          </defs>
+          <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z"
+            fill="none" stroke="url(#sw-logo-grad)" stroke-width="7" stroke-linejoin="round" filter="url(#sw-logo-glow)"/>
+          <circle cx="50" cy="50" r="8" fill="#ffaa50" filter="url(#sw-dot-glow)"/>
+        </svg>
+      </span>
+      <span class="sw-logo-wordmark"><span class="sw-logo-spark">Spark</span><span class="sw-logo-wright">wright</span></span>
     </a>
     <div id="sw-divider"></div>
     <span id="sw-game-label">Math Flash</span>
@@ -2239,6 +2268,23 @@ function goSetup() {
 // ══ SETUP UI ══════════════════════════════════════════
 let setupBuilt = false;
 
+const FORMAT_DESCS = {
+  count:     'Work through a set number of questions at your own pace.',
+  timed:     'See how many you can answer before the time runs out!',
+  stopwatch: 'See how long it takes you to get through a set of questions.'
+};
+function getFormatDesc(val) {
+  if (val === 'pertimer') {
+    var secs = S.fluencyTier ? (S.fluencyTier.fluencyMs / 1000) : 3;
+    return 'Answer in ' + secs + ' second' + (secs === 1 ? '' : 's') + ' or less to show fluency.';
+  }
+  return FORMAT_DESCS[val] || '';
+}
+function updateFormatDesc() {
+  var desc = document.getElementById('format-desc');
+  if (desc) desc.textContent = getFormatDesc(S.format);
+}
+
 function buildSetupUI() {
   if (setupBuilt) return;
   setupBuilt = true;
@@ -2311,20 +2357,13 @@ function buildSetupUI() {
   bindChipGroup('chips-add', function(val) { S.maxAdd = parseInt(val); });
   bindChipGroup('chips-sub', function(val) { S.maxSub = parseInt(val); });
   bindChipGroup('chips-neg', function(val) { S.allowNeg = val === 'yes'; });
-  const FORMAT_DESCS = {
-    count:     'Work through a set number of questions at your own pace.',
-    timed:     'See how many you can answer before the time runs out!',
-    pertimer:  'Answer in three seconds or less to show fluency.',
-    stopwatch: 'See how long it takes you to get through a set of questions.'
-  };
   bindChipGroup('chips-fmt', function(val) {
     S.format = val;
     document.getElementById('opt-count').style.display           = val === 'count'     ? 'block' : 'none';
     document.getElementById('opt-time').style.display            = val === 'timed'     ? 'block' : 'none';
     document.getElementById('opt-stopwatch-count').style.display = val === 'stopwatch' ? 'block' : 'none';
     document.getElementById('opt-pertimer-count').style.display  = val === 'pertimer'  ? 'block' : 'none';
-    const desc = document.getElementById('format-desc');
-    if (desc) desc.textContent = FORMAT_DESCS[val] || '';
+    updateFormatDesc();
     updatePoolNotice();
   });
 
@@ -2367,7 +2406,7 @@ function buildSetupUI() {
 
   // Fluency threshold tier pills
   const TIER_DESCS = {
-    'challenge':  'For learners who\'ve mastered 3s automaticity.',
+    'challenge':  'For learners who\'ve mastered 3s automaticity and want a challenge.',
     'standard':   'Research-based fluency threshold — the default for most learners.',
     'extended':   'For learners who work best with more response time.',
     'extended+':  'For learners who benefit from significantly more response time.'
@@ -2380,6 +2419,7 @@ function buildSetupUI() {
       S.fluencyTier = FLUENCY_TIERS[key] || FLUENCY_TIERS['standard'];
       var desc = document.getElementById('tier-desc');
       if (desc) desc.textContent = TIER_DESCS[key] || '';
+      updateFormatDesc(); // refresh mode desc if pertimer is selected
     });
   });
 
@@ -2507,12 +2547,13 @@ function loadAndApplySettings() {
       c.classList.toggle('on', c.dataset.val === S.format);
     });
 
-    // Show correct format sub-panel
+    // Show correct format sub-panel + update format description
     var panels = { count: 'opt-count', timed: 'opt-time', stopwatch: 'opt-stopwatch-count', pertimer: 'opt-pertimer-count' };
     Object.keys(panels).forEach(function(fmt) {
       var el = document.getElementById(panels[fmt]);
       if (el) el.style.display = (fmt === S.format) ? 'block' : 'none';
     });
+    updateFormatDesc();
 
     // Question count fields
     var qCount   = document.getElementById('q-count');
@@ -2568,7 +2609,7 @@ function loadAndApplySettings() {
     });
     var tierDescEl = document.getElementById('tier-desc');
     if (tierDescEl) {
-      var TIER_D = { 'challenge':'For learners who\'ve mastered 3s automaticity.', 'standard':'Research-based fluency threshold — the default for most learners.', 'extended':'For learners who work best with more response time.', 'extended+':'For learners who benefit from significantly more response time.' };
+      var TIER_D = { 'challenge':'For learners who\'ve mastered 3s automaticity and want a challenge.', 'standard':'Research-based fluency threshold — the default for most learners.', 'extended':'For learners who work best with more response time.', 'extended+':'For learners who benefit from significantly more response time.' };
       tierDescEl.textContent = TIER_D[S.fluencyTier.name] || '';
     }
 
