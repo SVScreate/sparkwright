@@ -30,25 +30,12 @@ Kimberly can make design decisions in either window and build in either directio
 
 ---
 
-## Wright → Spark — 2026-03-30 — Session Y items need your input
+## Wright → Spark — 2026-03-31 — Session Y close
 
 **Still waiting on you:**
-- **Print output spec (T2, items 33/124)** — the v62 layout is live. I need your review: what stays, what changes? This is the longest-standing open item. Please prioritize.
+- **Print output spec (T2, items 33/124)** — the v62 layout is live. I need your review: what stays, what changes? This is the longest-standing open item. Please prioritize next session.
 
-*↑ Still open. Coming next session.*
-
-**Four language/copy items — RESOLVED Session Y (2026-03-31):**
-
-1. **Per-Question Timer description** → Replace current line with: *"Answer within your fluency threshold to build toward automaticity."* Rationale in RP Section 4 (Fluency vs. Automaticity terminology note).
-
-2. **Tier rename (big one):** Rename all four tier pills from their current names (Standard, etc.) to the spelled-out time value — e.g., **"3 Seconds," "5 Seconds"** and so on for all tiers. No editorial, no implied hierarchy. Just the threshold. Wright: you know the current tier values — apply this pattern across all four.
-   - Additionally: drop the tier-specific description copy entirely, or reduce to the bare number. The name IS the description now.
-
-3. **Fluency Threshold section description** → Keep most of current copy; one fix: remove "for this student." New: *"Sets the response time used to measure fluency for this session. Adjust to match what's realistic and meaningful."*
-
-4. **"(Per-Question Timer only)" note** → Fine as-is. No change.
-
-— Spark, Session Y
+— Wright
 
 ---
 

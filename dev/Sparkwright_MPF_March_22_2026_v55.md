@@ -492,29 +492,41 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 ## WHERE TO PICK UP
 
-*Session X close — March 30, 2026 — v64 committed.*
+*Session Y close — March 31, 2026 — v65 committed (multiple commits).*
 
-**Session X full build log:**
-- ✅ Extended tables persistence bug — `saveSettings()` now fires on toggle change; defensive prune on load
-- ✅ Stats screen blank bug — `parseFk()` helper fixes factKey regex mismatch; `rec.attempts` → `correct + incorrect`
-- ✅ My Progress button — promoted to `btn-ghost` pill, moved to same row as "How to Play"
-- ✅ Fluency bar — blue (Fluent zone) → orange (Almost zone), tier-aware threshold, two colors only (item 141 ✅)
-- ✅ Landing page brand — new 5-pointed star logo, Comfortaa 700 wordmark, Spark glow, hero underline gradient, hero-spark treatment
-- ✅ Landing page sparks — 24 particles, evenly distributed position/size/color/delay, slow calm rise, full-width coverage
-- ✅ Items 143–145 logged (print button on stats page, logo on all pages, Advanced Settings spacing)
-- ✅ Item 142 logged + Spark decision received: two modes (Open Play / Session Mode), no roles, no PIN
+**Session Y full build log:**
+- ✅ Item 144 — new 5-pointed star logo + Comfortaa wordmark applied to `games/mathflash/index.html` nav header
+- ✅ Item 144 (cont.) — same logo applied to `about.html`; logo color split + glow fix on both `about.html` and `index.html` (removed explicit `color` on `.wordmark` anchor, added `overflow: visible` to SVG container)
+- ✅ Item 145 — Advanced Settings body top padding (14px)
+- ✅ Mode description bug — `loadAndApplySettings()` now calls `updateFormatDesc()` so correct description shows on page load
+- ✅ Per-Question Timer description — new static phrase (Spark): *"Answer within your fluency threshold to build toward automaticity."*
+- ✅ Tier pills renamed — "2 Seconds", "3 Seconds", "5 Seconds", "6 Seconds" (internal data-tier keys unchanged)
+- ✅ Tier description copy dropped entirely — pill label is now the full description
+- ✅ Fluency Threshold section description — "for this student" removed (Spark)
+- ✅ Challenge copy — "and want a challenge" added (Spark confirmed)
+- ✅ Print output tier display — updated to use seconds value ("2 Seconds") instead of internal tier name
 
-**Testing still needed:**
-- T5 — hard refresh landing page (Cmd+Shift+R), confirm new star logo and Comfortaa wordmark render in Safari
+**Testing still needed next session:**
+- T1 — confirm new nav logo on game page renders in Safari ✅ (confirmed Session Y)
+- T2 — confirm about.html logo renders correctly with color split and glow (confirmed acceptable Session Y)
+- T3 — landing page logo color split + glow (not yet confirmed — Session X T5 carried forward)
+- T4 — Settings screen: Per-Question Timer description, tier pills, section description all render correctly
+- T5 — print output: confirm "5 Seconds" label appears when Extended tier is set and round is printed
 - T7 — play a round with a profile active → results → View Progress → confirm fact tiles appear
 
 **Build queue for next session (priority order):**
-1. **Item 144** — apply new nav logo to `games/mathflash/index.html` (quick)
-2. **Item 145** — Advanced Settings card body text spacing (quick)
-3. **Item 143** — print pill button on My Progress/Stats page
-4. **T2** — print output revision (waiting on Spark's spec — she's been asked, follow up)
-5. **Session Mode (item 142)** — big feature, own session when ready
-6. **Item 100** — title screen overhaul (design discussion first)
+1. **Item 143** — print pill button on My Progress/Stats page (quick)
+2. **My Progress tier improvements** — add response-time–aware tier ("Fluent" sub-tier) + relabel "Not Yet" → "New" (design confirmed Session Y)
+3. **T2** — print output revision (Spark's spec still pending — still the longest-standing open item)
+4. **Find All orientation scramble (item 59)** — all 4 formats: `5×8=`, `8×5=`, `?=5×8`, `?=8×5` (design discussed, ready to build on greenlight)
+5. **Practice Quest matching celebration** — brief animation on matched pair; pair persists until gold flash (design discussed, ready to build on greenlight)
+6. **Session Mode (item 142)** — big feature, own session when ready
+7. **Item 100** — title screen overhaul (design discussion first)
+
+**Design discussions open (not blocking build queue):**
+- Logo in motion / celebratory animations — Pip has star assets; spinning logo at gold flash moment discussed
+- My Progress compact view / heat map — design not yet decided
+- Find All scramble + Practice Quest matching celebration greenlight pending from developer
 
 *Session W (continued) — March 29, 2026 — bug fix pass + UX revision, v63.*
 
