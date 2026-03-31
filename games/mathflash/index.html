@@ -2023,6 +2023,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       <summary class="advanced-settings-toggle">Advanced Settings</summary>
       <div class="advanced-settings-body">
         <div class="option-label">Fluency Threshold <span class="option-label-note">(Per-Question Timer only)</span></div>
+        <div class="format-desc" style="margin-top:4px;margin-bottom:12px;">Sets the response time used to measure fluency for this session. Adjust to match what's realistic and meaningful for this student.</div>
         <div class="tier-pills" id="tier-pills">
           <button class="tier-pill" data-tier="challenge">Challenge (2s)</button>
           <button class="tier-pill on" data-tier="standard">Standard (3s)</button>
@@ -2276,7 +2277,7 @@ const FORMAT_DESCS = {
 function getFormatDesc(val) {
   if (val === 'pertimer') {
     var secs = S.fluencyTier ? (S.fluencyTier.fluencyMs / 1000) : 3;
-    return 'Answer in ' + secs + ' second' + (secs === 1 ? '' : 's') + ' or less to show fluency.';
+    return 'Answer in ' + secs + ' second' + (secs === 1 ? '' : 's') + ' or less.';
   }
   return FORMAT_DESCS[val] || '';
 }

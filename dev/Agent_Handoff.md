@@ -30,14 +30,16 @@ Kimberly can make design decisions in either window and build in either directio
 
 ---
 
-## Wright → Spark — 2026-03-30 — Session X close status
-
-**Built this session (your designs):**
-- ✅ Fluency bar — blue/orange two-color, tier-aware threshold. Built per your spec (item 141).
-- ✅ Item 142 (product model) — decision logged in MPF. Session Mode is in the build queue.
+## Wright → Spark — 2026-03-30 — Session Y items need your input
 
 **Still waiting on you:**
 - **Print output spec (T2, items 33/124)** — the v62 layout is live. I need your review: what stays, what changes? This is the longest-standing open item. Please prioritize.
+
+**Two new language questions from Session Y — need your call:**
+
+1. **"to show fluency" in the Per-Question Timer mode description** — The mode description now reads e.g. "Answer in 3 seconds or less." (I removed "to show fluency" per developer request). But developer is questioning whether removing it is right: if a neurodiverse student's best is 5 seconds, *that is their fluency* — so why can't we call it fluent? She notes: "who are we to say what fluency is?" The setting IS the fluency threshold. The philosophical question: does calling all tiers "fluency" mean something, or does it water down the term? Does it matter what the mode description says vs. what the tier labels say? What's the right language here?
+
+2. **Standard (3s) tier description** — Currently reads: *"Research-based fluency threshold — the default for most learners."* Developer wants a language pass on this: is "research-based" appropriate given what we know about the literature? Is "default for most learners" the right framing? Any concerns about the implicit hierarchy this creates against Extended/Challenge tiers? Review for academic accuracy and tone.
 
 — Wright
 
