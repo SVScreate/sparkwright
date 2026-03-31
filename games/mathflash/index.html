@@ -2023,14 +2023,13 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       <summary class="advanced-settings-toggle">Advanced Settings</summary>
       <div class="advanced-settings-body">
         <div class="option-label">Fluency Threshold <span class="option-label-note">(Per-Question Timer only)</span></div>
-        <div class="format-desc" style="margin-top:4px;margin-bottom:12px;">Sets the response time used to measure fluency for this session. Adjust to match what's realistic and meaningful for this student.</div>
+        <div class="format-desc" style="margin-top:4px;margin-bottom:12px;">Sets the response time used to measure fluency for this session. Adjust to match what's realistic and meaningful.</div>
         <div class="tier-pills" id="tier-pills">
-          <button class="tier-pill" data-tier="challenge">Challenge (2s)</button>
-          <button class="tier-pill on" data-tier="standard">Standard (3s)</button>
-          <button class="tier-pill" data-tier="extended">Extended (5s)</button>
-          <button class="tier-pill" data-tier="extended+">Extended+ (6s)</button>
+          <button class="tier-pill" data-tier="challenge">2 Seconds</button>
+          <button class="tier-pill on" data-tier="standard">3 Seconds</button>
+          <button class="tier-pill" data-tier="extended">5 Seconds</button>
+          <button class="tier-pill" data-tier="extended+">6 Seconds</button>
         </div>
-        <div class="tier-desc" id="tier-desc">Research-based fluency threshold — the default for most learners.</div>
         <div class="option-row" style="margin-top:16px;">
           <label class="toggle-label">
             <input type="checkbox" id="extended-tables-toggle">
@@ -2275,10 +2274,7 @@ const FORMAT_DESCS = {
   stopwatch: 'See how long it takes you to get through a set of questions.'
 };
 function getFormatDesc(val) {
-  if (val === 'pertimer') {
-    var secs = S.fluencyTier ? (S.fluencyTier.fluencyMs / 1000) : 3;
-    return 'Answer in ' + secs + ' second' + (secs === 1 ? '' : 's') + ' or less.';
-  }
+  if (val === 'pertimer') return 'Answer within your fluency threshold to build toward automaticity.';
   return FORMAT_DESCS[val] || '';
 }
 function updateFormatDesc() {
@@ -2406,21 +2402,11 @@ function buildSetupUI() {
   document.getElementById('tog-repeat').addEventListener('change', function() { S.repeat = this.checked; });
 
   // Fluency threshold tier pills
-  const TIER_DESCS = {
-    'challenge':  'For learners who\'ve mastered 3s automaticity and want a challenge.',
-    'standard':   'Research-based fluency threshold — the default for most learners.',
-    'extended':   'For learners who work best with more response time.',
-    'extended+':  'For learners who benefit from significantly more response time.'
-  };
   document.querySelectorAll('.tier-pill').forEach(function(pill) {
     pill.addEventListener('click', function() {
       document.querySelectorAll('.tier-pill').forEach(function(p) { p.classList.remove('on'); });
       this.classList.add('on');
-      const key = this.dataset.tier;
-      S.fluencyTier = FLUENCY_TIERS[key] || FLUENCY_TIERS['standard'];
-      var desc = document.getElementById('tier-desc');
-      if (desc) desc.textContent = TIER_DESCS[key] || '';
-      updateFormatDesc(); // refresh mode desc if pertimer is selected
+      S.fluencyTier = FLUENCY_TIERS[this.dataset.tier] || FLUENCY_TIERS['standard'];
     });
   });
 
@@ -2608,12 +2594,6 @@ function loadAndApplySettings() {
     document.querySelectorAll('.tier-pill').forEach(function(p) {
       p.classList.toggle('on', p.dataset.tier === S.fluencyTier.name);
     });
-    var tierDescEl = document.getElementById('tier-desc');
-    if (tierDescEl) {
-      var TIER_D = { 'challenge':'For learners who\'ve mastered 3s automaticity and want a challenge.', 'standard':'Research-based fluency threshold — the default for most learners.', 'extended':'For learners who work best with more response time.', 'extended+':'For learners who benefit from significantly more response time.' };
-      tierDescEl.textContent = TIER_D[S.fluencyTier.name] || '';
-    }
-
     // Extended tables toggle
     var extToggleEl = document.getElementById('extended-tables-toggle');
     if (extToggleEl) extToggleEl.checked = S.extendedTables;
@@ -4586,7 +4566,7 @@ function printResults() {
       '<span><strong>Tables:</strong> ' + tablesStr + '</span>' +
       '<span><strong>Questions:</strong> ' + questionsStr + '</span>' +
       (easyStr ? '<span>' + easyStr + '</span>' : '') +
-      (S.fluencyTier.name !== 'standard' ? '<span><strong>Fluency Threshold:</strong> ' + S.fluencyTier.name.charAt(0).toUpperCase() + S.fluencyTier.name.slice(1) + ' (' + (S.fluencyTier.fluencyMs/1000) + 's accommodation)</span>' : '') +
+      (S.fluencyTier.name !== 'standard' ? '<span><strong>Fluency Threshold:</strong> ' + (S.fluencyTier.fluencyMs/1000) + ' Seconds</span>' : '') +
     '</div>' +
     '<div class="summary-block">' +
       '<span><strong>Score:</strong> ' + G.correct + ' / ' + total + ' (' + pct + '%)</span>' +
