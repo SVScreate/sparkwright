@@ -372,6 +372,8 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 155. **Settings not per-profile — bug** — `mathflash_settings` is a single global localStorage key. When a new profile is created or a different profile is selected, the previous user's settings load (e.g., fluency threshold set to 6s persists to a new user who should default to 3s). Fix: store settings per-profile as `mathflash_settings_${username}`, or reset to defaults when a fresh profile is detected. Design question: should switching profiles load that profile's last-used settings, or always reset to global defaults? Log as bug, fix before user-facing launch. *(Session Z — repro: create second profile, check Advanced Settings threshold)*
 
+160. **Leave-round navigation warning** — if a student clicks the Sparkwright logo or any nav link while in an active round or assessment, show a confirmation prompt: "Are you sure? Your progress will be lost." Applies to any in-game screen (active round, Practice Quest, assessment). *(Session Z)*
+
 156. **Profile name direction — revisit** — Developer not fully satisfied with adjective+animal format (feels generic). Alchemy/cosmos direction confirmed. Consider replacing animals with world-nouns (archetypes, phenomena, materials). No action needed now — log for future creative pass. *(Session Z)*
 
 147. **Assessment Mode** *(items 66 + 147 unified — Spark design Session Z)* — items 66 (assessment area) and 147 (baseline check) are the same feature. Baseline = Assessment 1. Instrument: all selected facts in randomized order, one attempt each, no Practice Quest, fixed timer (teacher-set, defaults to fluency threshold), response time to ms. **Critical: assessment data stored separately from practice data** — probe attempts and practice attempts are not the same signal; mixing pollutes variance/mastery. Each record stamped with assessment number, date, threshold used. Assessment 1 always labeled "Baseline." Access from Student Dashboard only (Section 3). Build after Student Dashboard is designed.
@@ -559,6 +561,13 @@ Server account unlocked. Cross-device sync. Teacher dashboard — manage student
 - ✅ Contact page nav — updated to match about.html/index.html (full logo SVG, split Spark/wright wordmark, active link state CSS)
 - ✅ Easy toggle lock — when all tables selected, Easy toggle is forced ON and locked (`.switch-locked` CSS); unlocks when any table is deselected
 - ✅ Find All column bug — 3rd column was missing a card for small facts (e.g. 1×1, which only has ~11 unique wrong answers). Fixed: wrong answers are now padded by cycling the pool to always reach 12
+
+**Carry-forward bugs / build items for Session AA:**
+- **Profile modal** — `max-height: 90vh; overflow-y: auto` added (quick fix). Full redesign still needed: true landscape layout, adaptive to viewport. Partial fix only.
+- **Username back button** — show up to 5 previous generated names so user can go back to one they liked. State: hold last 5 in memory during create-modal session, display as clickable pills above the current name. Build next session.
+- **Find All pulse** — still intermittently showing answer pulse instead of fact pulse on reversed cards. Needs fresh debug pass. `makeCardInner` logic appears correct — suspect edge case in string parsing or card source mismatch. Priority next session.
+- **Match It focus spark** — amber ring animation not visible enough on fact click; nothing happening on answer click. `data-focus` attributes being set correctly but animation may be too subtle or not triggering on answer. Needs debug + stronger visual.
+- **Leave-round warning** — if user clicks the Sparkwright logo nav link during an active round or assessment, prompt: "Are you sure you want to leave? Your progress will be lost." Apply to any navigation away from an active game state. Log as item 160.
 
 **Testing needed this session:**
 - T1 — contact page nav: confirm logo + split wordmark renders correctly in Safari
