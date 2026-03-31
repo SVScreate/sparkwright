@@ -1300,27 +1300,34 @@
 
     /* --- Word lists --- */
     const adjectives = [
-      'Cosmic','Solar','Lunar','Arctic','Blazing','Crimson','Dazzling','Electric',
-      'Frosty','Golden','Jade','Lively','Mighty','Noble','Radiant','Silver',
-      'Stellar','Swift','Titan','Vivid','Wild','Amber','Bronze','Crystal',
-      'Delta','Echo','Galactic','Hyper','Iron','Jetstream','Keen','Laser',
-      'Marble','Neon','Obsidian','Prism','Quantum','Rapid','Sapphire',
-      'Thunder','Ultra','Velvet','Warp','Xenon','Zephyr','Brave','Clever'
+      'Ember','Nova','Echo','Rune','Flux','Forge','Shimmer','Arc',
+      'Cipher','Surge','Flare','Gleam','Drift','Solstice','Storm','Wisp',
+      'Helix','Onyx','Opal','Cobalt','Azure','Scarlet','Indigo','Blaze',
+      'Frost','Dawn','Dusk','Ash','Cinder','Rift','Glow','Spark',
+      'Cosmic','Solar','Lunar','Blazing','Crimson','Golden','Jade','Radiant',
+      'Silver','Stellar','Vivid','Amber','Bronze','Crystal','Galactic','Neon',
+      'Obsidian','Prism','Quantum','Sapphire','Thunder','Velvet','Xenon','Zephyr',
+      'Electric','Frosty','Dazzling','Arctic','Swift','Hyper','Ultra','Topaz',
+      'Garnet','Teal','Misty','Veil','Apex','Cascade'
     ];
     const nouns = [
-      'Otter','Falcon','Phoenix','Comet','Nebula','Tiger','Panda','Dragon',
-      'Lynx','Raven','Hawk','Fox','Wolf','Bear','Eagle','Shark',
-      'Jaguar','Viper','Bison','Crane','Gecko','Heron','Ibis','Kite',
-      'Lemur','Manta','Newt','Osprey','Puffin','Quail','Robin','Sparrow',
-      'Toucan','Vulture','Walrus','Yak','Zebra','Axolotl',
-      'Badger','Condor','Dingo','Ermine','Ferret','Grouse','Husky','Impala'
+      'Fox','Wolf','Raven','Lynx','Dragon','Phoenix','Otter','Crane',
+      'Hawk','Tiger','Bear','Gecko','Falcon','Panda','Eagle','Shark',
+      'Viper','Puffin','Sparrow','Axolotl','Ferret','Husky','Narwhal','Capybara',
+      'Quokka','Pangolin','Ocelot','Salamander','Wombat','Meerkat','Chameleon','Chinchilla',
+      'Manatee','Tapir','Dingo','Condor','Osprey','Lemur','Impala','Newt',
+      'Wright','Wanderer','Seeker','Sage','Scout','Keeper','Weaver','Warden',
+      'Caster','Rider'
     ];
     const avatarList = [
       '🦊','🐉','🌙','⚡','🦋','🔥','🌊','🦅',
       '🐺','🦁','🐯','🦄','🌟','🎯','🚀','🌈',
       '🐬','🦉','🐢','🌺','❄️','🍄','🎮','🦖',
       '🐙','🌵','🎸','🏔️','💎','🦚','🐸','🦀',
-      '⭐','🎪','🧊','🦩','🌸','🎲','🦜','🐋'
+      '⭐','🎪','🧊','🦩','🌸','🎲','🦜','🐋',
+      '🦦','🦘','🦙','🧸','🪄','🔮','✨','🫧',
+      '🎀','🐨','🐼','🌻','🪐','🐝','🦔','🐞',
+      '🧁','🪴','🌮','🐠'
     ];
 
     /* --- Storage helpers --- */
@@ -1352,6 +1359,13 @@
         name = adj + noun;
         attempts++;
       } while (existing.has(name) && attempts < 50);
+      // If all combos on this device are taken, append a number
+      if (existing.has(name)) {
+        const base = name;
+        let n = 2;
+        while (existing.has(base + n) && n < 999) n++;
+        name = base + n;
+      }
       return name;
     }
 

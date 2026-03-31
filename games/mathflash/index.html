@@ -1564,6 +1564,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 .fa-card.fa-good  { background: rgba(255,217,61,0.15); border-color: var(--a2); color: var(--a2); pointer-events: none; }
 .fa-card.fa-flash { animation: match-flash 0.5s ease-out forwards; }
 .fa-card.fa-bad   { background: rgba(255,107,107,0.12); border-color: var(--wrong); color: var(--wrong); animation: shake 0.3s ease; }
+@keyframes fa-complete { 0%{transform:scale(1);filter:brightness(1)} 45%{transform:scale(1.08);filter:brightness(1.5)} 100%{transform:scale(1);filter:brightness(1)} }
+.fa-card.fa-complete { animation: fa-complete 0.4s ease-out forwards; }
 
 /* ── REMEDIATION CONT BTN ── */
 .remed-cont-btn {
@@ -3878,21 +3880,16 @@ function buildStep2(body, f, tbl) {
   const correct = f.a;
   const op = f.hint.op;
 
-  // Build the set of cards
-  // Correct cards: original fact, commuted form (if ×), and a few more correct copies
+  // Build the set of cards — all 4 orientations (item 59)
   const correctCards = [];
   if (op === 'x') {
-    // e.g. 7×4=28 and 4×7=28
     correctCards.push(f.fa + ' × ' + f.fb + ' = ' + correct);
     if (f.fa !== f.fb) correctCards.push(f.fb + ' × ' + f.fa + ' = ' + correct);
-    // one more correct with a different but valid layout
-    correctCards.push(f.fa + ' × ' + f.fb + ' = ' + correct);
+    correctCards.push(correct + ' = ' + f.fa + ' × ' + f.fb);
+    if (f.fa !== f.fb) correctCards.push(correct + ' = ' + f.fb + ' × ' + f.fa);
   } else {
-    // division: original, and related fact with divisor swapped if applicable
     correctCards.push(f.fa + ' ÷ ' + f.fb + ' = ' + correct);
-    // commuted: if prod÷a=b, then prod÷b=a is a different fact, don't add
-    // add a duplicate so there are at least 2 correct
-    correctCards.push(f.fa + ' ÷ ' + f.fb + ' = ' + correct);
+    correctCards.push(correct + ' = ' + f.fa + ' ÷ ' + f.fb);
   }
 
   // Wrong cards: wrong answers on the same problem
@@ -3904,12 +3901,15 @@ function buildStep2(body, f, tbl) {
   }
   const wrongCards = wrongAnswerList.slice(0, 12).map(function(w) {
     if (op === 'x') {
-      // alternate between two formats
-      return Math.random() < 0.5
-        ? f.fa + ' × ' + f.fb + ' = ' + w
-        : f.fb + ' × ' + f.fa + ' = ' + w;
+      const r = Math.random();
+      if (r < 0.25) return f.fa + ' × ' + f.fb + ' = ' + w;
+      if (r < 0.50) return f.fb + ' × ' + f.fa + ' = ' + w;
+      if (r < 0.75) return w + ' = ' + f.fa + ' × ' + f.fb;
+      return w + ' = ' + f.fb + ' × ' + f.fa;
     } else {
-      return f.fa + ' ÷ ' + f.fb + ' = ' + w;
+      return Math.random() < 0.5
+        ? f.fa + ' ÷ ' + f.fb + ' = ' + w
+        : w + ' = ' + f.fa + ' ÷ ' + f.fb;
     }
   });
 
@@ -4048,12 +4048,18 @@ function buildStep2(body, f, tbl) {
         found++;
         document.getElementById('fa-found').textContent = found;
         if (found >= totalCorrect) {
-          // Lock grid — no more wrong-tap effects
           const grid = document.getElementById('fa-grid');
           if (grid) grid.style.pointerEvents = 'none';
           const penEl = document.getElementById('fa-penalty');
           if (penEl) penEl.style.display = 'none';
-          safeTimeout(function() { showRemedCont('Next →'); }, 400);
+          const counterEl = document.getElementById('fa-counter');
+          if (counterEl) counterEl.textContent = 'All found! ⚡';
+          // Staggered wave on all gold cards
+          const foundCards = grid ? Array.from(grid.querySelectorAll('.fa-card.fa-good')) : [];
+          foundCards.forEach(function(c, i) {
+            safeTimeout(function() { c.classList.add('fa-complete'); }, i * 70);
+          });
+          safeTimeout(function() { showRemedCont('Next →'); }, 500 + foundCards.length * 70);
         }
       } else {
         penalties++;

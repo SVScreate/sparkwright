@@ -354,6 +354,16 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 144. **Logo update — all pages** — new nav logo (5-pointed star SVG, Comfortaa 700 wordmark, Spark glow) was applied to `index.html` (landing page) in Session X. Needs to be applied to `games/mathflash/index.html` and any other pages. *(Session X)*
 145. ✅ **Advanced Settings — body text spacing** — 14px top padding added to content area. *(Session X/Y)*
 
+152. **Profile export / import** — download a profile (username, avatar, all fact records) as a JSON file; import on any device to restore. Supports: device migration, classroom handoff, manual backup. Pure frontend — no server. Build after core game mechanics are solid. Design question: what does the import UX look like — file picker, drag-and-drop? What happens on collision (same username already exists on device)? *(Session Z)*
+
+153. **Profile QR code** — generate a QR code containing the profile export data (or a URL-encoded version). Student or teacher can print it or save it as an image. Scanning loads the profile on a new device. Supports: classroom setup, device migration, parent handing off to tutor. Pure frontend. Connected to item 152 (same data, different delivery). *(Session Z)*
+
+154. **Username number-suffix fallback** — when all adjective+noun combos on a device are taken (unlikely but possible in classroom use), append a number to guarantee uniqueness (e.g., `EmberFox2`). Quick fix — 20 minutes. *(Session Z)*
+
+150. **Independent classroom teacher use case** — an independent teacher (charter school, private school, tutoring center) has 15 students across 15 devices. She's not a district — no IT department, no LMS, no reporting requirements — but she needs a way to track her students' progress and manage their settings without sitting at each device individually. This is not the current target audience but it's an organic growth path. Options to solve without requiring server accounts: (1) export/import — student profiles as downloadable files the teacher manages; (2) QR code sync — profile encodes as QR, student scans on any device; (3) opt-in server accounts as an additive layer (see item 151). Do not build until the data model and account strategy (item 151) is decided. *(Session Z)*
+
+151. **localStorage vs. server accounts — architecture decision** — core philosophical and technical decision for the product roadmap. Current model: all data in localStorage (per-device, no account, user owns everything — a genuine differentiator vs. XtraMath/Reflex). Future tension: teacher use case, cross-device sync, business model, and scalability all eventually push toward server accounts. The resolution is likely **opt-in server accounts**: core game always works free and account-free (localStorage); server account is a choice for cross-device sync and teacher features. This preserves the data philosophy while enabling the teacher use case and a monetization layer. Key questions for Spark: (1) How do we communicate the account tier without undermining the "no sign-up" selling point? (2) Does the free-forever tier remain genuinely useful, or does it quietly degrade into a trial? (3) What data does Sparkwright actually need to store server-side — just auth + profile? Or also fact records? (4) What does "you own your data" look like when a server exists — export-at-any-time, account deletion, data portability? This decision affects product architecture, marketing copy, legal/privacy policy, and business model. Route to Spark. *(Session Z)*
+
 148. **Session results history** — students (and teachers) should be able to access past round results without relying on the end-of-round print. Currently, if the results screen is closed or the page reloads, the round data is gone. Fix: store a rolling log of round summaries in localStorage (student name, date/time, mode, tables, score, fluency breakdown). Accessible from My Progress or a dedicated "History" tab. Each entry printable individually. Connected to item 109 (teacher print report) and item 143 (My Progress print). Design discussion needed: how many sessions to retain? What's in each entry? Route to Spark for design input. *(Session Z)*
 
 149. **Teacher settings lock / teacher area** — currently any student can change all settings. Teacher use case needs a way to lock settings so students can't alter the configuration mid-session. Connected to item 142 (product model: tool vs. platform), which is the broader design discussion needed first. Key question from item 142: does Math Flash have user roles (student vs. teacher/parent), and is that established at account setup? The settings lock is a downstream feature of that decision — can't build it until the role model is settled. Do not build until item 142 design discussion is resolved with Spark. *(Session Z)*
@@ -488,6 +498,30 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 102. **Landing page polish** — tagline not fully locked, coming-soon card names are placeholders
 107. **"Sparkwright" definition tooltip** — small hover bubble over the word "Sparkwright" on the landing page showing a definition. Developer to share Google's version; then craft the official brand definition. Design discussion needed. *(Session H)*
 103. Long term: payments/subscriptions, Google AdSense integration
+
+**Revenue model — working framework (Session Z)**
+
+Three product tiers that map to the technical architecture:
+
+**Tier 1 — Free (localStorage only)**
+Play instantly, no account, no sign-up. Up to 3 profiles per device. Export/import profiles as files. QR code to move a profile to a new device. Core game fully functional. Data never leaves the device. This is the "data belongs to you" pitch — preserved forever, not degraded.
+
+**Tier 2 — Plus (~one-time or low annual fee, TBD)**
+Unlocks: more than 3 profiles, session results history, printable reports, fluency heat map, QR code sharing. Still no server account required — these features could live in localStorage with a local license key, or could be the on-ramp to a Tier 3 account. Pricing model TBD: one-time purchase vs. annual subscription. Design question: if it's a one-time purchase, how is it enforced in a browser-based app? (Honor system, license key, or requires a lightweight account.) Route to Spark + Legal.
+
+**Tier 3 — Pro (subscription, opt-in)**
+Server account unlocked. Cross-device sync. Teacher dashboard — manage student profiles, view progress, configure settings remotely. Unlimited profiles. Full session history. Exportable reports for IEP documentation. This is the independent teacher and serious homeschool family tier.
+
+**Open pricing questions (route to Spark):**
+- One-time purchase vs. subscription for Tier 2? One-time is more user-friendly; subscription is more sustainable revenue. Or: one-time for the game, subscription for the data/sync layer.
+- Browser vs. app pricing: currently browser-only (Netlify). If a native app is ever built (iOS/Android), App Store rules apply — 30% cut, separate purchase. For now browser-only simplifies everything. Note for future: a PWA (Progressive Web App) can be installed to home screen without an app store, which avoids the 30% cut and is worth exploring before native app.
+- Ad-supported free tier with ad-free as a paid perk — compatible with current Netlify setup via Google AdSense.
+- "Not predatory" principle: free tier must be genuinely useful forever, not a trial. Paid tiers unlock real additional value, not features that should be free.
+
+**Infrastructure groundwork (what to build now vs. later):**
+- **Now (no server needed):** Export/import profiles (item — add to build queue), QR code generator for profile portability. These are pure frontend features, build anytime.
+- **Later (when Tier 2/3 are designed):** License key system or server auth. Do not build until business model decisions are finalized with Spark.
+- **Dependency:** items 150 (classroom teacher) and 151 (localStorage vs. server) must be resolved before any Tier 3 infrastructure begins.
 104. **File naming convention:** always use `YYYY-MM-DD_HHMM_vN.html` format for both HTML and MPF files
 
 ### ⚖️ LEGAL / IP
