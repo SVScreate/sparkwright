@@ -1502,6 +1502,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   100% { background: rgba(255,217,61,0.15); border-color: var(--a2); color: var(--a2); box-shadow: none; }
 }
 .mitem.flash { animation: match-flash 0.5s ease-out forwards; }
+@keyframes focus-spark { 0%{box-shadow:0 0 0 2px rgba(255,170,80,0);transform:scale(1)} 40%{box-shadow:0 0 0 3px rgba(255,170,80,0.9),0 0 14px rgba(255,170,80,0.45);transform:scale(1.05)} 100%{box-shadow:0 0 0 2px rgba(255,170,80,0);transform:scale(1)} }
+.mitem.focus-spark { animation: focus-spark 0.45s ease-out; }
 /* Find All grid */
 @keyframes fa-fact-pulse {
   0%   { color: inherit; text-shadow: none; transform: scale(1); letter-spacing: normal; }
@@ -3875,6 +3877,22 @@ function buildStep1(body, f, tbl) {
   });
 }
 
+// Build inner HTML for a Find All card — fact part (equation) always gets the pulse span
+function makeCardInner(cardText) {
+  const isReversed = /^\d/.test(cardText.trim()); // "40 = 5 × 8" starts with digit
+  if (isReversed) {
+    const eqIdx = cardText.indexOf('= ');
+    const ansPre  = cardText.slice(0, eqIdx + 2); // "40 = "
+    const factPart = cardText.slice(eqIdx + 2);   // "5 × 8"
+    return ansPre + '<span class="fa-fact-part">' + factPart + '</span>';
+  } else {
+    const eqIdx = cardText.lastIndexOf('= ');
+    const factPart = cardText.slice(0, eqIdx);    // "5 × 8 "
+    const ansPost  = '= ' + cardText.slice(eqIdx + 2); // "= 40"
+    return '<span class="fa-fact-part">' + factPart + '</span>' + ansPost;
+  }
+}
+
 // ── Step 2: Find All ─────────────────────────────────────
 function buildStep2(body, f, tbl) {
   const correct = f.a;
@@ -3960,12 +3978,7 @@ function buildStep2(body, f, tbl) {
 
   const gridHTML = allCards.map(function(card, i) {
     const isCorr = corrFinal.includes(card);
-    // Split "A × B = C" into fact part and answer part for pulse effect
-    const eqIdx = card.lastIndexOf('= ');
-    const factPart = eqIdx !== -1 ? card.slice(0, eqIdx) : card;
-    const ansPart  = eqIdx !== -1 ? '= ' + card.slice(eqIdx + 2) : '';
-    const inner = '<span class="fa-fact-part">' + factPart + '</span>' + ansPart;
-    return '<div class="fa-card" data-correct="' + isCorr + '" data-idx="' + i + '">' + inner + '</div>';
+    return '<div class="fa-card" data-correct="' + isCorr + '" data-idx="' + i + '" data-card="' + card + '">' + makeCardInner(card) + '</div>';
   }).join('');
 
   body.innerHTML =
@@ -3988,43 +4001,28 @@ function buildStep2(body, f, tbl) {
     const cards = Array.from(grid.querySelectorAll('.fa-card'));
     const unfound = cards.filter(function(c) { return !c.classList.contains('fa-good'); });
 
-    // ── Read phase: snapshot all data before any writes ──
+    // Read card data from attributes
     const snapshots = unfound.map(function(c) {
-      const span = c.querySelector('.fa-fact-part');
-      return {
-        correct:  c.dataset.correct,
-        factText: span ? span.textContent : '',
-        // Capture the answer text node (the "= N" part after the span)
-        ansText:  span ? (c.textContent.slice(span.textContent.length)) : c.textContent
-      };
+      return { correct: c.dataset.correct, cardText: c.dataset.card };
     });
 
-    // Shuffle the snapshots
+    // Shuffle
     for (let i = snapshots.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       const tmp = snapshots[i]; snapshots[i] = snapshots[j]; snapshots[j] = tmp;
     }
 
-    // ── Write phase: apply shuffled data in one pass ──
     requestAnimationFrame(function() {
       unfound.forEach(function(c, i) {
-        c.dataset.correct = snapshots[i].correct;
-        const span = c.querySelector('.fa-fact-part');
-        if (span) {
-          span.textContent = snapshots[i].factText;
-          // Update the answer text node that follows the span
-          let ansNode = span.nextSibling;
-          if (ansNode && ansNode.nodeType === Node.TEXT_NODE) {
-            ansNode.textContent = snapshots[i].ansText;
-          }
-        }
+        c.dataset.correct  = snapshots[i].correct;
+        c.dataset.card     = snapshots[i].cardText;
+        c.innerHTML        = makeCardInner(snapshots[i].cardText);
         const dx = (Math.random() - 0.5) * 60;
         const dy = (Math.random() - 0.5) * 40;
         c.style.setProperty('--dx', dx + 'px');
         c.style.setProperty('--dy', dy + 'px');
         c.style.animation = 'fa-move 0.4s ease';
       });
-
       safeTimeout(function() {
         unfound.forEach(function(c) { c.style.animation = ''; });
         grid.classList.remove('blurred');
@@ -4116,10 +4114,12 @@ function buildStep3(body, f, tbl) {
   const matched = new Set();
 
   const factHTML = pairs.map(function(p) {
-    return '<div class="mitem" data-fact="' + p.label + '" data-ans="' + p.ans + '">' + p.label + '</div>';
+    const isFocus = p.ans === f.a;
+    return '<div class="mitem" data-fact="' + p.label + '" data-ans="' + p.ans + '"' + (isFocus ? ' data-focus="true"' : '') + '>' + p.label + '</div>';
   }).join('');
   const answerHTML = answersCopy.map(function(a) {
-    return '<div class="mitem" data-ans-target="' + a + '">' + a + '</div>';
+    const isFocus = a === f.a;
+    return '<div class="mitem" data-ans-target="' + a + '"' + (isFocus ? ' data-focus="true"' : '') + '>' + a + '</div>';
   }).join('');
 
   body.innerHTML =
@@ -4223,6 +4223,11 @@ function buildStep3(body, f, tbl) {
       selFactEl = this;
       selFactLabel = this.dataset.fact;
       this.classList.add('sel');
+      if (this.dataset.focus) {
+        this.classList.remove('focus-spark');
+        void this.offsetWidth; // restart animation
+        this.classList.add('focus-spark');
+      }
       if (selAnsEl) tryMatch();
     });
   });
@@ -4236,6 +4241,11 @@ function buildStep3(body, f, tbl) {
       if (selAnsEl) selAnsEl.classList.remove('sel');
       selAnsEl = this;
       this.classList.add('sel');
+      if (this.dataset.focus) {
+        this.classList.remove('focus-spark');
+        void this.offsetWidth;
+        this.classList.add('focus-spark');
+      }
       if (selFactEl) tryMatch();
     });
   });
