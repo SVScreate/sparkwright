@@ -77,7 +77,7 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Flash v64** — live at `games/mathflash/index.html` (no backup file for v64 — all changes committed directly)
+**Math Flash v66** — live at `games/mathflash/index.html` (no backup file — all changes committed directly)
 Landing page: `sparkwright/index.html` (updated Session X)
 
 ---

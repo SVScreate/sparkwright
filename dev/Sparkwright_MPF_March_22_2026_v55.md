@@ -1,7 +1,7 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: March 30, 2026 — Session X close (v64)*
-*Current Math Flash version: v64 — live at `games/mathflash/index.html` (no backup file this session — all changes committed directly)*
-*Current Sparkwright landing page: `sparkwright/index.html` (updated Session X — new logo, hero treatment, sparks)*
+*Last updated: March 31, 2026 — Session Z close (v66)*
+*Current Math Flash version: v66 — live at `games/mathflash/index.html` (no backup file this session — all changes committed directly)*
+*Current Sparkwright landing page: `index.html` (updated Session X — new logo, hero treatment, sparks)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
 ---
@@ -350,10 +350,18 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 ### 🔧 UI / COPY
 6–31. *(all completed — see COMPLETED log)*
 32. Auto-advance / "Student Speed Mode" toggle *(discussed, not yet designed)*
-143. **Print button on My Progress / Stats page** — add a print pill button to the stats screen so teachers/parents can print a snapshot of progress. Style consistent with results screen print button. *(Session X)*
+143. **Print button on My Progress / Stats page** — add a print pill button to the stats screen. Holding until heat map / My Progress redesign is settled — print a finalized layout, not a draft. *(Session X — on hold pending item 140 design)*
 144. **Logo update — all pages** — new nav logo (5-pointed star SVG, Comfortaa 700 wordmark, Spark glow) was applied to `index.html` (landing page) in Session X. Needs to be applied to `games/mathflash/index.html` and any other pages. *(Session X)*
-145. **Advanced Settings — body text spacing** — the content inside the Advanced Settings card begins too close to the section title ("ADVANCED SETTINGS ▾"). Add top padding or margin to the content area inside the collapsible. *(Session X)*
-33. ✅ **Print output** — redesigned Session W (v62). Settings block, summary, fluency counts, fact chips, fluency key, notes lines.
+145. ✅ **Advanced Settings — body text spacing** — 14px top padding added to content area. *(Session X/Y)*
+
+148. **Session results history** — students (and teachers) should be able to access past round results without relying on the end-of-round print. Currently, if the results screen is closed or the page reloads, the round data is gone. Fix: store a rolling log of round summaries in localStorage (student name, date/time, mode, tables, score, fluency breakdown). Accessible from My Progress or a dedicated "History" tab. Each entry printable individually. Connected to item 109 (teacher print report) and item 143 (My Progress print). Design discussion needed: how many sessions to retain? What's in each entry? Route to Spark for design input. *(Session Z)*
+
+149. **Teacher settings lock / teacher area** — currently any student can change all settings. Teacher use case needs a way to lock settings so students can't alter the configuration mid-session. Connected to item 142 (product model: tool vs. platform), which is the broader design discussion needed first. Key question from item 142: does Math Flash have user roles (student vs. teacher/parent), and is that established at account setup? The settings lock is a downstream feature of that decision — can't build it until the role model is settled. Do not build until item 142 design discussion is resolved with Spark. *(Session Z)*
+
+146. **Download / Save as PDF button** — developer wants a download button on the results screen and wherever there's a print button. For a static site, the only practical path is `window.print()` relabeled "Print / Save as PDF" (browser provides "Save as PDF" destination in print dialog). Adding a PDF library (jsPDF, etc.) not recommended — significant weight for marginal UX gain. Implementation: relabel existing print buttons + add a tooltip or helper text "→ Choose 'Save as PDF' in the dialog." Design discussion needed before coding. *(Session Z)*
+
+147. **Initial assessment / baseline check** — developer wants a way to establish a student's starting point before regular practice begins. Connected to the assessment area (item 66), My Progress page (item 89), and heat map (item 140). Big feature — design discussion with Spark needed before scoping. Key questions: (1) Is this a formal timed test, or a lighter diagnostic pass? (2) Does it seed the `mathflash_facts` localStorage data to pre-populate the stats page? (3) Is it the same mechanic as the assessment area (item 66) or different? Route to Spark. *(Session Z)*
+33. ✅ **Print output** — redesigned Session W (v62). Settings block, summary, fluency counts, fact chips, fluency key, notes lines. Developer using in practice; feedback pass pending.
 34. ✅ "Format" → "Mode" — renamed (v52)
 35. ✅ "— no time pressure." copy — removed (v52)
 36. ✅ Typing field character limit — 4 characters max (v52)
@@ -366,7 +374,7 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 121. **Small pool prevention** — if pool size is 1 (or very small, e.g. < 3 unique facts), the round is useless but currently allowed to start. Should block start with a plain-language message: "Only X unique fact(s) selected. Select more tables or turn on Full Table Range." Design discussion: what is the minimum useful pool size? *(Session M)*
 122. **Stopwatch mode design** — is "Set number of items" under Stopwatch redundant with "Set # of Questions" mode? One is "how long does it take to do N questions" (Stopwatch), one is "do N questions at your own pace" (Set #). May be genuinely distinct but user-facing language is confusing. Design discussion needed. *(Session M)*
 123. **Reverse fact in requeue mechanic** — design question: if a student misses 6×12, should 12×6 also be added to the requeue at least once? Pedagogically, fact families suggest yes — seeing both orientations reinforces the relationship. Design discussion needed before coding. *(Session M)*
-124. **Print output — include round settings** — the print should show what settings were used: mode, tables selected, Easy on/off, question count. Connects to item 33. *(Session M)*
+124. ✅ **Print output — include round settings** — shipped in v62. Feedback pass pending after real use. *(Session M/W)*
 125. ✅ **Find All — correct card visual feedback** — cards flash gold and settle to gold on correct selection (`.fa-card.fa-flash` + updated `.fa-card.fa-good`). Built Session P, v59.
 126. **Find All — wrong answer graphic** — after 3 wrong selections, show a graphic or visual illustrating the fact group (e.g. the fact family or multiplication array). *(Session M)*
 127. ✅ **Fact Family Chase — house overlap** — house SVG extended (y=468→520, height=490→550). Gives ~54px clearance below last chip. Built Session P, v59.
@@ -492,41 +500,44 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 ## WHERE TO PICK UP
 
-*Session Y close — March 31, 2026 — v65 committed (multiple commits).*
+*Session Z close — March 31, 2026 — v66 committed.*
 
-**Session Y full build log:**
-- ✅ Item 144 — new 5-pointed star logo + Comfortaa wordmark applied to `games/mathflash/index.html` nav header
-- ✅ Item 144 (cont.) — same logo applied to `about.html`; logo color split + glow fix on both `about.html` and `index.html` (removed explicit `color` on `.wordmark` anchor, added `overflow: visible` to SVG container)
-- ✅ Item 145 — Advanced Settings body top padding (14px)
-- ✅ Mode description bug — `loadAndApplySettings()` now calls `updateFormatDesc()` so correct description shows on page load
-- ✅ Per-Question Timer description — new static phrase (Spark): *"Answer within your fluency threshold to build toward automaticity."*
-- ✅ Tier pills renamed — "2 Seconds", "3 Seconds", "5 Seconds", "6 Seconds" (internal data-tier keys unchanged)
-- ✅ Tier description copy dropped entirely — pill label is now the full description
-- ✅ Fluency Threshold section description — "for this student" removed (Spark)
-- ✅ Challenge copy — "and want a challenge" added (Spark confirmed)
-- ✅ Print output tier display — updated to use seconds value ("2 Seconds") instead of internal tier name
+**Session Z full build log:**
+- ✅ T3 confirmed — landing page logo color split + glow looks good
+- ✅ T4 confirmed — Settings screen Per-Question Timer description, tier pills, section description render correctly
+- ✅ T4 fix — Per-Question Timer description updated: added "(default: 3 seconds)" to end
+- ✅ T4 fix — Fluency Threshold section description: removed "Adjust to match what's realistic and meaningful"
+- ✅ T5 confirmed — print output shows "5 Seconds" label correctly
+- ✅ T7 confirmed — fact tiles appear on My Progress after a round
+- ✅ Items 33 + 124 — print output marked done (looking good; feedback pass after real use)
+- ✅ Contact page nav — updated to match about.html/index.html (full logo SVG, split Spark/wright wordmark, active link state CSS)
+- ✅ Easy toggle lock — when all tables selected, Easy toggle is forced ON and locked (`.switch-locked` CSS); unlocks when any table is deselected
+- ✅ Find All column bug — 3rd column was missing a card for small facts (e.g. 1×1, which only has ~11 unique wrong answers). Fixed: wrong answers are now padded by cycling the pool to always reach 12
 
-**Testing still needed next session:**
-- T1 — confirm new nav logo on game page renders in Safari ✅ (confirmed Session Y)
-- T2 — confirm about.html logo renders correctly with color split and glow (confirmed acceptable Session Y)
-- T3 — landing page logo color split + glow (not yet confirmed — Session X T5 carried forward)
-- T4 — Settings screen: Per-Question Timer description, tier pills, section description all render correctly
-- T5 — print output: confirm "5 Seconds" label appears when Extended tier is set and round is printed
-- T7 — play a round with a profile active → results → View Progress → confirm fact tiles appear
+**Testing needed this session:**
+- T1 — contact page nav: confirm logo + split wordmark renders correctly in Safari
+- T2 — Easy toggle: select all 12 tables, confirm Easy toggle locks (greys out, can't turn off). Deselect a table, confirm it unlocks.
+- T3 — Find All: trigger Practice Quest on a 1×1 or 2×1 fact, confirm all 3 columns have 6 cards
+- T4 — Settings: Per-Question Timer description shows "(default: 3 seconds)" | Fluency Threshold desc no longer has "Adjust what's realistic and meaningful"
 
 **Build queue for next session (priority order):**
-1. **Item 143** — print pill button on My Progress/Stats page (quick)
-2. **My Progress tier improvements** — add response-time–aware tier ("Fluent" sub-tier) + relabel "Not Yet" → "New" (design confirmed Session Y)
-3. **T2** — print output revision (Spark's spec still pending — still the longest-standing open item)
-4. **Find All orientation scramble (item 59)** — all 4 formats: `5×8=`, `8×5=`, `?=5×8`, `?=8×5` (design discussed, ready to build on greenlight)
-5. **Practice Quest matching celebration** — brief animation on matched pair; pair persists until gold flash (design discussed, ready to build on greenlight)
-6. **Session Mode (item 142)** — big feature, own session when ready
-7. **Item 100** — title screen overhaul (design discussion first)
+1. **My Progress tier improvements** — add response-time–aware tier ("Fluent" sub-tier) + relabel "Not Yet" → "New" (design confirmed Session Y) — hold until heat map design settled
+2. **Find All orientation scramble (item 59)** — all 4 formats: `5×8=`, `8×5=`, `?=5×8`, `?=8×5` — greenlight pending
+3. **Practice Quest matching celebration** — brief animation on matched pair; pair persists until gold flash — greenlight pending
+4. **Item 143** — print pill on My Progress page — holding until My Progress redesign/heat map is settled
+5. **Session Mode (item 142)** — big feature, own session when ready
+6. **Item 100** — title screen overhaul (design discussion first)
 
-**Design discussions open (not blocking build queue):**
-- Logo in motion / celebratory animations — Pip has star assets; spinning logo at gold flash moment discussed
-- My Progress compact view / heat map — design not yet decided
-- Find All scramble + Practice Quest matching celebration greenlight pending from developer
+**Design discussions open:**
+- My Progress / heat map redesign — item 140, not yet designed; blocks items 143 and tier improvements
+- Initial assessment / baseline check — flagged for Spark (see Handoff)
+- Find All scramble + Practice Quest celebration — greenlight still pending from developer
+- Download/Save as PDF — new item 146; see to-do list
+
+**Notes on held/deferred items:**
+- Item 143 (My Progress print): holding because the page layout will likely change when heat map is designed. Print a finalized layout, not a draft.
+- Download/PDF (item 146): static site limitation — no server-side PDF generation. Best path is `window.print()` relabeled "Print / Save as PDF"; browser provides "Save as PDF" in the dialog. Adding a PDF library (jsPDF, etc.) not recommended. See item 146.
+- Items 33 + 124 (print output): marked done. Developer to use in practice and report feedback.
 
 *Session W (continued) — March 29, 2026 — bug fix pass + UX revision, v63.*
 

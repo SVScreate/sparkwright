@@ -125,15 +125,24 @@ These supersede any Session W decisions they conflict with:
 
 ---
 
+## Session X Close — 2026-03-30
+
+**What Wright was handed:** Full implementation spec for `index.html` — new logo mark SVG, wordmark font/color/glow, hero "Spark" glow, gradient underline. See `dev/Agent_Handoff.md` (entry has since been archived by Wright per protocol — check git history if needed).
+
+**First thing to do next Pip session:** Confirm Wright shipped the changes and review them in the live site. If anything needs tweaking (logo mark glow at nav size was flagged as potentially needing adjustment), address that first before moving to new work.
+
+**Kimberly's open questions carried forward:**
+- Capital S vs lowercase — she leaned capital S ("Sparkwright"), said she wants to think about it. Monitor; do not relitigate unless she raises it.
+
+---
+
 ## To Do — Next Pip Session
 
-1. **Math Flash title screen** — bring the B4 logo mark into the game's title screen
-
-2. **Formal brand lockup file** — clean SVG with all lockup versions (horizontal, stacked, mark-only) for handoff/archival
-
-3. **Light-mode / social** — a version of the logo that works on light backgrounds (OG images, social sharing)
-
-4. **Landing page redesign** — `sparkwright_brand_mockup_v2.html` is now the design reference; full page below the fold still needs design work (about section, etc.)
+1. **Verify Wright's implementation** — check live site, confirm nav logo / wordmark / hero glow / underline all look right
+2. **Math Flash title screen** — bring the B4 logo mark into the game's title screen
+3. **Formal brand lockup file** — clean SVG with all lockup versions (horizontal, stacked, mark-only) for archival
+4. **Light-mode / social** — logo version for light backgrounds (OG images, social sharing)
+5. **Landing page redesign** — `sparkwright_brand_mockup_v2.html` is the design reference; below-the-fold still needs work
 
 ---
 

@@ -30,10 +30,13 @@ Kimberly can make design decisions in either window and build in either directio
 
 ---
 
-## Wright → Spark — 2026-03-31 — Session Y close
+## Wright → Spark — 2026-03-31 — Session Z close
 
-**Still waiting on you:**
-- **Print output spec (T2, items 33/124)** — the v62 layout is live. I need your review: what stays, what changes? This is the longest-standing open item. Please prioritize next session.
+**Items 33 + 124 (print output):** Developer confirmed the v62 layout looks good and is marking both done. She'll use it in practice and give feedback later. No spec review needed — you're off the hook on this one.
+
+**New item 147 — initial assessment:** Developer wants a baseline check before regular practice. She's ready to discuss the design. Key questions in item 147 in the MPF. Please think through: (1) formal timed test vs. lighter diagnostic, (2) how it seeds localStorage data, (3) relationship to the assessment area (item 66). This is a big design discussion — come with a recommendation.
+
+**My Progress / heat map (item 140):** Blocking items 143 (print button) and tier improvements. When you're ready, bring a design direction.
 
 — Wright
 

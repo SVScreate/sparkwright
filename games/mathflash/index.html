@@ -607,6 +607,7 @@ body {
 }
 input:checked + .switch-track { background: rgba(107,203,119,0.3); border-color: var(--correct); }
 input:checked + .switch-track::after { left: 22px; background: var(--correct); }
+.switch-locked { opacity: 0.4; pointer-events: none; }
 
 .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .option-label {
@@ -2023,7 +2024,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       <summary class="advanced-settings-toggle">Advanced Settings</summary>
       <div class="advanced-settings-body">
         <div class="option-label">Fluency Threshold <span class="option-label-note">(Per-Question Timer only)</span></div>
-        <div class="format-desc" style="margin-top:4px;margin-bottom:12px;">Sets the response time used to measure fluency for this session. Adjust to match what's realistic and meaningful.</div>
+        <div class="format-desc" style="margin-top:4px;margin-bottom:12px;">Sets the response time used to measure fluency for this session.</div>
         <div class="tier-pills" id="tier-pills">
           <button class="tier-pill" data-tier="challenge">2 Seconds</button>
           <button class="tier-pill on" data-tier="standard">3 Seconds</button>
@@ -2274,7 +2275,7 @@ const FORMAT_DESCS = {
   stopwatch: 'See how long it takes you to get through a set of questions.'
 };
 function getFormatDesc(val) {
-  if (val === 'pertimer') return 'Answer within your fluency threshold to build toward automaticity.';
+  if (val === 'pertimer') return 'Answer within your fluency threshold to build toward automaticity (default: 3 seconds — to change, see Advanced Settings below).';
   return FORMAT_DESCS[val] || '';
 }
 function updateFormatDesc() {
@@ -2865,8 +2866,12 @@ function updateEasyLabel(op) {
   const excl = allNums.filter(n => !sel.includes(n));
   if (!excl.length) {
     el.innerHTML = '<strong>All ' + maxT + ' tables selected</strong> — nothing excluded.';
+    chk.checked = true;
+    chk.parentElement.classList.add('switch-locked');
+    S.easy[op] = true;
     return;
   }
+  chk.parentElement.classList.remove('switch-locked');
   if (op === '/') {
     el.innerHTML = '<strong>Practice every fact in your chosen table(s)</strong> — ON: all facts included. OFF: exclude facts where one of the numbers comes from a table you haven\'t picked (e.g. ÷6, ÷7 selected → no 30÷6, 28÷7).';
   } else {
@@ -3891,8 +3896,13 @@ function buildStep2(body, f, tbl) {
   }
 
   // Wrong cards: wrong answers on the same problem
-  const wrongAnswerList = wrongAnswers(correct, tbl, op).slice(0, 12);
-  const wrongCards = wrongAnswerList.map(function(w) {
+  // Pad to 12 if needed — small facts (e.g. 1×1) may have fewer than 12 unique wrong answers
+  const wrongAnswerBase = wrongAnswers(correct, tbl, op);
+  const wrongAnswerList = [];
+  if (wrongAnswerBase.length > 0) {
+    while (wrongAnswerList.length < 12) wrongAnswerList.push(...wrongAnswerBase);
+  }
+  const wrongCards = wrongAnswerList.slice(0, 12).map(function(w) {
     if (op === 'x') {
       // alternate between two formats
       return Math.random() < 0.5
@@ -3908,7 +3918,7 @@ function buildStep2(body, f, tbl) {
   const corrPadded = [];
   while (corrPadded.length < numCorrect) corrPadded.push(...correctCards);
   const corrFinal = corrPadded.slice(0, numCorrect);
-  const wrongFinal = wrongCards.slice(0, 18 - numCorrect);
+  const wrongFinal = wrongCards; // always exactly 12 (padded above)
 
   // Shuffle with column-distribution check — prevent correct cards clustering in one column
   function shuffleArr(arr) {
