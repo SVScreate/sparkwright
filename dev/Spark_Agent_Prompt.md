@@ -181,7 +181,7 @@ One-time purchase per game, a la carte. No account required for core experience.
 ## Current State of Open Work
 *(Replace this section at each session end — do not append)*
 
-### As of Session Z — March 31, 2026
+### As of Session AA — March 31, 2026
 
 **What Wright built since Session T (v62/v63):**
 - ✅ Extended tables ×13–×20 (Advanced Settings toggle, off by default)
@@ -191,18 +191,17 @@ One-time purchase per game, a la carte. No account required for core experience.
 - ✅ Sparkwright nav logo + favicon (Pip)
 - ✅ Fluency bar: amber `#ff9f43` (fluent) + blue `#4d96ff` (almost), purple dropped, tier-scaling (item 141) — built Session X
 
-**What happened Session Y (Spark):**
-- Tier rename decision: spelled-out time values — "3 Seconds," "5 Seconds," etc.
-- Copy principle locked: **"Describe the setting. Don't interpret the student."**
-- Fluency/automaticity terminology distinction written to RP Section 4.
+**What happened Session Z (Spark):**
+- Assessment Mode + Student Dashboard (items 147/66/140) — full spec designed and shipped to Wright. Ready to build.
+- Fact Constellation aesthetic locked: warm forge/alchemy, not cold space.
 
-**What happened this session (Session Z — Spark):**
-- **Assessment Mode (items 147 + 66 = same feature):** Baseline = Assessment 1. Systematic all-facts probe, one attempt per fact, no Practice Quest, teacher-configurable timer (defaults to fluency threshold). Separate data storage from practice data — non-negotiable. Records stamped with number, date, threshold used. My Progress draws from both practice + assessment data.
-- **My Progress → Student Dashboard (item 140):** Three-section structure: (1) Fact Constellation — hero visual, (2) Facts to Watch — elevated challenge facts, (3) Assessment Records + Run Assessment button.
-- **Fact Constellation design locked:** Color = tier (existing system). Glow/intensity = how established. Aesthetic: warm forge/alchemy — NOT cold space. Pip star (5-pointed logo mark) = mastery badge. Unpracticed facts = barely visible, always present in full grid.
-- **New items flagged for MPF:** Animation pass (spark-pop on open, change-over-time slider — log, don't build yet). Threshold visibility on dashboard. Threshold-change data integrity (new item — design before building, connects to items 130/131/106).
-- **Key architecture decision:** Items 147 + 66 + 140 are one design territory. Don't build in isolation. Title screen (item 100) should not be finalized until assessment access in dashboard is confirmed.
-- Shipped to Wright via handoff.
+**What happened Session AA (Spark — March 31, 2026):**
+- **localStorage vs. server accounts (item 151):** Recommendation delivered and logged. Don't build now. Three conditions before building: COPPA assessed by Lex, free tier ceiling defined, real teacher/multi-student use case validated. Language reframe: retire "you own your data" → "your data stays on your device by default." Lex flagged in handoff on COPPA + language review.
+- **Market size analysis:** Full TAM analysis logged in ConsumerData Section K. 1K = proof of concept; 10K = career milestone ($100–150K); server accounts are a feature-threshold trigger, not a user-count trigger. Risk is obscurity, not competition.
+- **"What success looks like" framing logged to RP Section 6:** "The right question isn't how big can this get — it's what does it look like when it's working? Working = financial independence + direct relationship with audience + products you believe in."
+- **Free tier ceiling + revenue model:** Options logged in ConsumerData Section K. Decision pending — developer thinking it over.
+- **Threshold-change data integrity:** Designed and shipped to Wright. Option C: warning + recalculation. Threshold is a rendering lens on raw data — nothing deleted. Confirmation notice before applying. Assessment records unaffected (already stamped).
+- **Items 142 + 149 (Session lock / product model): CLOSED.** Decision: no session lock. Math Flash is a tool. Settings stay open. Trust the user. Revisit only if classroom teacher use case becomes real and validated.
 
 **Note on required reading (token efficiency):**
 Not every session needs the full RP + ConsumerData. Check the "Required reading this session" flag below before reading both in full.
@@ -212,16 +211,19 @@ Not every session needs the full RP + ConsumerData. Check the "Required reading 
 ### Open Items
 
 **Blocking Wright (highest priority):**
-- [ ] **Student Dashboard / Assessment Mode (items 147 + 66 + 140)** — spec shipped to Wright this session. Ready to build.
+- [ ] **Student Dashboard / Assessment Mode (items 147 + 66 + 140)** — spec shipped Session Z. Ready to build.
 
 **Revenue model — decision pending:**
 - [ ] **Free tier ceiling + revenue model (Math Flash + site-wide)** — options logged in ConsumerData Section K. Two paths: (A) free game + professional tools unlock ~$15–25; (B) one-time game purchase $9.99–$14.99. Spark leans Option A. Developer thinking it over. Decide before pricing copy is written.
 
-**Design discussions still needed:**
-- [x] **Session Mode UX / product model (items 142 + 149)** — CLOSED. Decision: no session lock. Math Flash is a tool, not a platform. Settings remain open. Trust the user. Primary audience (homeschool parent, tutor) is present — a lock solves a problem they don't have. Revisit only if classroom teacher use case becomes real and validated.
-- [ ] **localStorage vs. server accounts (item 151)** — Wright flagged for Spark. Product/positioning questions: how to communicate the account tier without undermining "no sign-up" selling point; what "you own your data" means when a server exists. Come with a recommendation.
-- [ ] **Market size analysis** — Wright flagged for Spark. TAM for indie ed-tech in homeschool + tutor/ed therapist space. What does a successful indie launch look like?
-- [x] **Threshold-change data integrity** — designed and shipped to Wright. Option C: warning + recalculation. Raw response times never deleted; threshold is a rendering lens. Confirmation notice before applying. Assessment records unaffected. Connects to threshold visibility display on dashboard.
+**Lex items (flagged Session AA):**
+- [ ] **COPPA pre-assessment** — what does COPPA-compliant opt-in server accounts look like for a solo product? Does opt-in/user-initiated sync change the exposure? Flagged in handoff.
+- [ ] **Positioning language review** — "your data stays on your device by default" — does this hold legally? Qualifying language needed for Privacy Policy/FAQ?
+
+**Design discussions resolved this session:**
+- [x] **Session Mode UX / product model (items 142 + 149)** — CLOSED. No lock. Math Flash is a tool.
+- [x] **localStorage vs. server accounts (item 151)** — recommendation delivered. Don't build yet. See handoff.
+- [x] **Threshold-change data integrity** — designed and shipped to Wright. Option C.
 
 **Journaling — first passes done, loose ends remain:**
 - [~] **Who is she?** — Two clarifying questions unanswered: (1) context of use; (2) XtraMath personal experience or by reputation?
