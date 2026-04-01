@@ -1,5 +1,5 @@
 # Sparkwright — Research & Pedagogy (RP)
-*Last updated: March 25, 2026 — Session N (literature review pass)*
+*Last updated: April 1, 2026 — Session AB (variance model, mastery criteria, tier color system, FAQ items, threshold location)*
 *Companion file to the Math Flash MPF. Both files live in `dev/` and are updated together.*
 
 ---
@@ -181,6 +181,16 @@ This aligns with the developer's values, the Reddit data (explicit "willing to p
 
 ## 4. Science & Pedagogy
 
+*This section is the primary source for methodology copy — About page, FAQ, "How Math Flash Works," and any white paper or methodology statement for educators and ed therapists. When drafting that copy, draw from the subsections below rather than re-researching. Key subsections for copy work:*
+- *Fluency vs. Automaticity — terminology precision for UI and FAQ*
+- *The 3-Second Fluency Threshold + Two-Level Fluency Model — the measurement rationale*
+- *Variance Model — how the constellation works, what the tiers mean, edge cases*
+- *Mastery Definition v2 + Tier Confidence — mastery criteria and their research basis*
+- *Game-Designed Round — the prioritization model and why it works*
+- *Errorless Learning vs. Error Correction — the Practice Quest rationale*
+- *Math Anxiety and Timed Assessments — the timer design rationale*
+- *Cognitive Load Theory and Neurodivergence — the accommodation rationale*
+
 ### Fluency vs. Automaticity — Terminology *(Session Y, 2026-03-31)*
 
 These terms are related but distinct. Using them precisely matters for UI copy, FAQ, and any research claims.
@@ -218,13 +228,94 @@ The 3-second threshold for fact automaticity is well-established in cognitive lo
 
 These grades describe a single answer. They are not mastery.
 
+**Tier color system — canonical (updated Session AB):**
+
+| Tier | Color | Hex | Notes |
+|---|---|---|---|
+| Mastered | Gold | #ffd93d | Pulsing glow animation. Pip ★ badge. |
+| Fluent | Amber | #ff9f43 | Glow intensity scales with how established the fact is. |
+| Almost | Blue | #4d96ff | |
+| Needs Practice | Purple | #c77dff | Reinstated Session AB (had been dropped from fluency bar Session X). Now consistent across all UI. |
+| Unpracticed | Dim | ~4% white opacity | Barely visible — "unlit ember." Always present in constellation. |
+
+**Consistency rule:** All tier-showing UI elements must use this palette: constellation dots, countdown/timer bar, per-question tier flash, legend, any tier pills. No element should show a subset of the tier vocabulary without explicit design justification.
+
 **Level 2 — Longitudinal mastery** (tracked over time, across sessions):
 A fact is **Mastered** when a student demonstrates durable, stable automaticity.
 
-**Math Flash Mastery Definition:**
+**Math Flash Mastery Definition (current — v1):**
 > Correct in ≤3s on **4 out of the last 5 attempts**, spanning **at least 2 separate sessions**, with **low response time variance**.
 
 The 2-session requirement prevents "one good day" mastery. The variance condition is a differentiator backed by research. The exact variance threshold is TBD — to be tuned with real use.
+
+**Proposed robust mastery definition (v2 — Session AB):**
+
+Research basis for each criterion:
+
+| Criterion | v1 | v2 (proposed) | Research basis |
+|---|---|---|---|
+| Correct within threshold | 4 of last 5 | 6 of last 8 | More attempts = more robust signal; reduces false positives from lucky streaks |
+| Minimum sessions | 2 | 3 | Distributed practice; spacing effect (Cepeda et al., 2006 — *needs full citation verification*) |
+| Calendar day spread | implied | explicit: ≥2 distinct calendar days | Spacing effect; sessions on same day are massed practice |
+| Variance gate | low (TBD) | IIV below empirical threshold (TBD) | Stickney, Sharp & Kenyon (2012) |
+| Recency gate | none | ≥1 fluent response within last N days | Retention / forgetting curve research; Ebbinghaus; distributed practice literature |
+| De-certification | not explicit | Flag for review: 3 consecutive attempts exceed threshold, OR variance spikes above threshold | Reflex Math model (Cholmsky, 2011 white paper); consistent with retention research |
+
+**On de-certification:** Mastery status should reflect *current* performance, not a past peak. A student who mastered 3×7 in October and hasn't practiced since December may no longer have automatic retrieval. The honest design is: mastery is flagged for review when recent performance diverges from the mastery record, rather than treating it as permanent. The constellation dims or shows a recency indicator. This matters especially for ed therapist documentation — a report should reflect current status.
+
+**What can be built now vs. tuned later:** The structural criteria (session count, day spread, recency gate, de-certification flag) can be built now. Specific variance threshold and recency window (N days) should be tuned with real use data. The architecture supports this — these are rendering parameters, not structural changes.
+
+### Tier Confidence, Inactivity, and Durability *(Session AB — April 1, 2026)*
+
+**Key design principle — stars are earned, not revoked, and not re-required:**
+
+The constellation does not visually change due to inactivity. A mastered fact keeps its star. Earned tiers are not taken back, and mastered facts are not put back on probation — the student should not have to keep proving facts they have genuinely mastered.
+
+The inactivity flag system is primarily relevant for *near-mastery facts* — those still accumulating evidence toward a tier change. For mastered facts, freshness is handled organically by the game-designed round (see below): a small maintenance sprinkle of gold facts in each round keeps retrieval timestamps current without the student feeling re-tested.
+
+What changes for near-mastery facts is *internal* — the data layer tracks timestamps and flags silently. Those flags gate forward progress only. They do not reverse past progress.
+
+**The two-layer model:**
+
+| Layer | What the student sees | What the system tracks internally |
+|---|---|---|
+| **Visual tier** | Unchanged — stars stay, colors stay | — |
+| **Internal freshness flag** | Nothing — invisible to student | Timestamps, inactivity duration, durability status |
+
+**What internal flags actually do:**
+A stale fact *freezes in place.* It cannot:
+- Advance to the next tier
+- Contribute to a "full operation mastered" celebration or badge
+- Have its mastery re-confirmed or re-stamped
+
+It can still be practiced. When fresh data comes in and satisfies the recency/durability criteria, the flag clears silently. No drama, no notification. The fact simply becomes eligible for forward progress again.
+
+**Why this is the right design:**
+- The student does not lose work they earned. The star stays.
+- The system does not overclaim — it knows internally that unconfirmed mastery is not the same as confirmed mastery.
+- There is no visual punishment. No dimming, no regression.
+- The consequence of staleness is purely forward-facing: you can't unlock new achievements on old data.
+
+**Inactivity and near-mastery facts:**
+Facts *approaching* mastery are most affected by inactivity — they haven't yet accumulated the full evidence base. A deeply mastered fact with many sessions of data behind it is more stable. Facts near a tier threshold should have shorter inactivity windows before the flag activates, consistent with retention research: recently acquired skills are more vulnerable to forgetting than well-consolidated ones.
+
+*(Forgetting curve research — Ebbinghaus is foundational; the math-specific literature is thin. The general principle that recently learned material decays faster than consolidated material is well-supported. Applying it to per-fact tier confidence is a design extrapolation. Honest framing: "consistent with retention research," not "proven by retention research.")*
+
+**Durability — handled in the background, not by prompting:**
+The system manages all of this silently. No prompt on game open. No notification. No program agenda. The student opens the game and plays. The data layer tracks what it needs to track. When the teacher runs an Assessment from the Assessment Records section, that fresh data clears flags and re-confirms current status — but the teacher chooses when to do that.
+
+**Durability check — teacher-initiated (log as MPF item):**
+Running an Assessment is the clean way to get current confirmation across all facts. The game does not prompt this unprompted — that is program behavior, not tool behavior.
+
+**Research grounding:**
+The spacing effect literature (Cepeda et al., 2006 — needs verification) supports the principle that distributed practice across time produces better retention than massed practice, and that return after a gap should be expected to involve some re-acquisition. The specific N-day thresholds for provisional flagging and durability check triggers are judgment calls to be empirically tuned — not values the research specifies directly.
+
+**FAQ items informed by this section:**
+- *What happens if my child takes a break from practice?* — Facts that were building toward mastery may show a "needs refresh" flag after a long absence. This doesn't mean they forgot everything — it means the data is stale and a few practice sessions will update the picture.
+- *Can a fact go backwards in my constellation?* — Yes, in two ways: if new practice data shows consistent slower responses (de-certification), or if a long gap triggers a provisional flag. Both are honest signals, not punishments.
+- *What happens to my constellation if we take a break?* — Your constellation stays exactly as it was — nothing dims, nothing disappears. Facts your student mastered stay gold. In the background, the game tracks how long it's been since each fact was practiced, and won't count new achievements on facts that haven't had fresh practice in a while. Returning to practice updates the picture automatically. For a clear current snapshot, running an Assessment is the cleanest option.
+
+*(Day-spread consideration — Session AB):* Two sessions on the same day or consecutive days may not constitute meaningful distributed practice. The spacing effect — one of the most robust findings in learning research — holds that practice distributed across time produces stronger long-term retention than the same number of events massed together. *(Cepeda et al., 2006, "Distributed practice in verbal recall tasks," Psychological Bulletin — needs full citation verification; Rohrer & Taylor, 2006 on spacing and math — needs full citation verification.)* See v2 mastery definition above — the calendar day spread requirement is now proposed as an explicit criterion.*
 
 ### Response Time Variance as a Mastery Signal
 
@@ -234,6 +325,57 @@ A student who sometimes answers in 1.2s and sometimes in 5.8s is NOT automatic o
 - **Stickney, Sharp & Kenyon (2012)** — *Verified citation:* Stickney, E.M., Sharp, L.B., & Kenyon, A.S. (2012). "Technology-enhanced assessment of math fact automaticity: Patterns of performance for low- and typically-achieving students." *Assessment for Effective Intervention*, 37, 84–94. Found that low-achieving students required more attempts to demonstrate automaticity, achieved automaticity later, and showed lagging retrieval speed. Recommends a 3-second criterion and notes that students responding within 2 seconds are generally higher achievers. *(Note: the earlier RP framing "even when average speeds are similar" was not confirmed against full text in the Session N review — needs verification before asserting.)*
 - **Broader cognitive science:** High IIV is consistently associated with effortful processing vs. automatic retrieval, and decreases as automaticity increases. This is documented in cognitive science literature including developmental research in *Frontiers in Human Neuroscience* (2012). Brain imaging research confirms that the transition from strategy-use to automatic retrieval involves shifts in activated brain regions, and that performance variability marks this transition as incomplete.
 - **Reflex Math** explicitly uses "response pattern stability" as a condition for fact certification (Cholmsky, 2011, white paper — commercial document, not peer-reviewed). They can de-certify a fact if variance returns.
+
+### Variance Model — How It Works in Practice *(Session AB — April 1, 2026)*
+
+**The simple version:**
+
+Variance tracks the *spread* of response times across all attempts at a single fact. Low variance + fast average = reliable, consistent retrieval. High variance = inconsistent — sometimes fast, sometimes slow — which means the fact is fragile, even if the average looks okay.
+
+A student who answers 3×4 in 2.1s, 2.3s, 2.0s, 2.2s has demonstrated stable retrieval. A student who answers 3×4 in 2.1s, 5.8s, 1.9s, 6.2s is not automatic — the inconsistency is diagnostic. The average might look acceptable; the variance reveals that the fact is not mastered.
+
+**How the variance model handles specific edge cases:**
+
+*Bad day / temporary backslide:* A handful of slow responses in one session raise variance slightly but do not tank the tier if there is a long history of tight, fast attempts. The signal is diluted by history. Persistent slow responses across multiple sessions will raise variance over time — and the tier will honestly reflect that. That is the system working correctly.
+
+*Untimed practice (timer off or extended time accommodation):* Students practicing without a timer will naturally produce slower, more variable response times — not because they know less, but because retrieval pressure is absent. These responses raise variance and will not generate a "fluent" rating unless the raw response time genuinely meets the threshold. This is honest: a student whose response is 2.4s in an untimed round is still 2.4s — that counts correctly. A student who takes 7s to reconstruct an answer in an untimed round correctly does not register as fluent. **Mode is tagged in the data model; all attempts are always recorded.** Untimed attempts count — they represent real practice exposure — but they cannot generate tier ratings their response times don't support.
+
+*Important nuance:* A student who practices exclusively in untimed mode may produce systematically different response time patterns than in timed mode — not because their knowledge is different, but because removal of time pressure changes retrieval behavior. Untimed attempts contribute to the constellation but should be understood as a somewhat different signal. The mode tag allows this to be analyzed if needed.
+
+*Warm-up data:* The first responses of a session — when a student is reorienting — will typically be slower and more variable. The variance model absorbs these as spread rather than demoting the tier, as long as subsequent responses return to form. A consistently slow warm-up across many sessions is itself useful information.
+
+**The sparse data problem:**
+
+Variance is not reliable with very few data points. With 2–3 attempts, a single outlier can significantly distort the variance calculation and produce a misleading tier. The design implication: **tier status should require a minimum number of attempts before stabilizing.** Early constellation data for a new user should be treated as provisional. The exact minimum is TBD — to be tuned with real use.
+
+**Mode tagging and data integrity:**
+
+All attempts are always recorded with full response time data in milliseconds. Mode (timed / untimed / extended time accommodation) is tagged per attempt. Assessment attempts are stored in a separate data structure and are never mixed with practice data. The threshold is a rendering parameter — a lens on the data — not a grade stamped into it. Changing the threshold recalculates tier rendering without deleting or altering raw response time data.
+
+**FAQ and in-game communication — design decisions (Session AB):**
+
+*"How your constellation works" — permanent clickable explainer:* Lives in the My Progress view, always accessible. Student-friendly language. When opened, shows:
+- Each tier color with a plain-language description, using the colors currently active for this student
+- The current fluency threshold in plain language: *"A fact is fluent when you answer it in under 3 seconds"*
+- An honest note on how the constellation tracks patterns, not single sessions
+
+Suggested student-facing language (draft):
+> *"Your constellation shows how well you know each fact. One rough session won't change it — the game tracks patterns over time, not just today. If a fact keeps being slow, it'll show up that way too. That's useful to know."*
+
+*FAQ items to draft from this session:*
+- *What happens if my child has a bad day?* — Variance absorbs isolated rough sessions; only persistent patterns change tier status.
+- *Does untimed practice count toward the constellation?* — Yes. All attempts are recorded. Tier ratings reflect actual response times, so fast untimed responses count; slow reconstructed answers honestly don't register as fluent.
+- *Why do some facts glow brighter than others?* — Glow intensity reflects how established the fact is: recently fluent = softer glow; long and consistently mastered = brighter, steadier glow.
+- *What does it take for a fact to be marked as Mastered?* — Consistent, fast responses across multiple sessions on different days. One good session is not enough.
+- *What does the fluency threshold mean and how does it affect the constellation?* — To be drafted after threshold location design is resolved (see below).
+
+**Fluency threshold location — design question pending (Session AB):**
+
+The fluency threshold has a global effect: it governs every tier rating, the full constellation, and what "mastered" means for this student. Treating it as an "Advanced Settings" control implies it is obscure or optional — it is neither.
+
+Proposed resolution: surface the threshold *in context* in the My Progress view, not only in settings. A persistent small line — e.g., *"Fluency graded at 3-second threshold · Change"* — where "Change" opens directly to that one control. Casual users who never change it are not burdened by it. Ed therapists and tutors who need to configure it per student find it naturally, where its effects are visible.
+
+*Do not finalize threshold location in the build until this design question is resolved. Flag for Wright.*
 
 ### Competitive Mastery Thresholds
 | Program | Time threshold | Repetition criterion | Variance check |
@@ -343,6 +485,34 @@ No established convention was found for documenting a custom fluency threshold i
 - The feature should be framed as *accommodating processing differences*, not as "making it easier"
 - The Fluent/Almost/Needs Practice labels should note the threshold used (e.g., "Fluent at 5s threshold") if the default is changed
 - Print reports must reflect the threshold used — this is not optional if the data is to be interpreted accurately by other educators
+
+### Game-Designed Round — Concept and Prioritization Logic *(Session AB — April 1, 2026)*
+
+*(Not yet built — log as MPF item. Connected to the constellation data model.)*
+
+**Working name: Smart Practice**
+
+Mode card description (approved Session AB):
+> *The game reads your constellation and builds a round focused on what matters most right now. The best way to light up your facts.*
+
+A planned game mode where the game reads the student's constellation and builds the round automatically, rather than requiring the teacher or student to select facts manually. The constellation becomes genuinely functional — not just a display, but the input to the game's decision-making.
+
+**Fact prioritization order:**
+
+| Priority | Tier | Rationale |
+|---|---|---|
+| 1 | Fluent (amber), not yet mastered | Closest to advancing — already meets the speed threshold, needs more sessions of consistent evidence to reach mastery. Highest-leverage. |
+| 2 | Almost (blue) | Answering correctly but not yet fast enough. Needs speed improvement before reaching fluency. |
+| 3 | Needs Practice (purple) / Unpracticed | Needs exposure. |
+| 4 — maintenance sprinkle | Mastered (gold) | A small number per round, rotating, to keep retrieval timestamps current. Not re-proving mastery — incidental retrieval. |
+
+The ratio between categories is tunable and should adapt to the student's constellation state (a student with many fluent facts gets more 1s and 2s; a student just starting gets more 3s). The maintenance sprinkle for gold facts is small and unobtrusive — the student experiences it as a normal mixed round.
+
+**Why the maintenance sprinkle works:**
+Spaced retrieval of already-mastered material reinforces long-term retention — this is pedagogically sound, not just a data housekeeping trick. Including mastered facts occasionally does real learning work while keeping internal timestamps fresh. The student never feels re-tested; the game is simply doing something real with those facts.
+
+**Connection to inactivity flags:**
+The game-designed round is the primary mechanism by which mastered facts stay fresh. Because gold facts are included in every round (in small numbers), their timestamps update regularly without requiring any special durability-check mechanic. The inactivity flag for mastered facts may therefore have a significantly longer trigger window — or may not be needed at all — given this design. To be confirmed when the feature is built.
 
 ### Practice Quest Uniqueness — Market Research Finding
 No existing platform does what Practice Quest does.
@@ -482,6 +652,8 @@ This is a running log of positioning phrases that emerged in the developer's own
 - **"Painstakingly handmade."** *(Session Q)* — Already in the tagline as "handcrafted." Appears naturally in the developer's writing. Trust this word.
 - **"No account. Your data. In-the-moment remediation."** *(Session S)* — The three-part formula that no competitor has. Not a tagline yet — a recipe. The combination of no-account + localStorage data model + in-moment remediation is the secret sauce. No existing fact fluency tool has all three. Use when naming the gap Math Flash fills.
 
+- **"Light up your facts."** / **"Light up your constellation."** *(Session AB)* — Student-facing north star. Simple, visual, goal-oriented. Works as a first-session onboarding frame ("your job is to light up your constellation"), as a mode card description anchor (already in Smart Practice copy), and potentially as a student-facing tagline. Distinct from the teacher/parent-facing positioning language — this one belongs to the student.
+
 *Do not use these in copy yet — they are raw material. When drafting the marketing copy sentence, draw from this bank.*
 
 ### Research Tasks *(do after journaling)*
@@ -513,7 +685,9 @@ Finish this sentence: *"Math Flash is for families who have already tried ______
 - [x] **Research — accommodations/processing speed** (MPF item 113) — completed Session N. Full findings in Science & Pedagogy section above. XtraMath threshold data corrected.
 - [ ] **Draft — target user profile** (update section 3 above after journaling)
 - [ ] **Draft — marketing copy sentence** ("Math Flash is for families who...")
-- [ ] **Draft — FAQ outline** (after stats page and print report are designed)
+- [ ] **Draft — FAQ outline** (after stats page and print report are designed) — Session AB added specific FAQ items to draft: bad-day policy, untimed practice, glow intensity, mastery criteria, fluency threshold explanation. See Variance Model section for full list.
+- [ ] **Research — spacing effect citations** — Cepeda et al. (2006) and Rohrer & Taylor (2006) flagged as (needs verification) in mastery definition note. Retrieve and confirm full citations before using in copy.
+- [ ] **Design decision — fluency threshold location** — surfacing in My Progress vs. Advanced Settings only. Resolve before Wright builds the constellation. See Variance Model section.
 
 ---
 

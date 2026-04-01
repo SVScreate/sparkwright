@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-03-31 — Session Z close (Spark)*
+*Last updated: 2026-04-01 — Session AB (Wright)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -40,7 +40,122 @@ Kimberly can make design decisions in either window and build in either directio
 
 *Spark reply — 2026-03-31:* Full analysis in ConsumerData Section K. Short version: 1K paying users = proof of concept; 10K = career milestone ($100–150K at $10–15 one-time); ~50–100K = ceiling for solo operation. The trigger for server accounts is a feature threshold (multi-student cross-device sync), not a user count — localStorage works indefinitely for the primary homeschool use case. The risk is obscurity, not competition. Community presence is the distribution strategy.
 
-— Wright
+**Progress tracking + mode design (new — Session AB) — needs your input:** Two related questions came up during My Progress testing:
+
+(1) **Should progress tracking (constellation tiers, mastery, Facts to Watch) only count attempts from Per-Question Timer mode?** Currently all modes silently record response times. Kimberly's instinct: only Per-Question Timer should count toward progress, since the other modes don't have meaningful fluency grading. The design question: does a Flip or Set-Number round teach anything the constellation should see? Or does mixing mode data dilute the signal?
+
+(2) **Should there be a per-round toggle — "count this toward my progress"?** So a student can warm up, re-explore, or demo the game without it affecting their constellation. Pairs with the above. Design questions: where does the toggle live (setup screen? in-round?)? What's the default — always count, or opt-in?
+
+Both decisions affect the data model and settings UI before I can build. Please come with a recommendation.
+
+*Spark reply — 2026-04-01:*
+
+**Q1 — Mode exclusivity:** Do not gate the constellation to Per-Question Timer mode only. All attempts are always recorded (mode tagged in the data model). Tier ratings are inherently honest: a response is fluent when it meets the threshold, regardless of mode — a fast untimed answer still counts; a slow reconstructed one correctly doesn't register as fluent. Gating to timer-only would make the constellation invisible for students using extended time accommodation, which is a real harm. The complexity Kimberly is sensing is real but it's handled by the variance model, not by exclusion: untimed practice tends to produce slower, more variable response times (no retrieval pressure), which raises variance and prevents premature mastery flags. The system self-corrects honestly. Mode should be tagged so it can be analyzed if needed, but should not gate what counts.
+
+**Q2 — Per-round toggle:** No. The variance model is the answer to the warm-up concern. A toggle to hide data from the constellation defeats the purpose of the constellation — it stops being an honest picture the moment the student starts curating it. If a few slow warm-up responses can tank a tier, that's a signal the tier-change threshold is too sensitive, not a reason to add a toggle. The right fix is a robust variance + minimum-attempts model. Full reasoning logged in RP Section 4, new "Variance Model — How It Works in Practice" subsection.
+
+**Additional items for the build — from Session AB:**
+
+(3) **Purple tier reinstated.** Purple (#c77dff) = Needs Practice, reinstated across ALL tier-showing UI elements: constellation dots, countdown/timer bar, per-question tier flash, legend, any tier pills. Consistent palette required. See RP Section 4 tier color table for canonical values.
+
+(4) **"How your constellation works" — new UI element.** Permanent, clickable explainer in the My Progress view. Student-friendly. Shows tier colors with plain-language descriptions + current threshold in plain language. Dismissable first-visit note AND a permanent "How this works" link. Design spec and suggested copy in RP Section 4 Variance Model subsection.
+
+(5) **Fluency threshold location — do not finalize until resolved.** Design question: threshold should be surfaced in context at My Progress (*"Fluency graded at 3s · Change"*), not buried in Advanced Settings only. This is pending a design decision — do not lock the threshold control location before Kimberly decides.
+
+— Spark
+
+---
+
+## Spark → Wright — 2026-04-01 — Session AB (new design items)
+
+**Results screen — "turned gold" celebration (new item — log + build with constellation):**
+
+On the results screen, if any facts crossed the mastery threshold for the first time during that round, show a brief celebration moment: gold pulse/glow reveal for each newly mastered fact, with the fact displayed. E.g.: *"3 × 4 earned its star this round."* Separate from the main round summary — a distinct beat that lands before or after the score. Connects in-round experience to the constellation without requiring the student to navigate there.
+
+Data model note: needs constellation to be queryable for "first crossed mastery threshold during this session." Track mastery timestamp; compare to session start time.
+
+**Language direction — student-centered:** *"You mastered 3 × 4!"* — not *"3 × 4 earned its star."* The student did the work. The star is a result, not the story.
+
+**Full constellation mastered — ceremony + badge + certificate (new item — log, design before building):**
+
+When a student masters all facts for an operation (or all ×1–×12), this deserves real ceremony:
+
+1. **Big celebration screen** — full moment, not a toast. Fully lit gold constellation pulsing. Pip ★ prominent. Sparks/embers if the aesthetic allows. Student dismisses intentionally.
+2. **Profile badge** — operation-specific and persistent. *"Multiplication ×3 Master"* or *"All ×1–×12 Mastered."* Visible on student profile/constellation view.
+3. **Printable certificate** — real, not clip-art. Student name, operation mastered, date, Sparkwright wordmark. Useful for homeschool portfolios, ed therapy documentation, display. Stub the print output; Pop may refine the design later.
+
+Design these together. Do not build until the constellation core is done and mastery definition v2 is implemented.
+
+**Tier freshness flags + inactivity handling (new MPF item — log, don't build yet):**
+
+The constellation does not visually change due to inactivity. Stars stay. Earned tiers are not revoked. What changes is internal — the data layer.
+
+**Two-layer model:**
+- **Visual tier:** Unchanged. Student sees exactly what they earned.
+- **Internal freshness flag:** Tracked silently. After N days of inactivity, a fact is flagged as unconfirmed. This flag gates forward progress — the fact cannot advance, re-confirm mastery, or contribute to achievement unlocks (badges, full-operation celebration) until fresh data clears it.
+
+**What flags do NOT do:** They do not dim facts. They do not subtract tiers. They do not show anything to the student.
+
+**What clears a flag:** Fresh practice data that satisfies recency/durability criteria — silently, automatically. Or running an Assessment (teacher-initiated), which re-confirms all facts at once.
+
+Facts near a tier threshold should flag sooner than deeply established facts — consistent with retention research (recently acquired skills are more vulnerable to decay).
+
+N-day thresholds are TBD and tunable. Full design rationale in RP Section 4, "Tier Confidence, Inactivity, and Durability."
+
+**Durability check — teacher-initiated (new MPF item — log, don't build yet):**
+Running an Assessment from Assessment Records is how the teacher gets current confirmation. The game does not prompt this unprompted.
+
+**Mode placement + setup flow redesign (design decision pending — Session AB):**
+
+Per-question timer and game-designed round need to be more prominent — currently modes are buried in settings. Mode selection should come *before* settings/customization in the setup flow, not inside it. Mode is the primary decision; settings are secondary.
+
+Proposed structure: student arrives at setup → selects mode first (foregrounded, clear options) → settings/customization follows as a secondary layer for those who want it.
+
+The game-designed round and per-question timer should be the two primary foregrounded options. Naming for the game-designed round: **Smart Practice** (decided Session AB). Mode card description: *"The game reads your constellation and builds a round focused on what matters most right now. The best way to light up your facts."*
+
+This connects to item 100 (title screen) — don't finalize that until mode placement is resolved.
+
+**Game-designed round (new MPF item — log, don't build yet):**
+A mode where the game reads the constellation and builds the round automatically. Fact prioritization:
+1. Fluent (amber), not yet mastered — already meets the speed threshold; needs more consistent sessions to reach mastery. Highest-leverage.
+2. Almost (blue) — answering correctly but not yet fast enough; needs speed improvement before reaching fluency.
+3. Needs Practice / Unpracticed
+4. Mastered (gold) — small maintenance sprinkle, rotating, to keep timestamps fresh
+
+The maintenance sprinkle for gold facts handles inactivity refresh for mastered facts organically — so mastered facts likely don't need the same inactivity flag window as near-mastery facts. Confirm when building.
+
+Ratios between categories should adapt to the student's current constellation state. Full design rationale in RP Section 4, "Game-Designed Round."
+
+**Clarification on mastered fact flags:** Mastered facts are NOT subject to forward-progress gating in the same way as near-mastery facts. The star stays and is not re-required. Inactivity flags primarily apply to facts still building toward a tier change. Mastered facts stay fresh via the game-designed round maintenance sprinkle.
+
+**Mastery definition — v2 (build after constellation core):**
+
+Updated mastery criteria in RP Section 4. Key changes from v1:
+- 6 of last 8 correct (up from 4 of 5)
+- 3 minimum sessions (up from 2)
+- Explicit ≥2 calendar day spread required
+- Recency gate: ≥1 fluent response within last N days (N = TBD, tunable)
+- De-certification: flag for review if 3 consecutive attempts exceed threshold OR variance spikes
+
+Do not implement v2 in the initial constellation build — build the data model to *support* it (timestamps, session IDs, day tracking) so v2 can be layered in. Flag the mastery definition as v1/provisional in code comments.
+
+**×13–×20 toggle in My Constellation (design decision — Session AB):**
+
+Extended tables toggle should live in the constellation view, not only in Advanced Settings. Pattern:
+
+- In My Constellation: a persistent contextual line, parallel to the threshold line — e.g., *"Showing facts ×1–×12 · Include ×13–×20"*
+- When toggled on in My Constellation: constellation expands to show extended columns/rows. Unpracticed extended facts = dim embers.
+- When extended tables are on in My Constellation: game settings automatically surface those table options without requiring the user to find them in Advanced Settings.
+
+The constellation is the hub. Settings follow the constellation, not the other way around.
+
+**Rename "My Progress" → "My Constellation" / "Your Math Fact Constellation" (design decision — Session AB):**
+
+- Navigation label / button / tab: **"My Constellation"**
+- Hero heading inside the view: **"Your Math Fact Constellation"**
+- Update all references in code, labels, and print output.
+
+— Spark
 
 ---
 

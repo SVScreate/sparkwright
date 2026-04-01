@@ -181,7 +181,7 @@ One-time purchase per game, a la carte. No account required for core experience.
 ## Current State of Open Work
 *(Replace this section at each session end — do not append)*
 
-### As of Session AA — March 31, 2026
+### As of Session AB — April 1, 2026
 
 **What Wright built since Session T (v62/v63):**
 - ✅ Extended tables ×13–×20 (Advanced Settings toggle, off by default)
@@ -190,6 +190,7 @@ One-time purchase per game, a la carte. No account required for core experience.
 - ✅ Stats page + Challenge Facts (items 88/89/110)
 - ✅ Sparkwright nav logo + favicon (Pip)
 - ✅ Fluency bar: amber `#ff9f43` (fluent) + blue `#4d96ff` (almost), purple dropped, tier-scaling (item 141) — built Session X
+- ✅ Fact Constellation mockup — `dev/mockup_constellation.html` — visual prototype built Session AB
 
 **What happened Session Z (Spark):**
 - Assessment Mode + Student Dashboard (items 147/66/140) — full spec designed and shipped to Wright. Ready to build.
@@ -198,10 +199,22 @@ One-time purchase per game, a la carte. No account required for core experience.
 **What happened Session AA (Spark — March 31, 2026):**
 - **localStorage vs. server accounts (item 151):** Recommendation delivered and logged. Don't build now. Three conditions before building: COPPA assessed by Lex, free tier ceiling defined, real teacher/multi-student use case validated. Language reframe: retire "you own your data" → "your data stays on your device by default." Lex flagged in handoff on COPPA + language review.
 - **Market size analysis:** Full TAM analysis logged in ConsumerData Section K. 1K = proof of concept; 10K = career milestone ($100–150K); server accounts are a feature-threshold trigger, not a user-count trigger. Risk is obscurity, not competition.
-- **"What success looks like" framing logged to RP Section 6:** "The right question isn't how big can this get — it's what does it look like when it's working? Working = financial independence + direct relationship with audience + products you believe in."
-- **Free tier ceiling + revenue model:** Options logged in ConsumerData Section K. Decision pending — developer thinking it over.
-- **Threshold-change data integrity:** Designed and shipped to Wright. Option C: warning + recalculation. Threshold is a rendering lens on raw data — nothing deleted. Confirmation notice before applying. Assessment records unaffected (already stamped).
-- **Items 142 + 149 (Session lock / product model): CLOSED.** Decision: no session lock. Math Flash is a tool. Settings stay open. Trust the user. Revisit only if classroom teacher use case becomes real and validated.
+- **"What success looks like" framing logged to RP Section 6**
+- **Free tier ceiling + revenue model:** Options logged in ConsumerData Section K. Decision pending.
+- **Threshold-change data integrity:** Designed and shipped to Wright. Option C: warning + recalculation.
+- **Items 142 + 149 (Session lock / product model): CLOSED.**
+
+**What happened Session AB (Spark — April 1, 2026):**
+- **Wright's flagged questions answered (handoff):** Mode exclusivity (don't gate to timer-only; mode tagged), per-round toggle (no — variance is the answer).
+- **Variance model documented:** Full new RP section — how it works, edge cases, sparse data problem, mode tagging, day-spread requirement. RP Section 4.
+- **Mastery definition v2 proposed:** 6 of last 8 correct, 3 sessions, ≥2 calendar days, recency gate, de-certification flag. See RP Section 4. Build v1 first; data model must support v2.
+- **Purple tier reinstated:** Canonical tier color table in RP. Consistent across all UI. Wright to update countdown bar.
+- **"How your constellation works" explainer:** Permanent clickable in My Constellation view. Design spec + copy draft in RP.
+- **Fluency threshold location:** Surface in My Constellation context (*"Fluency graded at 3s · Change"*), not only Advanced Settings. Design decision made.
+- **×13–×20 toggle in My Constellation:** Extended tables toggle should also live in constellation view. When on, constellation expands + game settings auto-surface those options. Constellation is the hub; settings follow it.
+- **Renamed "My Progress" → "My Constellation":** Nav label = "My Constellation." Hero heading = "Your Math Fact Constellation."
+- **Results screen mastery reveal:** New item — show "turned gold this round" celebration on results screen. Shipped to Wright.
+- **Full constellation mastered — ceremony:** Big celebration screen + profile badge + printable certificate. Logged in handoff. Design before building.
 
 **Note on required reading (token efficiency):**
 Not every session needs the full RP + ConsumerData. Check the "Required reading this session" flag below before reading both in full.
@@ -211,19 +224,21 @@ Not every session needs the full RP + ConsumerData. Check the "Required reading 
 ### Open Items
 
 **Blocking Wright (highest priority):**
-- [ ] **Student Dashboard / Assessment Mode (items 147 + 66 + 140)** — spec shipped Session Z. Ready to build.
+- [ ] **Student Dashboard / Assessment Mode (items 147 + 66 + 140)** — spec shipped Session Z. Constellation mockup built. New items from Session AB in handoff (purple, rename, threshold location, "how it works" explainer, extended tables in constellation view, results mastery reveal, "You mastered X!" copy direction).
+
+**New MPF items to log (not blocking, don't build yet):**
+- [ ] Tier freshness flags — internal only; gates forward progress on near-mastery facts; mastered facts stay gold and are refreshed via Smart Practice maintenance sprinkle
+- [ ] Smart Practice (game-designed round) — reads constellation, prioritizes fluent→almost→needs practice, sprinkles mastered; mode card description approved
+- [ ] Durability check — teacher-initiated via Assessment Records; no game-prompted check
+- [ ] Full constellation mastered ceremony — celebration screen + profile badge + printable certificate
+- [ ] Mode placement redesign — mode selection (Smart Practice + per-question timer foregrounded) before settings in setup flow; connects to item 100 (title screen)
 
 **Revenue model — decision pending:**
 - [ ] **Free tier ceiling + revenue model (Math Flash + site-wide)** — options logged in ConsumerData Section K. Two paths: (A) free game + professional tools unlock ~$15–25; (B) one-time game purchase $9.99–$14.99. Spark leans Option A. Developer thinking it over. Decide before pricing copy is written.
 
 **Lex items (flagged Session AA):**
-- [ ] **COPPA pre-assessment** — what does COPPA-compliant opt-in server accounts look like for a solo product? Does opt-in/user-initiated sync change the exposure? Flagged in handoff.
-- [ ] **Positioning language review** — "your data stays on your device by default" — does this hold legally? Qualifying language needed for Privacy Policy/FAQ?
-
-**Design discussions resolved this session:**
-- [x] **Session Mode UX / product model (items 142 + 149)** — CLOSED. No lock. Math Flash is a tool.
-- [x] **localStorage vs. server accounts (item 151)** — recommendation delivered. Don't build yet. See handoff.
-- [x] **Threshold-change data integrity** — designed and shipped to Wright. Option C.
+- [ ] **COPPA pre-assessment**
+- [ ] **Positioning language review** — "your data stays on your device by default"
 
 **Journaling — first passes done, loose ends remain:**
 - [~] **Who is she?** — Two clarifying questions unanswered: (1) context of use; (2) XtraMath personal experience or by reputation?
@@ -232,9 +247,10 @@ Not every session needs the full RP + ConsumerData. Check the "Required reading 
 
 **Research/copy still not done:**
 - [ ] Play the competition for one hour. Keeps getting deferred. Matters — XtraMath heat map format still unverified.
+- [ ] Verify spacing effect citations: Cepeda et al. (2006), Rohrer & Taylor (2006) — flagged (needs verification) in RP
 - [ ] Draft — target user profile final version
 - [ ] Draft — marketing copy sentence ("Math Flash is for families who...")
-- [ ] Draft — FAQ outline (after assessment area designed)
+- [ ] Draft — FAQ outline (after constellation / assessment area designed; FAQ items from Session AB logged in RP — includes: bad day, untimed practice, glow intensity, mastery criteria, threshold explanation, break from practice, facts going backwards, durability check)
 - [ ] Copy pass — home page game cards + value list (developer doing; update Spark when done)
 - [ ] r/specialeducation + r/ADHD_parents — Reddit blocked Session N. High value, token-rich session.
 - [ ] Well-Trained Mind forums — developer opens manually, pastes. URLs in ConsumerData Section J.
