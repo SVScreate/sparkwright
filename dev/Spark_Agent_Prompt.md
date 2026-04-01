@@ -214,11 +214,14 @@ Not every session needs the full RP + ConsumerData. Check the "Required reading 
 **Blocking Wright (highest priority):**
 - [ ] **Student Dashboard / Assessment Mode (items 147 + 66 + 140)** — spec shipped to Wright this session. Ready to build.
 
+**Revenue model — decision pending:**
+- [ ] **Free tier ceiling + revenue model (Math Flash + site-wide)** — options logged in ConsumerData Section K. Two paths: (A) free game + professional tools unlock ~$15–25; (B) one-time game purchase $9.99–$14.99. Spark leans Option A. Developer thinking it over. Decide before pricing copy is written.
+
 **Design discussions still needed:**
-- [ ] **Session Mode UX** (item 142) — product model decided; Wright needs UX spec for how the lock looks and how teacher accesses settings.
+- [x] **Session Mode UX / product model (items 142 + 149)** — CLOSED. Decision: no session lock. Math Flash is a tool, not a platform. Settings remain open. Trust the user. Primary audience (homeschool parent, tutor) is present — a lock solves a problem they don't have. Revisit only if classroom teacher use case becomes real and validated.
 - [ ] **localStorage vs. server accounts (item 151)** — Wright flagged for Spark. Product/positioning questions: how to communicate the account tier without undermining "no sign-up" selling point; what "you own your data" means when a server exists. Come with a recommendation.
 - [ ] **Market size analysis** — Wright flagged for Spark. TAM for indie ed-tech in homeschool + tutor/ed therapist space. What does a successful indie launch look like?
-- [ ] **Threshold-change data integrity (new item)** — what happens to My Progress tier colors when fluency threshold is changed? Design before building.
+- [x] **Threshold-change data integrity** — designed and shipped to Wright. Option C: warning + recalculation. Raw response times never deleted; threshold is a rendering lens. Confirmation notice before applying. Assessment records unaffected. Connects to threshold visibility display on dashboard.
 
 **Journaling — first passes done, loose ends remain:**
 - [~] **Who is she?** — Two clarifying questions unanswered: (1) context of use; (2) XtraMath personal experience or by reputation?

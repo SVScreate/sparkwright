@@ -656,7 +656,7 @@
     border: 1px solid var(--border-hi);
     border-radius: 24px;
     padding: 40px 36px 36px;
-    max-width: 600px;
+    max-width: 700px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
@@ -726,6 +726,39 @@
   .btn-regen.spinning { animation: spin 0.4s ease; }
   @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
+  /* previous name pills */
+  .prev-name-pills {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    min-height: 0;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .prev-name-pills:empty { margin-bottom: 0; }
+  .name-pill {
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+    font-family: inherit;
+  }
+  .name-pill:hover {
+    border-color: var(--border-hi);
+    color: var(--text);
+    background: rgba(199,125,255,0.08);
+  }
+
   /* avatar grid */
   .avatar-label {
     font-size: 13px;
@@ -737,7 +770,7 @@
   }
   .avatar-grid {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(10, 1fr);
     gap: 8px;
     margin-bottom: 32px;
   }
@@ -1222,6 +1255,7 @@
     <p class="modal-title" id="modalTitle">Create your profile</p>
     <p class="modal-sub">Pick a username and choose an avatar. You can change these later.</p>
 
+    <div id="prevNamePills" class="prev-name-pills"></div>
     <div class="username-row">
       <div class="username-display" id="usernameDisplay">—</div>
       <button class="btn-regen" id="regenBtn" title="Generate new username" aria-label="Generate new username">↻</button>
@@ -1330,7 +1364,8 @@
       '🦦','🦘','🦙','🧸','🪄','🔮','✨','🫧',
       '🎀','🐨','🐼','🌻','🪐','🐝','🦔','🐞',
       '🧁','🪴','🌮','🐠',
-      '💫','🌠','🔭','🧩'
+      '💫','🌠','🔭','🧩',
+      '⚗️','🌋','🧲','🦑','🦌','🐇'
     ];
 
     /* --- Storage helpers --- */
@@ -1375,6 +1410,7 @@
     /* --- State for create modal --- */
     let currentUsername = '';
     let selectedAvatar  = '';
+    let nameHistory     = []; // up to 5 previous names this session
 
     /* ── Nav ── */
     function renderNav(profile) {
@@ -1452,12 +1488,41 @@
       const btn = document.getElementById('confirmBtn');
       if (btn) btn.disabled = !(currentUsername && selectedAvatar);
     }
+    function renderNamePills() {
+      const container = document.getElementById('prevNamePills');
+      if (!container) return;
+      container.innerHTML = '';
+      nameHistory.forEach(name => {
+        const pill = document.createElement('button');
+        pill.className   = 'name-pill';
+        pill.textContent = name;
+        pill.setAttribute('aria-label', 'Use name: ' + name);
+        pill.addEventListener('click', () => {
+          // swap: current name goes into history, pill name becomes current
+          const outgoing = currentUsername;
+          currentUsername = name;
+          nameHistory = nameHistory.filter(n => n !== name);
+          if (outgoing) {
+            nameHistory.unshift(outgoing);
+            if (nameHistory.length > 5) nameHistory.length = 5;
+          }
+          const display = document.getElementById('usernameDisplay');
+          if (display) display.textContent = currentUsername;
+          renderNamePills();
+          updateConfirm();
+        });
+        container.appendChild(pill);
+      });
+    }
+
     function openCreateModal() {
       closeSwitcher();
       selectedAvatar  = '';
+      nameHistory     = [];
       currentUsername = generateUsername();
       const display   = document.getElementById('usernameDisplay');
       if (display) display.textContent = currentUsername;
+      renderNamePills();
       buildAvatarGrid();
       updateConfirm();
       const overlay = document.getElementById('profileOverlay');
@@ -1550,12 +1615,17 @@
 
     /* ── Wire up controls ── */
     document.getElementById('regenBtn').addEventListener('click', () => {
+      if (currentUsername) {
+        nameHistory.unshift(currentUsername);
+        if (nameHistory.length > 5) nameHistory.length = 5;
+      }
       currentUsername = generateUsername();
       const display = document.getElementById('usernameDisplay');
       if (display) display.textContent = currentUsername;
       const btn = document.getElementById('regenBtn');
       btn.classList.add('spinning');
       setTimeout(() => btn.classList.remove('spinning'), 400);
+      renderNamePills();
       updateConfirm();
     });
 

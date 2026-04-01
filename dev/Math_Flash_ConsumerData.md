@@ -664,3 +664,79 @@ The following tools were surfaced in the Session S competitive survey. Each need
 ---
 
 *This document is a living resource. Update it when new Reddit threads are scraped or when user feedback from real students and parents begins to come in. Cross-reference with the RP file when research here changes a product or positioning decision.*
+
+---
+
+## K. Market Size Analysis — Indie Ed-Tech TAM
+*Session Z — March 31, 2026*
+
+### The Market
+
+**Homeschool families (US):**
+- ~3.3M homeschooled students pre-COVID (NCES 2016); estimated 4.5–5M post-2020 based on multiple reporting sources *(needs current NCES verification)*
+- Disproportionately willing to pay for quality curriculum tools — this is their full-time job
+- Privacy-conscious; skeptical of school-adjacent ed-tech; prefer tools with no account required
+- Active in communities (Reddit r/homeschool, Well-Trained Mind forums) where peer recommendation matters more than marketing
+
+**Independent tutors, educational therapists, and small private school teachers:**
+- Harder to count; Association of Educational Therapists has ~1,000 members; broader tutoring/specialist field is larger but not well-enumerated *(source needed)*
+- Higher price tolerance — they bill hourly and tools are professional expenses
+- Genuine referral channel: one ed therapist who adopts Math Flash can introduce it to 10–20 families
+- Need professional-grade output (print reports, accommodation documentation language) — this is where premium features are most defensible
+
+### What a Successful Indie Launch Looks Like
+
+| Scale | User count | Revenue (one-time ~$10–15) | What it means |
+|---|---|---|---|
+| Proof of concept | 1,000 paying users | $10–15K | Real validation; enough to know it's real |
+| Career milestone | 10,000 paying users | $100–150K | Financial independence achievable |
+| Ceiling (solo operation) | ~50–100K active users | $500K+ | Requires hiring to support; nature of work changes |
+
+**The right target:** 10K paying users is the career-defining milestone. It's achievable without institutional adoption, without VC, and without compromising the "direct relationship with audience" model. It requires the homeschool market to find the product and trust it — which means community presence matters more than advertising.
+
+### When Does She Need Server Accounts?
+
+This is a feature-threshold question, not a user-count question. The trigger is:
+- A teacher managing multiple students across devices needs cross-device sync
+- A tutor wants to share reports with a parent without printing
+- Multi-student profile management becomes genuinely needed
+
+**For the core homeschool use case (one family, one device per student), localStorage works indefinitely.** Server infrastructure should be additive when the use case demands it — not preemptive.
+
+At what *user count* does localStorage become a practical limitation? Likely never for the primary audience. The limitation is not scale — it's cross-device use. That becomes relevant when she actively pursues the classroom/clinic market, which is a deliberate expansion, not a natural next step.
+
+### Ceiling for a Solo-Built Product
+
+No hard ceiling, but the practical upper bound for a solo operation without hiring is ~$500K ARR. Beyond that, support burden and development velocity require help. The ConcernedApe reference is instructive: Stardew Valley is an extreme outlier (a full game, 4 years solo, $30M+ first year). More useful comparison: **niche educator-created tools on platforms like Teachers Pay Teachers**, where top sellers make $50K–$500K/year, and median sellers make much less but maintain a sustainable side income or part-time career.
+
+**The risk is not competition. It's obscurity.** A great product nobody finds doesn't win. Community presence (Reddit, homeschool forums, personal email contact) is the distribution strategy that aligns with the ConcernedApe model — and it costs time, not money.
+
+### Free Tier Ceiling — Decision Pending
+*Session Z — March 31, 2026*
+
+**Framework:** Define by use case, not feature list.
+
+**Always free (non-negotiable) — the homeschool family use case:**
+Complete game for one student on one device. All operations, all settings, all threshold tiers, extended tables, Practice Quest, Student Dashboard, Fact Constellation, Assessment Mode, basic print output. No nags, no trial limits, no core features gated. Degrading this breaks the trust and positioning story with exactly the audience that chose you for it.
+
+**One-time unlock — professional tools tier:**
+Features that serve tutors, ed therapists, teachers managing multiple students:
+- Advanced print reports with accommodation documentation language (IEP-suitable)
+- Multi-student profile management (more than one student per device)
+- Assessment comparison view (Assessment 1 vs. N) — when that feature exists
+- Cross-device sync — when server accounts eventually exist
+
+**Revenue model options under consideration:**
+
+*Option A — Free game + professional tools unlock (~$15–25 one-time):*
+The game is free for everyone. Revenue from tutors and ed therapists who need documentation features. Builds community trust with homeschool audience; professional market pays. Downside: free audience may not convert unless they develop professional-level needs.
+
+*Option B — One-time game purchase ($9.99–$14.99):*
+Pay once, own it, no subscription, works locally. Cleanest alignment with ConcernedApe ethos — straightforward transaction. Downside: acquisition friction before word-of-mouth is established.
+
+*Spark lean: Option A to start.* Free game builds community and trust. Documentation tools are where tutors/ed therapists will pay. Can add a paid tier later; much harder to take away a free product.
+
+**For wider Sparkwright site:**
+Same model per game, replicated. "Sparkwright Pro" as a cross-site one-time unlock — premium print/report features across all games. Single purchase, scales with the catalog.
+
+*Decision pending — developer thinking it over.*

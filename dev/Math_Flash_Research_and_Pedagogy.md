@@ -446,6 +446,28 @@ The vision implies that the **results screen and session comparison** (stats pag
 
 ---
 
+### What Success Looks Like *(Session Z — March 31, 2026)*
+
+This came out of a conversation about market size and business model. The right question isn't "how big can this get?" — it's "what does it look like when it's working?"
+
+**For this developer, working = financial independence + direct relationship with the audience + products she believes in.**
+
+That's not a modest goal. But it's a specific one, and it shapes every business decision:
+- You don't need VC scale. You need loyal scale.
+- You don't need a platform strategy. You need people who trust you and come back.
+- You don't need 100K users. You need 10K users who paid a fair price and would recommend you to a friend.
+- The ConcernedApe model isn't about revenue — it's about being a person your audience genuinely likes. You design the business *around* that identity, not against it at scale.
+
+**What this means in practice:**
+- A one-time purchase model aligns with this vision. Monthly subscriptions don't — they change the relationship.
+- "Direct relationship with audience" means personal email, responsive presence, and community trust before community monetization.
+- Financial independence at indie scale is achievable. 10K paying users at $10–15 one-time = $100–150K. That's not a windfall. It's a career.
+- The ceiling isn't set by market size — it's set by what she can support alone. The day she has to hire to keep up is the day the model has to evolve.
+
+*This framing should inform every pricing, positioning, and business model decision. When in doubt: does this build the direct relationship, or does it put something between her and her audience?*
+
+---
+
 ### Emerging Positioning Language *(Session P + Q)*
 
 This is a running log of positioning phrases that emerged in the developer's own words. These are the ones to draw on for About page, FAQ, and marketing copy — not invented, just surfaced.

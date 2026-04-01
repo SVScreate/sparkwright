@@ -548,51 +548,36 @@ Server account unlocked. Cross-device sync. Teacher dashboard — manage student
 
 ## WHERE TO PICK UP
 
-*Session Z close — March 31, 2026 — v66 committed.*
+*Session AA close — March 31, 2026 — v67 committed.*
 
-**Session Z full build log:**
-- ✅ T3 confirmed — landing page logo color split + glow looks good
-- ✅ T4 confirmed — Settings screen Per-Question Timer description, tier pills, section description render correctly
-- ✅ T4 fix — Per-Question Timer description updated: added "(default: 3 seconds)" to end
-- ✅ T4 fix — Fluency Threshold section description: removed "Adjust to match what's realistic and meaningful"
-- ✅ T5 confirmed — print output shows "5 Seconds" label correctly
-- ✅ T7 confirmed — fact tiles appear on My Progress after a round
-- ✅ Items 33 + 124 — print output marked done (looking good; feedback pass after real use)
-- ✅ Contact page nav — updated to match about.html/index.html (full logo SVG, split Spark/wright wordmark, active link state CSS)
-- ✅ Easy toggle lock — when all tables selected, Easy toggle is forced ON and locked (`.switch-locked` CSS); unlocks when any table is deselected
-- ✅ Find All column bug — 3rd column was missing a card for small facts (e.g. 1×1, which only has ~11 unique wrong answers). Fixed: wrong answers are now padded by cycling the pool to always reach 12
+**Session AA full build log:**
+- ✅ T1–T4 from Session Z all confirmed done
+- ✅ **Username back button** — `nameHistory` (session-only, max 5) in create modal. Pills stay in a single row, share width equally, truncate with ellipsis. Modal widened (600→700px), avatar grid 8→10 columns, 6 new emoji (⚗️🌋🧲🦑🦌🐇) → 70 total, 7 full rows. `index.html`.
+- ✅ **Find All pulse bug** — `/^\d/` regex falsely matched normal cards starting with a digit (e.g. `1 × 1 = 1`). Fixed: check whether text before first `= ` contains a math operator. No operator → reversed; operator → normal.
+- ✅ **Match It derangement** — shuffle now loops until every answer is displaced from its original index (true derangement). Previous code only retried on full identity permutation, which never happened in practice.
+- ✅ **Match It focus spark** — (1) animation strengthened: 3px→5px ring, brighter glow, 0.45s→0.55s. (2) `tryMatch` correct-match branch changed from `className =` to `classList.remove/add` so animation isn't wiped mid-frame. (3) Auto-pulse on load (150ms delay) so both focus fact and answer amber-ring when Match It first appears.
+- ✅ **Leave-round warning (item 160)** — `isGameActive()` checks `game-screen.active` and `remediation-screen.active`. Event delegation intercepts all `<a href>` clicks while active. `beforeunload` handles browser back/refresh/close.
+- ✅ **My Progress rebuild (items 140/89/88/110)** — Full replacement of tile-based screen with three sections: (1) Fact Constellation: 12×12 grid, all facts always present, color = tier, inline glow strength = established-ness, ★ on mastered, op filter pills (×÷+−), threshold note. DocumentFragment for DOM performance. (2) Facts to Watch: near-mastery (3/5 fluent in last 5), challenge (≥50% miss rate), regressed (historically good, now struggling). Up to 9 chips. (3) Assessment Records: placeholder + disabled "Run Assessment" button. Profile header shows avatar + username.
 
-**Carry-forward bugs / build items for Session AA:**
-- **Profile modal** — `max-height: 90vh; overflow-y: auto` added (quick fix). Full redesign still needed: true landscape layout, adaptive to viewport. Partial fix only.
-- **Username back button** — show up to 5 previous generated names so user can go back to one they liked. State: hold last 5 in memory during create-modal session, display as clickable pills above the current name. Build next session.
-- **Find All pulse** — still intermittently showing answer pulse instead of fact pulse on reversed cards. Needs fresh debug pass. `makeCardInner` logic appears correct — suspect edge case in string parsing or card source mismatch. Priority next session.
-- **Match It focus spark** — amber ring animation not visible enough on fact click; nothing happening on answer click. `data-focus` attributes being set correctly but animation may be too subtle or not triggering on answer. Needs debug + stronger visual.
-- **Leave-round warning** — if user clicks the Sparkwright logo nav link during an active round or assessment, prompt: "Are you sure you want to leave? Your progress will be lost." Apply to any navigation away from an active game state. Log as item 160.
+**Testing needed at start of Session AB:**
+- T-MyProgress — Open My Progress after a round. Confirm: (a) Fact Constellation shows 12×12 grid, practiced facts show correct tier color and glow, ★ on mastered. (b) Op filter pills switch the grid. (c) Threshold note is accurate. (d) Facts to Watch shows relevant chips (or empty state if no data). (e) Assessment Records section visible with disabled button.
+- T-MatchIt — confirm amber ring auto-fires on load for both focus fact and answer.
 
-**Testing needed this session:**
-- T1 — contact page nav: confirm logo + split wordmark renders correctly in Safari
-- T2 — Easy toggle: select all 12 tables, confirm Easy toggle locks (greys out, can't turn off). Deselect a table, confirm it unlocks.
-- T3 — Find All: trigger Practice Quest on a 1×1 or 2×1 fact, confirm all 3 columns have 6 cards
-- T4 — Settings: Per-Question Timer description shows "(default: 3 seconds)" | Fluency Threshold desc no longer has "Adjust what's realistic and meaningful"
+**Carry-forward bugs:**
+- **Item 155 (settings not per-profile)** — `mathflash_settings` is global; new profile inherits previous user's settings. Fix before user-facing launch.
 
-**Build queue for next session (priority order):**
-1. **My Progress tier improvements** — add response-time–aware tier ("Fluent" sub-tier) + relabel "Not Yet" → "New" (design confirmed Session Y) — hold until heat map design settled
-2. **Find All orientation scramble (item 59)** — all 4 formats: `5×8=`, `8×5=`, `?=5×8`, `?=8×5` — greenlight pending
-3. **Practice Quest matching celebration** — brief animation on matched pair; pair persists until gold flash — greenlight pending
-4. **Item 143** — print pill on My Progress page — holding until My Progress redesign/heat map is settled
-5. **Session Mode (item 142)** — big feature, own session when ready
+**Build queue for Session AB (priority order):**
+1. **My Progress feedback pass** — review constellation visual after real use, tune if needed
+2. **Assessment Mode (items 66+147)** — Spark design spec complete; build now that My Progress exists
+3. **Item 143** — print pill on My Progress (now that layout is settled)
+4. **Find All orientation scramble (item 59)** — greenlight pending
+5. **Practice Quest matching celebration** — greenlight pending
 6. **Item 100** — title screen overhaul (design discussion first)
 
-**Design discussions open:**
-- My Progress / heat map redesign — item 140, not yet designed; blocks items 143 and tier improvements
-- Initial assessment / baseline check — flagged for Spark (see Handoff)
-- Find All scramble + Practice Quest celebration — greenlight still pending from developer
-- Download/Save as PDF — new item 146; see to-do list
-
 **Notes on held/deferred items:**
-- Item 143 (My Progress print): holding because the page layout will likely change when heat map is designed. Print a finalized layout, not a draft.
-- Download/PDF (item 146): static site limitation — no server-side PDF generation. Best path is `window.print()` relabeled "Print / Save as PDF"; browser provides "Save as PDF" in the dialog. Adding a PDF library (jsPDF, etc.) not recommended. See item 146.
-- Items 33 + 124 (print output): marked done. Developer to use in practice and report feedback.
+- Item 143 (My Progress print): unblocked now that layout is settled. Build when ready.
+- Download/PDF (item 146): `window.print()` relabeled "Print / Save as PDF" is the right path. No PDF library needed.
+- Items 33+124 (print output): done. Feedback pass after real use.
 
 *Session W (continued) — March 29, 2026 — bug fix pass + UX revision, v63.*
 

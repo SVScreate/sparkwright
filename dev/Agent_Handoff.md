@@ -34,9 +34,50 @@ Kimberly can make design decisions in either window and build in either directio
 
 **localStorage vs. server accounts (item 151) — needs your input:** Kimberly is wrestling with the right architecture path. She values the "no account, you own your data" philosophy as a differentiator, but the classroom teacher use case (item 150) and eventual business model both push toward server accounts. My technical read: opt-in server accounts (core game always works without an account; sync and teacher features are the opt-in layer) is the right path and preserves the ethos. But the product and positioning questions are yours: (1) how do we communicate the account tier without undermining the "no sign-up" selling point? (2) what does "you own your data" mean when a server exists? (3) does the free tier remain genuinely useful or quietly degrade? This decision affects marketing copy, legal/privacy, and business model. Please come with a recommendation. Full context in items 150–151 in the MPF.
 
+*Spark reply — 2026-03-31:* Recommendation: localStorage is the right choice now. It's a values statement, not a technical limitation. Do not build server accounts until three conditions are met: (1) COPPA implications are assessed by Lex — once children's data touches a server, compliance requirements activate; (2) the free tier ceiling is explicitly defined as a product values decision, not left to feature creep; (3) a real teacher/multi-student use case exists and is validated, not hypothetical. When server accounts do come, they should be opt-in and additive — core game unchanged. On the positioning language: retire "you own your data" as a server exists; replace with **"your data stays on your device by default"** — accurate for the core experience and still differentiated. On the free tier: must fully serve the homeschool family use case (one student, one device) with no degradation. Premium unlocks = professional tools (documentation language, multi-student, cross-device) for tutors and ed therapists. Flagged Lex on COPPA below. Full market size analysis logged in ConsumerData Section K.
+
 **Market size analysis (new):** Kimberly wants a realistic picture of TAM for indie ed-tech in the homeschool + independent tutor/ed therapist space (not district/school market). Key questions: what does a successful indie launch look like in this category — 1K, 10K, 100K users? At what user count does she need to move from localStorage to server accounts? What's the ceiling for a solo educator-built product without VC or school district adoption?
 
+*Spark reply — 2026-03-31:* Full analysis in ConsumerData Section K. Short version: 1K paying users = proof of concept; 10K = career milestone ($100–150K at $10–15 one-time); ~50–100K = ceiling for solo operation. The trigger for server accounts is a feature threshold (multi-student cross-device sync), not a user count — localStorage works indefinitely for the primary homeschool use case. The risk is obscurity, not competition. Community presence is the distribution strategy.
+
 — Wright
+
+---
+
+## Spark → Wright — 2026-03-31 — Session Z+1 (continued)
+
+**Items 142 + 149 — Session lock / product model: CLOSED. Decision made.**
+
+No session lock. No user roles. Math Flash is a tool — full stop.
+
+The lock feature was designed for unattended classroom devices with unsupervised students. That is not the primary audience. The homeschool parent is the teacher. The tutor is present. Neither needs a lock. Building one adds complexity, a failure mode, and a design burden for a problem the core users don't have.
+
+Decision: settings remain open. Trust the user. If the classroom teacher use case ever becomes real and validated — teachers actively asking for it — revisit then. Do not build infrastructure for a hypothetical.
+
+Close items 142 and 149. No build action needed.
+
+— Spark
+
+---
+
+## Spark → Wright — 2026-03-31 — Session Z+1
+
+**Threshold-change data integrity (new item — design complete, ready to build):**
+
+Raw response times (milliseconds) are never modified by a threshold change. The threshold is a rendering parameter — a lens on the data, not a grade stamped into it. This means recalculation on threshold change is safe and honest.
+
+**Behavior:** When the teacher changes the fluency threshold, show a visible notice before applying:
+> *"Changing the threshold will recalculate your practice tiers using the new standard. Your response time data is never deleted."*
+
+User confirms → constellation re-renders against new threshold. No confirmation = no change. Assessment records are unaffected — they're already stamped with the threshold used at time of assessment.
+
+**Why not silent recalculation:** Student opens dashboard and progress looks different with no explanation — jarring and confusing. The notice makes the behavior legible and actually becomes a trust-building moment.
+
+**Why not frozen snapshots:** Constellation becomes incoherent — some amber facts mean "fluent at 5s" and some mean "fluent at 3s," visually identical. Breaks the meaning of the tier system.
+
+**Connects to:** The threshold visibility note already flagged for the dashboard — *"Fluency graded at 3-second threshold"* contextual text. This is more important now that threshold changes visibly alter the constellation. Reader needs to know what lens they're looking through. Items 130, 131, 106.
+
+— Spark
 
 ---
 
@@ -128,6 +169,20 @@ My territory: companion printables for the games, and a standalone niche planner
 Nothing to action yet. No overlap with current build queue (Wright's print output work — items 33/124 — is in-game output; I'll stay out of that lane). First job is a Reddit thread review and brainstorm with Kimberly.
 
 — Pop
+
+---
+
+## Spark → Lex — 2026-03-31 — Server Accounts, COPPA, and Positioning Language
+
+Two items for your review, both related to the eventual (not current) move to opt-in server accounts.
+
+**1. COPPA pre-assessment.** Math Flash is a children's educational product. The current build uses localStorage exclusively — no server, no data collection, COPPA is a non-issue. If we ever add opt-in server accounts (for cross-device sync, multi-student teacher tools, etc.), children's data would touch a server. We need your read on: (a) Does Math Flash's target age range (elementary + middle school) put it squarely in COPPA territory? (b) What does a COPPA-compliant opt-in server account look like for a solo-operated product — what's the realistic compliance path? (c) Does the "optional, user-initiated sync" model (data only goes to server on explicit user action) change the COPPA exposure? This is pre-planning, not urgent — we're not building server accounts now. But she needs to know what she's walking into before she designs the feature.
+
+**2. Positioning language review.** Current language in some early copy drafts uses "you own your data." We're retiring that phrase as soon as server accounts become a thing — it creates exposure if the claim isn't literally true. Replacement language: **"Your data stays on your device by default."** For the localhost-only version, this is completely accurate. Does this language hold legally? Is there any qualifying language we should add to the Privacy Policy or FAQ to make it watertight?
+
+No build action needed. Just flag when you've reviewed, and add to the pre-launch checklist if there's anything that needs to be done before going live.
+
+— Spark
 
 ---
 

@@ -329,6 +329,119 @@ body {
   padding-top: 24px;
 }
 
+/* ── MY PROGRESS REBUILD (items 140 / 89) ── */
+.mp-section { margin-bottom: 36px; }
+.mp-section-title {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+}
+
+/* Operation filter */
+.mp-op-filter { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+.mp-op-pill {
+  padding: 5px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.mp-op-pill:hover { border-color: rgba(255,159,67,0.5); color: var(--text); }
+.mp-op-pill.active { background: rgba(255,159,67,0.15); border-color: var(--a6); color: var(--a6); }
+
+.mp-threshold-note {
+  font-size: 0.7rem;
+  color: rgba(240,240,255,0.3);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+/* Constellation */
+.constellation-wrap {
+  background: rgba(6,5,16,0.7);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+.constellation-grid {
+  display: grid;
+  grid-template-columns: 20px repeat(12, 1fr);
+  gap: 3px;
+  width: 100%;
+}
+.c-label {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.58rem; font-weight: 700;
+  color: rgba(240,240,255,0.2);
+  min-height: 0;
+}
+.c-cell {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  border: 1px solid;
+  position: relative;
+  cursor: default;
+  transition: transform 0.1s, z-index 0s;
+}
+.c-cell:hover { transform: scale(1.35); z-index: 10; }
+.c-cell.unpracticed   { background: rgba(255,255,255,0.03);  border-color: rgba(255,255,255,0.08); }
+.c-cell.needs-practice{ background: rgba(199,125,255,0.09);  border-color: rgba(199,125,255,0.28); }
+.c-cell.almost        { background: rgba(77,150,255,0.12);   border-color: rgba(77,150,255,0.42); }
+.c-cell.fluent        { background: rgba(255,159,67,0.16);   border-color: rgba(255,159,67,0.58); }
+.c-cell.mastered      { background: rgba(255,217,61,0.18);   border-color: rgba(255,217,61,0.82); }
+.c-star {
+  position: absolute; top: 1px; right: 2px;
+  font-size: 7px; color: var(--a2); line-height: 1; pointer-events: none;
+}
+
+/* Legend */
+.mp-tier-legend {
+  display: flex; flex-wrap: wrap; gap: 8px 14px;
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.mp-legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.67rem; color: rgba(240,240,255,0.45); }
+.mp-legend-dot  { width: 10px; height: 10px; border-radius: 3px; border: 1px solid; flex-shrink: 0; }
+.mp-legend-dot.mastered      { background: rgba(255,217,61,0.18);  border-color: rgba(255,217,61,0.82); }
+.mp-legend-dot.fluent        { background: rgba(255,159,67,0.16);  border-color: rgba(255,159,67,0.58); }
+.mp-legend-dot.almost        { background: rgba(77,150,255,0.12);  border-color: rgba(77,150,255,0.42); }
+.mp-legend-dot.needs-practice{ background: rgba(199,125,255,0.09); border-color: rgba(199,125,255,0.28); }
+.mp-legend-dot.unpracticed   { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.18); }
+
+/* Section 2: Facts to Watch */
+.mp-watch-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.mp-watch-chip {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 8px 12px; border-radius: 10px; border: 1px solid; min-width: 64px; text-align: center;
+}
+.mp-watch-chip .wc-eq  { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+.mp-watch-chip .wc-tag { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+.mp-watch-chip.challenge   { background: rgba(255,107,107,0.08); border-color: rgba(255,107,107,0.3); }
+.mp-watch-chip.challenge   .wc-tag { color: var(--a1); }
+.mp-watch-chip.near-mastery{ background: rgba(255,217,61,0.08);  border-color: rgba(255,217,61,0.32); }
+.mp-watch-chip.near-mastery .wc-tag { color: var(--a2); }
+.mp-watch-chip.regressed   { background: rgba(255,159,67,0.08);  border-color: rgba(255,159,67,0.3); }
+.mp-watch-chip.regressed   .wc-tag { color: var(--a6); }
+
+/* Section 3: Assessment Records */
+.mp-assessment-empty { font-size: 0.85rem; color: rgba(240,240,255,0.3); margin-bottom: 14px; }
+.mp-assess-btn {
+  padding: 10px 22px; border-radius: 10px;
+  border: 1px solid var(--border); background: transparent;
+  color: rgba(240,240,255,0.25); font-family: var(--font);
+  font-size: 0.85rem; font-weight: 600; cursor: not-allowed;
+}
+
 /* ── ABOUT OVERLAY ── */
 .about-section { margin-bottom: 22px; }
 .about-section-heading {
@@ -1502,8 +1615,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   100% { background: rgba(255,217,61,0.15); border-color: var(--a2); color: var(--a2); box-shadow: none; }
 }
 .mitem.flash { animation: match-flash 0.5s ease-out forwards; }
-@keyframes focus-spark { 0%{box-shadow:0 0 0 2px rgba(255,170,80,0);transform:scale(1)} 40%{box-shadow:0 0 0 3px rgba(255,170,80,0.9),0 0 14px rgba(255,170,80,0.45);transform:scale(1.05)} 100%{box-shadow:0 0 0 2px rgba(255,170,80,0);transform:scale(1)} }
-.mitem.focus-spark { animation: focus-spark 0.45s ease-out; }
+@keyframes focus-spark { 0%{box-shadow:0 0 0 2px rgba(255,170,80,0);transform:scale(1)} 35%{box-shadow:0 0 0 5px rgba(255,170,80,1),0 0 20px rgba(255,170,80,0.65);transform:scale(1.07)} 100%{box-shadow:0 0 0 2px rgba(255,170,80,0);transform:scale(1)} }
+.mitem.focus-spark { animation: focus-spark 0.55s ease-out; }
 /* Find All grid */
 @keyframes fa-fact-pulse {
   0%   { color: inherit; text-shadow: none; transform: scale(1); letter-spacing: normal; }
@@ -3879,7 +3992,11 @@ function buildStep1(body, f, tbl) {
 
 // Build inner HTML for a Find All card — fact part (equation) always gets the pulse span
 function makeCardInner(cardText) {
-  const isReversed = /^\d/.test(cardText.trim()); // "40 = 5 × 8" starts with digit
+  // Reversed: "40 = 5 × 8" — answer before "= ", no operator before first "= "
+  // Normal:   "5 × 8 = 40" — operator before "= "
+  // Cannot use /^\d/ because "1 × 1 = 1" also starts with a digit but is NOT reversed
+  const firstEq = cardText.indexOf('= ');
+  const isReversed = firstEq !== -1 && !/[×÷+\-]/.test(cardText.slice(0, firstEq));
   if (isReversed) {
     const eqIdx = cardText.indexOf('= ');
     const ansPre  = cardText.slice(0, eqIdx + 2); // "40 = "
@@ -4100,17 +4217,21 @@ function buildStep3(body, f, tbl) {
     }
   }
 
-  // Fisher-Yates shuffle answers — guarantee not in original order
+  // Shuffle answers into a derangement — no answer at the same row as its fact
+  // (previous code only retried on full identity permutation, which is nearly impossible;
+  //  this retries until every answer is displaced from its original index)
   const answersCopy = pairs.map(function(p) { return p.ans; });
   const origOrder = answersCopy.slice();
+  let deranged = false;
   let attempts = 0;
-  do {
+  while (!deranged && attempts < 100) {
     for (let i = answersCopy.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       const tmp = answersCopy[i]; answersCopy[i] = answersCopy[j]; answersCopy[j] = tmp;
     }
+    deranged = answersCopy.every(function(v, i) { return v !== origOrder[i]; });
     attempts++;
-  } while (attempts < 10 && answersCopy.every(function(v, i) { return v === origOrder[i]; }));
+  }
   const matched = new Set();
 
   const factHTML = pairs.map(function(p) {
@@ -4132,6 +4253,14 @@ function buildStep3(body, f, tbl) {
       '</div>' +
     '</div>';
   injectRemedBtn(body, 'Next →', false);
+
+  // Auto-pulse focus items on load — draws attention to the target fact and its answer
+  safeTimeout(function() {
+    body.querySelectorAll('[data-focus]').forEach(function(el) {
+      el.classList.add('focus-spark');
+      safeTimeout(function() { el.classList.remove('focus-spark'); }, 600);
+    });
+  }, 150);
 
   let selFactEl = null, selAnsEl = null;
   let selFactLabel = null;
@@ -4193,8 +4322,11 @@ function buildStep3(body, f, tbl) {
     const correctAns = parseFloat(selFactEl.dataset.ans);
     const tappedAns  = parseFloat(selAnsEl.dataset.ansTarget);
     if (tappedAns === correctAns) {
-      selFactEl.className = 'mitem good';
-      selAnsEl.className  = 'mitem good';
+      // Use classList so an in-progress focus-spark animation isn't wiped mid-frame
+      selFactEl.classList.remove('sel', 'bad');
+      selFactEl.classList.add('good');
+      selAnsEl.classList.remove('sel', 'bad');
+      selAnsEl.classList.add('good');
       matched.add(selFactEl.dataset.fact);
       matchedAns.add(parseFloat(selAnsEl.dataset.ansTarget));
       selFactEl = null; selAnsEl = null; selFactLabel = null;
@@ -4225,7 +4357,7 @@ function buildStep3(body, f, tbl) {
       this.classList.add('sel');
       if (this.dataset.focus) {
         this.classList.remove('focus-spark');
-        void this.offsetWidth; // restart animation
+        void this.offsetWidth;
         this.classList.add('focus-spark');
       }
       if (selAnsEl) tryMatch();
@@ -4642,129 +4774,245 @@ function printResults() {
 
 // ══ STATS SCREEN ══════════════════════════════════════
 function buildStatsScreen() {
-  const username = localStorage.getItem('sparkwright_active') || '';
-  const profileEl = document.getElementById('stats-profile');
-  if (profileEl) profileEl.textContent = username || '';
-
-  const body = document.getElementById('stats-body');
-  if (!body) return;
-
-  // Load fact data for this user
-  var allData;
-  try { allData = JSON.parse(localStorage.getItem('mathflash_facts') || '{}'); } catch(e) { allData = {}; }
-  const userFacts = (username && allData[username]) ? allData[username] : {};
-  const keys = Object.keys(userFacts);
-
-  if (!keys.length) {
-    body.innerHTML = '<div class="stats-empty">Start a round to see your progress here.</div>';
-    return;
+  var username = localStorage.getItem('sparkwright_active') || '';
+  var profileEl = document.getElementById('stats-profile');
+  if (profileEl) {
+    var profiles = [];
+    try { profiles = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]'); } catch(e) {}
+    var prof = profiles.find(function(p) { return p.username === username; });
+    profileEl.textContent = prof ? (prof.avatar + ' ' + username) : (username || '');
   }
 
-  // Group facts by operation + table
-  // factKey formats: "mul_6x3", "div_18d3", "add_6p7", "sub_9m4"
-  var groups = {}; // key: display label like "×6", value: array of { eq, tier }
+  var body = document.getElementById('stats-body');
+  if (!body) return;
 
+  var allData;
+  try { allData = JSON.parse(localStorage.getItem('mathflash_facts') || '{}'); } catch(e) { allData = {}; }
+  var userFacts = (username && allData[username]) ? allData[username] : {};
+  var keys = Object.keys(userFacts);
+
+  // Fluency threshold from current settings
+  var threshMs  = (S.fluencyTier && S.fluencyTier.fluencyMs) ? S.fluencyTier.fluencyMs : 3000;
+  var threshSec = threshMs / 1000;
+
+  // ── Tier helpers ──────────────────────────────────────────────
+  function cellTier(rec) {
+    if (!rec) return 'unpracticed';
+    var total = (rec.correct || 0) + (rec.incorrect || 0);
+    if (total === 0) return 'unpracticed';
+    if (rec.mastered) return 'mastered';
+    var recent = rec.recentAttempts || [];
+    if (recent.length === 0) return 'needs-practice';
+    var misses = recent.filter(function(a) { return !a.correct; }).length;
+    if (misses / recent.length > 0.5) return 'needs-practice';
+    var correctMs = recent.filter(function(a) { return a.correct && a.ms && a.ms > 0; });
+    if (correctMs.length >= 2) {
+      var avg = correctMs.reduce(function(s, a) { return s + a.ms; }, 0) / correctMs.length;
+      if (avg <= threshMs) return 'fluent';
+    }
+    return 'almost';
+  }
+
+  function glowStrength(rec) {
+    return rec ? Math.min(1.0, (rec.correct || 0) / 8) : 0;
+  }
+
+  // ── Fact record lookups by grid position ─────────────────────
+  function getMulRec(r, c) {
+    return userFacts['mul_' + r + 'x' + c] || userFacts['mul_' + c + 'x' + r] || null;
+  }
+  function getDivRec(r, c) { // r=divisor, c=quotient → product = r*c
+    return userFacts['div_' + (r * c) + 'd' + r] || null;
+  }
+  function getAddRec(r, c) {
+    return userFacts['add_' + r + 'p' + c] || userFacts['add_' + c + 'p' + r] || null;
+  }
+  function getSubRec(r, c) { // grid: row r (minuend 1-12), col c (subtrahend 0-r)
+    return r > c ? (userFacts['sub_' + r + 'm' + c] || null) : null;
+  }
+  function getRec(op, r, c) {
+    if (op === 'x')  return getMulRec(r, c);
+    if (op === '/')  return getDivRec(r, c);
+    if (op === '+')  return getAddRec(r, c);
+    if (op === '-')  return getSubRec(r, c);
+    return null;
+  }
+  function cellTooltip(op, r, c) {
+    if (op === 'x')  return r + ' × ' + c + ' = ' + (r * c);
+    if (op === '/')  return (r * c) + ' ÷ ' + r + ' = ' + c;
+    if (op === '+')  return r + ' + ' + c + ' = ' + (r + c);
+    if (op === '-')  return r > c ? r + ' − ' + c + ' = ' + (r - c) : '';
+    return '';
+  }
+
+  // ── Build constellation grid ──────────────────────────────────
+  function buildConstellation(op) {
+    var grid = document.getElementById('constellation-grid');
+    if (!grid) return;
+
+    // Read phase: gather all cell data before touching DOM
+    var maxN = 12;
+    var cells = []; // flat array, row-major: [corner, hdr×12, then row1: label+12cells, ...]
+
+    // Corner
+    cells.push({ type: 'label', text: '' });
+    // Column headers
+    for (var c = 1; c <= maxN; c++) cells.push({ type: 'label', text: String(c) });
+    // Rows
+    for (var r = 1; r <= maxN; r++) {
+      cells.push({ type: 'label', text: String(r) });
+      for (var c = 1; c <= maxN; c++) {
+        var rec    = getRec(op, r, c);
+        var tier   = cellTier(rec);
+        var str    = glowStrength(rec);
+        var tip    = cellTooltip(op, r, c);
+        cells.push({ type: 'cell', tier: tier, strength: str, tooltip: tip, mastered: tier === 'mastered' });
+      }
+    }
+
+    // Write phase: build fragment and swap in once
+    var frag = document.createDocumentFragment();
+    cells.forEach(function(d) {
+      if (d.type === 'label') {
+        var el = document.createElement('div');
+        el.className = 'c-label';
+        el.textContent = d.text;
+        frag.appendChild(el);
+      } else {
+        var el = document.createElement('div');
+        el.className = 'c-cell ' + d.tier;
+        if (d.tooltip) el.title = d.tooltip;
+
+        // Dynamic glow inline
+        if (d.tier === 'fluent') {
+          var a = (0.35 + d.strength * 0.45).toFixed(2);
+          var sz = Math.round(4 + d.strength * 8);
+          el.style.boxShadow = '0 0 ' + sz + 'px rgba(255,159,67,' + a + ')';
+        } else if (d.tier === 'mastered') {
+          var a = (0.55 + d.strength * 0.35).toFixed(2);
+          var sz = Math.round(6 + d.strength * 10);
+          el.style.boxShadow = '0 0 ' + sz + 'px rgba(255,217,61,' + a + '), 0 0 3px rgba(255,217,61,0.9)';
+        } else if (d.tier === 'almost') {
+          var a = (0.2 + d.strength * 0.3).toFixed(2);
+          el.style.boxShadow = '0 0 5px rgba(77,150,255,' + a + ')';
+        }
+
+        if (d.mastered) {
+          var star = document.createElement('span');
+          star.className = 'c-star';
+          star.textContent = '★';
+          el.appendChild(star);
+        }
+        frag.appendChild(el);
+      }
+    });
+    grid.innerHTML = '';
+    grid.appendChild(frag);
+  }
+
+  // ── Facts to Watch ────────────────────────────────────────────
   function parseFk(fk) {
     var m;
     m = fk.match(/^mul_(\d+)x(\d+)$/);
-    if (m) return { a: +m[1], b: +m[2], opSym: '×' };
+    if (m) return { eq: m[1] + ' × ' + m[2] };
     m = fk.match(/^div_(\d+)d(\d+)$/);
-    if (m) return { a: +m[1], b: +m[2], opSym: '÷' };
+    if (m) return { eq: m[1] + ' ÷ ' + m[2] };
     m = fk.match(/^add_(\d+)p(\d+)$/);
-    if (m) return { a: +m[1], b: +m[2], opSym: '+' };
+    if (m) return { eq: m[1] + ' + ' + m[2] };
     m = fk.match(/^sub_(\d+)m(\d+)$/);
-    if (m) return { a: +m[1], b: +m[2], opSym: '−' };
+    if (m) return { eq: m[1] + ' − ' + m[2] };
     return null;
   }
 
-  function tierClass(rec) {
-    if (rec.mastered) return 'mastered';
-    var total = (rec.correct || 0) + (rec.incorrect || 0);
-    if (total < 2) return 'not-yet';
-    var recent = rec.recentAttempts || [];
-    if (recent.length < 3) return 'building';
-    var misses = recent.filter(function(a) { return !a.correct; }).length;
-    return (misses / recent.length > 0.5) ? 'not-yet' : 'building';
-  }
-
-  function tierLabel(cls) {
-    return { mastered: 'Mastered', building: 'Building', 'not-yet': 'Not Yet' }[cls] || '';
-  }
-
+  var watchList = [];
   keys.forEach(function(fk) {
     var rec = userFacts[fk];
+    if (!rec || rec.mastered) return;
     var p = parseFk(fk);
     if (!p) return;
-    var groupKey = p.opSym + p.a;
-    var eqStr = p.a + ' ' + p.opSym + ' ' + p.b;
-    if (!groups[groupKey]) groups[groupKey] = { label: groupKey, tiles: [], sortKey: p.a };
-    var cls = tierClass(rec);
-    groups[groupKey].tiles.push({ eq: eqStr, cls: cls });
-  });
+    var total   = (rec.correct || 0) + (rec.incorrect || 0);
+    if (total < 2) return;
+    var recent  = rec.recentAttempts || [];
+    if (recent.length < 2) return;
+    var misses  = recent.filter(function(a) { return !a.correct; }).length;
+    var missRate = misses / recent.length;
+    // Near mastery: 3+ of last 5 correct under threshold
+    var last5        = recent.slice(-5);
+    var fluentInLast5 = last5.filter(function(a) { return a.correct && a.ms && a.ms <= threshMs; }).length;
+    // Historically good but now struggling
+    var historicallyGood = (rec.correct || 0) > (rec.incorrect || 0) && (rec.correct || 0) >= 5;
 
-  // Sort groups by op then by number
-  var opOrder = { '×': 0, '÷': 1, '+': 2, '−': 3 };
-  var sortedGroups = Object.values(groups).sort(function(a, b) {
-    var opA = opOrder[a.label[0]] !== undefined ? opOrder[a.label[0]] : 9;
-    var opB = opOrder[b.label[0]] !== undefined ? opOrder[b.label[0]] : 9;
-    if (opA !== opB) return opA - opB;
-    return a.sortKey - b.sortKey;
+    if (fluentInLast5 >= 3 && missRate <= 0.35) {
+      watchList.push({ eq: p.eq, type: 'near-mastery', priority: 0 });
+    } else if (missRate >= 0.5 && total >= 3) {
+      watchList.push({ eq: p.eq, type: 'challenge', priority: 1, missRate: missRate });
+    } else if (historicallyGood && missRate > 0.5) {
+      watchList.push({ eq: p.eq, type: 'regressed', priority: 2 });
+    }
   });
+  watchList.sort(function(a, b) {
+    if (a.priority !== b.priority) return a.priority - b.priority;
+    return (b.missRate || 0) - (a.missRate || 0);
+  });
+  watchList = watchList.slice(0, 9);
 
-  // Build main progress HTML
-  var html = '';
-  sortedGroups.forEach(function(g) {
-    html += '<div class="stats-table-group">';
-    html += '<div class="stats-table-label">' + g.label + '</div>';
-    html += '<div class="stats-tile-row">';
-    g.tiles.forEach(function(t) {
-      html += '<div class="stats-tile ' + t.cls + '">';
-      html += '<span class="tile-eq">' + t.eq + '</span>';
-      html += '<span class="tile-label">' + tierLabel(t.cls) + '</span>';
-      html += '</div>';
+  var watchHTML = watchList.length === 0
+    ? '<div style="font-size:0.85rem;color:rgba(240,240,255,0.3);">Keep practicing — suggestions will appear here.</div>'
+    : watchList.map(function(w) {
+        var tag = { 'near-mastery': 'Almost there', 'challenge': 'Challenge', 'regressed': 'Keep working' }[w.type] || '';
+        return '<div class="mp-watch-chip ' + w.type + '">' +
+               '<span class="wc-eq">' + w.eq + '</span>' +
+               '<span class="wc-tag">' + tag + '</span>' +
+               '</div>';
+      }).join('');
+
+  // ── Render all three sections ─────────────────────────────────
+  var activeOp = 'x';
+  body.innerHTML =
+    '<div class="mp-section">' +
+      '<div class="mp-section-title">Fact Constellation</div>' +
+      '<div class="mp-op-filter" id="mp-op-filter">' +
+        '<button class="mp-op-pill active" data-op="x">×</button>' +
+        '<button class="mp-op-pill" data-op="/">÷</button>' +
+        '<button class="mp-op-pill" data-op="+">+</button>' +
+        '<button class="mp-op-pill" data-op="-">−</button>' +
+      '</div>' +
+      '<div class="mp-threshold-note">Fluency graded at ' + threshSec + '-second threshold</div>' +
+      '<div class="constellation-wrap">' +
+        '<div class="constellation-grid" id="constellation-grid"></div>' +
+        '<div class="mp-tier-legend">' +
+          '<span class="mp-legend-item"><span class="mp-legend-dot mastered"></span>Mastered ★</span>' +
+          '<span class="mp-legend-item"><span class="mp-legend-dot fluent"></span>Fluent</span>' +
+          '<span class="mp-legend-item"><span class="mp-legend-dot almost"></span>Almost</span>' +
+          '<span class="mp-legend-item"><span class="mp-legend-dot needs-practice"></span>Needs Practice</span>' +
+          '<span class="mp-legend-item"><span class="mp-legend-dot unpracticed"></span>Not yet practiced</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="mp-section">' +
+      '<div class="mp-section-title">Facts to Watch</div>' +
+      '<div class="mp-watch-grid">' + watchHTML + '</div>' +
+    '</div>' +
+    '<div class="mp-section">' +
+      '<div class="mp-section-title">Assessment Records</div>' +
+      '<div class="mp-assessment-empty">No assessments yet.</div>' +
+      '<button class="mp-assess-btn" disabled>Run Assessment</button>' +
+    '</div>';
+
+  buildConstellation(activeOp);
+
+  // Op filter interaction
+  var filterEl = document.getElementById('mp-op-filter');
+  if (filterEl) {
+    filterEl.addEventListener('click', function(e) {
+      var pill = e.target.closest('.mp-op-pill');
+      if (!pill) return;
+      activeOp = pill.dataset.op;
+      filterEl.querySelectorAll('.mp-op-pill').forEach(function(p) { p.classList.remove('active'); });
+      pill.classList.add('active');
+      buildConstellation(activeOp);
     });
-    html += '</div></div>';
-  });
-
-  // Challenge Facts section — top 10 non-mastered by miss rate then variance
-  var challengeFacts = keys
-    .filter(function(fk) {
-      var rec = userFacts[fk];
-      return rec && !rec.mastered && ((rec.correct || 0) + (rec.incorrect || 0)) >= 2;
-    })
-    .map(function(fk) {
-      var rec = userFacts[fk];
-      var recent = rec.recentAttempts || [];
-      var misses = recent.filter(function(a) { return !a.correct; }).length;
-      var missRate = recent.length ? misses / recent.length : 0;
-      var sd = (typeof calcResponseSD === 'function') ? calcResponseSD(recent.filter(function(a){return a.ms !== null;}).map(function(a){return a.ms;})) : 0;
-      var p = parseFk(fk);
-      if (!p) return null;
-      var eqStr = p.a + ' ' + p.opSym + ' ' + p.b;
-      var cls = tierClass(rec);
-      return { eq: eqStr, cls: cls, missRate: missRate, sd: sd };
-    })
-    .filter(Boolean)
-    .sort(function(a, b) {
-      if (b.missRate !== a.missRate) return b.missRate - a.missRate;
-      return b.sd - a.sd;
-    })
-    .slice(0, 10);
-
-  if (challengeFacts.length) {
-    html += '<div class="stats-table-group">';
-    html += '<div class="stats-challenge-header">Focus On These Next</div>';
-    html += '<div class="stats-tile-row">';
-    challengeFacts.forEach(function(t) {
-      html += '<div class="stats-tile ' + t.cls + '">';
-      html += '<span class="tile-eq">' + t.eq + '</span>';
-      html += '<span class="tile-label">' + tierLabel(t.cls) + '</span>';
-      html += '</div>';
-    });
-    html += '</div></div>';
   }
-
-  body.innerHTML = html;
 }
 
 // ══ END GAME ═══════════════════════════════════════════
@@ -4850,6 +5098,39 @@ function endGame() {
 
   showScreen('results-screen');
 }
+
+// ── Leave-round warning (item 160) ──────────────────────
+// Any navigation away from the page while a round or Practice Quest is active
+// prompts the student to confirm. Applies to logo, footer links, browser back/refresh.
+
+function isGameActive() {
+  var game  = document.getElementById('game-screen');
+  var remed = document.getElementById('remediation-screen');
+  return (game  && game.classList.contains('active')) ||
+         (remed && remed.classList.contains('active'));
+}
+
+// Intercept in-page link clicks (logo + footer) via delegation
+document.addEventListener('click', function(e) {
+  var link = e.target.closest('a[href]');
+  if (!link) return;
+  if (!isGameActive()) return;
+  var href = link.getAttribute('href');
+  // Only intercept links that navigate away from this page
+  if (!href || href.startsWith('#')) return;
+  e.preventDefault();
+  if (window.confirm('Leave this round? Your progress will be lost.')) {
+    window.location.href = link.href;
+  }
+});
+
+// Catch browser-level navigation (back button, refresh, close tab)
+window.addEventListener('beforeunload', function(e) {
+  if (isGameActive()) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
 
 // ── end ──
 </script>
