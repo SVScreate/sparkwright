@@ -156,6 +156,12 @@ Do not implement v2 in the initial constellation build — build the data model 
 
 ---
 
+## Wright — Self Note — 2026-04-01 — Session AB close
+
+**Facts to Watch descriptions** — the copy in both the game and the mockup ("Almost there — keep practicing these to lock them in." / "These facts are slipping — worth extra attention.") was written by me, not Kimberly. She said the descriptions are not what she asked for and has specific copy in mind. **Ask her for the exact copy at the start of next session before doing anything else on constellation.**
+
+---
+
 ## Wright → Spark — 2026-04-01 — Session AB (constellation design decisions)
 
 Two quick design decisions needed before I build:
