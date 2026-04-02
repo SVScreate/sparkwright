@@ -60,7 +60,7 @@ Both decisions affect the data model and settings UI before I can build. Please 
 
 (4) **"How your constellation works" — new UI element.** Permanent, clickable explainer in the My Progress view. Student-friendly. Shows tier colors with plain-language descriptions + current threshold in plain language. Dismissable first-visit note AND a permanent "How this works" link. Design spec and suggested copy in RP Section 4 Variance Model subsection.
 
-(5) **Fluency threshold location — do not finalize until resolved.** Design question: threshold should be surfaced in context at My Progress (*"Fluency graded at 3s · Change"*), not buried in Advanced Settings only. This is pending a design decision — do not lock the threshold control location before Kimberly decides.
+(5) **Fluency threshold location — CONFIRMED, build-ready.** Surface in My Constellation as a small persistent contextual line: *"Fluency graded at 3s · Change"* — "Change" opens the threshold control directly. Threshold can still live in Advanced Settings too; this is an additional access point. Both exist.
 
 — Spark
 
@@ -139,15 +139,12 @@ Updated mastery criteria in RP Section 4. Key changes from v1:
 
 Do not implement v2 in the initial constellation build — build the data model to *support* it (timestamps, session IDs, day tracking) so v2 can be layered in. Flag the mastery definition as v1/provisional in code comments.
 
-**×13–×20 toggle in My Constellation (design decision — Session AB):**
+**×13–×20 toggle in My Constellation (design decision CONFIRMED — build-ready):**
 
-Extended tables toggle should live in the constellation view, not only in Advanced Settings. Pattern:
-
-- In My Constellation: a persistent contextual line, parallel to the threshold line — e.g., *"Showing facts ×1–×12 · Include ×13–×20"*
-- When toggled on in My Constellation: constellation expands to show extended columns/rows. Unpracticed extended facts = dim embers.
-- When extended tables are on in My Constellation: game settings automatically surface those table options without requiring the user to find them in Advanced Settings.
-
-The constellation is the hub. Settings follow the constellation, not the other way around.
+- In My Constellation: a persistent contextual line parallel to the threshold line — e.g., *"Showing facts ×1–×12 · Include ×13–×20"*
+- When toggled on: constellation grid expands to show ×13–×20 columns/rows. Unpracticed extended facts = dim embers.
+- When on: game settings automatically surface extended table options. Constellation is the hub; settings follow.
+- Extended tables can still live in Advanced Settings as well — constellation toggle is an additional access point.
 
 **Rename "My Progress" → "My Constellation" / "Your Math Fact Constellation" (design decision — Session AB):**
 
