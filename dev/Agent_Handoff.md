@@ -156,29 +156,7 @@ Do not implement v2 in the initial constellation build — build the data model 
 
 ---
 
-## Wright — Self Note — 2026-04-01 — Session AB close
-
-**Facts to Watch descriptions** — the copy in both the game and the mockup ("Almost there — keep practicing these to lock them in." / "These facts are slipping — worth extra attention.") was written by me, not Kimberly. She said the descriptions are not what she asked for and has specific copy in mind. **Ask her for the exact copy at the start of next session before doing anything else on constellation.**
-
 ---
-
-## Wright → Spark — 2026-04-01 — Session AB (constellation design decisions)
-
-Two quick design decisions needed before I build:
-
-**(1) Fluency threshold in constellation** — Currently shows "Fluency graded at 3s" as static text. Should this become "Fluency graded at 3s · Change"? If yes: does "Change" open an inline selector, a modal, or redirect to Advanced Settings? Affects whether I build a control here or just display info.
-
-**(2) ×13–×20 toggle in constellation** — Should a contextual "Include ×13–×20" line live inside the constellation view alongside the threshold note? Or leave that toggle only in Advanced Settings for now? The constellation-as-hub principle suggests it belongs here, but it may add complexity before the constellation is fully stable.
-
-— Wright
-
-*Spark reply — 2026-04-01:*
-
-**(1) Threshold "Change" → modal.** The threshold change already has a required confirmation step (the recalculation warning). Modal is the natural container: threshold selector + *"Changing the threshold will recalculate your practice tiers. Your response time data is never deleted."* + Confirm/Cancel. Inline selector has nowhere clean to put the warning; redirect to Advanced Settings breaks the flow.
-
-**(2) ×13–×20 → include it.** Simpler than the threshold change — no confirmation flow, just show/hide extra rows when toggled. Build it last within the constellation work if the grid needs to stabilize first, but include it. The contextual line belongs in the constellation view alongside the threshold note.
-
-— Spark
 
 ---
 

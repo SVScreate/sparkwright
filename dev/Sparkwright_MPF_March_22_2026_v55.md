@@ -386,9 +386,9 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 168. **Setup flow redesign — mode first** *(Spark Session AB — design decision pending)* — Mode selection should come before settings/customization. Two primary foregrounded options: Smart Practice + Per-Question Timer. Settings become secondary layer. Connected to item 100 (title screen) — don't finalize either until this is decided.
 
-169. **×13–×20 toggle in My Constellation** *(Spark Session AB — design decision pending)* — Contextual line in constellation view: *"Showing facts ×1–×12 · Include ×13–×20."* When toggled on, constellation expands. Game settings surface those table options automatically. Constellation is the hub — settings follow it.
+169. ✅ **×13–×20 toggle in My Constellation** *(built Session AC)* — "Showing facts ×1–12 · Include ×13–×20" contextual line. Toggle expands constellation to 20 columns, syncs Advanced Settings checkbox, saves. Constellation is the hub.
 
-170. **Fluency threshold in My Constellation** *(Spark Session AB — design decision pending)* — Threshold should be visible in context at My Constellation (*"Fluency graded at 3s · Change"*) not only buried in Advanced Settings. Pending design decision on whether the Change link opens a modal, inline selector, or redirects to Advanced Settings. Do not finalize until decided.
+170. ✅ **Fluency threshold in My Constellation** *(built Session AC)* — "Fluency graded at Xs · Change" opens modal with tier picker + recalculation warning. Confirm updates tier, saves, rebuilds constellation. Also available in Advanced Settings.
 
 155. **Settings not per-profile — bug** — `mathflash_settings` is a single global localStorage key. When a new profile is created or a different profile is selected, the previous user's settings load (e.g., fluency threshold set to 6s persists to a new user who should default to 3s). Fix: store settings per-profile as `mathflash_settings_${username}`, or reset to defaults when a fresh profile is detected. Design question: should switching profiles load that profile's last-used settings, or always reset to global defaults? Log as bug, fix before user-facing launch. *(Session Z — repro: create second profile, check Advanced Settings threshold)*
 
@@ -568,26 +568,31 @@ Server account unlocked. Cross-device sync. Teacher dashboard — manage student
 
 ## WHERE TO PICK UP
 
-*Session AB (in progress) — April 1, 2026*
+*Session AC (in progress) — April 2, 2026*
 
-**Session AB build log (in progress):**
-- ✅ **Leave-round warning extended** — "End Round" from pause menu now requires confirm dialog before ending
-- ✅ **My Constellation visual rebuild** — cells: squares → circles. Glow amplified per tier with intensity scaling. Hover: fact text appears inside the circle (two-line, no blur). Click: stat card with fact, tier, avg response, attempts, last practiced, mastery progress bar. Re-click or click elsewhere closes card. Mastered ★ centered inside bubble.
-- ✅ **"How this works" explainer** — collapsible panel below op filter with tier descriptions + usage instructions
-- ✅ **Renamed: "My Progress" → "My Constellation"** — all nav buttons, screen title updated to "Your Math Fact Constellation"
-- ✅ **Sparkwright handoff updated** — progress tracking + mode design question sent to Spark; Spark replied (see handoff). Decision: all modes count toward constellation. No per-round toggle.
-- ✅ **Spark design items logged** — items 161–170 below (results celebration, full mastery ceremony, freshness flags, Smart Practice mode, mastery v2, rename, ×13–20 toggle, setup flow redesign)
+**Session AB — CLOSED. All testing confirmed done.**
+- ✅ T-Constellation-2 — confirmed
+- ✅ T-HowThisWorks — confirmed
+- ✅ T-Rename — confirmed
 
-**Testing needed:**
-- T-Constellation-2 — circles, glow, hover fact text inside circle, click stat card, mastery progress row
-- T-HowThisWorks — panel opens/closes, content accurate
-- T-Rename — all "My Progress" references updated
+**Session AC build log (in progress):**
+- ✅ **Facts to Watch copy** — updated to Kimberly's exact copy: "You've been fast and correct on these facts in 3+ of your last 5 tries. A star is close!" / "Choose one or two of these to focus on the next few times you play."
+- ✅ **Facts to Watch color retheme** — Close to Mastery: amber→gold ombre gradient (was blue). Challenge: purple→blue ombre gradient (was red). Both section cards and chips use the gradient. Titles: amber (`--a6`) / purple (`--a5`).
+- ✅ **Challenge facts — difficulty sort** — challenge facts now surface easiest tables first (×1, ×2, ×5, ×10, ×11, ×4, ×6, ×7, ×8, ×9, ×12 order) instead of by miss rate. `TABLE_DIFF_RANK` + `factDiffRank()` added.
+- ✅ **Constellation — ×13–×20 toggle** — contextual line below threshold note: "Showing facts ×1–12 · Include ×13–×20" (or "Hide ×13–×20" when on). `toggleConstellationExt()` updates `S.extendedTables`, saves, rebuilds.
+- ✅ **Constellation — fluency threshold "Change" modal** — "Fluency graded at Xs · Change" link opens modal with tier picker + recalculation warning. `openThreshModal()` / `confirmThreshChange()` sync Advanced Settings pill and rebuild constellation.
+- ✅ **Constellation grid — extended tables** — `buildConstellation` now uses `S.extendedTables ? 20 : 12` for `maxN` and sets `grid.style.gridTemplateColumns` dynamically.
 
-**Build queue for remainder of Session AB:**
-1. Test pass on constellation visual
-2. Fluency threshold + ×13–×20 in constellation — design decision pending (Kimberly to decide)
-3. Assessment Mode build (items 66+147) — next major feature
-4. Print pill on My Constellation (item 143) — unblocked
+**Testing needed (Session AC):**
+- T-AC-1 — Facts to Watch: Open My Constellation after a round with data. Confirm (a) Close to Mastery cards show amber→gold ombre, title is orange; (b) Challenge cards show purple→blue ombre, title is purple; (c) copy matches exactly.
+- T-AC-2 — Threshold Change: Click "Change" link in constellation. Confirm modal opens with tier pills, current tier selected. Select a different tier → Confirm. Confirm constellation rebuilds with new threshold. Cancel = no change.
+- T-AC-3 — ×13–×20 toggle: Click "Include ×13–×20" in constellation. Confirm grid expands to 20 columns, toggle label changes to "Hide ×13–×20". Click again → grid returns to 12 columns.
+- T-AC-4 — ×13-×20 + Advanced Settings sync: Toggle extended tables from constellation, then open Advanced Settings — confirm checkbox reflects state.
+
+**Build queue (Session AC, remaining):**
+1. Test pass on AC changes above
+2. Assessment Mode (items 66+147) — next major feature
+3. Print pill on My Constellation (item 143)
 
 ---
 

@@ -525,6 +525,13 @@ body {
   padding: 0; text-decoration: underline; text-underline-offset: 2px;
 }
 .mp-how-btn:hover { color: var(--a4); }
+.mp-change-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.04em;
+  color: rgba(255,159,67,0.7);
+  padding: 0; text-decoration: underline; text-underline-offset: 2px;
+}
+.mp-change-btn:hover { color: var(--a6); }
 .mp-how-panel {
   display: none; margin-top: 10px; padding: 12px 14px;
   background: rgba(255,255,255,0.03);
@@ -542,20 +549,20 @@ body {
 /* Section 2: Facts to Watch */
 .mp-watch-sections { display: flex; flex-direction: column; gap: 10px; }
 .mp-watch-section  { border-radius: 10px; border: 1px solid; padding: 12px 14px; }
-.mp-watch-section.close-to-mastery { background: rgba(77,150,255,0.07); border-color: rgba(77,150,255,0.28); }
-.mp-watch-section.challenge-section { background: rgba(255,107,107,0.07); border-color: rgba(255,107,107,0.28); }
+.mp-watch-section.close-to-mastery { background: linear-gradient(to right, rgba(255,159,67,0.09), rgba(255,217,61,0.09)); border-color: rgba(255,159,67,0.32); }
+.mp-watch-section.challenge-section { background: linear-gradient(to right, rgba(199,125,255,0.09), rgba(77,150,255,0.09)); border-color: rgba(199,125,255,0.32); }
 .mp-watch-section-hdr  { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
 .mp-watch-section-title{ font-size: 0.72rem; font-weight: 800; }
-.close-to-mastery .mp-watch-section-title { color: var(--a4); }
-.challenge-section .mp-watch-section-title { color: var(--a1); }
+.close-to-mastery .mp-watch-section-title { color: var(--a6); }
+.challenge-section .mp-watch-section-title { color: var(--a5); }
 .mp-watch-section-desc { font-size: 0.65rem; color: rgba(240,240,255,0.5); margin-bottom: 9px; line-height: 1.4; }
 .mp-watch-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .mp-watch-chip {
   font-size: 0.78rem; font-weight: 700;
   padding: 5px 10px; border-radius: 8px; border: 1px solid;
 }
-.close-to-mastery .mp-watch-chip { background: rgba(77,150,255,0.12); border-color: rgba(77,150,255,0.45); color: var(--a4); }
-.challenge-section .mp-watch-chip { background: rgba(255,107,107,0.1); border-color: rgba(255,107,107,0.4); color: var(--a1); }
+.close-to-mastery .mp-watch-chip { background: linear-gradient(to right, rgba(255,159,67,0.16), rgba(255,217,61,0.13)); border-color: rgba(255,159,67,0.5); color: var(--a6); }
+.challenge-section .mp-watch-chip { background: linear-gradient(to right, rgba(199,125,255,0.14), rgba(77,150,255,0.12)); border-color: rgba(199,125,255,0.45); color: var(--a5); }
 .mp-watch-empty { font-size: 0.8rem; color: rgba(240,240,255,0.25); }
 
 /* Section 3: Assessment Records */
@@ -2106,6 +2113,27 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   </div>
 </div>
 
+<!-- ══ THRESHOLD CHANGE MODAL ══ -->
+<div id="thresh-modal" class="overlay">
+  <div class="overlay-card" style="max-width:380px;">
+    <button class="overlay-close" onclick="hideOverlay('thresh-modal')">✕</button>
+    <div style="font-family:var(--font-display);font-size:1.3rem;color:var(--a6);margin-bottom:14px;">Change Fluency Threshold</div>
+    <div class="tier-pills" id="thresh-modal-pills">
+      <button class="tier-pill" data-tier="challenge">2 Seconds</button>
+      <button class="tier-pill" data-tier="standard">3 Seconds</button>
+      <button class="tier-pill" data-tier="extended">5 Seconds</button>
+      <button class="tier-pill" data-tier="extended+">6 Seconds</button>
+    </div>
+    <div style="font-size:0.78rem;color:var(--muted);line-height:1.55;margin:14px 0 18px;padding:10px 12px;background:rgba(255,255,255,0.04);border-radius:8px;">
+      Changing the threshold will recalculate your practice tiers using the new standard. Your response time data is never deleted.
+    </div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button class="res-btn secondary" style="padding:8px 18px;font-size:0.85rem;" onclick="hideOverlay('thresh-modal')">Cancel</button>
+      <button class="res-btn primary" style="padding:8px 18px;font-size:0.85rem;" id="thresh-confirm-btn" onclick="confirmThreshChange()">Confirm</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ SETUP ══ -->
 <div id="setup-screen" class="screen">
   <div class="setup-inner">
@@ -2501,6 +2529,53 @@ function showScreen(id) {
 
 function showOverlay(id)  { document.getElementById(id).classList.add('active'); }
 function hideOverlay(id)  { document.getElementById(id).classList.remove('active'); }
+
+// ── Threshold change modal (from My Constellation) ──────────────
+var _threshModalPending = null; // tier name pending confirmation
+function openThreshModal() {
+  _threshModalPending = S.fluencyTier.name;
+  // Sync pill state to current setting
+  document.querySelectorAll('#thresh-modal-pills .tier-pill').forEach(function(p) {
+    p.classList.toggle('on', p.dataset.tier === S.fluencyTier.name);
+  });
+  // Wire pill clicks
+  document.querySelectorAll('#thresh-modal-pills .tier-pill').forEach(function(p) {
+    p.onclick = function() {
+      _threshModalPending = this.dataset.tier;
+      document.querySelectorAll('#thresh-modal-pills .tier-pill').forEach(function(q) { q.classList.remove('on'); });
+      this.classList.add('on');
+    };
+  });
+  showOverlay('thresh-modal');
+}
+function confirmThreshChange() {
+  if (_threshModalPending && FLUENCY_TIERS[_threshModalPending]) {
+    S.fluencyTier = FLUENCY_TIERS[_threshModalPending];
+    // Sync Advanced Settings pill if visible
+    document.querySelectorAll('.tier-pill').forEach(function(p) {
+      p.classList.toggle('on', p.dataset.tier === S.fluencyTier.name);
+    });
+    saveSettings();
+    hideOverlay('thresh-modal');
+    buildStatsScreen(); // re-render constellation with new threshold
+  }
+}
+
+// ── ×13–×20 toggle from My Constellation ────────────────────────
+function toggleConstellationExt() {
+  S.extendedTables = !S.extendedTables;
+  // Sync Advanced Settings checkbox if visible
+  var extToggle = document.getElementById('extended-tables-toggle');
+  if (extToggle) extToggle.checked = S.extendedTables;
+  if (!S.extendedTables) {
+    // Prune tables > 12
+    ['x', '/'].forEach(function(op) {
+      S.tables[op] = (S.tables[op] || []).filter(function(t) { return t <= 12; });
+    });
+  }
+  saveSettings();
+  buildStatsScreen(); // re-render with updated grid
+}
 
 function goSetup() {
   buildSetupUI();
@@ -4991,8 +5066,9 @@ function buildStatsScreen() {
     if (!grid) return;
 
     // Read phase: gather all cell data before touching DOM
-    var maxN = 12;
-    var cells = []; // flat array, row-major: [corner, hdr×12, then row1: label+12cells, ...]
+    var maxN = S.extendedTables ? 20 : 12;
+    grid.style.gridTemplateColumns = '20px repeat(' + maxN + ', 1fr)';
+    var cells = []; // flat array, row-major: [corner, hdr×N, then row1: label+Ncells, ...]
 
     // Corner
     cells.push({ type: 'label', text: '' });
@@ -5072,6 +5148,20 @@ function buildStatsScreen() {
     return null;
   }
 
+  // Table difficulty rank: ×1 easiest → ×12 hardest (for surfacing easiest challenge facts first)
+  var TABLE_DIFF_RANK = {1:0, 2:1, 5:2, 10:3, 11:4, 4:5, 6:6, 7:7, 8:8, 9:9, 12:10};
+  function factDiffRank(fk) {
+    var m = fk.match(/^mul_(\d+)x(\d+)$/);
+    if (m) {
+      var r1 = TABLE_DIFF_RANK[+m[1]]; if (r1 === undefined) r1 = 11;
+      var r2 = TABLE_DIFF_RANK[+m[2]]; if (r2 === undefined) r2 = 11;
+      return Math.min(r1, r2);
+    }
+    m = fk.match(/^div_\d+d(\d+)$/);
+    if (m) { var r = TABLE_DIFF_RANK[+m[1]]; return r !== undefined ? r : 11; }
+    return 5; // addition/subtraction: middle rank
+  }
+
   var closeToMastery = [], challengeFacts = [];
   keys.forEach(function(fk) {
     var rec = userFacts[fk];
@@ -5090,10 +5180,11 @@ function buildStatsScreen() {
     if (fluentInLast5 >= 3 && missRate <= 0.35) {
       closeToMastery.push({ eq: p.eq });
     } else if (missRate >= 0.5 && total >= 3) {
-      challengeFacts.push({ eq: p.eq, missRate: missRate });
+      challengeFacts.push({ eq: p.eq, diffRank: factDiffRank(fk) });
     }
   });
-  challengeFacts.sort(function(a, b) { return b.missRate - a.missRate; });
+  // Sort challenge facts easiest first (lowest table difficulty rank)
+  challengeFacts.sort(function(a, b) { return a.diffRank - b.diffRank; });
   closeToMastery = closeToMastery.slice(0, 6);
   challengeFacts = challengeFacts.slice(0, 6);
 
@@ -5112,10 +5203,10 @@ function buildStatsScreen() {
     ? '<div class="mp-watch-empty">Keep practicing — suggestions will appear here.</div>'
     : '<div class="mp-watch-sections">' +
         makeWatchSection('close-to-mastery', 'Close to Mastery ★',
-          'You\'ve been fast and correct on 3+ of your last 5 tries. Keep going — a star is close!',
+          'You\'ve been fast and correct on these facts in 3+ of your last 5 tries. A star is close!',
           closeToMastery) +
         makeWatchSection('challenge-section', 'Challenge',
-          'You\'re getting these wrong more than half the time. Pick one to focus on as you play.',
+          'Choose one or two of these to focus on the next few times you play.',
           challengeFacts) +
       '</div>';
 
@@ -5130,7 +5221,8 @@ function buildStatsScreen() {
         '<button class="mp-op-pill" data-op="+">+</button>' +
         '<button class="mp-op-pill" data-op="-">−</button>' +
       '</div>' +
-      '<div class="mp-threshold-note">Fluency graded at ' + threshSec + '-second threshold &nbsp;<button class="mp-how-btn" id="mp-how-btn" onclick="document.getElementById(\'mp-how-panel\').classList.toggle(\'open\')">How this works ↓</button></div>' +
+      '<div class="mp-threshold-note">Fluency graded at ' + threshSec + 's &nbsp;<button class="mp-change-btn" onclick="openThreshModal()">Change</button>&nbsp;&nbsp;<button class="mp-how-btn" id="mp-how-btn" onclick="document.getElementById(\'mp-how-panel\').classList.toggle(\'open\')">How this works ↓</button></div>' +
+      '<div class="mp-threshold-note" style="margin-top:4px;">Showing facts ×1–' + (S.extendedTables ? '20' : '12') + ' &nbsp;<button class="mp-change-btn" onclick="toggleConstellationExt()">' + (S.extendedTables ? 'Hide ×13–×20' : 'Include ×13–×20') + '</button></div>' +
       '<div class="mp-how-panel" id="mp-how-panel">' +
         '<div style="font-size:0.68rem;color:rgba(240,240,255,0.65);margin-bottom:10px;">' +
           '<div style="font-weight:800;color:rgba(240,240,255,0.85);font-size:0.72rem;margin-bottom:7px;">How to light up your constellation</div>' +
