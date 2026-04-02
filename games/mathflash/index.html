@@ -357,7 +357,7 @@ body {
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 .mp-op-pill:hover { border-color: rgba(255,159,67,0.5); color: var(--text); }
-.mp-op-pill.active { background: rgba(255,159,67,0.15); border-color: var(--a6); color: var(--a6); }
+.mp-op-pill.active { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.45); color: rgba(240,240,255,0.92); }
 
 .mp-ctrl-row {
   display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
@@ -1934,7 +1934,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 }
 .r-fact-chip.working  { background: rgba(199,125,255,0.12); border-color: var(--a5); color: var(--a5); }
 .r-fact-chip.building { background: rgba(77,150,255,0.12);  border-color: var(--a4); color: var(--a4); }
-.r-fact-chip.fluent   { background: rgba(255,217,61,0.12);  border-color: var(--a2); color: var(--a2); }
+.r-fact-chip.fluent   { background: rgba(255,159,67,0.12);  border-color: var(--a6); color: var(--a6); }
 
 @media print {
   body * { visibility: hidden; }
@@ -2416,7 +2416,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="rstat rt"><div class="rstat-num" id="r-time">0s</div><div class="rstat-lbl">Time</div></div>
   </div>
   <div class="results-stats" id="r-fluency-stats" style="display:none">
-    <div class="rstat" style="border-color:rgba(255,217,61,0.3)"><div class="rstat-num" id="r-fluent" style="color:var(--a2)">0</div><div class="rstat-lbl">⚡ Fluent</div></div>
+    <div class="rstat" style="border-color:rgba(255,159,67,0.3)"><div class="rstat-num" id="r-fluent" style="color:var(--a6)">0</div><div class="rstat-lbl">⚡ Fluent</div></div>
     <div class="rstat" style="border-color:rgba(199,125,255,0.3)"><div class="rstat-num" id="r-working" style="color:var(--a5)">0</div><div class="rstat-lbl">🔄 Almost!</div></div>
     <div class="rstat" style="border-color:rgba(77,150,255,0.3)"><div class="rstat-num" id="r-notfluent" style="color:var(--a4)">0</div><div class="rstat-lbl">📚 Needs Practice</div></div>
   </div>
@@ -5240,9 +5240,9 @@ function buildStatsScreen() {
         '<button class="mp-op-pill" data-op="-">−</button>' +
       '</div>' +
       '<div class="mp-ctrl-row">' +
+        '<button class="mp-ctrl-pill info-pill" id="mp-how-btn" onclick="document.getElementById(\'mp-how-panel\').classList.toggle(\'open\')">How this works ↓</button>' +
         '<button class="mp-ctrl-pill" onclick="openThreshModal()">Fluency: ' + threshSec + 's &nbsp;<span class="mp-ctrl-action">Change</span></button>' +
         '<button class="mp-ctrl-pill" onclick="toggleConstellationExt()">Facts ×1–' + (S.extendedTables ? '20' : '12') + ' &nbsp;<span class="mp-ctrl-action">' + (S.extendedTables ? 'Hide ×13–×20' : 'Show ×13–×20') + '</span></button>' +
-        '<button class="mp-ctrl-pill info-pill" id="mp-how-btn" onclick="document.getElementById(\'mp-how-panel\').classList.toggle(\'open\')">How this works ↓</button>' +
       '</div>' +
       '<div class="mp-how-panel" id="mp-how-panel">' +
         '<div style="font-size:0.68rem;color:rgba(240,240,255,0.65);margin-bottom:10px;">' +
@@ -5475,7 +5475,7 @@ function endGame() {
     let html = '';
     html += makeSection('📚 Needs Practice', 'var(--a4)', G.notFluentFacts, 'building');
     html += makeSection('🔄 Almost!',        'var(--a5)', G.workingFacts,   'working');
-    html += makeSection('⚡ Fluent',          'var(--a2)', G.fluentFacts,    'fluent');
+    html += makeSection('⚡ Fluent',          'var(--a6)', G.fluentFacts,    'fluent');
     factsWrap.innerHTML = html;
     factsWrap.style.display = 'flex';
   } else {
