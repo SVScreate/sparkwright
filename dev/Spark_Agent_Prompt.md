@@ -225,6 +225,7 @@ Not every session needs the full RP + ConsumerData. Check the "Required reading 
 
 **Blocking Wright (highest priority):**
 - [ ] **Student Dashboard / Assessment Mode (items 147 + 66 + 140)** — spec shipped Session Z. Constellation mockup built. New items from Session AB in handoff (purple, rename, threshold location, "how it works" explainer, extended tables in constellation view, results mastery reveal, "You mastered X!" copy direction).
+- [ ] **"Facts to Watch" copy** — Wright wrote placeholder descriptions himself; developer has specific copy in mind. **Get exact copy from Kimberly at start of next Wright session before anything else on constellation.**
 
 **New MPF items to log (not blocking, don't build yet):**
 - [ ] Tier freshness flags — internal only; gates forward progress on near-mastery facts; mastered facts stay gold and are refreshed via Smart Practice maintenance sprinkle
