@@ -315,8 +315,8 @@ body {
 .stats-tile.mastered   .tile-label { color: var(--a2); }
 .stats-tile.building   { background: rgba(255,159,67,0.10);  border-color: var(--a6); }
 .stats-tile.building   .tile-label { color: var(--a6); }
-.stats-tile.not-yet    { background: rgba(199,125,255,0.10); border-color: var(--a5); }
-.stats-tile.not-yet    .tile-label { color: var(--a5); }
+.stats-tile.not-yet    { background: rgba(77,150,255,0.10);  border-color: var(--a4); }
+.stats-tile.not-yet    .tile-label { color: var(--a4); }
 
 .stats-challenge-header {
   font-size: 0.9rem;
@@ -359,12 +359,24 @@ body {
 .mp-op-pill:hover { border-color: rgba(255,159,67,0.5); color: var(--text); }
 .mp-op-pill.active { background: rgba(255,159,67,0.15); border-color: var(--a6); color: var(--a6); }
 
-.mp-threshold-note {
-  font-size: 0.7rem;
-  color: rgba(240,240,255,0.3);
+.mp-ctrl-row {
+  display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
   margin-bottom: 12px;
-  font-style: italic;
 }
+.mp-ctrl-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px; padding: 4px 11px;
+  font-family: var(--font); font-size: 0.68rem; font-weight: 600;
+  color: rgba(240,240,255,0.5); cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.mp-ctrl-pill:hover { border-color: rgba(255,159,67,0.5); color: rgba(240,240,255,0.85); background: rgba(255,159,67,0.06); }
+.mp-ctrl-pill .mp-ctrl-action {
+  color: var(--a6); font-weight: 700; text-decoration: underline; text-underline-offset: 2px;
+}
+.mp-ctrl-pill.info-pill { cursor: default; }
+.mp-ctrl-pill.info-pill:hover { border-color: rgba(255,255,255,0.12); color: rgba(240,240,255,0.5); background: rgba(255,255,255,0.05); }
 
 /* Constellation */
 .constellation-wrap {
@@ -414,10 +426,10 @@ body {
 .c-cell:hover .c-txt { color: rgba(255,255,255,0.92); }
 
 .c-cell.unpracticed    { background: rgba(255,255,255,0.04);  border-color: rgba(255,255,255,0.1); }
-.c-cell.needs-practice { background: rgba(199,125,255,0.18);  border-color: rgba(199,125,255,0.6);
-                         box-shadow: 0 0 6px 1px rgba(199,125,255,0.18); }
-.c-cell.almost         { background: rgba(77,150,255,0.22);   border-color: rgba(77,150,255,0.72);
-                         box-shadow: 0 0 8px 2px rgba(77,150,255,0.25), inset 0 0 4px rgba(77,150,255,0.12); }
+.c-cell.needs-practice { background: rgba(77,150,255,0.18);   border-color: rgba(77,150,255,0.6);
+                         box-shadow: 0 0 6px 1px rgba(77,150,255,0.18); }
+.c-cell.almost         { background: rgba(199,125,255,0.22);  border-color: rgba(199,125,255,0.72);
+                         box-shadow: 0 0 8px 2px rgba(199,125,255,0.25), inset 0 0 4px rgba(199,125,255,0.12); }
 .c-cell.fluent         { background: rgba(255,159,67,0.26);   border-color: rgba(255,159,67,0.88);
                          box-shadow: 0 0 10px 3px rgba(255,159,67,0.3), 0 0 20px 4px rgba(255,159,67,0.1); }
 .c-cell.mastered       { background: rgba(255,217,61,0.28);   border-color: rgba(255,217,61,0.95);
@@ -513,8 +525,8 @@ body {
 .mp-legend-dot  { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid; flex-shrink: 0; }
 .mp-legend-dot.mastered      { background: rgba(255,217,61,0.28);  border-color: rgba(255,217,61,0.95); box-shadow: 0 0 5px 1px rgba(255,217,61,0.4); }
 .mp-legend-dot.fluent        { background: rgba(255,159,67,0.26);  border-color: rgba(255,159,67,0.88); box-shadow: 0 0 4px 1px rgba(255,159,67,0.3); }
-.mp-legend-dot.almost        { background: rgba(77,150,255,0.22);  border-color: rgba(77,150,255,0.72); box-shadow: 0 0 4px 1px rgba(77,150,255,0.25); }
-.mp-legend-dot.needs-practice{ background: rgba(199,125,255,0.18); border-color: rgba(199,125,255,0.6); }
+.mp-legend-dot.almost        { background: rgba(199,125,255,0.22); border-color: rgba(199,125,255,0.72); box-shadow: 0 0 4px 1px rgba(199,125,255,0.25); }
+.mp-legend-dot.needs-practice{ background: rgba(77,150,255,0.18);  border-color: rgba(77,150,255,0.6); }
 .mp-legend-dot.unpracticed   { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.18); }
 
 /* How this works panel */
@@ -550,11 +562,11 @@ body {
 .mp-watch-sections { display: flex; flex-direction: column; gap: 10px; }
 .mp-watch-section  { border-radius: 10px; border: 1px solid; padding: 12px 14px; }
 .mp-watch-section.close-to-mastery { background: linear-gradient(to right, rgba(255,159,67,0.09), rgba(255,217,61,0.09)); border-color: rgba(255,159,67,0.32); }
-.mp-watch-section.challenge-section { background: linear-gradient(to right, rgba(199,125,255,0.09), rgba(77,150,255,0.09)); border-color: rgba(199,125,255,0.32); }
+.mp-watch-section.challenge-section { background: linear-gradient(to right, rgba(77,150,255,0.09), rgba(199,125,255,0.09)); border-color: rgba(77,150,255,0.32); }
 .mp-watch-section-hdr  { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
 .mp-watch-section-title{ font-size: 0.72rem; font-weight: 800; }
 .close-to-mastery .mp-watch-section-title { color: var(--a6); }
-.challenge-section .mp-watch-section-title { color: var(--a5); }
+.challenge-section .mp-watch-section-title { color: var(--a4); }
 .mp-watch-section-desc { font-size: 0.65rem; color: rgba(240,240,255,0.5); margin-bottom: 9px; line-height: 1.4; }
 .mp-watch-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .mp-watch-chip {
@@ -562,7 +574,7 @@ body {
   padding: 5px 10px; border-radius: 8px; border: 1px solid;
 }
 .close-to-mastery .mp-watch-chip { background: linear-gradient(to right, rgba(255,159,67,0.16), rgba(255,217,61,0.13)); border-color: rgba(255,159,67,0.5); color: var(--a6); }
-.challenge-section .mp-watch-chip { background: linear-gradient(to right, rgba(199,125,255,0.14), rgba(77,150,255,0.12)); border-color: rgba(199,125,255,0.45); color: var(--a5); }
+.challenge-section .mp-watch-chip { background: linear-gradient(to right, rgba(77,150,255,0.14), rgba(199,125,255,0.12)); border-color: rgba(77,150,255,0.45); color: var(--a4); }
 .mp-watch-empty { font-size: 0.8rem; color: rgba(240,240,255,0.25); }
 
 /* Section 3: Assessment Records */
@@ -1365,8 +1377,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   height: 100%;
   width: 100%;
   border-radius: 3px;
-  background: #4d96ff;
-  box-shadow: 0 0 8px 2px rgba(77,150,255,0.6);
+  background: #c77dff;
+  box-shadow: 0 0 8px 2px rgba(199,125,255,0.6);
   transform-origin: left center;
   transition: background 0.4s, box-shadow 0.4s;
 }
@@ -1917,7 +1929,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   white-space: nowrap;
 }
 .r-fact-chip.working  { background: rgba(255,159,67,0.12);  border-color: var(--a6); color: var(--a6); }
-.r-fact-chip.building { background: rgba(199,125,255,0.12); border-color: var(--a5); color: var(--a5); }
+.r-fact-chip.building { background: rgba(77,150,255,0.12);  border-color: var(--a4); color: var(--a4); }
 .r-fact-chip.fluent   { background: rgba(255,217,61,0.12);  border-color: var(--a2); color: var(--a2); }
 
 @media print {
@@ -2402,7 +2414,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   <div class="results-stats" id="r-fluency-stats" style="display:none">
     <div class="rstat" style="border-color:rgba(255,217,61,0.3)"><div class="rstat-num" id="r-fluent" style="color:var(--a2)">0</div><div class="rstat-lbl">⚡ Fluent</div></div>
     <div class="rstat" style="border-color:rgba(255,159,67,0.3)"><div class="rstat-num" id="r-working" style="color:var(--a6)">0</div><div class="rstat-lbl">🔄 Almost!</div></div>
-    <div class="rstat" style="border-color:rgba(199,125,255,0.3)"><div class="rstat-num" id="r-notfluent" style="color:var(--a5)">0</div><div class="rstat-lbl">📚 Needs Practice</div></div>
+    <div class="rstat" style="border-color:rgba(77,150,255,0.3)"><div class="rstat-num" id="r-notfluent" style="color:var(--a4)">0</div><div class="rstat-lbl">📚 Needs Practice</div></div>
   </div>
   <div class="r-facts-wrap" id="r-facts-wrap" style="display:none;width:100%;max-width:600px"></div>
   <div class="res-btns">
@@ -5117,7 +5129,7 @@ function buildStatsScreen() {
           el.style.boxShadow = '0 0 ' + gsz + 'px ' + Math.round(gsz * 0.3) + 'px rgba(255,159,67,' + ga + '), 0 0 ' + Math.round(gsz * 2) + 'px 4px rgba(255,159,67,' + (parseFloat(ga) * 0.35).toFixed(2) + ')';
         } else if (d.tier === 'almost') {
           var ga = (0.2 + d.strength * 0.25).toFixed(2);
-          el.style.boxShadow = '0 0 ' + Math.round(6 + d.strength * 8) + 'px 2px rgba(77,150,255,' + ga + ')';
+          el.style.boxShadow = '0 0 ' + Math.round(6 + d.strength * 8) + 'px 2px rgba(199,125,255,' + ga + ')';
         }
         // mastered glow is handled by CSS animation; star goes inside
 
@@ -5221,8 +5233,11 @@ function buildStatsScreen() {
         '<button class="mp-op-pill" data-op="+">+</button>' +
         '<button class="mp-op-pill" data-op="-">−</button>' +
       '</div>' +
-      '<div class="mp-threshold-note">Fluency graded at ' + threshSec + 's &nbsp;<button class="mp-change-btn" onclick="openThreshModal()">Change</button>&nbsp;&nbsp;<button class="mp-how-btn" id="mp-how-btn" onclick="document.getElementById(\'mp-how-panel\').classList.toggle(\'open\')">How this works ↓</button></div>' +
-      '<div class="mp-threshold-note" style="margin-top:4px;">Showing facts ×1–' + (S.extendedTables ? '20' : '12') + ' &nbsp;<button class="mp-change-btn" onclick="toggleConstellationExt()">' + (S.extendedTables ? 'Hide ×13–×20' : 'Include ×13–×20') + '</button></div>' +
+      '<div class="mp-ctrl-row">' +
+        '<button class="mp-ctrl-pill" onclick="openThreshModal()">Fluency: ' + threshSec + 's &nbsp;<span class="mp-ctrl-action">Change</span></button>' +
+        '<button class="mp-ctrl-pill" onclick="toggleConstellationExt()">Facts ×1–' + (S.extendedTables ? '20' : '12') + ' &nbsp;<span class="mp-ctrl-action">' + (S.extendedTables ? 'Hide ×13–×20' : 'Show ×13–×20') + '</span></button>' +
+        '<button class="mp-ctrl-pill info-pill" id="mp-how-btn" onclick="document.getElementById(\'mp-how-panel\').classList.toggle(\'open\')">How this works ↓</button>' +
+      '</div>' +
       '<div class="mp-how-panel" id="mp-how-panel">' +
         '<div style="font-size:0.68rem;color:rgba(240,240,255,0.65);margin-bottom:10px;">' +
           '<div style="font-weight:800;color:rgba(240,240,255,0.85);font-size:0.72rem;margin-bottom:7px;">How to light up your constellation</div>' +
@@ -5302,8 +5317,8 @@ function buildStatsScreen() {
       var tierLabels = {
         'mastered':      { label: 'Mastered ★', color: '#ffd93d' },
         'fluent':        { label: 'Fluent ⚡',   color: '#ff9f43' },
-        'almost':        { label: 'Almost 🔄',   color: '#4d96ff' },
-        'needs-practice':{ label: 'Needs Practice 📚', color: '#c77dff' },
+        'almost':        { label: 'Almost 🔄',   color: '#c77dff' },
+        'needs-practice':{ label: 'Needs Practice 📚', color: '#4d96ff' },
         'unpracticed':   { label: 'Not yet practiced', color: 'rgba(240,240,255,0.35)' }
       };
       var info = tierLabels[tier] || tierLabels['unpracticed'];
@@ -5452,7 +5467,7 @@ function endGame() {
         '<div class="r-facts-chips">' + chipsHTML + '</div></div>';
     };
     let html = '';
-    html += makeSection('📚 Needs Practice', 'var(--a5)', G.notFluentFacts, 'building');
+    html += makeSection('📚 Needs Practice', 'var(--a4)', G.notFluentFacts, 'building');
     html += makeSection('🔄 Almost!',        'var(--a6)', G.workingFacts,   'working');
     html += makeSection('⚡ Fluent',          'var(--a2)', G.fluentFacts,    'fluent');
     factsWrap.innerHTML = html;

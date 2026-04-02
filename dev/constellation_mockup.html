@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Flash — Constellation Scenarios</title>
+<style>
+  :root {
+    --bg: #06050f;
+    --surface: #0f0c1e;
+    --border: rgba(255,255,255,0.1);
+    --text: rgba(240,240,255,0.92);
+    --muted: rgba(240,240,255,0.45);
+    --font: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    /* Tier colors — new palette: blue→purple→amber→gold */
+    --c-unpracticed-bg:    rgba(255,255,255,0.04);
+    --c-unpracticed-bd:    rgba(255,255,255,0.10);
+    --c-needs-bg:          rgba(77,150,255,0.18);
+    --c-needs-bd:          rgba(77,150,255,0.60);
+    --c-almost-bg:         rgba(199,125,255,0.22);
+    --c-almost-bd:         rgba(199,125,255,0.72);
+    --c-fluent-bg:         rgba(255,159,67,0.26);
+    --c-fluent-bd:         rgba(255,159,67,0.88);
+    --c-mastered-bg:       rgba(255,217,61,0.28);
+    --c-mastered-bd:       rgba(255,217,61,0.95);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: var(--font); padding: 32px 24px;
+    min-height: 100vh;
+  }
+  h1 {
+    font-size: 1.2rem; font-weight: 800; color: rgba(240,240,255,0.85);
+    margin-bottom: 6px;
+  }
+  .subtitle { font-size: 0.8rem; color: var(--muted); margin-bottom: 36px; }
+
+  /* ── Grid layout ── */
+  .scenarios { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 28px; }
+
+  /* ── Scenario card ── */
+  .scenario { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+  .scenario-label {
+    font-size: 0.72rem; font-weight: 800; letter-spacing: 0.07em;
+    text-transform: uppercase; color: rgba(240,240,255,0.4);
+    margin-bottom: 4px;
+  }
+  .scenario-title { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+  .scenario-desc  { font-size: 0.72rem; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
+
+  /* ── Constellation grid (6×6 truncated view) ── */
+  .c-grid {
+    display: grid;
+    grid-template-columns: 16px repeat(12, 1fr);
+    gap: 3px;
+    width: 100%;
+  }
+  .c-lbl {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.52rem; font-weight: 700; color: rgba(240,240,255,0.18);
+    min-height: 0;
+  }
+  .c-dot {
+    aspect-ratio: 1; border-radius: 50%; border: 1.5px solid;
+    position: relative;
+  }
+  .c-dot.unpracticed { background: var(--c-unpracticed-bg); border-color: var(--c-unpracticed-bd); }
+  .c-dot.needs       { background: var(--c-needs-bg);       border-color: var(--c-needs-bd);
+                       box-shadow: 0 0 5px 1px rgba(77,150,255,0.18); }
+  .c-dot.almost      { background: var(--c-almost-bg);      border-color: var(--c-almost-bd);
+                       box-shadow: 0 0 7px 2px rgba(199,125,255,0.25); }
+  .c-dot.fluent      { background: var(--c-fluent-bg);      border-color: var(--c-fluent-bd);
+                       box-shadow: 0 0 10px 3px rgba(255,159,67,0.30), 0 0 18px 3px rgba(255,159,67,0.10); }
+  .c-dot.mastered    { background: var(--c-mastered-bg);    border-color: var(--c-mastered-bd);
+                       box-shadow: 0 0 12px 4px rgba(255,217,61,0.40), 0 0 24px 6px rgba(255,217,61,0.15); }
+  .c-dot.mastered::after {
+    content: '★'; position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.45rem; color: rgba(255,217,61,0.95);
+  }
+
+  /* ── Tier legend strip ── */
+  .tier-legend {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;
+  }
+  .tier-legend-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 0.62rem; color: rgba(240,240,255,0.45);
+  }
+  .tier-swatch {
+    width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid; flex-shrink: 0;
+  }
+  .tier-swatch.unpracticed { background: var(--c-unpracticed-bg); border-color: var(--c-unpracticed-bd); }
+  .tier-swatch.needs       { background: var(--c-needs-bg);       border-color: var(--c-needs-bd); }
+  .tier-swatch.almost      { background: var(--c-almost-bg);      border-color: var(--c-almost-bd); }
+  .tier-swatch.fluent      { background: var(--c-fluent-bg);      border-color: var(--c-fluent-bd); }
+  .tier-swatch.mastered    { background: var(--c-mastered-bg);    border-color: var(--c-mastered-bd); }
+
+  /* ── Spectrum bar ── */
+  .spectrum-section { margin-top: 48px; margin-bottom: 48px; }
+  .spectrum-title { font-size: 0.9rem; font-weight: 800; margin-bottom: 16px; color: rgba(240,240,255,0.7); }
+  .spectrum-bar {
+    display: flex; align-items: stretch; border-radius: 10px; overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 10px;
+  }
+  .spectrum-seg {
+    flex: 1; padding: 14px 8px 10px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    font-size: 0.68rem; font-weight: 700; text-align: center;
+  }
+  .spectrum-seg .dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid; }
+  .spectrum-seg.unpracticed { background: rgba(255,255,255,0.03); color: rgba(240,240,255,0.3); }
+  .spectrum-seg.needs       { background: rgba(77,150,255,0.10);  color: rgba(77,150,255,0.9); }
+  .spectrum-seg.almost      { background: rgba(199,125,255,0.10); color: rgba(199,125,255,0.9); }
+  .spectrum-seg.fluent      { background: rgba(255,159,67,0.12);  color: rgba(255,159,67,0.95); }
+  .spectrum-seg.mastered    { background: rgba(255,217,61,0.14);  color: rgba(255,217,61,1.0); }
+  .spectrum-desc { font-size: 0.65rem; color: var(--muted); line-height: 1.5; text-align: center; }
+</style>
+</head>
+<body>
+
+<h1>My Constellation — All Scenarios</h1>
+<p class="subtitle">Tier color system: 🔵 Needs Practice → 🟣 Almost → 🟠 Fluent → ⭐ Mastered &nbsp;·&nbsp; Full spectrum mockup for design reference</p>
+
+<!-- ── Tier Spectrum ── -->
+<div class="spectrum-section">
+  <div class="spectrum-title">The Tier Spectrum</div>
+  <div class="spectrum-bar">
+    <div class="spectrum-seg unpracticed">
+      <div class="dot" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12)"></div>
+      Not Yet Practiced
+    </div>
+    <div class="spectrum-seg needs">
+      <div class="dot" style="background:rgba(77,150,255,0.22);border-color:rgba(77,150,255,0.72)"></div>
+      Needs Practice
+    </div>
+    <div class="spectrum-seg almost">
+      <div class="dot" style="background:rgba(199,125,255,0.25);border-color:rgba(199,125,255,0.80)"></div>
+      Almost
+    </div>
+    <div class="spectrum-seg fluent">
+      <div class="dot" style="background:rgba(255,159,67,0.30);border-color:rgba(255,159,67,0.90)"></div>
+      Fluent ⚡
+    </div>
+    <div class="spectrum-seg mastered">
+      <div class="dot" style="background:rgba(255,217,61,0.32);border-color:rgba(255,217,61,0.95)">
+      </div>
+      Mastered ★
+    </div>
+  </div>
+  <div style="display:flex;gap:6px">
+    <div class="spectrum-desc" style="flex:1">No attempts recorded yet. Dim ember — always visible.</div>
+    <div class="spectrum-desc" style="flex:1">Wrong answer or timed out. Still building the connection.</div>
+    <div class="spectrum-desc" style="flex:1">Correct but slower than threshold. Knows it — needs speed.</div>
+    <div class="spectrum-desc" style="flex:1">Correct within threshold. Automatic retrieval from memory.</div>
+    <div class="spectrum-desc" style="flex:1">4 of last 5 correct within threshold, 2+ sessions, low variance.</div>
+  </div>
+</div>
+
+<!-- ── 5 Scenarios ── -->
+<div class="scenarios" id="scenarios"></div>
+
+<script>
+// Helper: build a 12×12 grid given a function that returns tier for each [r,c]
+function buildGrid(tierFn) {
+  const N = 12;
+  let html = '<div class="c-grid">';
+  // Corner
+  html += '<div class="c-lbl"></div>';
+  // Col headers
+  for (let c = 1; c <= N; c++) html += '<div class="c-lbl">' + c + '</div>';
+  // Rows
+  for (let r = 1; r <= N; r++) {
+    html += '<div class="c-lbl">' + r + '</div>';
+    for (let c = 1; c <= N; c++) {
+      html += '<div class="c-dot ' + tierFn(r, c) + '"></div>';
+    }
+  }
+  html += '</div>';
+  return html;
+}
+
+const LEGEND = `
+<div class="tier-legend">
+  <div class="tier-legend-item"><div class="tier-swatch unpracticed"></div>Not practiced</div>
+  <div class="tier-legend-item"><div class="tier-swatch needs"></div>Needs Practice</div>
+  <div class="tier-legend-item"><div class="tier-swatch almost"></div>Almost</div>
+  <div class="tier-legend-item"><div class="tier-swatch fluent"></div>Fluent ⚡</div>
+  <div class="tier-legend-item"><div class="tier-swatch mastered"></div>Mastered ★</div>
+</div>`;
+
+const scenarios = [
+  {
+    num: 1,
+    title: 'First Session',
+    desc: 'Student just started. A handful of ×2 and ×5 facts have been attempted. Everything else is an unlit ember.',
+    tierFn: function(r, c) {
+      // A few ×2 attempts, mixed results
+      if (r === 2 || c === 2) {
+        if ((r + c) % 3 === 0) return 'needs';
+        if ((r + c) % 3 === 1) return 'almost';
+        return 'unpracticed';
+      }
+      if (r === 5 || c === 5) {
+        if ((r * c) % 4 === 0) return 'needs';
+        return 'unpracticed';
+      }
+      return 'unpracticed';
+    }
+  },
+  {
+    num: 2,
+    title: 'Several Sessions In',
+    desc: '×2, ×5, ×10 are well-practiced. ×3 and ×4 have been started. Most facts are still dim.',
+    tierFn: function(r, c) {
+      const easy = [2, 5, 10];
+      const started = [3, 4];
+      if (easy.includes(r) && easy.includes(c)) {
+        const v = (r * c) % 5;
+        if (v === 0) return 'fluent';
+        if (v === 1) return 'almost';
+        return 'almost';
+      }
+      if (easy.includes(r) || easy.includes(c)) {
+        const v = (r + c) % 4;
+        if (v === 0) return 'fluent';
+        if (v === 1) return 'almost';
+        if (v === 2) return 'needs';
+        return 'almost';
+      }
+      if (started.includes(r) || started.includes(c)) {
+        if ((r * c) % 3 === 0) return 'needs';
+        return 'unpracticed';
+      }
+      return 'unpracticed';
+    }
+  },
+  {
+    num: 3,
+    title: 'Mid-Journey',
+    desc: 'Lower tables (×1–×5) are mostly fluent or mastered. Middle tables (×6–×9) are actively building. Higher tables (×10–×12) just started.',
+    tierFn: function(r, c) {
+      const min = Math.min(r, c), max = Math.max(r, c);
+      if (min <= 2 && max <= 5) return 'mastered';
+      if (min <= 5 && max <= 5) {
+        return (r * c) % 3 === 0 ? 'mastered' : 'fluent';
+      }
+      if (min <= 5 && max <= 9) {
+        const v = (r * c) % 4;
+        if (v === 0) return 'fluent';
+        if (v === 1) return 'almost';
+        if (v === 2) return 'needs';
+        return 'almost';
+      }
+      if (min >= 6 && max <= 9) {
+        const v = (r + c) % 4;
+        if (v === 0) return 'almost';
+        if (v === 1) return 'needs';
+        return 'unpracticed';
+      }
+      if (max >= 10) {
+        if ((r * c) % 5 === 0) return 'needs';
+        return 'unpracticed';
+      }
+      return 'unpracticed';
+    }
+  },
+  {
+    num: 4,
+    title: 'Nearly There',
+    desc: 'Most of the constellation is lit. A cluster of harder facts (×7, ×8, ×9) still needs work. First stars appearing.',
+    tierFn: function(r, c) {
+      const hard = [7, 8, 9];
+      if (hard.includes(r) && hard.includes(c)) {
+        const v = (r * c) % 5;
+        if (v === 0) return 'almost';
+        if (v === 1) return 'needs';
+        if (v === 2) return 'fluent';
+        return 'almost';
+      }
+      if (hard.includes(r) || hard.includes(c)) {
+        return (r * c) % 3 === 0 ? 'mastered' : 'fluent';
+      }
+      return (r + c) % 5 === 0 ? 'fluent' : 'mastered';
+    }
+  },
+  {
+    num: 5,
+    title: 'Full Mastery',
+    desc: 'Every fact mastered. The constellation is fully lit — a wall of gold stars.',
+    tierFn: function() { return 'mastered'; }
+  }
+];
+
+const container = document.getElementById('scenarios');
+scenarios.forEach(function(s) {
+  const card = document.createElement('div');
+  card.className = 'scenario';
+  card.innerHTML =
+    '<div class="scenario-label">Scenario ' + s.num + '</div>' +
+    '<div class="scenario-title">' + s.title + '</div>' +
+    '<div class="scenario-desc">' + s.desc + '</div>' +
+    buildGrid(s.tierFn) +
+    LEGEND;
+  container.appendChild(card);
+});
+</script>
+</body>
+</html>
