@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fact Constellation — Mockup</title>
+<style>
+  :root {
+    --bg: #0d0d1a; --surface: #13132a;
+    --border: rgba(255,255,255,0.1); --text: rgba(240,240,255,0.9);
+    --muted: rgba(240,240,255,0.4);
+    --gold: #ffd93d; --amber: #ff9f43; --blue: #4d96ff; --purple: #c77dff;
+    --font: 'Nunito', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font), sans-serif; padding: 32px 24px; }
+  h1 { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  h2 { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,240,255,0.25); margin: 28px 0 10px; }
+
+  /* ── GRID ─────────────────────────────────── */
+  .wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: inline-block; max-width: 560px; width: 100%; }
+  .grid { display: grid; grid-template-columns: 20px repeat(12, 1fr); grid-template-rows: 20px repeat(12, 1fr); gap: 3px; aspect-ratio: 13/13; width: 100%; }
+  .g-label { display: flex; align-items: center; justify-content: center; font-size: 0.5rem; font-weight: 700; color: rgba(240,240,255,0.28); user-select: none; }
+
+  /* ── CELL ─────────────────────────────────── */
+  .cell {
+    border-radius: 50%; border: 1.5px solid transparent; position: relative;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: transform 0.12s ease, filter 0.12s ease;
+    aspect-ratio: 1;
+  }
+  .cell:hover { transform: scale(1.55); z-index: 20; filter: brightness(1.35); }
+
+  /* Fact text inside circle */
+  .c-txt {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.5rem; font-weight: 800; line-height: 1;
+    color: rgba(255,255,255,0); text-align: center; pointer-events: none;
+    transition: color 0.1s; white-space: nowrap; letter-spacing: -0.02em;
+    text-rendering: geometricPrecision; -webkit-font-smoothing: antialiased;
+  }
+  .cell:hover .c-txt { color: rgba(255,255,255,0.92); }
+
+  /* ── TIERS ──────────────────────────────────*/
+  .unpracticed    { background: rgba(255,255,255,0.04);  border-color: rgba(255,255,255,0.1); }
+  .needs-practice { background: rgba(199,125,255,0.18);  border-color: rgba(199,125,255,0.6);  box-shadow: 0 0 6px 1px rgba(199,125,255,0.18); }
+  .almost         { background: rgba(77,150,255,0.22);   border-color: rgba(77,150,255,0.72);  box-shadow: 0 0 8px 2px rgba(77,150,255,0.25), inset 0 0 4px rgba(77,150,255,0.12); }
+  .fluent         { background: rgba(255,159,67,0.26);   border-color: rgba(255,159,67,0.88);  box-shadow: 0 0 10px 3px rgba(255,159,67,0.3), 0 0 20px 4px rgba(255,159,67,0.1); }
+  .fluent.dim     { background: rgba(255,159,67,0.14);   border-color: rgba(255,159,67,0.45);  box-shadow: 0 0 5px 1px rgba(255,159,67,0.15); }
+  .mastered       { background: rgba(255,217,61,0.28);   border-color: rgba(255,217,61,0.95);  animation: pulse 2.8s ease-in-out infinite; }
+
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 10px 3px rgba(255,217,61,0.45), 0 0 22px 5px rgba(255,217,61,0.16); }
+    50%      { box-shadow: 0 0 16px 5px rgba(255,217,61,0.65), 0 0 32px 8px rgba(255,217,61,0.26); }
+  }
+  .c-star { font-size: 8px; color: var(--gold); text-shadow: 0 0 5px rgba(255,217,61,0.9); pointer-events: none; line-height: 1; transition: opacity 0.1s; }
+  .cell:hover .c-star { opacity: 0; } /* hide star, show fact text instead */
+
+  /* Sparkle ripple on mastered click */
+  @keyframes spark-pop {
+    0%   { transform: scale(1) translateZ(0); }
+    30%  { transform: scale(1.4) translateZ(0); }
+    100% { transform: scale(1) translateZ(0); }
+  }
+  @keyframes spark-ripple {
+    0%   { transform: scale(0); opacity: 1; }
+    40%  { opacity: 0.8; }
+    100% { transform: scale(4.5); opacity: 0; }
+  }
+  .cell.spark {
+    animation: spark-pop 0.35s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
+  }
+  .cell.spark::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,250,200,0.98) 0%, rgba(255,220,60,0.8) 30%, rgba(255,159,67,0.45) 60%, transparent 82%);
+    animation: spark-ripple 0.9s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
+    pointer-events: none; z-index: 5;
+  }
+
+  /* ── FACTS TO WATCH ──────────────────────────*/
+  .watch-panel { margin-top: 16px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; max-width: 560px; }
+  .watch-panel-title { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(240,240,255,0.5); margin-bottom: 12px; }
+  .watch-sections { display: flex; flex-direction: column; gap: 10px; }
+  .watch-section { border-radius: 10px; border: 1px solid; padding: 12px 14px; }
+  .watch-section.close { background: rgba(77,150,255,0.07); border-color: rgba(77,150,255,0.28); }
+  .watch-section.challenge { background: rgba(255,107,107,0.07); border-color: rgba(255,107,107,0.28); }
+  .ws-title { font-size: 0.68rem; font-weight: 700; margin-bottom: 2px; }
+  .close .ws-title { color: #4d96ff; }
+  .challenge .ws-title { color: #ff6b6b; }
+  .ws-desc { font-size: 0.6rem; color: rgba(240,240,255,0.38); margin-bottom: 8px; }
+  .ws-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .ws-chip { font-size: 0.65rem; font-weight: 700; padding: 3px 9px; border-radius: 20px; border: 1px solid; }
+  .close .ws-chip { background: rgba(77,150,255,0.12); border-color: rgba(77,150,255,0.45); color: #4d96ff; }
+  .challenge .ws-chip { background: rgba(255,107,107,0.10); border-color: rgba(255,107,107,0.40); color: #ff6b6b; }
+
+  /* ── LEGEND ─────────────────────────────────*/
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.62rem; color: var(--muted); }
+  .ldot { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid; flex-shrink: 0; }
+  .ldot.mastered      { background: rgba(255,217,61,0.28); border-color: rgba(255,217,61,0.95); box-shadow: 0 0 5px 1px rgba(255,217,61,0.4); }
+  .ldot.fluent        { background: rgba(255,159,67,0.26); border-color: rgba(255,159,67,0.88); box-shadow: 0 0 4px 1px rgba(255,159,67,0.3); }
+  .ldot.almost        { background: rgba(77,150,255,0.22); border-color: rgba(77,150,255,0.72); box-shadow: 0 0 4px 1px rgba(77,150,255,0.25); }
+  .ldot.needs-practice{ background: rgba(199,125,255,0.18); border-color: rgba(199,125,255,0.6); }
+  .ldot.unpracticed   { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.18); }
+
+  /* ── STAT CARD ───────────────────────────────*/
+  .stat-card {
+    display: none; position: absolute;
+    background: #1a1a35; border: 1px solid rgba(255,217,61,0.28); border-radius: 11px;
+    padding: 12px 16px; min-width: 155px; font-size: 0.75rem; z-index: 50;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.6); pointer-events: none;
+  }
+  .stat-card.on { display: block; }
+  .sc-fact { font-size: 1rem; font-weight: 800; margin-bottom: 3px; }
+  .sc-tier { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 8px; }
+  .sc-row  { font-size: 0.68rem; color: rgba(240,240,255,0.5); margin-bottom: 2px; }
+  .sc-row strong { color: rgba(240,240,255,0.85); }
+  .sc-mastery { margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.65rem; color: rgba(240,240,255,0.45); line-height: 1.6; }
+
+  /* ── SCENARIO LABEL ──────────────────────────*/
+  .scenario-note { font-size: 0.62rem; color: rgba(240,240,255,0.3); margin-top: 8px; }
+
+  /* ── FULL MASTERY ────────────────────────────*/
+  .full-mastery-wrap { background: var(--surface); border: 1px solid rgba(255,217,61,0.3); border-radius: 16px; padding: 20px; display: inline-block; max-width: 560px; width: 100%; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<h1>Fact Constellation — All Scenarios Mockup</h1>
+<p style="font-size:0.68rem;color:var(--muted);margin-bottom:20px;">Hover any dot → fact appears inside. Click → stat card. Re-click or click elsewhere → closes.</p>
+
+<!-- ── SCENARIO 1: Mixed progress ───────────── -->
+<h2>Typical student — mixed tiers</h2>
+<div class="wrap" style="position:relative">
+  <div class="grid" id="grid-mixed"></div>
+  <div class="stat-card" id="sc-mixed">
+    <div class="sc-fact" id="sc-mixed-fact"></div>
+    <div class="sc-tier" id="sc-mixed-tier"></div>
+    <div class="sc-row"><strong id="sc-mixed-avg"></strong> avg response</div>
+    <div class="sc-row"><strong id="sc-mixed-atts"></strong> attempts</div>
+    <div class="sc-row" id="sc-mixed-last"></div>
+    <div class="sc-mastery" id="sc-mixed-mastery"></div>
+  </div>
+  <div class="legend">
+    <span class="legend-item"><span class="ldot mastered"></span>Mastered ★</span>
+    <span class="legend-item"><span class="ldot fluent"></span>Fluent</span>
+    <span class="legend-item"><span class="ldot almost"></span>Almost</span>
+    <span class="legend-item"><span class="ldot needs-practice"></span>Needs Practice</span>
+    <span class="legend-item"><span class="ldot unpracticed"></span>Not yet practiced</span>
+  </div>
+</div>
+<div class="scenario-note">Shows glow intensity variation (dim = newer, bright = well-established)</div>
+
+<!-- ── FACTS TO WATCH panel ──────────────────-->
+<div class="watch-panel">
+  <div class="watch-panel-title">Facts to Watch</div>
+  <div class="watch-sections">
+    <div class="watch-section close">
+      <div class="ws-title">Close to Mastery ★</div>
+      <div class="ws-desc">Almost there — keep practicing these to lock them in.</div>
+      <div class="ws-chips">
+        <span class="ws-chip">4 × 6</span>
+        <span class="ws-chip">7 × 3</span>
+        <span class="ws-chip">5 × 8</span>
+        <span class="ws-chip">3 × 9</span>
+        <span class="ws-chip">6 × 4</span>
+      </div>
+    </div>
+    <div class="watch-section challenge">
+      <div class="ws-title">Challenge</div>
+      <div class="ws-desc">These facts are slipping — worth extra attention.</div>
+      <div class="ws-chips">
+        <span class="ws-chip">8 × 7</span>
+        <span class="ws-chip">9 × 6</span>
+        <span class="ws-chip">12 × 8</span>
+        <span class="ws-chip">7 × 9</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SCENARIO 2: Early student ─────────────-->
+<h2>Just started — mostly unpracticed</h2>
+<div class="wrap" style="position:relative">
+  <div class="grid" id="grid-early"></div>
+  <div class="stat-card" id="sc-early"></div>
+  <div class="legend">
+    <span class="legend-item"><span class="ldot mastered"></span>Mastered ★</span>
+    <span class="legend-item"><span class="ldot fluent"></span>Fluent</span>
+    <span class="legend-item"><span class="ldot almost"></span>Almost</span>
+    <span class="legend-item"><span class="ldot needs-practice"></span>Needs Practice</span>
+    <span class="legend-item"><span class="ldot unpracticed"></span>Not yet practiced</span>
+  </div>
+</div>
+
+<!-- ── SCENARIO 3: Full mastery ──────────────-->
+<h2>Full mastery — all facts mastered ★</h2>
+<div class="full-mastery-wrap" style="position:relative">
+  <div style="font-size:0.65rem;color:rgba(255,217,61,0.6);margin-bottom:10px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;">All × 1–12 Mastered</div>
+  <div class="grid" id="grid-full"></div>
+  <div class="legend" style="border-top-color:rgba(255,217,61,0.2)">
+    <span class="legend-item" style="color:rgba(255,217,61,0.7)"><span class="ldot mastered"></span>All 144 facts mastered ★</span>
+  </div>
+</div>
+<div class="scenario-note">What a completed constellation looks like. All 144 dots pulsing gold.</div>
+
+<script>
+const TIER_INFO = {
+  mastered:       { label:'Mastered ★',       color:'#ffd93d' },
+  fluent:         { label:'Fluent ⚡',          color:'#ff9f43' },
+  almost:         { label:'Almost 🔄',         color:'#4d96ff' },
+  'needs-practice':{ label:'Needs Practice 📚', color:'#c77dff' },
+  unpracticed:    { label:'Not yet practiced', color:'rgba(240,240,255,0.35)' }
+};
+
+// Fake data sets
+function tierMixed(r,c) {
+  // Mastered: the lower ×-tables most practiced
+  if (r<=3 && c<=3) return 'mastered';
+  if (r===2 && c===4) return 'mastered';
+  if (r===4 && c===2) return 'mastered';
+  if (r===5 && c===5) return 'mastered';
+  if (r===3 && c===6) return 'mastered';
+  // Fluent: mid tables
+  if ((r<=5||c<=5) && (r+c)%3===0 && r>0 && c>0) return 'fluent';
+  if (r===6&&c===6) return 'fluent';
+  if (r===4&&c===8||r===8&&c===4) return 'fluent';
+  // Almost
+  if ((r+c)%4===0 && r<=8 && c<=8) return 'almost';
+  if (r===7&&c===3||r===3&&c===7) return 'almost';
+  // Needs practice
+  if ((r*c)%13===0 && r>3 && c>3) return 'needs-practice';
+  if (r===9&&c===6||r===6&&c===9) return 'needs-practice';
+  // Otherwise unpracticed
+  return 'unpracticed';
+}
+
+function tierEarly(r,c) {
+  // Only ×1 and ×2 practiced, everything else dark
+  if (r===1||c===1) return (r+c)%3===0 ? 'fluent' : 'almost';
+  if (r===2||c===2) return (r+c)%5===0 ? 'almost' : 'needs-practice';
+  return 'unpracticed';
+}
+
+function fakeDim(r,c) {
+  // Glow intensity 0..1
+  return Math.min(1.0, ((r*c*3)%9)/8);
+}
+
+function fakeStats(tier, r, c) {
+  var atts = ((r*c*2)%14)+2;
+  var avg = tier==='mastered' ? (1.8+((r+c)%6)*0.15).toFixed(1)+'s'
+          : tier==='fluent'   ? (2.2+((r+c)%8)*0.2).toFixed(1)+'s'
+          : tier==='almost'   ? (4.1+((r+c)%7)*0.25).toFixed(1)+'s'
+          : null;
+  var fluentIn5 = tier==='mastered'||tier==='fluent' ? Math.min(4,2+((r+c)%3)) : (tier==='almost' ? ((r+c)%3) : 0);
+  var sessions  = tier==='mastered' ? 3 : (tier==='fluent' ? Math.min(3,1+((r*c)%3)) : 1);
+  return { atts: atts, avg: avg, fluentIn5: fluentIn5, sessions: sessions };
+}
+
+// Fact text
+function factText(r,c) { return r + '×' + c + '=' + (r*c); }
+function factFull(r,c) { return r + ' × ' + c + ' = ' + (r*c); }
+
+function buildGrid(gridId, tierFn, allMastered) {
+  var grid = document.getElementById(gridId);
+  var frag = document.createDocumentFragment();
+
+  // Corner
+  frag.appendChild(makeLabel(''));
+  for (var c=1;c<=12;c++) frag.appendChild(makeLabel(c));
+
+  for (var r=1;r<=12;r++) {
+    frag.appendChild(makeLabel(r));
+    for (var c=1;c<=12;c++) {
+      var tier = allMastered ? 'mastered' : tierFn(r,c);
+      var dim  = fakeDim(r,c);
+      var cell = document.createElement('div');
+      cell.className = 'cell ' + tier + (tier==='fluent'&&dim<0.4?' dim':'');
+      cell.setAttribute('data-r', r);
+      cell.setAttribute('data-c', c);
+      cell.setAttribute('data-tier', tier);
+
+      // Glow intensity for fluent/almost
+      if (tier==='fluent' && dim>=0.4) {
+        var ga=(0.26+dim*0.38).toFixed(2), gsz=Math.round(8+dim*14);
+        cell.style.boxShadow='0 0 '+gsz+'px '+Math.round(gsz*0.3)+'px rgba(255,159,67,'+ga+'), 0 0 '+(gsz*2)+'px 4px rgba(255,159,67,'+(parseFloat(ga)*0.35).toFixed(2)+')';
+      }
+      if (tier==='almost') {
+        var ga=(0.2+dim*0.25).toFixed(2);
+        cell.style.boxShadow='0 0 '+(6+Math.round(dim*8))+'px 2px rgba(77,150,255,'+ga+')';
+      }
+
+      // Star inside (hidden on hover); fact text for all cells
+      if (tier==='mastered') {
+        var s=document.createElement('span'); s.className='c-star'; s.textContent='★';
+        cell.appendChild(s);
+      }
+      // Fact text — one compact line, visible on hover
+      var txt=document.createElement('span'); txt.className='c-txt';
+      txt.textContent = r+'×'+c+'='+r*c;
+      cell.appendChild(txt);
+
+      frag.appendChild(cell);
+    }
+  }
+  grid.appendChild(frag);
+}
+
+function makeLabel(t) {
+  var el=document.createElement('div'); el.className='g-label'; el.textContent=t; return el;
+}
+
+// Build all grids
+buildGrid('grid-mixed', tierMixed, false);
+buildGrid('grid-early', tierEarly, false);
+buildGrid('grid-full',  null,      true);
+
+// ── Stat card click for grid-mixed ────────────────────────
+var activeCell = null;
+var scEl = document.getElementById('sc-mixed');
+
+function closeCard() { scEl.classList.remove('on'); activeCell=null; }
+
+document.getElementById('grid-mixed').addEventListener('click', function(e) {
+  var cell = e.target.closest('.cell[data-r]');
+  if (!cell) { closeCard(); return; }
+  if (cell===activeCell) { closeCard(); return; }
+  activeCell = cell;
+
+  var r=parseInt(cell.dataset.r), c=parseInt(cell.dataset.c), tier=cell.dataset.tier;
+  var info=TIER_INFO[tier]||TIER_INFO.unpracticed;
+  var st=fakeStats(tier,r,c);
+
+  document.getElementById('sc-mixed-fact').textContent=factFull(r,c);
+  document.getElementById('sc-mixed-fact').style.color=info.color;
+  document.getElementById('sc-mixed-tier').textContent=info.label;
+  document.getElementById('sc-mixed-tier').style.color=info.color;
+  document.getElementById('sc-mixed-avg').textContent=st.avg||'—';
+  document.getElementById('sc-mixed-atts').textContent=st.atts;
+  document.getElementById('sc-mixed-last').textContent=tier==='unpracticed'?'Never practiced':'Last: today';
+
+  // Mastery progress
+  var mHTML='';
+  if (tier==='mastered') {
+    mHTML='<strong style="color:#ffd93d">★ Mastered</strong>';
+  } else if (tier!=='unpracticed') {
+    mHTML='<div style="color:rgba(240,240,255,0.45);margin-bottom:3px">To reach Mastered:</div>';
+    mHTML+=st.fluentIn5+'/4 recent fluent answers'+(st.fluentIn5>=4?' ✓':'')+'<br>';
+    mHTML+=st.sessions+'/2 practice sessions'+(st.sessions>=2?' ✓':'');
+  }
+  document.getElementById('sc-mixed-mastery').innerHTML=mHTML;
+
+  var wr=document.getElementById('grid-mixed').parentElement.getBoundingClientRect();
+  var cr=cell.getBoundingClientRect();
+  scEl.style.left=Math.min(cr.left-wr.left, wr.width-170)+'px';
+  scEl.style.top=(cr.bottom-wr.top+6)+'px';
+  scEl.classList.add('on');
+
+  // Sparkle burst for mastered cells
+  if (tier==='mastered') {
+    cell.classList.remove('spark');
+    void cell.offsetWidth; // force reflow
+    cell.classList.add('spark');
+    cell.addEventListener('animationend', function handler(e){
+      if (e.animationName === 'spark-ripple') {
+        cell.classList.remove('spark');
+        cell.removeEventListener('animationend', handler);
+      }
+    });
+  }
+});
+
+document.querySelector('.wrap').addEventListener('click', function(e){
+  if (!e.target.closest('#grid-mixed')) closeCard();
+});
+</script>
+</body>
+</html>

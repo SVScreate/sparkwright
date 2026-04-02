@@ -370,6 +370,26 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 
 146. **Download / Save as PDF button** — developer wants a download button on the results screen and wherever there's a print button. For a static site, the only practical path is `window.print()` relabeled "Print / Save as PDF" (browser provides "Save as PDF" destination in print dialog). Adding a PDF library (jsPDF, etc.) not recommended — significant weight for marginal UX gain. Implementation: relabel existing print buttons + add a tooltip or helper text "→ Choose 'Save as PDF' in the dialog." Design discussion needed before coding. *(Session Z)*
 
+161. **UI visual refresh pass** — Title screen, Results screen, Settings screen, and other untouched pages should be brought up to the visual standard of the Constellation map and the landing page. Cohesive forge/alchemy aesthetic throughout, not just on My Constellation. Design discussion needed: what elevated elements from the constellation (glows, circles, warmth) translate to other screens? Log for a dedicated styling session after core features are stable. *(Session AB)*
+
+162. **Reload behavior — screen persistence** — Currently any reload within the game returns to the title screen. Desired: reload restores the screen the user was on. Implementation: save active screen name to localStorage on `showScreen()`; on load, check for saved screen and restore if safe (exclude mid-round game screen and remediation screen — those should always reset to title on reload). *(Session AB)*
+
+163. **Results screen — "You mastered it!" celebration** *(Spark Session AB — log, build with constellation)* — If any facts crossed mastery threshold for the first time during a round, show a distinct beat on the results screen: *"You mastered 3 × 4!"* for each newly mastered fact. Gold pulse/reveal. Separate from main summary. Needs mastery timestamp vs. session start time comparison to detect first mastery. Student-centered language: "You mastered it" not "it earned a star."
+
+164. **Full constellation mastered — ceremony + badge + certificate** *(Spark Session AB — log, design before building)* — When all facts for an operation are mastered: (1) big celebration screen with fully lit pulsing constellation + Pip ★; (2) persistent profile badge (*"Multiplication ×3 Master"*); (3) printable certificate (student name, operation, date, Sparkwright wordmark). Design together. Build after constellation core + mastery v2.
+
+165. **Tier freshness flags + inactivity handling** *(Spark Session AB — log, don't build yet)* — Internal flag (not visual) after N days inactivity. Flag gates forward progress but does not dim stars or subtract tiers. Cleared by fresh practice data or teacher-initiated Assessment. Near-threshold facts flag sooner than deeply established facts. N-day thresholds TBD. Full design in RP Section 4.
+
+166. **Smart Practice mode — game-designed round** *(Spark Session AB — log, don't build yet)* — Mode reads the constellation and auto-builds the round. Priority: (1) fluent-not-yet-mastered, (2) almost, (3) needs-practice/unpracticed, (4) mastered maintenance sprinkle. Ratios adapt to student's current state. Design in RP Section 4. Connected to setup flow redesign (item 168).
+
+167. **Mastery definition v2** *(Spark Session AB — build after constellation core)* — Updated criteria: 6 of last 8 correct (up from 4/5), 3 minimum sessions (up from 2), ≥2 calendar day spread required, recency gate (≥1 fluent in last N days). De-certification: flag for review if 3 consecutive attempts exceed threshold OR variance spikes. Build data model to support v2 now; layer in criteria after constellation is stable. Flag as v1/provisional in code.
+
+168. **Setup flow redesign — mode first** *(Spark Session AB — design decision pending)* — Mode selection should come before settings/customization. Two primary foregrounded options: Smart Practice + Per-Question Timer. Settings become secondary layer. Connected to item 100 (title screen) — don't finalize either until this is decided.
+
+169. **×13–×20 toggle in My Constellation** *(Spark Session AB — design decision pending)* — Contextual line in constellation view: *"Showing facts ×1–×12 · Include ×13–×20."* When toggled on, constellation expands. Game settings surface those table options automatically. Constellation is the hub — settings follow it.
+
+170. **Fluency threshold in My Constellation** *(Spark Session AB — design decision pending)* — Threshold should be visible in context at My Constellation (*"Fluency graded at 3s · Change"*) not only buried in Advanced Settings. Pending design decision on whether the Change link opens a modal, inline selector, or redirects to Advanced Settings. Do not finalize until decided.
+
 155. **Settings not per-profile — bug** — `mathflash_settings` is a single global localStorage key. When a new profile is created or a different profile is selected, the previous user's settings load (e.g., fluency threshold set to 6s persists to a new user who should default to 3s). Fix: store settings per-profile as `mathflash_settings_${username}`, or reset to defaults when a fresh profile is detected. Design question: should switching profiles load that profile's last-used settings, or always reset to global defaults? Log as bug, fix before user-facing launch. *(Session Z — repro: create second profile, check Advanced Settings threshold)*
 
 160. **Leave-round navigation warning** — if a student clicks the Sparkwright logo or any nav link while in an active round or assessment, show a confirmation prompt: "Are you sure? Your progress will be lost." Applies to any in-game screen (active round, Practice Quest, assessment). *(Session Z)*
@@ -547,6 +567,29 @@ Server account unlocked. Cross-device sync. Teacher dashboard — manage student
 ---
 
 ## WHERE TO PICK UP
+
+*Session AB (in progress) — April 1, 2026*
+
+**Session AB build log (in progress):**
+- ✅ **Leave-round warning extended** — "End Round" from pause menu now requires confirm dialog before ending
+- ✅ **My Constellation visual rebuild** — cells: squares → circles. Glow amplified per tier with intensity scaling. Hover: fact text appears inside the circle (two-line, no blur). Click: stat card with fact, tier, avg response, attempts, last practiced, mastery progress bar. Re-click or click elsewhere closes card. Mastered ★ centered inside bubble.
+- ✅ **"How this works" explainer** — collapsible panel below op filter with tier descriptions + usage instructions
+- ✅ **Renamed: "My Progress" → "My Constellation"** — all nav buttons, screen title updated to "Your Math Fact Constellation"
+- ✅ **Sparkwright handoff updated** — progress tracking + mode design question sent to Spark; Spark replied (see handoff). Decision: all modes count toward constellation. No per-round toggle.
+- ✅ **Spark design items logged** — items 161–170 below (results celebration, full mastery ceremony, freshness flags, Smart Practice mode, mastery v2, rename, ×13–20 toggle, setup flow redesign)
+
+**Testing needed:**
+- T-Constellation-2 — circles, glow, hover fact text inside circle, click stat card, mastery progress row
+- T-HowThisWorks — panel opens/closes, content accurate
+- T-Rename — all "My Progress" references updated
+
+**Build queue for remainder of Session AB:**
+1. Test pass on constellation visual
+2. Fluency threshold + ×13–×20 in constellation — design decision pending (Kimberly to decide)
+3. Assessment Mode build (items 66+147) — next major feature
+4. Print pill on My Constellation (item 143) — unblocked
+
+---
 
 *Session AA close — March 31, 2026 — v67 committed.*
 

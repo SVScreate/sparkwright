@@ -387,21 +387,99 @@ body {
 }
 .c-cell {
   aspect-ratio: 1;
-  border-radius: 4px;
-  border: 1px solid;
+  border-radius: 50%;
+  border: 1.5px solid;
   position: relative;
-  cursor: default;
-  transition: transform 0.1s, z-index 0s;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  will-change: transform;
+  transition: transform 0.12s ease, filter 0.12s ease, z-index 0s;
 }
-.c-cell:hover { transform: scale(1.35); z-index: 10; }
-.c-cell.unpracticed   { background: rgba(255,255,255,0.03);  border-color: rgba(255,255,255,0.08); }
-.c-cell.needs-practice{ background: rgba(199,125,255,0.09);  border-color: rgba(199,125,255,0.28); }
-.c-cell.almost        { background: rgba(77,150,255,0.12);   border-color: rgba(77,150,255,0.42); }
-.c-cell.fluent        { background: rgba(255,159,67,0.16);   border-color: rgba(255,159,67,0.58); }
-.c-cell.mastered      { background: rgba(255,217,61,0.18);   border-color: rgba(255,217,61,0.82); }
+.c-cell:hover { transform: scale(1.5) translateZ(0); z-index: 10; filter: brightness(1.35); }
+
+/* Fact text inside circle on hover */
+.c-txt {
+  position: absolute;
+  inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.5rem; font-weight: 800; line-height: 1;
+  color: rgba(255,255,255,0.0);
+  text-align: center; pointer-events: none;
+  transition: color 0.1s;
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+.c-cell:hover .c-txt { color: rgba(255,255,255,0.92); }
+
+.c-cell.unpracticed    { background: rgba(255,255,255,0.04);  border-color: rgba(255,255,255,0.1); }
+.c-cell.needs-practice { background: rgba(199,125,255,0.18);  border-color: rgba(199,125,255,0.6);
+                         box-shadow: 0 0 6px 1px rgba(199,125,255,0.18); }
+.c-cell.almost         { background: rgba(77,150,255,0.22);   border-color: rgba(77,150,255,0.72);
+                         box-shadow: 0 0 8px 2px rgba(77,150,255,0.25), inset 0 0 4px rgba(77,150,255,0.12); }
+.c-cell.fluent         { background: rgba(255,159,67,0.26);   border-color: rgba(255,159,67,0.88);
+                         box-shadow: 0 0 10px 3px rgba(255,159,67,0.3), 0 0 20px 4px rgba(255,159,67,0.1); }
+.c-cell.mastered       { background: rgba(255,217,61,0.28);   border-color: rgba(255,217,61,0.95);
+                         animation: ember-pulse 2.8s ease-in-out infinite; }
+
+@keyframes ember-pulse {
+  0%, 100% { box-shadow: 0 0 10px 3px rgba(255,217,61,0.45), 0 0 22px 5px rgba(255,217,61,0.16); }
+  50%       { box-shadow: 0 0 16px 5px rgba(255,217,61,0.65), 0 0 32px 8px rgba(255,217,61,0.26); }
+}
+
+/* Sparkle ripple on mastered cell click */
+@keyframes spark-pop {
+  0%   { transform: scale(1) translateZ(0); }
+  30%  { transform: scale(1.4) translateZ(0); }
+  100% { transform: scale(1) translateZ(0); }
+}
+@keyframes spark-ripple {
+  0%   { transform: scale(0); opacity: 1; }
+  40%  { opacity: 0.8; }
+  100% { transform: scale(4.5); opacity: 0; }
+}
+.c-cell.spark {
+  animation: spark-pop 0.35s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
+}
+.c-cell.spark::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,250,200,0.98) 0%, rgba(255,220,60,0.8) 30%, rgba(255,159,67,0.45) 60%, transparent 82%);
+  animation: spark-ripple 0.9s cubic-bezier(0.1, 0.7, 0.3, 1) forwards;
+  pointer-events: none; z-index: 5;
+}
+
 .c-star {
-  position: absolute; top: 1px; right: 2px;
-  font-size: 7px; color: var(--a2); line-height: 1; pointer-events: none;
+  font-size: 8px; color: var(--a2); line-height: 1; pointer-events: none;
+  text-shadow: 0 0 5px rgba(255,217,61,0.9);
+}
+
+/* Stat card popup */
+.c-stat-card {
+  display: none;
+  position: absolute;
+  background: #1a1a35;
+  border: 1px solid rgba(255,217,61,0.28);
+  border-radius: 11px;
+  padding: 12px 16px;
+  min-width: 150px;
+  font-size: 0.75rem;
+  z-index: 50;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+.c-stat-card.visible { display: block; }
+.csc-fact  { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+.csc-tier  { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 8px; }
+.csc-row   { font-size: 0.68rem; color: rgba(240,240,255,0.5); margin-bottom: 2px; }
+.csc-row strong { color: rgba(240,240,255,0.85); }
+.csc-mastery {
+  margin-top: 8px; padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 0.65rem; color: rgba(240,240,255,0.45);
+  line-height: 1.5;
 }
 
 /* Legend */
@@ -410,28 +488,75 @@ body {
   margin-top: 10px; padding-top: 10px;
   border-top: 1px solid var(--border);
 }
-.mp-legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.67rem; color: rgba(240,240,255,0.45); }
-.mp-legend-dot  { width: 10px; height: 10px; border-radius: 3px; border: 1px solid; flex-shrink: 0; }
-.mp-legend-dot.mastered      { background: rgba(255,217,61,0.18);  border-color: rgba(255,217,61,0.82); }
-.mp-legend-dot.fluent        { background: rgba(255,159,67,0.16);  border-color: rgba(255,159,67,0.58); }
-.mp-legend-dot.almost        { background: rgba(77,150,255,0.12);  border-color: rgba(77,150,255,0.42); }
-.mp-legend-dot.needs-practice{ background: rgba(199,125,255,0.09); border-color: rgba(199,125,255,0.28); }
-.mp-legend-dot.unpracticed   { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.18); }
+.mp-legend-item {
+  display: flex; align-items: center; gap: 5px; font-size: 0.67rem; color: rgba(240,240,255,0.45);
+  position: relative; cursor: default;
+}
+.mp-legend-item[data-tip]:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%; transform: translateX(-50%);
+  background: #1a1a35;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 7px;
+  padding: 6px 10px;
+  font-size: 0.65rem;
+  font-weight: 400;
+  white-space: nowrap;
+  color: rgba(240,240,255,0.85);
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  line-height: 1.5;
+}
+.mp-legend-dot  { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid; flex-shrink: 0; }
+.mp-legend-dot.mastered      { background: rgba(255,217,61,0.28);  border-color: rgba(255,217,61,0.95); box-shadow: 0 0 5px 1px rgba(255,217,61,0.4); }
+.mp-legend-dot.fluent        { background: rgba(255,159,67,0.26);  border-color: rgba(255,159,67,0.88); box-shadow: 0 0 4px 1px rgba(255,159,67,0.3); }
+.mp-legend-dot.almost        { background: rgba(77,150,255,0.22);  border-color: rgba(77,150,255,0.72); box-shadow: 0 0 4px 1px rgba(77,150,255,0.25); }
+.mp-legend-dot.needs-practice{ background: rgba(199,125,255,0.18); border-color: rgba(199,125,255,0.6); }
+.mp-legend-dot.unpracticed   { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.18); }
+
+/* How this works panel */
+.mp-how-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.04em;
+  color: rgba(77,150,255,0.7);
+  padding: 0; text-decoration: underline; text-underline-offset: 2px;
+}
+.mp-how-btn:hover { color: var(--a4); }
+.mp-how-panel {
+  display: none; margin-top: 10px; padding: 12px 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 9px;
+  margin-bottom: 8px;
+}
+.mp-how-panel.open { display: block; }
+.mp-how-row {
+  font-size: 0.7rem; color: rgba(240,240,255,0.6);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 4px;
+}
+.mp-how-row strong { color: rgba(240,240,255,0.85); }
 
 /* Section 2: Facts to Watch */
-.mp-watch-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.mp-watch-sections { display: flex; flex-direction: column; gap: 10px; }
+.mp-watch-section  { border-radius: 10px; border: 1px solid; padding: 12px 14px; }
+.mp-watch-section.close-to-mastery { background: rgba(77,150,255,0.07); border-color: rgba(77,150,255,0.28); }
+.mp-watch-section.challenge-section { background: rgba(255,107,107,0.07); border-color: rgba(255,107,107,0.28); }
+.mp-watch-section-hdr  { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.mp-watch-section-title{ font-size: 0.72rem; font-weight: 800; }
+.close-to-mastery .mp-watch-section-title { color: var(--a4); }
+.challenge-section .mp-watch-section-title { color: var(--a1); }
+.mp-watch-section-desc { font-size: 0.65rem; color: rgba(240,240,255,0.5); margin-bottom: 9px; line-height: 1.4; }
+.mp-watch-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .mp-watch-chip {
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
-  padding: 8px 12px; border-radius: 10px; border: 1px solid; min-width: 64px; text-align: center;
+  font-size: 0.78rem; font-weight: 700;
+  padding: 5px 10px; border-radius: 8px; border: 1px solid;
 }
-.mp-watch-chip .wc-eq  { font-size: 0.82rem; font-weight: 700; color: var(--text); }
-.mp-watch-chip .wc-tag { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
-.mp-watch-chip.challenge   { background: rgba(255,107,107,0.08); border-color: rgba(255,107,107,0.3); }
-.mp-watch-chip.challenge   .wc-tag { color: var(--a1); }
-.mp-watch-chip.near-mastery{ background: rgba(255,217,61,0.08);  border-color: rgba(255,217,61,0.32); }
-.mp-watch-chip.near-mastery .wc-tag { color: var(--a2); }
-.mp-watch-chip.regressed   { background: rgba(255,159,67,0.08);  border-color: rgba(255,159,67,0.3); }
-.mp-watch-chip.regressed   .wc-tag { color: var(--a6); }
+.close-to-mastery .mp-watch-chip { background: rgba(77,150,255,0.12); border-color: rgba(77,150,255,0.45); color: var(--a4); }
+.challenge-section .mp-watch-chip { background: rgba(255,107,107,0.1); border-color: rgba(255,107,107,0.4); color: var(--a1); }
+.mp-watch-empty { font-size: 0.8rem; color: rgba(240,240,255,0.25); }
 
 /* Section 3: Assessment Records */
 .mp-assessment-empty { font-size: 0.85rem; color: rgba(240,240,255,0.3); margin-bottom: 14px; }
@@ -1851,7 +1976,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       <span class="sw-logo-wordmark"><span class="sw-logo-spark">Spark</span><span class="sw-logo-wright">wright</span></span>
     </a>
     <div id="sw-divider"></div>
-    <span id="sw-game-label">Math Flash</span>
+    <span id="sw-game-label" onclick="showScreen('title-screen')" style="cursor:pointer;" title="Back to title screen">Math Flash</span>
   </div>
   <div id="sw-profile-chip" class="guest">
     <span class="sw-avatar">👤</span>
@@ -1872,7 +1997,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   <div class="title-btn-row">
     <button class="btn-primary" onclick="goSetup()">Let's Go →</button>
     <button class="btn-ghost" onclick="showOverlay('howto-overlay')">How to Play</button>
-    <button class="btn-ghost" onclick="showScreen('stats-screen')">My Progress</button>
+    <button class="btn-ghost" onclick="showScreen('stats-screen')">My Constellation</button>
   </div>
   <div class="title-link-row">
     <button class="title-about-link" onclick="showOverlay('about-overlay')">About this game</button>
@@ -2255,7 +2380,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   <div class="res-btns">
     <button class="res-btn primary"   onclick="startGame()">Play Again</button>
     <button class="res-btn secondary" onclick="showScreen('setup-screen')">Settings</button>
-    <button class="res-btn secondary" onclick="showScreen('stats-screen')">View Progress</button>
+    <button class="res-btn secondary" onclick="showScreen('stats-screen')">My Constellation</button>
     <button class="res-btn secondary" onclick="showScreen('title-screen')">Home</button>
     <button class="res-btn print-btn" onclick="printResults()" title="Print results">🖨 Print</button>
   </div>
@@ -2265,7 +2390,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <div id="stats-screen" class="screen">
   <div class="stats-header">
     <div class="stats-profile" id="stats-profile"></div>
-    <div class="stats-title">My Progress</div>
+    <div class="stats-title">Your Math Fact Constellation</div>
   </div>
   <div class="stats-body" id="stats-body"></div>
   <div class="stats-footer">
@@ -3803,6 +3928,7 @@ function pauseRestart() {
   setTimeout(function() { restartGame(); }, 0);
 }
 function pauseEndRound() {
+  if (!window.confirm('End this round? Your progress will be lost.')) return;
   document.getElementById('pause-overlay').classList.remove('active');
   if (G.remTimeout)   { clearTimeout(G.remTimeout);   G.remTimeout   = null; }
   if (G.focusTimeout) { clearTimeout(G.focusTimeout); G.focusTimeout = null; }
@@ -4844,6 +4970,20 @@ function buildStatsScreen() {
     if (op === '-')  return r > c ? r + ' − ' + c + ' = ' + (r - c) : '';
     return '';
   }
+  function cellKey(op, r, c) {
+    // Return the key that actually exists in userFacts (factKey stores in display order, not normalized)
+    if (op === 'x') {
+      var k1 = 'mul_' + r + 'x' + c, k2 = 'mul_' + c + 'x' + r;
+      return userFacts[k1] ? k1 : k2;
+    }
+    if (op === '/')  return 'div_' + (r * c) + 'd' + r;
+    if (op === '+') {
+      var k1 = 'add_' + r + 'p' + c, k2 = 'add_' + c + 'p' + r;
+      return userFacts[k1] ? k1 : k2;
+    }
+    if (op === '-')  return r > c ? 'sub_' + r + 'm' + c : '';
+    return '';
+  }
 
   // ── Build constellation grid ──────────────────────────────────
   function buildConstellation(op) {
@@ -4866,7 +5006,8 @@ function buildStatsScreen() {
         var tier   = cellTier(rec);
         var str    = glowStrength(rec);
         var tip    = cellTooltip(op, r, c);
-        cells.push({ type: 'cell', tier: tier, strength: str, tooltip: tip, mastered: tier === 'mastered' });
+        var fk     = cellKey(op, r, c);
+        cells.push({ type: 'cell', tier: tier, strength: str, tooltip: tip, fk: fk, mastered: tier === 'mastered' });
       }
     }
 
@@ -4881,21 +5022,28 @@ function buildStatsScreen() {
       } else {
         var el = document.createElement('div');
         el.className = 'c-cell ' + d.tier;
-        if (d.tooltip) el.title = d.tooltip;
+        if (d.tooltip) el.setAttribute('data-fact', d.tooltip);
+        if (d.fk) el.setAttribute('data-fk', d.fk);
 
-        // Dynamic glow inline
-        if (d.tier === 'fluent') {
-          var a = (0.35 + d.strength * 0.45).toFixed(2);
-          var sz = Math.round(4 + d.strength * 8);
-          el.style.boxShadow = '0 0 ' + sz + 'px rgba(255,159,67,' + a + ')';
-        } else if (d.tier === 'mastered') {
-          var a = (0.55 + d.strength * 0.35).toFixed(2);
-          var sz = Math.round(6 + d.strength * 10);
-          el.style.boxShadow = '0 0 ' + sz + 'px rgba(255,217,61,' + a + '), 0 0 3px rgba(255,217,61,0.9)';
-        } else if (d.tier === 'almost') {
-          var a = (0.2 + d.strength * 0.3).toFixed(2);
-          el.style.boxShadow = '0 0 5px rgba(77,150,255,' + a + ')';
+        // Fact text inside circle (visible on hover via CSS) — single compact line
+        if (d.tooltip) {
+          var txtSpan = document.createElement('span');
+          txtSpan.className = 'c-txt';
+          // Compact: "11×12=132" (no spaces)
+          txtSpan.textContent = d.tooltip.replace(' × ', '×').replace(' ÷ ', '÷').replace(' + ', '+').replace(' − ', '−').replace(' = ', '=');
+          el.appendChild(txtSpan);
         }
+
+        // Dynamic glow intensity (scaled by how established the fact is)
+        if (d.tier === 'fluent') {
+          var ga = (0.28 + d.strength * 0.38).toFixed(2);
+          var gsz = Math.round(8 + d.strength * 14);
+          el.style.boxShadow = '0 0 ' + gsz + 'px ' + Math.round(gsz * 0.3) + 'px rgba(255,159,67,' + ga + '), 0 0 ' + Math.round(gsz * 2) + 'px 4px rgba(255,159,67,' + (parseFloat(ga) * 0.35).toFixed(2) + ')';
+        } else if (d.tier === 'almost') {
+          var ga = (0.2 + d.strength * 0.25).toFixed(2);
+          el.style.boxShadow = '0 0 ' + Math.round(6 + d.strength * 8) + 'px 2px rgba(77,150,255,' + ga + ')';
+        }
+        // mastered glow is handled by CSS animation; star goes inside
 
         if (d.mastered) {
           var star = document.createElement('span');
@@ -4924,47 +5072,52 @@ function buildStatsScreen() {
     return null;
   }
 
-  var watchList = [];
+  var closeToMastery = [], challengeFacts = [];
   keys.forEach(function(fk) {
     var rec = userFacts[fk];
     if (!rec || rec.mastered) return;
     var p = parseFk(fk);
     if (!p) return;
-    var total   = (rec.correct || 0) + (rec.incorrect || 0);
+    var total  = (rec.correct || 0) + (rec.incorrect || 0);
     if (total < 2) return;
-    var recent  = rec.recentAttempts || [];
+    var recent = rec.recentAttempts || [];
     if (recent.length < 2) return;
-    var misses  = recent.filter(function(a) { return !a.correct; }).length;
+    var misses   = recent.filter(function(a) { return !a.correct; }).length;
     var missRate = misses / recent.length;
-    // Near mastery: 3+ of last 5 correct under threshold
-    var last5        = recent.slice(-5);
+    var last5    = recent.slice(-5);
     var fluentInLast5 = last5.filter(function(a) { return a.correct && a.ms && a.ms <= threshMs; }).length;
-    // Historically good but now struggling
-    var historicallyGood = (rec.correct || 0) > (rec.incorrect || 0) && (rec.correct || 0) >= 5;
 
     if (fluentInLast5 >= 3 && missRate <= 0.35) {
-      watchList.push({ eq: p.eq, type: 'near-mastery', priority: 0 });
+      closeToMastery.push({ eq: p.eq });
     } else if (missRate >= 0.5 && total >= 3) {
-      watchList.push({ eq: p.eq, type: 'challenge', priority: 1, missRate: missRate });
-    } else if (historicallyGood && missRate > 0.5) {
-      watchList.push({ eq: p.eq, type: 'regressed', priority: 2 });
+      challengeFacts.push({ eq: p.eq, missRate: missRate });
     }
   });
-  watchList.sort(function(a, b) {
-    if (a.priority !== b.priority) return a.priority - b.priority;
-    return (b.missRate || 0) - (a.missRate || 0);
-  });
-  watchList = watchList.slice(0, 9);
+  challengeFacts.sort(function(a, b) { return b.missRate - a.missRate; });
+  closeToMastery = closeToMastery.slice(0, 6);
+  challengeFacts = challengeFacts.slice(0, 6);
 
-  var watchHTML = watchList.length === 0
-    ? '<div style="font-size:0.85rem;color:rgba(240,240,255,0.3);">Keep practicing — suggestions will appear here.</div>'
-    : watchList.map(function(w) {
-        var tag = { 'near-mastery': 'Almost there', 'challenge': 'Challenge', 'regressed': 'Keep working' }[w.type] || '';
-        return '<div class="mp-watch-chip ' + w.type + '">' +
-               '<span class="wc-eq">' + w.eq + '</span>' +
-               '<span class="wc-tag">' + tag + '</span>' +
-               '</div>';
-      }).join('');
+  function makeWatchSection(cls, title, desc, chips) {
+    if (chips.length === 0) return '';
+    return '<div class="mp-watch-section ' + cls + '">' +
+      '<div class="mp-watch-section-hdr"><span class="mp-watch-section-title">' + title + '</span></div>' +
+      '<div class="mp-watch-section-desc">' + desc + '</div>' +
+      '<div class="mp-watch-chips">' +
+        chips.map(function(c) { return '<span class="mp-watch-chip">' + c.eq + '</span>'; }).join('') +
+      '</div>' +
+    '</div>';
+  }
+
+  var watchHTML = (closeToMastery.length + challengeFacts.length) === 0
+    ? '<div class="mp-watch-empty">Keep practicing — suggestions will appear here.</div>'
+    : '<div class="mp-watch-sections">' +
+        makeWatchSection('close-to-mastery', 'Close to Mastery ★',
+          'You\'ve been fast and correct on 3+ of your last 5 tries. Keep going — a star is close!',
+          closeToMastery) +
+        makeWatchSection('challenge-section', 'Challenge',
+          'You\'re getting these wrong more than half the time. Pick one to focus on as you play.',
+          challengeFacts) +
+      '</div>';
 
   // ── Render all three sections ─────────────────────────────────
   var activeOp = 'x';
@@ -4977,21 +5130,39 @@ function buildStatsScreen() {
         '<button class="mp-op-pill" data-op="+">+</button>' +
         '<button class="mp-op-pill" data-op="-">−</button>' +
       '</div>' +
-      '<div class="mp-threshold-note">Fluency graded at ' + threshSec + '-second threshold</div>' +
-      '<div class="constellation-wrap">' +
+      '<div class="mp-threshold-note">Fluency graded at ' + threshSec + '-second threshold &nbsp;<button class="mp-how-btn" id="mp-how-btn" onclick="document.getElementById(\'mp-how-panel\').classList.toggle(\'open\')">How this works ↓</button></div>' +
+      '<div class="mp-how-panel" id="mp-how-panel">' +
+        '<div style="font-size:0.68rem;color:rgba(240,240,255,0.65);margin-bottom:10px;">' +
+          '<div style="font-weight:800;color:rgba(240,240,255,0.85);font-size:0.72rem;margin-bottom:7px;">How to light up your constellation</div>' +
+          '<div style="margin-bottom:5px;">⚡ <strong>Use Per-Question Timer mode</strong> — this is how the constellation learns your speed. Each answer is timed and graded.</div>' +
+          '<div style="margin-bottom:5px;">🔄 <strong>Practice across multiple sessions</strong> — mastery requires showing up more than once. A great single round won\'t earn a star.</div>' +
+          '<div style="margin-bottom:5px;">📚 <strong>When a fact triggers Practice Quest, don\'t just click through</strong> — use it as a chance to really build your memory of that fact.</div>' +
+          '<div>★ <strong>Watch the amber facts</strong> — fluent but not mastered yet. A few more consistent sessions and they earn their star.</div>' +
+        '</div>' +
+        '<div style="padding-top:9px;border-top:1px solid rgba(255,255,255,0.07);">' +
+          '<div class="mp-how-row"><span class="mp-legend-dot mastered" style="display:inline-block;vertical-align:middle;margin-right:7px;flex-shrink:0"></span><strong>Mastered ★</strong> — Correct in ≤' + threshSec + 's, 4 of your last 5 tries, 2+ sessions, consistent timing.</div>' +
+          '<div class="mp-how-row"><span class="mp-legend-dot fluent" style="display:inline-block;vertical-align:middle;margin-right:7px;flex-shrink:0"></span><strong>Fluent</strong> — Correct in ≤' + threshSec + 's. Automatic — coming from memory.</div>' +
+          '<div class="mp-how-row"><span class="mp-legend-dot almost" style="display:inline-block;vertical-align:middle;margin-right:7px;flex-shrink:0"></span><strong>Almost</strong> — Correct but slower than ' + threshSec + 's. You know it — keep building speed.</div>' +
+          '<div class="mp-how-row"><span class="mp-legend-dot needs-practice" style="display:inline-block;vertical-align:middle;margin-right:7px;flex-shrink:0"></span><strong>Needs Practice</strong> — Wrong answer, or time ran out.</div>' +
+          '<div class="mp-how-row"><span class="mp-legend-dot unpracticed" style="display:inline-block;vertical-align:middle;margin-right:7px;flex-shrink:0"></span><strong>Not yet practiced</strong> — You haven\'t seen this one yet.</div>' +
+          '<div style="font-size:0.62rem;color:rgba(240,240,255,0.28);margin-top:6px;">Brighter glow = more established. Click any dot to see its details.</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="constellation-wrap" style="position:relative">' +
         '<div class="constellation-grid" id="constellation-grid"></div>' +
+        '<div class="c-stat-card" id="c-stat-card"><div class="csc-fact" id="csc-fact"></div><div class="csc-tier" id="csc-tier"></div><div class="csc-row"><strong id="csc-avg"></strong> avg response</div><div class="csc-row"><strong id="csc-atts"></strong> attempts</div><div class="csc-row" id="csc-last"></div><div class="csc-mastery" id="csc-mastery"></div></div>' +
         '<div class="mp-tier-legend">' +
-          '<span class="mp-legend-item"><span class="mp-legend-dot mastered"></span>Mastered ★</span>' +
-          '<span class="mp-legend-item"><span class="mp-legend-dot fluent"></span>Fluent</span>' +
-          '<span class="mp-legend-item"><span class="mp-legend-dot almost"></span>Almost</span>' +
-          '<span class="mp-legend-item"><span class="mp-legend-dot needs-practice"></span>Needs Practice</span>' +
-          '<span class="mp-legend-item"><span class="mp-legend-dot unpracticed"></span>Not yet practiced</span>' +
+          '<span class="mp-legend-item" data-tip="Correct in ≤' + threshSec + 's — 4 of last 5 attempts, 2+ sessions, consistent times"><span class="mp-legend-dot mastered"></span>Mastered ★</span>' +
+          '<span class="mp-legend-item" data-tip="Correct in ≤' + threshSec + 's — automatic retrieval"><span class="mp-legend-dot fluent"></span>Fluent</span>' +
+          '<span class="mp-legend-item" data-tip="Correct but slower than ' + threshSec + 's — knows it, not yet automatic"><span class="mp-legend-dot almost"></span>Almost</span>' +
+          '<span class="mp-legend-item" data-tip="Wrong answer, or no answer before time ran out"><span class="mp-legend-dot needs-practice"></span>Needs Practice</span>' +
+          '<span class="mp-legend-item" data-tip="No attempts recorded yet"><span class="mp-legend-dot unpracticed"></span>Not yet practiced</span>' +
         '</div>' +
       '</div>' +
     '</div>' +
     '<div class="mp-section">' +
       '<div class="mp-section-title">Facts to Watch</div>' +
-      '<div class="mp-watch-grid">' + watchHTML + '</div>' +
+      watchHTML +
     '</div>' +
     '<div class="mp-section">' +
       '<div class="mp-section-title">Assessment Records</div>' +
@@ -5010,7 +5181,109 @@ function buildStatsScreen() {
       activeOp = pill.dataset.op;
       filterEl.querySelectorAll('.mp-op-pill').forEach(function(p) { p.classList.remove('active'); });
       pill.classList.add('active');
+      closeStatCard();
       buildConstellation(activeOp);
+    });
+  }
+
+  // Constellation cell click → stat card
+  var activeStatCell = null;
+  var statCard = document.getElementById('c-stat-card');
+
+  function closeStatCard() {
+    if (statCard) statCard.classList.remove('visible');
+    activeStatCell = null;
+  }
+
+  var gridEl = document.getElementById('constellation-grid');
+  if (gridEl && statCard) {
+    gridEl.addEventListener('click', function(e) {
+      var cell = e.target.closest('.c-cell[data-fact]');
+      if (!cell) { closeStatCard(); return; }
+
+      // Re-click same cell → close
+      if (cell === activeStatCell) { closeStatCard(); return; }
+      activeStatCell = cell;
+
+      var fact   = cell.getAttribute('data-fact');
+      var tier   = cell.classList[1]; // e.g. 'fluent'
+      var tierLabels = {
+        'mastered':      { label: 'Mastered ★', color: '#ffd93d' },
+        'fluent':        { label: 'Fluent ⚡',   color: '#ff9f43' },
+        'almost':        { label: 'Almost 🔄',   color: '#4d96ff' },
+        'needs-practice':{ label: 'Needs Practice 📚', color: '#c77dff' },
+        'unpracticed':   { label: 'Not yet practiced', color: 'rgba(240,240,255,0.35)' }
+      };
+      var info = tierLabels[tier] || tierLabels['unpracticed'];
+
+      // Pull real record data
+      var fk = cell.getAttribute('data-fk');
+      var rec = (fk && userFacts[fk]) ? userFacts[fk] : null;
+      var total = 0, avgMs = null, lastDate = null, masteryHTML = '';
+
+      if (rec) {
+        total = (rec.correct || 0) + (rec.incorrect || 0);
+        if (rec.recentAttempts && rec.recentAttempts.length) {
+          var correctMs = rec.recentAttempts.filter(function(a) { return a.correct && a.ms > 0; });
+          if (correctMs.length) {
+            avgMs = (correctMs.reduce(function(s,a){ return s+a.ms; },0) / correctMs.length / 1000).toFixed(1) + 's';
+          }
+          var lastA = rec.recentAttempts[rec.recentAttempts.length - 1];
+          if (lastA && lastA.date) lastDate = 'Last: ' + lastA.date.slice(0,10);
+        }
+
+        // Mastery progress
+        if (rec.mastered) {
+          masteryHTML = '<strong style="color:#ffd93d">★ Mastered</strong>';
+          if (rec.masteredDate) masteryHTML += '<br>Mastered ' + rec.masteredDate.slice(0,10);
+        } else if (total > 0) {
+          var last5 = (rec.recentAttempts || []).slice(-5);
+          var fluentIn5 = last5.filter(function(a){ return a.correct && a.ms && a.ms <= threshMs; }).length;
+          var need = Math.max(0, 4 - fluentIn5);
+          // Count distinct session dates
+          var dates = (rec.recentAttempts || []).map(function(a){ return a.date ? a.date.slice(0,10) : ''; });
+          var uniqueDates = dates.filter(function(d,i){ return d && dates.indexOf(d) === i; });
+          var sessionsMet = uniqueDates.length >= 2;
+          masteryHTML = '<div style="color:rgba(240,240,255,0.5);margin-bottom:2px">To reach Mastered:</div>';
+          masteryHTML += '<div>' + fluentIn5 + '/4 recent fluent answers' + (fluentIn5 >= 4 ? ' ✓' : '') + '</div>';
+          masteryHTML += '<div>' + uniqueDates.length + '/2 practice sessions' + (sessionsMet ? ' ✓' : '') + '</div>';
+        }
+      }
+
+      document.getElementById('csc-fact').textContent = fact;
+      document.getElementById('csc-fact').style.color = info.color;
+      document.getElementById('csc-tier').textContent = info.label;
+      document.getElementById('csc-tier').style.color = info.color;
+      document.getElementById('csc-avg').textContent  = avgMs || (tier === 'unpracticed' ? '—' : 'No data');
+      document.getElementById('csc-atts').textContent = total || '0';
+      document.getElementById('csc-last').textContent = lastDate || (tier === 'unpracticed' ? 'Never practiced' : '');
+      document.getElementById('csc-mastery').innerHTML = masteryHTML;
+
+      // Position card near cell
+      var cellRect = cell.getBoundingClientRect();
+      var wrapRect = gridEl.parentElement.getBoundingClientRect();
+      statCard.style.left = Math.max(0, cellRect.left - wrapRect.left) + 'px';
+      statCard.style.top  = (cellRect.bottom - wrapRect.top + 6) + 'px';
+      statCard.classList.add('visible');
+
+      // Sparkle ripple for mastered cells
+      if (tier === 'mastered') {
+        cell.classList.remove('spark');
+        void cell.offsetWidth; // reflow
+        cell.classList.add('spark');
+        // Wait for the longer animation (spark-ripple 0.9s) before removing class
+        cell.addEventListener('animationend', function handler(e){
+          if (e.animationName === 'spark-ripple') {
+            cell.classList.remove('spark');
+            cell.removeEventListener('animationend', handler);
+          }
+        });
+      }
+    });
+
+    // Click outside grid → close
+    document.getElementById('stats-body').addEventListener('click', function(e) {
+      if (!e.target.closest('#constellation-grid')) closeStatCard();
     });
   }
 }
