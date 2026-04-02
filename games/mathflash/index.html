@@ -2119,7 +2119,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="about-section">
       <div class="about-section-heading">Settings</div>
       <div class="about-prose">
-        <p>You choose the facts, the timer mode, the fluency threshold, and whether Practice Quest is on. Math Flash covers addition, subtraction, multiplication, and division, including tables up to ×12 (or up to ×20 with extended tables enabled in Advanced Settings).</p>
+        <p>You choose the facts, the timer mode, the fluency threshold, and whether Practice Quest is on. Math Flash covers addition, subtraction, multiplication, and division, including tables up to ×12 (or up to ×20 with extended tables enabled in My Constellation).</p>
       </div>
     </div>
 
@@ -2305,28 +2305,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       </div>
     </div>
 
-    <!-- Advanced Settings (fluency threshold — pertimer only) -->
-    <details id="advanced-settings" class="advanced-settings">
-      <summary class="advanced-settings-toggle">Advanced Settings</summary>
-      <div class="advanced-settings-body">
-        <div class="option-label">Fluency Threshold <span class="option-label-note">(Per-Question Timer only)</span></div>
-        <div class="format-desc" style="margin-top:4px;margin-bottom:12px;">Sets the response time used to measure fluency for this session.</div>
-        <div class="tier-pills" id="tier-pills">
-          <button class="tier-pill" data-tier="challenge">2 Seconds</button>
-          <button class="tier-pill on" data-tier="standard">3 Seconds</button>
-          <button class="tier-pill" data-tier="extended">5 Seconds</button>
-          <button class="tier-pill" data-tier="extended+">6 Seconds</button>
-        </div>
-        <div class="option-row" style="margin-top:16px;">
-          <label class="toggle-label">
-            <input type="checkbox" id="extended-tables-toggle">
-            <span id="extended-tables-label">Extended tables (×13–×20)</span>
-          </label>
-        </div>
-      </div>
-    </details>
-
-    <div class="num-input-msg" id="pool-warn" style="margin-bottom:8px;text-align:center;"></div>
+<div class="num-input-msg" id="pool-warn" style="margin-bottom:8px;text-align:center;"></div>
     <div class="error-box" id="setup-error"></div>
     <button class="start-btn" onclick="startGame()">Start ▶</button>
   </div>
@@ -2434,7 +2413,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <div id="stats-screen" class="screen">
   <div class="stats-header">
     <div class="stats-profile" id="stats-profile"></div>
-    <div class="stats-title">Your Math Fact Constellation</div>
+    <div class="stats-title" id="stats-title">Math Fact Constellation</div>
   </div>
   <div class="stats-body" id="stats-body"></div>
   <div class="stats-footer">
@@ -2608,7 +2587,7 @@ const FORMAT_DESCS = {
   stopwatch: 'See how long it takes you to get through a set of questions.'
 };
 function getFormatDesc(val) {
-  if (val === 'pertimer') return 'Answer within your fluency threshold to build toward automaticity (default: 3 seconds — to change, see Advanced Settings below).';
+  if (val === 'pertimer') return 'Answer within your fluency threshold to build toward automaticity (default: 3 seconds — to change, go to My Constellation).';
   return FORMAT_DESCS[val] || '';
 }
 function updateFormatDesc() {
@@ -2735,16 +2714,7 @@ function buildSetupUI() {
   document.getElementById('tog-remed').addEventListener('change',  function() { S.remed = this.checked; updateAnswerModeDesc(); });
   document.getElementById('tog-repeat').addEventListener('change', function() { S.repeat = this.checked; });
 
-  // Fluency threshold tier pills
-  document.querySelectorAll('.tier-pill').forEach(function(pill) {
-    pill.addEventListener('click', function() {
-      document.querySelectorAll('.tier-pill').forEach(function(p) { p.classList.remove('on'); });
-      this.classList.add('on');
-      S.fluencyTier = FLUENCY_TIERS[this.dataset.tier] || FLUENCY_TIERS['standard'];
-    });
-  });
-
-  // Extended tables toggle
+  // Extended tables toggle (in Advanced Settings, if present)
   var extToggle = document.getElementById('extended-tables-toggle');
   if (extToggle) {
     extToggle.addEventListener('change', function() {
@@ -5001,6 +4971,8 @@ function buildStatsScreen() {
     var prof = profiles.find(function(p) { return p.username === username; });
     profileEl.textContent = prof ? (prof.avatar + ' ' + username) : (username || '');
   }
+  var titleEl = document.getElementById('stats-title');
+  if (titleEl) titleEl.textContent = (username ? username + '\u2019s' : '') + ' Math Fact Constellation';
 
   var body = document.getElementById('stats-body');
   if (!body) return;

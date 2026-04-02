@@ -1,6 +1,6 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: April 2, 2026 — Session AC close (v68)*
-*Current Math Flash version: v68 — live at `games/mathflash/index.html` (no backup file this session — all changes committed directly)*
+*Last updated: April 2, 2026 — Session AD close (v69)*
+*Current Math Flash version: v69 — live at `games/mathflash/index.html` (no backup file this session — all changes committed directly)*
 *Current Sparkwright landing page: `index.html` (updated Session X — new logo, hero treatment, sparks)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
@@ -568,42 +568,35 @@ Server account unlocked. Cross-device sync. Teacher dashboard — manage student
 
 ## WHERE TO PICK UP
 
-*Session AD — next session*
+*Session AE — next session*
 
-**Session AC — CLOSED. April 2, 2026. v68 committed.**
+**Session AD — CLOSED. April 2, 2026. v69 committed.**
 
-**Session AC full build log:**
-- ✅ **Facts to Watch copy** — updated to Kimberly's exact copy.
-- ✅ **Facts to Watch color retheme** — Close to Mastery: amber→gold ombre. Challenge: blue→purple ombre. Titles amber/blue respectively.
-- ✅ **Challenge facts — difficulty sort** — easiest tables first (×1,×2,×5,×10,×11,×4,×6,×7,×8,×9,×12).
-- ✅ **Constellation — ×13–×20 toggle + threshold Change modal** — both live in constellation ctrl-pill row.
-- ✅ **Constellation grid — extended tables** — dynamic column count.
-- ✅ **Purple/blue tier swap** — Almost=purple, Needs Practice=blue throughout all tier-semantic UI.
-- ✅ **Constellation ctrl row redesign** — three unified pill buttons. "How this works ↓" pill now first.
-- ✅ **Favicon** — updated to 5-pointed star logo (matches brand mark).
-- ✅ **Fluency bar — 3-state** — orange → purple → blue as time runs out.
-- ✅ **Results screen — tier colors corrected** — "Almost!" = purple, "⚡ Fluent" = orange/amber (not gold), "Needs Practice" = blue.
-- ✅ **Op pills (×÷+−) active state** — white/bright, no longer orange (was blending with constellation dots below).
-- ✅ **Constellation ctrl pill link text** — white (was orange, too same-y to op pills).
-- ✅ **T-AC-5b** — confirmed. Fluency bar: orange → purple → blue.
-- ✅ **T-AC-7b** — confirmed. Results: Almost=purple, Fluent=orange.
+**Session AD full build log:**
+- ✅ **Rename "My Progress" → "My Constellation"** — confirmed done (Session AC). Nav labels, hero heading.
+- ✅ **Hero text → dynamic** — `[username]'s Math Fact Constellation` (apostrophe-s, no "Your"). Set dynamically in `buildStatsScreen()` via `id="stats-title"`.
+- ✅ **Advanced Settings removed from setup screen** — `<details id="advanced-settings">` block removed. Fluency threshold + extended tables now accessed exclusively via My Constellation. Format description and About modal copy updated to reference My Constellation. Setup screen listener scoped accordingly.
+- ✅ **Items 171 + 172 (partial)** — Advanced Settings removed. Smart Practice / Per-Question Timer foregrounding (item 172) deferred to item 168 full setup flow redesign.
 
 **New MPF items logged this session:**
 
-171. **Remove Advanced Settings from main settings page** — route to Spark for design input. Connected to item 168.
+176. **Assessment scope options — design notes (Kimberly, Session AD):** Three assessment types to design:
+   - **Full assessment** — all selected facts, complete sweep
+   - **Per-table assessment** — one table at a time (e.g. just ×7)
+   - **Grouped-table assessment** — related fact families together: ×2/×4/×8 (doubling chain); ×5/×10 (fives/tens); ×3/×6/×9 (threes chain). Groups reflect the mathematical relationships students use to derive facts.
 
-172. **Foreground Smart Practice + Per-Question Timer on settings page** — primary highlighted options on setup screen. Connected to item 168.
+   **Open design questions (Kimberly):** What does an assessment *do* — how is the data fed into the constellation? How often should assessment be allowed (once a week? once a month?)? What effect does triggering an assessment have on the student's experience? These are design decisions before building. Route to Spark.
+
+175. **Bug: 3×11 focus fact never appeared in Match It** — confirmed behavior: student missed 3×11, entered Match It, saw 3×1 through 3×5 instead. The focus fact must always appear in Match It, in the exact orientation it was presented (e.g. 3×11, not 11×3). Root cause: `buildStep3()` uses `f.fa` (which is the second factor = 11) as `targetN`, then clamps `start + 4 > 12` → `start = 8`, giving ×8–×12 range. When `targetN` is ×11 and the clamping pushes start to 8, the ×11 fact IS included (8,9,10,11,12). But the reported experience was ×1–×5 — this may point to `f.fa` vs `f.fb` orientation confusion. Shelved for Session AE — investigate with fresh tokens.
 
 173. **Practice Quest OFF — "tap the answer" grid** — revisit fallback behavior when Practice Quest is OFF. Design discussion needed.
 
 174. **Fact pool ordering — longest unseen first** — should `lastSeen` drive pool order within a round? Route to Spark for design decision.
 
-175. **Bug: 3×11 focus fact never appeared in Match It** — reported Session AC. During a round where 3×11 was the focus fact, it did not appear in Match It at all. Needs reproduction + investigation. Possibly related to derangement logic or focus-fact injection.
-
-**Build queue (next session):**
-1. Reproduce + fix item 175 (3×11 missing from Match It)
-2. Items 171 + 172 — route to Spark first, then build
-3. Assessment Mode (items 66+147) — next major feature
+**Build queue (Session AE):**
+1. Investigate + fix item 175 (Match It focus fact orientation/range bug)
+2. Item 172 — foreground Smart Practice + Per-Question Timer (setup flow redesign, item 168)
+3. Assessment Mode (items 66+147+176) — next major feature; route item 176 design questions to Spark first
 4. Print pill on My Constellation (item 143)
 
 ---
