@@ -1,6 +1,6 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: March 31, 2026 — Session Z close (v66)*
-*Current Math Flash version: v66 — live at `games/mathflash/index.html` (no backup file this session — all changes committed directly)*
+*Last updated: April 2, 2026 — Session AC close (v68)*
+*Current Math Flash version: v68 — live at `games/mathflash/index.html` (no backup file this session — all changes committed directly)*
 *Current Sparkwright landing page: `index.html` (updated Session X — new logo, hero treatment, sparks)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
@@ -568,43 +568,40 @@ Server account unlocked. Cross-device sync. Teacher dashboard — manage student
 
 ## WHERE TO PICK UP
 
-*Session AC (in progress) — April 2, 2026*
+*Session AD — next session*
 
-**Session AB — CLOSED. All testing confirmed done.**
-- ✅ T-Constellation-2 — confirmed
-- ✅ T-HowThisWorks — confirmed
-- ✅ T-Rename — confirmed
+**Session AC — CLOSED. April 2, 2026. v68 committed.**
 
-**Session AC build log:**
+**Session AC full build log:**
 - ✅ **Facts to Watch copy** — updated to Kimberly's exact copy.
-- ✅ **Facts to Watch color retheme** — Close to Mastery: amber→gold ombre. Challenge: blue→purple ombre (corrected after tier swap). Titles amber/blue respectively.
-- ✅ **Challenge facts — difficulty sort** — easiest tables first.
+- ✅ **Facts to Watch color retheme** — Close to Mastery: amber→gold ombre. Challenge: blue→purple ombre. Titles amber/blue respectively.
+- ✅ **Challenge facts — difficulty sort** — easiest tables first (×1,×2,×5,×10,×11,×4,×6,×7,×8,×9,×12).
 - ✅ **Constellation — ×13–×20 toggle + threshold Change modal** — both live in constellation ctrl-pill row.
 - ✅ **Constellation grid — extended tables** — dynamic column count.
-- ✅ **Purple/blue tier swap** — Almost=purple, Needs Practice=blue throughout all tier-semantic UI: constellation dots, legend, stats tiles, results chips + stat rows, fact chip colors.
-- ✅ **Constellation settings controls redesign** — three unified pill buttons in one row.
+- ✅ **Purple/blue tier swap** — Almost=purple, Needs Practice=blue throughout all tier-semantic UI.
+- ✅ **Constellation ctrl row redesign** — three unified pill buttons. "How this works ↓" pill now first.
 - ✅ **Favicon** — updated to 5-pointed star logo (matches brand mark).
-- ✅ **Fluency bar — 3-state** — orange (fluent zone / start) → purple (almost zone) → blue (last ~1.5s danger warning). Matches tier spectrum in reverse as time runs out.
-- ✅ **"Almost!" results display** — stat box and fact chips now purple (matching Almost tier color).
-
-**All T-AC-1 through T-AC-9 testing confirmed.** T-AC-5 and T-AC-7 fixed and ready for re-test.
-
-**New tests:**
-- T-AC-5b — Fluency bar in Per-Question Timer: confirm orange start → purple mid → blue last ~1.5s
-- T-AC-7b — Results screen after a round: "Almost!" stat box purple, fact chips purple. "Needs Practice" blue.
+- ✅ **Fluency bar — 3-state** — orange → purple → blue as time runs out.
+- ✅ **Results screen — tier colors corrected** — "Almost!" = purple, "⚡ Fluent" = orange/amber (not gold), "Needs Practice" = blue.
+- ✅ **Op pills (×÷+−) active state** — white/bright, no longer orange (was blending with constellation dots below).
+- ✅ **Constellation ctrl pill link text** — white (was orange, too same-y to op pills).
+- ✅ **T-AC-5b** — confirmed. Fluency bar: orange → purple → blue.
+- ✅ **T-AC-7b** — confirmed. Results: Almost=purple, Fluent=orange.
 
 **New MPF items logged this session:**
 
-171. **Remove Advanced Settings from main settings page** — Kimberly wants Advanced Settings removed from (or de-emphasized on) the main setup screen. Route to Spark for design input: what moves where? What stays visible by default? Connected to item 168 (setup flow redesign — mode first).
+171. **Remove Advanced Settings from main settings page** — route to Spark for design input. Connected to item 168.
 
-172. **Foreground Smart Practice + Per-Question Timer on settings page** — these two modes should be the primary, highlighted options on the setup screen, not buried equally with other modes. Smart Practice (item 166) + Per-Question Timer are the recommended paths. Connected to item 168.
+172. **Foreground Smart Practice + Per-Question Timer on settings page** — primary highlighted options on setup screen. Connected to item 168.
 
-173. **Practice Quest OFF — "tap the answer" grid** — when Practice Quest is turned off and a student gets an answer wrong, the game triggers a Find All-style grid requiring them to tap the correct answer. Kimberly wants to revisit this behavior. Design discussion needed: is this the right fallback when Practice Quest is OFF? Should there be no remediation at all, or a lighter-weight one?
+173. **Practice Quest OFF — "tap the answer" grid** — revisit fallback behavior when Practice Quest is OFF. Design discussion needed.
 
-174. **Fact pool ordering — longest unseen first** — currently the pool is built and shuffled randomly at round start. Question: should the pool be sorted so facts not seen in the longest time surface first within a round? This would be a lightweight spaced-repetition signal within the pool, separate from the requeue/smart-cycling system for missed facts. Design decision needed: (1) Should `lastSeen` date drive pool order? (2) Does this conflict with the variance model or Smart Practice mode? (3) What about new facts with no `lastSeen`? Route to Spark.
+174. **Fact pool ordering — longest unseen first** — should `lastSeen` drive pool order within a round? Route to Spark for design decision.
+
+175. **Bug: 3×11 focus fact never appeared in Match It** — reported Session AC. During a round where 3×11 was the focus fact, it did not appear in Match It at all. Needs reproduction + investigation. Possibly related to derangement logic or focus-fact injection.
 
 **Build queue (next session):**
-1. T-AC-5b + T-AC-7b re-test
+1. Reproduce + fix item 175 (3×11 missing from Match It)
 2. Items 171 + 172 — route to Spark first, then build
 3. Assessment Mode (items 66+147) — next major feature
 4. Print pill on My Constellation (item 143)
