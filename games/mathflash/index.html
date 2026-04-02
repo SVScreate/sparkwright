@@ -2413,7 +2413,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <div id="stats-screen" class="screen">
   <div class="stats-header">
     <div class="stats-profile" id="stats-profile"></div>
-    <div class="stats-title" id="stats-title">Math Fact Constellation</div>
+    <div class="stats-title">Math Fact Constellation</div>
   </div>
   <div class="stats-body" id="stats-body"></div>
   <div class="stats-footer">
@@ -4969,10 +4969,8 @@ function buildStatsScreen() {
     var profiles = [];
     try { profiles = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]'); } catch(e) {}
     var prof = profiles.find(function(p) { return p.username === username; });
-    profileEl.textContent = prof ? (prof.avatar + ' ' + username) : (username || '');
+    profileEl.textContent = prof ? (prof.avatar + ' ' + username + '\u2019s') : (username ? username + '\u2019s' : '');
   }
-  var titleEl = document.getElementById('stats-title');
-  if (titleEl) titleEl.textContent = (username ? username + '\u2019s' : '') + ' Math Fact Constellation';
 
   var body = document.getElementById('stats-body');
   if (!body) return;

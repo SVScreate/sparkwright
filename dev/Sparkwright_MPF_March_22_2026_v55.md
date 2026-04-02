@@ -589,6 +589,8 @@ Server account unlocked. Cross-device sync. Teacher dashboard — manage student
 
 175. **Bug: 3×11 focus fact never appeared in Match It** — confirmed behavior: student missed 3×11, entered Match It, saw 3×1 through 3×5 instead. The focus fact must always appear in Match It, in the exact orientation it was presented (e.g. 3×11, not 11×3). Root cause: `buildStep3()` uses `f.fa` (which is the second factor = 11) as `targetN`, then clamps `start + 4 > 12` → `start = 8`, giving ×8–×12 range. When `targetN` is ×11 and the clamping pushes start to 8, the ×11 fact IS included (8,9,10,11,12). But the reported experience was ×1–×5 — this may point to `f.fa` vs `f.fb` orientation confusion. Shelved for Session AE — investigate with fresh tokens.
 
+177. **About modal — click-away to close** — clicking outside the About modal should dismiss it. Currently requires the close button. Quick UX fix. *(Session AD)*
+
 173. **Practice Quest OFF — "tap the answer" grid** — revisit fallback behavior when Practice Quest is OFF. Design discussion needed.
 
 174. **Fact pool ordering — longest unseen first** — should `lastSeen` drive pool order within a round? Route to Spark for design decision.
