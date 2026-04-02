@@ -1,6 +1,6 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: April 2, 2026 — Session AD close (v69)*
-*Current Math Flash version: v69 — live at `games/mathflash/index.html` (no backup file this session — all changes committed directly)*
+*Last updated: April 2, 2026 — Session AD close (v70)*
+*Current Math Flash version: v70 — live at `games/mathflash/index.html` (no backup file this session — all changes committed directly)*
 *Current Sparkwright landing page: `index.html` (updated Session X — new logo, hero treatment, sparks)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
@@ -350,7 +350,7 @@ Correct cards could stack 4-in-a-row in one column. Distribution check was using
 ### 🔧 UI / COPY
 6–31. *(all completed — see COMPLETED log)*
 32. Auto-advance / "Student Speed Mode" toggle *(discussed, not yet designed)*
-143. **Print button on My Progress / Stats page** — add a print pill button to the stats screen. Holding until heat map / My Progress redesign is settled — print a finalized layout, not a draft. *(Session X — on hold pending item 140 design)*
+143. ✅ **Print pill on My Constellation** — built Session AD (v70). "🖨 Print / Save as PDF" in stats footer.
 144. **Logo update — all pages** — new nav logo (5-pointed star SVG, Comfortaa 700 wordmark, Spark glow) was applied to `index.html` (landing page) in Session X. Needs to be applied to `games/mathflash/index.html` and any other pages. *(Session X)*
 145. ✅ **Advanced Settings — body text spacing** — 14px top padding added to content area. *(Session X/Y)*
 
@@ -577,6 +577,8 @@ Server account unlocked. Cross-device sync. Teacher dashboard — manage student
 - ✅ **Hero text → dynamic** — `[username]'s Math Fact Constellation` (apostrophe-s, no "Your"). Set dynamically in `buildStatsScreen()` via `id="stats-title"`.
 - ✅ **Advanced Settings removed from setup screen** — `<details id="advanced-settings">` block removed. Fluency threshold + extended tables now accessed exclusively via My Constellation. Format description and About modal copy updated to reference My Constellation. Setup screen listener scoped accordingly.
 - ✅ **Items 171 + 172 (partial)** — Advanced Settings removed. Smart Practice / Per-Question Timer foregrounding (item 172) deferred to item 168 full setup flow redesign.
+- ✅ **Item 177** — About modal click-away to close.
+- ✅ **Item 143** — Print pill on My Constellation. "🖨 Print / Save as PDF" in stats footer. Print CSS: `body.print-constellation` class triggers white-background constellation print with tier colors converted to solid light fills. Assessment placeholder + op filter pills hidden in print.
 
 **New MPF items logged this session:**
 
@@ -589,7 +591,7 @@ Server account unlocked. Cross-device sync. Teacher dashboard — manage student
 
 175. **Bug: 3×11 focus fact never appeared in Match It** — confirmed behavior: student missed 3×11, entered Match It, saw 3×1 through 3×5 instead. The focus fact must always appear in Match It, in the exact orientation it was presented (e.g. 3×11, not 11×3). Root cause: `buildStep3()` uses `f.fa` (which is the second factor = 11) as `targetN`, then clamps `start + 4 > 12` → `start = 8`, giving ×8–×12 range. When `targetN` is ×11 and the clamping pushes start to 8, the ×11 fact IS included (8,9,10,11,12). But the reported experience was ×1–×5 — this may point to `f.fa` vs `f.fb` orientation confusion. Shelved for Session AE — investigate with fresh tokens.
 
-177. **About modal — click-away to close** — clicking outside the About modal should dismiss it. Currently requires the close button. Quick UX fix. *(Session AD)*
+177. ✅ **About modal — click-away to close** — built Session AD (v70).
 
 173. **Practice Quest OFF — "tap the answer" grid** — revisit fallback behavior when Practice Quest is OFF. Design discussion needed.
 

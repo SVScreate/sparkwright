@@ -1939,6 +1939,34 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 @media print {
   body * { visibility: hidden; }
   #print-area, #print-area * { visibility: visible; }
+
+  /* ── Constellation print ── */
+  body.print-constellation * { visibility: hidden; }
+  body.print-constellation #stats-screen,
+  body.print-constellation #stats-screen * { visibility: visible; }
+  body.print-constellation #stats-screen {
+    position: fixed; inset: 0;
+    background: white !important; color: #111 !important;
+    padding: 20px 28px; overflow: visible;
+  }
+  body.print-constellation .stats-footer,
+  body.print-constellation .mp-op-filter,
+  body.print-constellation .mp-ctrl-row,
+  body.print-constellation .mp-assessment-empty,
+  body.print-constellation .mp-assess-btn { visibility: hidden !important; }
+  body.print-constellation .stats-title  { color: #111 !important; }
+  body.print-constellation .stats-profile { color: #444 !important; }
+  body.print-constellation .c-label      { color: #555 !important; }
+  body.print-constellation .c-cell       { box-shadow: none !important; }
+  body.print-constellation .c-cell.unpracticed    { background: #f0f0f0 !important; border-color: #ccc !important; }
+  body.print-constellation .c-cell.needs-practice { background: #cce0ff !important; border-color: #4d96ff !important; }
+  body.print-constellation .c-cell.almost         { background: #ead4ff !important; border-color: #c77dff !important; }
+  body.print-constellation .c-cell.fluent         { background: #ffdea8 !important; border-color: #ff9f43 !important; }
+  body.print-constellation .c-cell.mastered       { background: #fff0a0 !important; border-color: #ffd93d !important; }
+  body.print-constellation .mp-watch-section      { background: white !important; border-color: #ccc !important; }
+  body.print-constellation .mp-watch-section-title { color: #333 !important; }
+  body.print-constellation .mp-watch-section-desc  { color: #666 !important; }
+
   #print-area {
     position: fixed; inset: 0;
     background: white; color: black;
@@ -2056,7 +2084,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 </div>
 
 <!-- ══ ABOUT ══ -->
-<div id="about-overlay" class="overlay">
+<div id="about-overlay" class="overlay" onclick="if(event.target===this)hideOverlay('about-overlay')">
   <div class="overlay-card">
     <button class="overlay-close" onclick="hideOverlay('about-overlay')">✕</button>
     <div class="overlay-title">About Math Flash</div>
@@ -2418,6 +2446,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   <div class="stats-body" id="stats-body"></div>
   <div class="stats-footer">
     <button class="btn-ghost" onclick="showScreen('title-screen')">← Back</button>
+    <button class="btn-ghost" onclick="printConstellation()">🖨 Print / Save as PDF</button>
   </div>
 </div>
 
@@ -2524,6 +2553,13 @@ function showScreen(id) {
 
 function showOverlay(id)  { document.getElementById(id).classList.add('active'); }
 function hideOverlay(id)  { document.getElementById(id).classList.remove('active'); }
+function printConstellation() {
+  document.body.classList.add('print-constellation');
+  window.print();
+  window.addEventListener('afterprint', function() {
+    document.body.classList.remove('print-constellation');
+  }, { once: true });
+}
 
 // ── Threshold change modal (from My Constellation) ──────────────
 var _threshModalPending = null; // tier name pending confirmation
