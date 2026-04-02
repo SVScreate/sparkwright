@@ -1377,14 +1377,18 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   height: 100%;
   width: 100%;
   border-radius: 3px;
-  background: #c77dff;
-  box-shadow: 0 0 8px 2px rgba(199,125,255,0.6);
+  background: #ff9f43;
+  box-shadow: 0 0 8px 2px rgba(255,159,67,0.6);
   transform-origin: left center;
   transition: background 0.4s, box-shadow 0.4s;
 }
 .fluency-bar-fill.almost {
-  background: #ff9f43;
-  box-shadow: 0 0 8px 2px rgba(255,159,67,0.6);
+  background: #c77dff;
+  box-shadow: 0 0 8px 2px rgba(199,125,255,0.6);
+}
+.fluency-bar-fill.danger {
+  background: #4d96ff;
+  box-shadow: 0 0 8px 2px rgba(77,150,255,0.6);
 }
 
 /* ── REMEDIATION SCREEN ── */
@@ -1928,7 +1932,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   border: 1.5px solid;
   white-space: nowrap;
 }
-.r-fact-chip.working  { background: rgba(255,159,67,0.12);  border-color: var(--a6); color: var(--a6); }
+.r-fact-chip.working  { background: rgba(199,125,255,0.12); border-color: var(--a5); color: var(--a5); }
 .r-fact-chip.building { background: rgba(77,150,255,0.12);  border-color: var(--a4); color: var(--a4); }
 .r-fact-chip.fluent   { background: rgba(255,217,61,0.12);  border-color: var(--a2); color: var(--a2); }
 
@@ -2413,7 +2417,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   </div>
   <div class="results-stats" id="r-fluency-stats" style="display:none">
     <div class="rstat" style="border-color:rgba(255,217,61,0.3)"><div class="rstat-num" id="r-fluent" style="color:var(--a2)">0</div><div class="rstat-lbl">⚡ Fluent</div></div>
-    <div class="rstat" style="border-color:rgba(255,159,67,0.3)"><div class="rstat-num" id="r-working" style="color:var(--a6)">0</div><div class="rstat-lbl">🔄 Almost!</div></div>
+    <div class="rstat" style="border-color:rgba(199,125,255,0.3)"><div class="rstat-num" id="r-working" style="color:var(--a5)">0</div><div class="rstat-lbl">🔄 Almost!</div></div>
     <div class="rstat" style="border-color:rgba(77,150,255,0.3)"><div class="rstat-num" id="r-notfluent" style="color:var(--a4)">0</div><div class="rstat-lbl">📚 Needs Practice</div></div>
   </div>
   <div class="r-facts-wrap" id="r-facts-wrap" style="display:none;width:100%;max-width:600px"></div>
@@ -3655,11 +3659,13 @@ function updateFluencyBar(left, total) {
   if (!fill) return;
   const pct = (left / total) * 100;
   fill.style.width = pct + '%';
-  // Tier-aware threshold: amber = fluent zone, blue = almost zone
-  const fluentSecs = S.fluencyTier ? S.fluencyTier.fluencyMs / 1000 : 3;
+  // 3-state bar matches tier spectrum: orange (fluent zone) → purple (almost) → blue (danger)
+  const fluentSecs   = S.fluencyTier ? S.fluencyTier.fluencyMs  / 1000 : 3;
   const autokickSecs = S.fluencyTier ? S.fluencyTier.autokickMs / 1000 : 7;
-  const almostThreshold = autokickSecs - fluentSecs; // seconds remaining when fluent zone ends
-  fill.classList.toggle('almost', left <= almostThreshold);
+  const almostThreshold = autokickSecs - fluentSecs; // seconds remaining when almost zone begins
+  const dangerThreshold = Math.min(1.5, fluentSecs * 0.4); // last ~1.5s = needs-practice warning
+  fill.classList.toggle('danger', left <= dangerThreshold);
+  fill.classList.toggle('almost', left <= almostThreshold && left > dangerThreshold);
 }
 
 function autoKick() {
@@ -5468,7 +5474,7 @@ function endGame() {
     };
     let html = '';
     html += makeSection('📚 Needs Practice', 'var(--a4)', G.notFluentFacts, 'building');
-    html += makeSection('🔄 Almost!',        'var(--a6)', G.workingFacts,   'working');
+    html += makeSection('🔄 Almost!',        'var(--a5)', G.workingFacts,   'working');
     html += makeSection('⚡ Fluent',          'var(--a2)', G.fluentFacts,    'fluent');
     factsWrap.innerHTML = html;
     factsWrap.style.display = 'flex';

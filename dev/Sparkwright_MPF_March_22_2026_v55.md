@@ -575,24 +575,39 @@ Server account unlocked. Cross-device sync. Teacher dashboard — manage student
 - ✅ T-HowThisWorks — confirmed
 - ✅ T-Rename — confirmed
 
-**Session AC build log (in progress):**
-- ✅ **Facts to Watch copy** — updated to Kimberly's exact copy: "You've been fast and correct on these facts in 3+ of your last 5 tries. A star is close!" / "Choose one or two of these to focus on the next few times you play."
-- ✅ **Facts to Watch color retheme** — Close to Mastery: amber→gold ombre gradient (was blue). Challenge: purple→blue ombre gradient (was red). Both section cards and chips use the gradient. Titles: amber (`--a6`) / purple (`--a5`).
-- ✅ **Challenge facts — difficulty sort** — challenge facts now surface easiest tables first (×1, ×2, ×5, ×10, ×11, ×4, ×6, ×7, ×8, ×9, ×12 order) instead of by miss rate. `TABLE_DIFF_RANK` + `factDiffRank()` added.
-- ✅ **Constellation — ×13–×20 toggle** — contextual line below threshold note: "Showing facts ×1–12 · Include ×13–×20" (or "Hide ×13–×20" when on). `toggleConstellationExt()` updates `S.extendedTables`, saves, rebuilds.
-- ✅ **Constellation — fluency threshold "Change" modal** — "Fluency graded at Xs · Change" link opens modal with tier picker + recalculation warning. `openThreshModal()` / `confirmThreshChange()` sync Advanced Settings pill and rebuild constellation.
-- ✅ **Constellation grid — extended tables** — `buildConstellation` now uses `S.extendedTables ? 20 : 12` for `maxN` and sets `grid.style.gridTemplateColumns` dynamically.
+**Session AC build log:**
+- ✅ **Facts to Watch copy** — updated to Kimberly's exact copy.
+- ✅ **Facts to Watch color retheme** — Close to Mastery: amber→gold ombre. Challenge: blue→purple ombre (corrected after tier swap). Titles amber/blue respectively.
+- ✅ **Challenge facts — difficulty sort** — easiest tables first.
+- ✅ **Constellation — ×13–×20 toggle + threshold Change modal** — both live in constellation ctrl-pill row.
+- ✅ **Constellation grid — extended tables** — dynamic column count.
+- ✅ **Purple/blue tier swap** — Almost=purple, Needs Practice=blue throughout all tier-semantic UI: constellation dots, legend, stats tiles, results chips + stat rows, fact chip colors.
+- ✅ **Constellation settings controls redesign** — three unified pill buttons in one row.
+- ✅ **Favicon** — updated to 5-pointed star logo (matches brand mark).
+- ✅ **Fluency bar — 3-state** — orange (fluent zone / start) → purple (almost zone) → blue (last ~1.5s danger warning). Matches tier spectrum in reverse as time runs out.
+- ✅ **"Almost!" results display** — stat box and fact chips now purple (matching Almost tier color).
 
-**Testing needed (Session AC):**
-- T-AC-1 — Facts to Watch: Open My Constellation after a round with data. Confirm (a) Close to Mastery cards show amber→gold ombre, title is orange; (b) Challenge cards show purple→blue ombre, title is purple; (c) copy matches exactly.
-- T-AC-2 — Threshold Change: Click "Change" link in constellation. Confirm modal opens with tier pills, current tier selected. Select a different tier → Confirm. Confirm constellation rebuilds with new threshold. Cancel = no change.
-- T-AC-3 — ×13–×20 toggle: Click "Include ×13–×20" in constellation. Confirm grid expands to 20 columns, toggle label changes to "Hide ×13–×20". Click again → grid returns to 12 columns.
-- T-AC-4 — ×13-×20 + Advanced Settings sync: Toggle extended tables from constellation, then open Advanced Settings — confirm checkbox reflects state.
+**All T-AC-1 through T-AC-9 testing confirmed.** T-AC-5 and T-AC-7 fixed and ready for re-test.
 
-**Build queue (Session AC, remaining):**
-1. Test pass on AC changes above
-2. Assessment Mode (items 66+147) — next major feature
-3. Print pill on My Constellation (item 143)
+**New tests:**
+- T-AC-5b — Fluency bar in Per-Question Timer: confirm orange start → purple mid → blue last ~1.5s
+- T-AC-7b — Results screen after a round: "Almost!" stat box purple, fact chips purple. "Needs Practice" blue.
+
+**New MPF items logged this session:**
+
+171. **Remove Advanced Settings from main settings page** — Kimberly wants Advanced Settings removed from (or de-emphasized on) the main setup screen. Route to Spark for design input: what moves where? What stays visible by default? Connected to item 168 (setup flow redesign — mode first).
+
+172. **Foreground Smart Practice + Per-Question Timer on settings page** — these two modes should be the primary, highlighted options on the setup screen, not buried equally with other modes. Smart Practice (item 166) + Per-Question Timer are the recommended paths. Connected to item 168.
+
+173. **Practice Quest OFF — "tap the answer" grid** — when Practice Quest is turned off and a student gets an answer wrong, the game triggers a Find All-style grid requiring them to tap the correct answer. Kimberly wants to revisit this behavior. Design discussion needed: is this the right fallback when Practice Quest is OFF? Should there be no remediation at all, or a lighter-weight one?
+
+174. **Fact pool ordering — longest unseen first** — currently the pool is built and shuffled randomly at round start. Question: should the pool be sorted so facts not seen in the longest time surface first within a round? This would be a lightweight spaced-repetition signal within the pool, separate from the requeue/smart-cycling system for missed facts. Design decision needed: (1) Should `lastSeen` date drive pool order? (2) Does this conflict with the variance model or Smart Practice mode? (3) What about new facts with no `lastSeen`? Route to Spark.
+
+**Build queue (next session):**
+1. T-AC-5b + T-AC-7b re-test
+2. Items 171 + 172 — route to Spark first, then build
+3. Assessment Mode (items 66+147) — next major feature
+4. Print pill on My Constellation (item 143)
 
 ---
 

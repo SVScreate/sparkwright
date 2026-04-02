@@ -1,24 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="60" height="60">
   <defs>
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" result="g"/>
-      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <linearGradient id="g" x1="6" y1="5" x2="54" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6aabff"/>
+      <stop offset="100%" stop-color="#d899ff"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#a070ff" flood-opacity="0.9"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#4d96ff" flood-opacity="0.5"/>
+    </filter>
+    <filter id="dotglow" x="-100%" y="-100%" width="300%" height="300%">
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#ff9f43" flood-opacity="0.9"/>
     </filter>
   </defs>
-  <!-- Dark background -->
-  <rect width="60" height="60" rx="12" fill="#0c0c18"/>
-  <!-- Sparkler mark — 8-arm favicon version -->
-  <g filter="url(#glow)">
-    <line x1="30" y1="30" x2="30" y2="7"  stroke="#fff8e0" stroke-width="2.0" stroke-linecap="round"/>
-    <line x1="30" y1="30" x2="48" y2="12" stroke="#ffd93d" stroke-width="1.8" stroke-linecap="round"/>
-    <line x1="30" y1="30" x2="53" y2="30" stroke="#fff0aa" stroke-width="1.9" stroke-linecap="round"/>
-    <line x1="30" y1="30" x2="48" y2="48" stroke="#ffb347" stroke-width="1.7" stroke-linecap="round"/>
-    <line x1="30" y1="30" x2="30" y2="53" stroke="#ffd93d" stroke-width="2.0" stroke-linecap="round"/>
-    <line x1="30" y1="30" x2="12" y2="48" stroke="#ff9f43" stroke-width="1.7" stroke-linecap="round"/>
-    <line x1="30" y1="30" x2="7"  y2="30" stroke="#ffd93d" stroke-width="1.9" stroke-linecap="round"/>
-    <line x1="30" y1="30" x2="12" y2="12" stroke="#fff0aa" stroke-width="1.8" stroke-linecap="round"/>
-    <!-- Core -->
-    <circle cx="30" cy="30" r="4.5" fill="#fffde0"/>
-    <circle cx="30" cy="30" r="2.2" fill="#ffffff" opacity="0.95"/>
-  </g>
+  <rect width="60" height="60" rx="13" fill="#0c0c18"/>
+  <path d="M30,5 L36.4,21.2 L53.9,22.2 L40.3,33.4 L44.8,50.4 L30,41 L15.2,50.4 L19.7,33.4 L6.1,22.2 L23.6,21.2 Z"
+    fill="none" stroke="url(#g)" stroke-width="4.5" stroke-linejoin="round" filter="url(#glow)"/>
+  <circle cx="30" cy="30" r="5" fill="#ffaa50" filter="url(#dotglow)"/>
 </svg>
