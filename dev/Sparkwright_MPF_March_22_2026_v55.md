@@ -1,6 +1,6 @@
 # Math Flash — Master Project File (MPF)
-*Last updated: April 2, 2026 — Session AD close (v70)*
-*Current Math Flash version: v70 — live at `games/mathflash/index.html` (no backup file this session — all changes committed directly)*
+*Last updated: April 2, 2026 — Session AD close (v71)*
+*Current Math Flash version: v71 — live at `games/mathflash/index.html` (no backup file this session — all changes committed directly)*
 *Current Sparkwright landing page: `index.html` (updated Session X — new logo, hero treatment, sparks)*
 *Replace this file and the HTML at the start of each new session with the latest versions.*
 
@@ -570,38 +570,48 @@ Server account unlocked. Cross-device sync. Teacher dashboard — manage student
 
 *Session AE — next session*
 
-**Session AD — CLOSED. April 2, 2026. v69 committed.**
+**Session AD — CLOSED. April 2, 2026. v71 committed.**
 
 **Session AD full build log:**
 - ✅ **Rename "My Progress" → "My Constellation"** — confirmed done (Session AC). Nav labels, hero heading.
-- ✅ **Hero text → dynamic** — `[username]'s Math Fact Constellation` (apostrophe-s, no "Your"). Set dynamically in `buildStatsScreen()` via `id="stats-title"`.
-- ✅ **Advanced Settings removed from setup screen** — `<details id="advanced-settings">` block removed. Fluency threshold + extended tables now accessed exclusively via My Constellation. Format description and About modal copy updated to reference My Constellation. Setup screen listener scoped accordingly.
-- ✅ **Items 171 + 172 (partial)** — Advanced Settings removed. Smart Practice / Per-Question Timer foregrounding (item 172) deferred to item 168 full setup flow redesign.
+- ✅ **Hero text → dynamic** — `[username]'s Math Fact Constellation` (apostrophe-s on profile chip; hero is static "Math Fact Constellation"). Fixed double-username issue.
+- ✅ **Advanced Settings removed from setup screen** — `<details id="advanced-settings">` block removed. Fluency threshold + extended tables now accessed exclusively via My Constellation.
+- ✅ **Items 171 + 172 (partial)** — Advanced Settings removed. Smart Practice / Per-Question Timer foregrounding (item 172) deferred to item 168.
 - ✅ **Item 177** — About modal click-away to close.
-- ✅ **Item 143** — Print pill on My Constellation. "🖨 Print / Save as PDF" in stats footer. Print CSS: `body.print-constellation` class triggers white-background constellation print with tier colors converted to solid light fills. Assessment placeholder + op filter pills hidden in print.
+- ✅ **Item 143** — Print pill on My Constellation. Fixed print CSS (display:none for controls, not visibility:hidden). Op filter pills and ctrl row now correctly hidden in print output.
+- ✅ **Bug 175 — Match It focus fact bug FIXED** — root cause: `targetN = f.fa` (left/table factor) instead of `f.fb` (right/varying factor). For 6×12, was centering range on 6 instead of 12. Fixed: `const targetN = f.fb`. Now 6×12 will appear in Match It centered around ×12.
+- ✅ **Favicon** — removed incorrect `type="image/png"` on SVG link; added `<link rel="apple-touch-icon">` for Safari. Hard-refresh Safari (Cmd+Shift+R) to pick up cached favicon.
 
-**New MPF items logged this session:**
+**New MPF items logged Session AD:**
 
-176. **Assessment scope options — design notes (Kimberly, Session AD):** Three assessment types to design:
+175. ✅ **Bug: Match It focus fact missing** — root cause identified and fixed. `buildStep3()` was using `f.fa` (left factor) as `targetN`; corrected to `f.fb` (right/varying factor). Confirmed with two reproductions: 3×11 (saw ×1–×5) and 6×12 (saw ×4–×8). Fixed v71.
+
+176. **Assessment scope options — design notes (Kimberly):** Three assessment types to design:
    - **Full assessment** — all selected facts, complete sweep
    - **Per-table assessment** — one table at a time (e.g. just ×7)
-   - **Grouped-table assessment** — related fact families together: ×2/×4/×8 (doubling chain); ×5/×10 (fives/tens); ×3/×6/×9 (threes chain). Groups reflect the mathematical relationships students use to derive facts.
+   - **Grouped-table assessment** — related fact families: ×2/×4/×8 (doubling chain); ×5/×10; ×3/×6/×9. Groups reflect mathematical relationships students use to derive facts.
+   **Open design questions:** What does an assessment *do* — how is data fed into the constellation? How often allowed (weekly? monthly?)? What effect on student experience? Route to Spark.
 
-   **Open design questions (Kimberly):** What does an assessment *do* — how is the data fed into the constellation? How often should assessment be allowed (once a week? once a month?)? What effect does triggering an assessment have on the student's experience? These are design decisions before building. Route to Spark.
+178. **Constellation print options — design discussion (Session AD):** Current print = blank colored circles. Desired: user-selectable print options. Candidates: (1) Blank circles — current default, clean; (2) Circles with fact text inside (e.g. "6×7" in the circle — the `c-txt` span already exists, just normally hover-only); (3) Possibly others (e.g. answer inside circle, or fact + answer). Also: how does the user omit sections (Facts to Watch, constellation controls) from the print? Could be a print options modal before printing. Design discussion needed before building.
 
-175. **Bug: 3×11 focus fact never appeared in Match It** — confirmed behavior: student missed 3×11, entered Match It, saw 3×1 through 3×5 instead. The focus fact must always appear in Match It, in the exact orientation it was presented (e.g. 3×11, not 11×3). Root cause: `buildStep3()` uses `f.fa` (which is the second factor = 11) as `targetN`, then clamps `start + 4 > 12` → `start = 8`, giving ×8–×12 range. When `targetN` is ×11 and the clamping pushes start to 8, the ×11 fact IS included (8,9,10,11,12). But the reported experience was ×1–×5 — this may point to `f.fa` vs `f.fb` orientation confusion. Shelved for Session AE — investigate with fresh tokens.
+179. **Smart fact prioritization — constellation-aware pool ordering (Kimberly, Session AD):** The game should intelligently prioritize facts in a round based on constellation data:
+   - **Unpracticed facts** — surface these in rounds when game settings allow. Not stacked, but intentionally sprinkled in — the game knows this is needed data.
+   - **Longest-unseen facts** — facts with the oldest `lastSeen` timestamps should be on the game's radar for revisiting, when settings allow.
+   This is the smart, responsive game behavior that distinguishes Math Flash from a dumb drill. Connected to item 174 (`lastSeen` ordering) and item 166 (Smart Practice mode, which this would power). Route to Spark for design input on how these signals combine and when each applies.
 
-177. ✅ **About modal — click-away to close** — built Session AD (v70).
+180. **Mini-game idea: Fact Builder (Kimberly, Session AD)** — Student finds scattered pieces and assembles all four orientations of a fact. For 7×4: build `7×4=28`, then `4×7=28`, then `28=7×4`, then `28=4×7`. Pedagogical basis: fact families / commutativity. Player constructs each equation from pieces. Connect to Practice Quest mini-game backlog (items 56–58). Route to Spark for pedagogy + design input before building.
 
-173. **Practice Quest OFF — "tap the answer" grid** — revisit fallback behavior when Practice Quest is OFF. Design discussion needed.
+181. **Username: "Sparkwright" in name pool** — "Sparkwright" came up as a generated username. It doesn't match the adjective+animal format. Should it be reserved? Kimberly may want it reserved for herself if/when the site is live with many users. Flag for the larger username design discussion.
 
-174. **Fact pool ordering — longest unseen first** — should `lastSeen` drive pool order within a round? Route to Spark for design decision.
+182. **Landing page visual clutter — top banner** — top banner is crowded. Kimberly loves the look but wants to lighten the visual density a bit. Design discussion needed. Route to Pip.
+
+183. **Google Fonts privacy — self-hosting alternative (Kimberly, Session AD):** Privacy Policy currently discloses that Google Fonts causes an IP request to Google's servers on page load. Kimberly wants to know if there's a way to avoid this. Yes: fonts can be self-hosted — download the font files (woff2/woff), serve them from the Sparkwright repo, and replace the Google Fonts `<link>` with a local `@font-face` declaration. This eliminates the third-party request entirely. Pure frontend change; no server needed. Tradeoff: adds font files to the repo (a few hundred KB); user browser can no longer use a cached copy from Google's CDN. Log for a dedicated session. Update Privacy Policy once implemented.
 
 **Build queue (Session AE):**
-1. Investigate + fix item 175 (Match It focus fact orientation/range bug)
-2. Item 172 — foreground Smart Practice + Per-Question Timer (setup flow redesign, item 168)
-3. Assessment Mode (items 66+147+176) — next major feature; route item 176 design questions to Spark first
-4. Print pill on My Constellation (item 143)
+1. Item 172 — foreground Smart Practice + Per-Question Timer (setup flow redesign, item 168)
+2. Assessment Mode (items 66+147+176) — next major feature; route item 176 design questions to Spark first
+3. Item 183 — self-host Google Fonts (small, clean, privacy win)
+4. Item 178 — constellation print options (design discussion first)
 
 ---
 
