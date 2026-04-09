@@ -2079,10 +2079,14 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
 /* Assessment screen — display controlled by .screen/.screen.active, not this rule */
 #assessment-screen {
-  align-items:center; justify-content:flex-start;
-  padding:24px 16px 32px;
-  position: relative; overflow: hidden;
+  position: relative;
   background: radial-gradient(ellipse at 50% 38%, rgba(180,210,255,0.05) 0%, transparent 65%);
+}
+/* Inner wrapper lifts content above starfield without touching position:fixed overlays */
+.assess-screen-inner {
+  display: flex; flex-direction: column; align-items: center;
+  flex: 1; width: 100%; padding: 24px 16px 32px;
+  position: relative; z-index: 1;
 }
 /* Silver starfield — unique to Star Scan */
 #assessment-screen::before,
@@ -2090,7 +2094,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   content: '';
   position: absolute; inset: 0;
   pointer-events: none;
-  z-index: -1;
+  z-index: 0;
 }
 #assessment-screen::before {
   background-image:
@@ -2134,8 +2138,6 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 #assessment-screen::after { animation-play-state: paused; }
 #assessment-screen.active::before,
 #assessment-screen.active::after { animation-play-state: running; }
-/* Lift all direct content above the starfield */
-#assessment-screen > * { position: relative; z-index: 1; }
 .assess-badge {
   display:inline-block; background:rgba(200,220,255,0.08);
   border:1px solid rgba(200,220,255,0.22); color:rgba(210,230,255,0.9);
@@ -2499,9 +2501,9 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <p>Your constellation is built through practice. A Star Scan records a separate snapshot — it lives in your Star Scan Records, not in your stars. You can't scan your way to gold. That's earned through practice.</p>
     <h3>When to use it</h3>
     <ul>
-      <li><em>At the start</em> — take a Star Scan to light up what you already know before you begin practicing.</li>
+      <li><em>Before you start practicing</em> — run a Star Scan first to see which facts you already know. Your first one is automatically labeled <strong>Baseline</strong>.</li>
       <li><em>Along the way</em> — run one any time you or your teacher wants a clear picture of where things stand.</li>
-      <li><em>At the end</em> — when all your facts reach mastered, a final Star Scan becomes available as a completion confirmation.</li>
+      <li><em>At the end</em> — when all facts reach mastered, a final Star Scan serves as a completion confirmation.</li>
     </ul>
     <h3>A few things to know</h3>
     <ul>
@@ -2811,7 +2813,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   <div class="assess-area-header">
     <div class="stats-profile" id="assess-area-profile"></div>
     <div class="assess-area-title">⭐ Star Scan</div>
-    <div class="assess-area-subtitle">A timed snapshot of where your facts are right now · <button onclick="showOverlay('starscan-info-overlay')" style="background:none;border:none;color:var(--a4);font-size:0.85rem;font-weight:700;cursor:pointer;padding:0;font-family:var(--font-body);">What is this? →</button></div>
+    <div class="assess-area-subtitle">A timed snapshot of where your facts are right now</div>
+    <div style="margin-top:6px;"><button onclick="showOverlay('starscan-info-overlay')" style="background:none;border:none;color:var(--a4);font-size:0.85rem;font-weight:700;cursor:pointer;padding:0;font-family:var(--font-body);">What is a Star Scan? →</button></div>
   </div>
   <div class="assess-area-body" id="assess-area-body"></div>
   <div class="stats-footer">
@@ -2821,38 +2824,40 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
 <!-- ══ ASSESSMENT SCREEN ══ -->
 <div id="assessment-screen" class="screen">
-  <div class="assess-badge">⭐ Star Scan</div>
-  <div class="assess-progress" id="assess-progress">Fact 1 of 0</div>
-  <div class="assess-fact-card">
-    <div class="assess-question" id="assess-question">—</div>
-    <div class="assess-feedback" id="assess-feedback"></div>
+  <!-- Inner wrapper: z-index:1 so it sits above the starfield (::before/::after z-index:0) -->
+  <div class="assess-screen-inner">
+    <div class="assess-badge">⭐ Star Scan</div>
+    <div class="assess-progress" id="assess-progress">Fact 1 of 0</div>
+    <div class="assess-fact-card">
+      <div class="assess-question" id="assess-question">—</div>
+      <div class="assess-feedback" id="assess-feedback"></div>
+    </div>
+    <div class="assess-bar-wrap">
+      <div class="assess-bar-fill" id="assess-bar-fill" style="width:100%;"></div>
+    </div>
+    <div class="assess-input-row">
+      <input type="text" inputmode="numeric" pattern="[0-9\-]*" class="assess-input" id="assess-input" placeholder="?" autocomplete="off" maxlength="4">
+      <button class="assess-check-btn" id="assess-check-btn" onclick="submitAssessmentAnswer()">Check →</button>
+    </div>
+    <button class="assess-continue-btn" id="assess-continue-btn" onclick="assessContinue()">Continue →</button>
+    <div class="assess-pause-row">
+      <span>⏸ Pause after each fact</span>
+      <label class="switch" style="cursor:pointer;">
+        <input type="checkbox" id="assess-pause-check" onchange="togglePauseAfter()">
+        <span class="switch-track"></span>
+      </label>
+    </div>
+    <button class="btn-ghost" style="margin-top:4px;font-size:0.78rem;" onclick="endAssessmentFlow()">End Star Scan</button>
   </div>
-  <div class="assess-bar-wrap">
-    <div class="assess-bar-fill" id="assess-bar-fill" style="width:100%;"></div>
-  </div>
-  <div class="assess-input-row">
-    <input type="text" inputmode="numeric" pattern="[0-9\-]*" class="assess-input" id="assess-input" placeholder="?" autocomplete="off" maxlength="4">
-    <button class="assess-check-btn" id="assess-check-btn" onclick="submitAssessmentAnswer()">Check →</button>
-  </div>
-  <button class="assess-continue-btn" id="assess-continue-btn" onclick="assessContinue()">Continue →</button>
-  <div class="assess-pause-row">
-    <span>⏸ Pause after each fact</span>
-    <label class="switch" style="cursor:pointer;">
-      <input type="checkbox" id="assess-pause-check" onchange="togglePauseAfter()">
-      <span class="switch-track"></span>
-    </label>
-  </div>
-  <button class="btn-ghost" style="margin-top:4px;font-size:0.78rem;" onclick="endAssessmentFlow()">✕ End Star Scan</button>
 
-  <!-- Mid-scan pause / end overlay -->
+  <!-- Overlays: position:fixed, outside inner wrapper so z-index doesn't interfere -->
   <div class="assess-pause-overlay" id="assess-pause-overlay">
     <div class="assess-pause-title">Star Scan paused</div>
-    <div class="assess-pause-sub">The fact you were on has been recycled back into the pool.</div>
+    <div class="assess-pause-sub">The fact you were on has been recycled back into the pool. Resume to continue, or exit to discard this run.</div>
     <button class="res-btn primary" style="padding:12px 32px;font-size:1rem;" onclick="resumeAssessment()">Resume →</button>
     <button class="res-btn secondary" style="padding:10px 24px;" onclick="cancelAssessmentFinal()">Exit Star Scan</button>
   </div>
 
-  <!-- Results overlay sits inside this screen -->
   <div class="assess-results-overlay" id="assess-results-overlay">
     <div class="assess-results-card">
       <div class="assess-results-title">Star Scan Complete!</div>
