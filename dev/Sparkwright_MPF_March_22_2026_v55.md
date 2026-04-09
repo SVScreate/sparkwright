@@ -568,7 +568,33 @@ Server account unlocked. Cross-device sync. Teacher dashboard — manage student
 
 ## WHERE TO PICK UP
 
-*Session AE — next session*
+*Session AF — next session*
+
+**Session AE — CLOSED. April 8, 2026. v72 committed.**
+
+**Session AE full build log:**
+- ✅ **Assessment Mode v1 (items 66+147+176)** — Full / Per-Table / Family Groups scope variants all built. Setup overlay: op selector + scope selector + table picker per scope + timer note. Assessment screen: per-fact timer bar, answer input, feedback flash, auto-advance. Results overlay: summary stats + fact chips by tier. Save → stored to `mathflash_assessments` localStorage (separate from practice data). Assessment Records section in My Constellation live with enabled Run Assessment button. 24-hour soft advisory per Spark (same op+scope within 24h warns, teacher confirms). Family Groups: Doubling Facts (×2,4,8), Anchor Facts (×5,10), Triple Family (×3,6,9). Record fields: id, label (Baseline/Assessment N), date, timestamp, op, scope, groupId, scopeLabel, tables, threshold, results, summary.
+- ✅ **Bug 9** — Pool notice conflict fixed: `updatePoolNotice()` now clears stale validation error text before evaluating pool state, instead of returning early.
+- ✅ **Leave-round warning** — `isGameActive()` updated to include assessment-screen.
+- ✅ **Handoff cleanup** — Assessment scope item (item 176) resolved and removed. Open items (179, 180, 62/71) remain pending Spark reply.
+
+**New MPF items logged Session AE:**
+
+184. **Assessment Mode v1 — known limitations / v2 tasks:**
+   - Assessment data is stored and displayed but does NOT yet feed into the constellation tier calculation (practice data and assessment data are in separate localStorage keys — `mathflash_facts` vs `mathflash_assessments`). Per Spark spec, assessment data should be tagged and contribute to the constellation. This is the next data-model task.
+   - Print view for individual assessment records not yet built (button exists but calls `window.print()` on the whole page — needs a dedicated print layout).
+   - Assessment Records section hides during constellation print (correct). Assessment screen itself has no print styling yet.
+
+176. ✅ **Assessment scope variants** — built v72. Full, Per-Table, Family Groups (Doubling/Anchor/Triple). 24-hour advisory. Scope tagged in records.
+
+**Build queue (Session AF):**
+1. Item 172 — foreground Smart Practice + Per-Question Timer (setup flow redesign, item 168)
+2. Item 183 — self-host Google Fonts (small, clean, privacy win)
+3. Item 178 — constellation print options (design discussion first)
+4. Assessment → constellation data integration (item 184 above — assessment data feeding tier calc)
+5. Mini-games: Fact Scramble (item 56) first — pending Spark reply on 179/180
+
+---
 
 **Session AD — CLOSED. April 2, 2026. v71 committed.**
 
