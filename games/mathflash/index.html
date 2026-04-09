@@ -2092,29 +2092,72 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   font-size:0.78rem; font-weight:700; color:var(--muted); margin-bottom:20px; letter-spacing:0.03em;
 }
 .assess-fact-card {
-  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
-  padding:28px 36px; text-align:center; width:100%; max-width:400px; margin-bottom:8px;
+  background: linear-gradient(135deg, var(--surface), var(--surface2));
+  border: 1.5px solid rgba(255,217,61,0.18);
+  border-radius: var(--radius);
+  padding: 36px 40px 28px;
+  text-align: center; width: 100%; max-width: 440px;
+  margin-bottom: 12px;
+  box-shadow: 0 0 32px rgba(255,217,61,0.06);
 }
-.assess-question { font-size:2.4rem; font-weight:800; font-family:var(--font-display); color:var(--text); }
+.assess-question { font-size:3.2rem; font-weight:800; font-family:var(--font-display); color:var(--text); letter-spacing:-0.01em; }
 .assess-feedback {
-  min-height:1.5em; font-size:0.9rem; font-weight:700; margin-top:8px; text-align:center;
+  min-height:2em; font-size:1rem; font-weight:700; margin-top:10px; text-align:center;
   transition:opacity 0.2s;
 }
+.assess-feedback.autokick-reveal {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: rgba(255,255,255,0.92);
+  animation: assess-warm-reveal 0.35s ease-out;
+}
+@keyframes assess-warm-reveal {
+  from { opacity:0; transform:scale(0.82); }
+  to   { opacity:1; transform:scale(1); }
+}
 .assess-bar-wrap {
-  width:100%; max-width:400px; height:6px; background:rgba(255,255,255,0.06);
-  border-radius:3px; overflow:hidden; margin-bottom:16px;
+  width:100%; max-width:440px; height:7px; background:rgba(255,255,255,0.06);
+  border-radius:4px; overflow:hidden; margin-bottom:16px;
 }
 .assess-bar-fill {
-  height:100%; border-radius:3px; background:var(--a6);
-  box-shadow:0 0 6px 1px rgba(255,159,67,0.4);
-  transition:background 0.4s, box-shadow 0.4s;
+  height:100%; border-radius:4px;
+  background: linear-gradient(90deg, var(--a2), var(--a6));
+  box-shadow: 0 0 8px 2px rgba(255,217,61,0.55);
+  transition: width 0.1s linear;
 }
-.assess-bar-fill.almost { background:#c77dff; box-shadow:0 0 8px 2px rgba(199,125,255,0.6); }
-.assess-bar-fill.danger { background:#4d96ff; box-shadow:0 0 8px 2px rgba(77,150,255,0.6); }
-.assess-input-row { display:flex; gap:10px; align-items:center; width:100%; max-width:400px; margin-bottom:12px; }
+.assess-pause-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.76rem; color: var(--muted);
+  background: none; border: 1px solid var(--border);
+  border-radius: 20px; padding: 5px 13px; cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  font-family: var(--font-body); margin-bottom: 10px;
+}
+.assess-pause-toggle.on { border-color: rgba(255,217,61,0.45); color: var(--a2); }
+.assess-continue-btn {
+  display: none;
+  padding: 11px 28px; border-radius: 10px; background: var(--a2); border: none;
+  color: #111; font-size: 1rem; font-weight: 800; cursor: pointer;
+  transition: background 0.15s; margin-bottom: 10px;
+  font-family: var(--font-body);
+}
+.assess-continue-btn:hover { background: var(--a6); }
+/* Star Scan pause overlay */
+.assess-pause-overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,15,26,0.92);
+  display: none; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 18px; z-index: 200; padding: 32px;
+  text-align: center;
+}
+.assess-pause-overlay.visible { display: flex; }
+.assess-pause-title { font-size:1.5rem; font-weight:800; color:var(--text); }
+.assess-pause-sub { font-size:0.9rem; color:var(--muted); max-width:300px; line-height:1.55; }
+.assess-input-row { display:flex; gap:10px; align-items:center; width:100%; max-width:440px; margin-bottom:10px; }
 .assess-input {
-  flex:1; padding:13px 14px; background:var(--surface); border:2px solid var(--border);
-  border-radius:10px; color:var(--text); font-size:1.4rem; font-weight:700; text-align:center; outline:none;
+  flex:1; padding:14px 14px; background:var(--surface); border:2px solid var(--border);
+  border-radius:10px; color:var(--text); font-size:1.6rem; font-weight:700; text-align:center; outline:none;
   font-family:var(--font-display); transition:border-color 0.2s;
 }
 .assess-input:focus { border-color:var(--a4); }
@@ -2181,6 +2224,15 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   font-size:0.85rem; font-weight:700; cursor:pointer; transition:background 0.15s,border-color 0.15s;
 }
 .mp-assess-btn-enabled:hover { background:rgba(255,159,67,0.18); border-color:rgba(255,159,67,0.6); }
+/* Star Scan info overlay prose */
+.starscan-info-card { max-width: 500px; }
+.starscan-info-card h2 { font-size:1.25rem; color:var(--a2); margin-bottom:8px; font-family:var(--font-display); }
+.starscan-info-card h3 { font-size:0.85rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin:16px 0 6px; }
+.starscan-info-card p { font-size:0.88rem; color:var(--text); line-height:1.6; margin-bottom:8px; }
+.starscan-info-card ul { font-size:0.88rem; color:var(--text); line-height:1.6; padding-left:18px; }
+.starscan-info-card ul li { margin-bottom:6px; }
+.starscan-info-card em { color:var(--muted); }
+.starscan-info-card strong { color:var(--text); }
 </style>
 </head>
 <body>
@@ -2234,7 +2286,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <button class="btn-primary" onclick="goSetup()">Let's Go →</button>
     <button class="btn-ghost" onclick="showOverlay('howto-overlay')">How to Play</button>
     <button class="btn-ghost" onclick="showScreen('stats-screen')">My Constellation</button>
-    <button class="btn-ghost" onclick="showScreen('assess-area-screen')">📋 Assessment</button>
+    <button class="btn-ghost" onclick="showScreen('assess-area-screen')">⭐ Star Scan</button>
   </div>
   <div class="title-link-row">
     <button class="title-about-link" onclick="showOverlay('about-overlay')">About this game</button>
@@ -2347,8 +2399,9 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <div id="assess-setup-overlay" class="overlay">
   <div class="overlay-card" style="max-width:440px;">
     <button class="overlay-close" onclick="hideOverlay('assess-setup-overlay')">✕</button>
-    <div style="font-family:var(--font-display);font-size:1.25rem;color:var(--a6);margin-bottom:4px;">Run Assessment</div>
-    <div style="font-size:0.78rem;color:var(--muted);margin-bottom:16px;line-height:1.5;">Each fact shown once, random order. One attempt, no Practice Quest. Results saved separately from practice data.</div>
+    <div style="font-family:var(--font-display);font-size:1.25rem;color:var(--a6);margin-bottom:4px;">Run Star Scan</div>
+    <div style="font-size:0.78rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Each fact shown once, random order. One attempt per fact. <strong style="color:var(--text);">Your answers do not affect your constellation</strong> — results are a separate snapshot.</div>
+    <div id="assess-count-label" style="font-size:0.82rem;font-weight:700;color:var(--a2);margin-bottom:12px;min-height:1.2em;"></div>
 
     <div class="assess-setup-section">Operation</div>
     <div class="assess-setup-op-row" id="assess-op-row">
@@ -2376,8 +2429,34 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px;">
       <button class="res-btn secondary" style="padding:9px 18px;font-size:0.85rem;" onclick="hideOverlay('assess-setup-overlay')">Cancel</button>
-      <button class="res-btn primary"   style="padding:9px 18px;font-size:0.85rem;" onclick="startAssessment()">Start Assessment →</button>
+      <button class="res-btn primary"   style="padding:9px 18px;font-size:0.85rem;" onclick="startAssessment()">Start Star Scan →</button>
     </div>
+  </div>
+</div>
+
+<!-- ══ STAR SCAN INFO OVERLAY ══ -->
+<div id="starscan-info-overlay" class="overlay">
+  <div class="overlay-card starscan-info-card" style="max-width:500px;max-height:80vh;overflow-y:auto;">
+    <button class="overlay-close" onclick="hideOverlay('starscan-info-overlay')">✕</button>
+    <h2>What is a Star Scan?</h2>
+    <p>A Star Scan is a timed snapshot of where your facts are right now — before practice, after a lot of practice, or any time you want a clear picture. It's not a test and it doesn't affect your constellation. It's just a reading.</p>
+    <h3>How it works</h3>
+    <p>Facts appear one at a time in random order. You get one attempt per fact at your fluency threshold — answer before time runs out, or the answer is shown and you move on. No Practice Quest, no retries. Just you and the fact.</p>
+    <h3>Your answers don't change your constellation</h3>
+    <p>Your constellation is built through practice. A Star Scan records a separate snapshot — it lives in your Star Scan Records, not in your stars. You can't scan your way to gold. That's earned through practice.</p>
+    <h3>When to use it</h3>
+    <ul>
+      <li><em>At the start</em> — take a Star Scan to light up what you already know before you begin practicing.</li>
+      <li><em>Along the way</em> — run one any time you or your teacher wants a clear picture of where things stand.</li>
+      <li><em>At the end</em> — when all your facts reach mastered, a final Star Scan becomes available as a completion confirmation.</li>
+    </ul>
+    <h3>A few things to know</h3>
+    <ul>
+      <li>The number of questions is shown before you begin — it updates as you choose your scope.</li>
+      <li>You can pause after any fact. You can't pause mid-fact — that would give extra thinking time and change the reading.</li>
+      <li>If you click End and then decide to continue, the fact you were on disappears and a fresh one loads. The one you saw gets recycled later.</li>
+    </ul>
+    <button class="about-play-btn" style="margin-top:16px;" onclick="hideOverlay('starscan-info-overlay')">Got it</button>
   </div>
 </div>
 
@@ -2678,8 +2757,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <div id="assess-area-screen" class="screen">
   <div class="assess-area-header">
     <div class="stats-profile" id="assess-area-profile"></div>
-    <div class="assess-area-title">📋 Assessment Area</div>
-    <div class="assess-area-subtitle">Benchmark your students' fact fluency</div>
+    <div class="assess-area-title">⭐ Star Scan</div>
+    <div class="assess-area-subtitle">A timed snapshot of where your facts are right now · <button onclick="showOverlay('starscan-info-overlay')" style="background:none;border:none;color:var(--a4);font-size:0.85rem;font-weight:700;cursor:pointer;padding:0;font-family:var(--font-body);">What is this? →</button></div>
   </div>
   <div class="assess-area-body" id="assess-area-body"></div>
   <div class="stats-footer">
@@ -2689,7 +2768,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
 <!-- ══ ASSESSMENT SCREEN ══ -->
 <div id="assessment-screen" class="screen">
-  <div class="assess-badge">📋 Assessment</div>
+  <div class="assess-badge">⭐ Star Scan</div>
   <div class="assess-progress" id="assess-progress">Fact 1 of 0</div>
   <div class="assess-fact-card">
     <div class="assess-question" id="assess-question">—</div>
@@ -2702,12 +2781,22 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <input type="text" inputmode="numeric" pattern="[0-9\-]*" class="assess-input" id="assess-input" placeholder="?" autocomplete="off" maxlength="4">
     <button class="assess-check-btn" id="assess-check-btn" onclick="submitAssessmentAnswer()">Check →</button>
   </div>
-  <button class="btn-ghost" style="margin-top:8px;font-size:0.78rem;" onclick="cancelAssessment()">✕ Cancel assessment</button>
+  <button class="assess-continue-btn" id="assess-continue-btn" onclick="assessContinue()">Continue →</button>
+  <button class="assess-pause-toggle" id="assess-pause-toggle" onclick="togglePauseAfter()">⏸ Pause after each fact</button>
+  <button class="btn-ghost" style="margin-top:4px;font-size:0.78rem;" onclick="endAssessmentFlow()">✕ End Star Scan</button>
+
+  <!-- Mid-scan pause / end overlay -->
+  <div class="assess-pause-overlay" id="assess-pause-overlay">
+    <div class="assess-pause-title">Star Scan paused</div>
+    <div class="assess-pause-sub">The fact you were on has been recycled back into the pool.</div>
+    <button class="res-btn primary" style="padding:12px 32px;font-size:1rem;" onclick="resumeAssessment()">Resume →</button>
+    <button class="res-btn secondary" style="padding:10px 24px;" onclick="cancelAssessmentFinal()">Cancel (don't save)</button>
+  </div>
 
   <!-- Results overlay sits inside this screen -->
   <div class="assess-results-overlay" id="assess-results-overlay">
     <div class="assess-results-card">
-      <div class="assess-results-title">Assessment Complete!</div>
+      <div class="assess-results-title">Star Scan Complete!</div>
       <div class="assess-results-sublabel" id="assess-results-sublabel">Baseline</div>
       <div class="assess-summary-row" id="assess-summary-row"></div>
       <div class="assess-results-section-title">⚡ Fluent</div>
@@ -2717,7 +2806,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       <div class="assess-results-section-title">📚 Needs Practice</div>
       <div class="assess-result-grid" id="assess-grid-needs"></div>
       <div class="assess-results-btns">
-        <button class="res-btn primary"   onclick="saveAssessmentRecord()">Save &amp; View Records</button>
+        <button class="res-btn primary"   onclick="saveAssessmentRecord()">Save to Star Scan Records</button>
         <button class="res-btn secondary" onclick="printAssessmentResults()">🖨 Print</button>
       </div>
     </div>
@@ -5560,7 +5649,7 @@ function buildStatsScreen() {
       watchHTML +
     '</div>' +
     '<div class="mp-section" id="mp-assess-section">' +
-      '<button class="mp-assess-btn-enabled" onclick="showScreen(\'assess-area-screen\')" style="width:100%;">📋 Go to Assessment Area</button>' +
+      '<button class="mp-assess-btn-enabled" onclick="showScreen(\'assess-area-screen\')" style="width:100%;">⭐ Go to Star Scan Area</button>' +
     '</div>';
 
   buildConstellation(activeOp);
@@ -5790,6 +5879,7 @@ var A = {
   threshMs:    3000,      // fluency threshold
   akMs:        7000,      // autokick ms
   answered:    false,     // guard against double-submit
+  pauseAfter:  false,     // pause between facts
   // setup state
   _setupOp:     'x',
   _setupScope:  'full',
@@ -5836,6 +5926,7 @@ function openAssessmentSetup() {
         });
       }
       buildAssessTablePicker();
+      updateAssessCount();
     };
   });
 
@@ -5855,6 +5946,7 @@ function openAssessmentSetup() {
         A._setupTables = ASSESS_FAMILY_GROUPS.find(function(g) { return g.id === A._setupGroup; }).tables.slice();
       }
       buildAssessTablePicker();
+      updateAssessCount();
     };
   });
 
@@ -5869,6 +5961,7 @@ function openAssessmentSetup() {
 
   document.getElementById('assess-table-msg').textContent = '';
   buildAssessTablePicker();
+  updateAssessCount();
   showOverlay('assess-setup-overlay');
 }
 
@@ -5904,12 +5997,14 @@ function buildAssessTablePicker() {
         area.querySelectorAll('[data-grp]').forEach(function(b) { b.classList.remove('on'); });
         this.classList.add('on');
         document.getElementById('assess-table-msg').textContent = '';
+        updateAssessCount();
       };
     });
     if (A._setupGroup) {
       var grp = ASSESS_FAMILY_GROUPS.find(function(g) { return g.id === A._setupGroup; });
       if (grp) A._setupTables = grp.tables.slice();
     }
+    updateAssessCount();
     return;
   }
 
@@ -5931,8 +6026,10 @@ function buildAssessTablePicker() {
         area.querySelectorAll('[data-t]').forEach(function(b) { b.classList.remove('on'); });
         this.classList.add('on');
         document.getElementById('assess-table-msg').textContent = '';
+        updateAssessCount();
       };
     });
+    updateAssessCount();
     return;
   }
 
@@ -5953,8 +6050,10 @@ function buildAssessTablePicker() {
       if (idx === -1) { A._setupTables.push(t); this.classList.add('on'); }
       else            { A._setupTables.splice(idx, 1); this.classList.remove('on'); }
       document.getElementById('assess-table-msg').textContent = '';
+      updateAssessCount();
     };
   });
+  updateAssessCount();
 }
 
 function assessSelAll(sel) {
@@ -5963,6 +6062,14 @@ function assessSelAll(sel) {
   var maxT = S.extendedTables ? 20 : 12;
   A._setupTables = sel ? Array.from({length:maxT}, function(_,i){ return i+1; }) : [];
   buildAssessTablePicker();
+}
+
+function updateAssessCount() {
+  var countEl = document.getElementById('assess-count-label');
+  if (!countEl) return;
+  var tables = A._setupTables;
+  var pool = buildAssessPool(A._setupOp, tables[0] === 'all' ? [] : tables);
+  countEl.textContent = 'You\'ll answer ' + pool.length + ' question' + (pool.length === 1 ? '' : 's');
 }
 
 // ── Build assessment fact pool ──────────────────────────
@@ -6069,7 +6176,7 @@ function startAssessment() {
     var recent = assessRecentRunWarning(username, op, scope, groupId);
     if (recent) {
       var lbl = resolveAssessScopeLabel(op, scope, groupId, tables);
-      var ok = window.confirm('You ran a ' + lbl + ' assessment less than 24 hours ago. Running again this soon may not show meaningful change.\n\nContinue anyway?');
+      var ok = window.confirm('You ran a ' + lbl + ' Star Scan less than 24 hours ago. Running again this soon may not show meaningful change.\n\nContinue anyway?');
       if (!ok) return;
     }
   }
@@ -6082,12 +6189,18 @@ function startAssessment() {
   A.groupId    = groupId;
   A.scopeLabel = resolveAssessScopeLabel(op, scope, groupId, tables);
   A.tables     = tables[0] === 'all' ? [] : tables.slice();
-  A.threshMs   = (S.fluencyTier && S.fluencyTier.fluencyMs)  ? S.fluencyTier.fluencyMs  : 3000;
-  A.akMs       = (S.fluencyTier && S.fluencyTier.autokickMs) ? S.fluencyTier.autokickMs : 7000;
+  A.threshMs   = (S.fluencyTier && S.fluencyTier.fluencyMs) ? S.fluencyTier.fluencyMs : 3000;
+  A.akMs       = A.threshMs; // hard stop at fluency threshold — no extra time
   A.answered   = false;
+  A.pauseAfter = false;
 
   hideOverlay('assess-setup-overlay');
   showScreen('assessment-screen');
+  // Reset pause toggle UI
+  var tog = document.getElementById('assess-pause-toggle');
+  if (tog) tog.classList.remove('on');
+  var contBtn = document.getElementById('assess-continue-btn');
+  if (contBtn) contBtn.style.display = 'none';
   showAssessmentFact();
 }
 
@@ -6098,13 +6211,20 @@ function showAssessmentFact() {
 
   A.answered = false;
   document.getElementById('assess-question').textContent = f.q;
-  document.getElementById('assess-feedback').textContent = '';
-  document.getElementById('assess-feedback').style.color = '';
+  var fbEl = document.getElementById('assess-feedback');
+  fbEl.textContent = '';
+  fbEl.style.color = '';
+  fbEl.className = 'assess-feedback';
   document.getElementById('assess-progress').textContent = 'Fact ' + (A.cur + 1) + ' of ' + A.facts.length;
+
+  // Hide continue button at start of each fact
+  var contBtn = document.getElementById('assess-continue-btn');
+  if (contBtn) contBtn.style.display = 'none';
 
   var inp = document.getElementById('assess-input');
   inp.value = '';
   inp.className = 'assess-input';
+  inp.style.borderColor = '';
   inp.disabled = false;
 
   var btn = document.getElementById('assess-check-btn');
@@ -6118,21 +6238,14 @@ function showAssessmentFact() {
   A.startMs = Date.now();
   if (A.timer) { clearInterval(A.timer); A.timer = null; }
   A.timer = setInterval(function() {
-    var elapsed = (Date.now() - A.startMs) / 1000;
-    var akSecs  = A.akMs / 1000;
-    var left = Math.max(0, akSecs - elapsed);
-    // Update bar
-    fill.style.width = ((left / akSecs) * 100) + '%';
-    var threshSec = A.threshMs / 1000;
-    var almostThresh = akSecs - threshSec;
-    var dangerThresh = Math.min(1.5, threshSec * 0.4);
-    fill.classList.toggle('danger', left <= dangerThresh);
-    fill.classList.toggle('almost', left <= almostThresh && left > dangerThresh);
+    var elapsed = Date.now() - A.startMs;
+    var left = Math.max(0, A.threshMs - elapsed);
+    fill.style.width = ((left / A.threshMs) * 100) + '%';
     if (left <= 0) {
       clearInterval(A.timer); A.timer = null;
       if (!A.answered) assessAutoKick();
     }
-  }, 100);
+  }, 50);
 
   // Focus input
   setTimeout(function() { inp.focus(); }, 50);
@@ -6179,11 +6292,16 @@ function submitAssessmentAnswer() {
   var fill = document.getElementById('assess-bar-fill');
   fill.style.width = '0%';
 
-  // Advance after brief pause
-  setTimeout(function() {
-    A.cur++;
-    showAssessmentFact();
-  }, 900);
+  // Advance — either immediately (auto) or wait for Continue tap
+  if (A.pauseAfter) {
+    var contBtn = document.getElementById('assess-continue-btn');
+    if (contBtn) contBtn.style.display = 'block';
+  } else {
+    setTimeout(function() {
+      A.cur++;
+      showAssessmentFact();
+    }, 900);
+  }
 }
 
 // ── Autokick (timer expired) ─────────────────────────────
@@ -6193,28 +6311,36 @@ function assessAutoKick() {
   var f   = A.facts[A.cur];
   var key = factKey(f);
 
-  A.results.push({ key: key, label: factLabel(f), ms: A.akMs, correct: false, tier: 'autokick' });
+  A.results.push({ key: key, label: factLabel(f), ms: A.threshMs, correct: false, tier: 'autokick' });
 
   var fb = document.getElementById('assess-feedback');
   var inp = document.getElementById('assess-input');
   inp.disabled = true;
-  inp.className = 'assess-input wrong';
+  inp.className = 'assess-input';
+  inp.style.borderColor = 'var(--border)';
   document.getElementById('assess-check-btn').disabled = true;
-  fb.textContent = '— ' + f.a;
-  fb.style.color = 'var(--wrong)';
+  // Show answer — warm white reveal, no hyphen, no red
+  fb.textContent = String(f.a);
+  fb.style.color = '';
+  fb.className = 'assess-feedback autokick-reveal';
 
-  setTimeout(function() {
-    A.cur++;
-    showAssessmentFact();
-  }, 700);
+  // Advance — auto or pause
+  if (A.pauseAfter) {
+    var contBtn = document.getElementById('assess-continue-btn');
+    if (contBtn) contBtn.style.display = 'block';
+  } else {
+    setTimeout(function() {
+      A.cur++;
+      showAssessmentFact();
+    }, 900);
+  }
 }
 
 // ── Tier from elapsed ms ─────────────────────────────────
 function getTierFromMs(ms, correct) {
   if (!correct) return 'needs';
-  if (ms <= A.threshMs)         return 'fluent';
-  if (ms <= A.akMs)             return 'almost';
-  return 'needs';
+  if (ms <= A.threshMs) return 'fluent';
+  return 'almost'; // answered but just over threshold (edge case with fast user input)
 }
 
 // ── End assessment ───────────────────────────────────────
@@ -6233,7 +6359,7 @@ function endAssessment() {
   var assessData = username ? loadAssessments() : {};
   var userData   = assessData[username] || { nextId: 1, records: [] };
   var nextId     = userData.nextId || (userData.records.length + 1);
-  var label      = nextId === 1 ? 'Baseline' : 'Assessment ' + nextId;
+  var label      = nextId === 1 ? 'Baseline' : 'Star Scan ' + nextId;
 
   // Populate results overlay
   document.getElementById('assess-results-sublabel').textContent = label;
@@ -6276,7 +6402,7 @@ function saveAssessmentRecord() {
   var assessData = loadAssessments();
   var userData   = assessData[username] || { nextId: 1, records: [] };
   var id         = userData.nextId || (userData.records.length + 1);
-  var label      = id === 1 ? 'Baseline' : 'Assessment ' + id;
+  var label      = id === 1 ? 'Baseline' : 'Star Scan ' + id;
 
   var record = {
     id:         id,
@@ -6308,10 +6434,48 @@ function printAssessmentResults() {
   window.print();
 }
 
-// ── Cancel mid-assessment ────────────────────────────────
-function cancelAssessment() {
-  if (!window.confirm('Cancel this assessment? Results will not be saved.')) return;
+// ── Pause-after toggle ───────────────────────────────────
+function togglePauseAfter() {
+  A.pauseAfter = !A.pauseAfter;
+  var tog = document.getElementById('assess-pause-toggle');
+  if (tog) tog.classList.toggle('on', A.pauseAfter);
+}
+
+// ── Continue after paused fact ───────────────────────────
+function assessContinue() {
+  var contBtn = document.getElementById('assess-continue-btn');
+  if (contBtn) contBtn.style.display = 'none';
+  A.cur++;
+  showAssessmentFact();
+}
+
+// ── End mid-scan flow ────────────────────────────────────
+function endAssessmentFlow() {
+  if (A.answered && A.cur >= A.facts.length) return; // already at results
+  // Stop timer
   if (A.timer) { clearInterval(A.timer); A.timer = null; }
+  A.answered = true; // freeze current fact
+  // Recycle current fact back into remaining pool at random position
+  var remaining = A.facts.slice(A.cur + 1);
+  var insertAt = Math.floor(Math.random() * (remaining.length + 1));
+  remaining.splice(insertAt, 0, A.facts[A.cur]);
+  A.facts = A.facts.slice(0, A.cur).concat(remaining);
+  // Show pause overlay
+  document.getElementById('assess-pause-overlay').classList.add('visible');
+}
+
+function resumeAssessment() {
+  document.getElementById('assess-pause-overlay').classList.remove('visible');
+  // Hide continue btn in case it was showing
+  var contBtn = document.getElementById('assess-continue-btn');
+  if (contBtn) contBtn.style.display = 'none';
+  A.answered = false;
+  showAssessmentFact();
+}
+
+function cancelAssessmentFinal() {
+  if (A.timer) { clearInterval(A.timer); A.timer = null; }
+  document.getElementById('assess-pause-overlay').classList.remove('visible');
   document.getElementById('assess-results-overlay').classList.remove('visible');
   showScreen('assess-area-screen');
 }
@@ -6319,17 +6483,17 @@ function cancelAssessment() {
 // ── Render assessment records in My Constellation ────────
 function buildAssessmentRecords(container, username) {
   if (!username) {
-    container.innerHTML = '<div class="mp-assessment-empty">Sign in to run assessments.</div>';
+    container.innerHTML = '<div class="mp-assessment-empty">Sign in to run Star Scans.</div>';
     return;
   }
   var assessData = loadAssessments();
   var userData   = assessData[username] || { nextId: 1, records: [] };
   var records    = userData.records || [];
 
-  var btn = '<button class="mp-assess-btn-enabled" onclick="openAssessmentSetup()">📋 Run Assessment</button>';
+  var btn = '<button class="mp-assess-btn-enabled" onclick="openAssessmentSetup()">⭐ Run Star Scan</button>';
 
   if (!records.length) {
-    container.innerHTML = '<div class="mp-assessment-empty">No assessments yet.</div>' + btn;
+    container.innerHTML = '<div class="mp-assessment-empty">No Star Scans yet.</div>' + btn;
     return;
   }
 
@@ -6379,16 +6543,16 @@ function buildAssessArea() {
   var username = localStorage.getItem('sparkwright_active') || '';
   var profileEl = document.getElementById('assess-area-profile');
   if (profileEl) {
-    profileEl.textContent = username ? username + '\u2019s assessments' : 'Guest mode';
+    profileEl.textContent = username ? username + '\u2019s Star Scans' : 'Guest mode';
   }
 
   var body = document.getElementById('assess-area-body');
   if (!body) return;
 
-  var runBtn = '<button class="assess-area-run-btn" onclick="openAssessmentSetup()">📋 Run New Assessment</button>';
+  var runBtn = '<button class="assess-area-run-btn" onclick="openAssessmentSetup()">⭐ Run Star Scan</button>';
 
   if (!username) {
-    body.innerHTML = '<div class="assess-area-empty">Sign in to run and save assessments.</div>';
+    body.innerHTML = '<div class="assess-area-empty">Sign in to run and save Star Scans.</div>';
     return;
   }
 
@@ -6398,7 +6562,7 @@ function buildAssessArea() {
 
   var recordsHTML = '';
   if (!records.length) {
-    recordsHTML = '<div class="assess-area-empty">No assessments yet — run one to get started.</div>';
+    recordsHTML = '<div class="assess-area-empty">No Star Scans yet — run one to get started.</div>';
   } else {
     var opSymbols = { x: '×', '/': '÷', '+': '+', '-': '−' };
     var chips = '';
@@ -6438,7 +6602,7 @@ function buildAssessArea() {
         '</div>';
     }
     recordsHTML =
-      '<div class="assess-area-records-title">Past Assessments</div>' +
+      '<div class="assess-area-records-title">Past Star Scans</div>' +
       chips;
   }
 
