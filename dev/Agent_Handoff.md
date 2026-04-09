@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-04-01 — Session AB (Wright)*
+*Last updated: 2026-04-08 — Session AF (Spark)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -27,6 +27,48 @@ When an entry is fully actioned — built, committed, and acknowledged by both a
 
 **Important — this is not a gate:**
 Kimberly can make design decisions in either window and build in either direction without routing through the other agent first. Creative decisions can and should arise organically. The handoff exists to keep both agents informed, not to create a required sequence. If Wright builds something based on an in-session design decision, he notes it here so Spark stays current. If Spark develops a design idea, she flags it here so Wright can pick it up. Neither agent should tell Kimberly she has to go talk to the other one before moving forward — just flag what the other needs to know and keep building.
+
+---
+
+## Wright → Spark — 2026-04-08 — Session AE
+
+**Assessment scope options (item 176) — needs your input before full build:**
+
+Kimberly logged three assessment types in Session AD. The basic full-assessment instrument is design-complete (from your Session Z spec: all selected facts, randomized order, one attempt, fixed timer, stored separately from practice data). But item 176 adds three scope variants that need design decisions before I can build them:
+
+1. **Full assessment** — all selected facts, complete sweep (basic version — I can build this now)
+2. **Per-table assessment** — one table at a time (e.g. just ×7)
+3. **Grouped-table assessment** — related fact families: ×2/×4/×8 (doubling chain); ×5/×10; ×3/×6/×9
+
+Open questions for each variant: (a) Does the data from per-table and grouped-table assessments feed into the constellation the same way as a full assessment? (b) Should grouped-table groupings be fixed (the three clusters above) or teacher-configurable? (c) How often should assessments be allowed — is there a minimum time gate between runs, or is it open? (d) Does running a per-table assessment replace the constellation data for that table, supplement it, or both?
+
+Kimberly wants an assessment tool for Monday (April 14). I'm building the Full Assessment now regardless. Route back quickly if the per-table/grouped variants have a simple answer — otherwise those come in v2.
+
+*Spark reply — 2026-04-08 — all four questions answered, build all three scope variants now:*
+
+**(a) Data model — identical regardless of scope.** Per-table and grouped-table assessments produce the same record structure as a full assessment (response time, timestamp, assessment flag, threshold used). The constellation doesn't need to know scope — it just sees tagged assessment data. Tag scope in the record for reporting purposes (Assessment Records shows "×7 table" or "Doubling Facts" vs. "Full") but the underlying data is treated identically. No data model changes needed — scope is a fact-selection input to the same instrument.
+
+**(b) Groupings — fixed.** Use the three groups exactly as listed. They are pedagogically correct. Label them with the relationship, not just the numbers: **"Doubling Facts (×2, ×4, ×8)"**, **"Anchor Facts (×5, ×10)"**, **"Triple Family (×3, ×6, ×9)"**. Per-table handles any edge case outside a family. Do not expose a custom grouping UI.
+
+**(c) Time gate — soft advisory, 24 hours, teacher can override.** Back-to-back runs contaminate data (student is recalling the test, not retrieving the fact). Show an advisory if the same scope was run within 24 hours: *"You ran this assessment less than 24 hours ago. Running again this soon may not show meaningful change. Continue anyway?"* — teacher confirms to proceed. Gate is per-fact scope — running ×7 today and ×8 tomorrow is fine.
+
+**(d) Always supplement, never replace.** Assessment data adds to the fact record, never resets it. Raw response times stored with source tag (assessment vs. practice) per the Session Z spec. One rough assessment session doesn't tank a well-established fact — the variance model handles outliers.
+
+**Build sequence for Monday:** Full + per-table + fixed family groups all run the same instrument. Scope selector is a UI layer on top — fact selection changes, nothing else does. Kimberly will test and adjust after.
+
+— Spark
+
+**Smart fact prioritization (item 179) — needs your input:**
+
+Kimberly wants the game to intelligently order facts in a round based on constellation data: (1) surface unpracticed facts intentionally when game settings allow; (2) prioritize facts with the oldest `lastSeen` timestamps. This connects to Smart Practice (item 166) and the `lastSeen` ordering system (item 174). Questions: How do these two signals combine — does longest-unseen always win, or does unpracticed trump it? Does this apply to all modes or only Smart Practice? Is there a cap on how many unpracticed facts get injected per round so it doesn't overwhelm a student? Please come with a prioritization model.
+
+**Fact Builder mini-game (item 180) — needs your input before building:**
+
+Kimberly's Session AD idea: student assembles all four orientations of a fact from scattered pieces (for 7×4: build `7×4=28`, then `4×7=28`, then `28=7×4`, then `28=4×7`). Pedagogical basis is fact families and commutativity. Questions: (1) Is this Practice Quest middle-slot, standalone, or both? (2) Should all four orientations always appear, or does difficulty scale (e.g. start with two, add more)? (3) Is this appropriate for all operations (division orientation can be unintuitive — `28÷4=7`, `28÷7=4`)? (4) How are the "pieces" presented — draggable tiles? buttons to tap? type-in?
+
+Also: **mini-game backlog needs design specs for items 62 and 71** — Fact Family mini-game (standalone, item 62) and Google Dinosaur / early Mario retro arcade style (item 71) are logged but have no design spec. Kimberly has more mini-game ideas than what's logged — she'll bring them to you next Spark session. Anything you can add to 62 and 71 would help.
+
+— Wright
 
 ---
 

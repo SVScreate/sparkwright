@@ -1953,7 +1953,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   body.print-constellation .mp-op-filter,
   body.print-constellation .mp-ctrl-row,
   body.print-constellation .mp-assessment-empty,
-  body.print-constellation .mp-assess-btn { display: none !important; }
+  body.print-constellation .mp-assess-btn,
+  body.print-constellation #mp-assess-section { display: none !important; }
   body.print-constellation .stats-title  { color: #111 !important; }
   body.print-constellation .stats-profile { color: #444 !important; }
   body.print-constellation .c-label      { color: #555 !important; }
@@ -1996,6 +1997,125 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   .options-grid,.mode-grid { grid-template-columns: 1fr; }
   .tile-grid { grid-template-columns: repeat(2,1fr); }
 }
+
+/* ══ ASSESSMENT MODE ══════════════════════════════════ */
+
+/* Setup overlay — table picker */
+.assess-setup-op-row { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+.assess-setup-op-btn {
+  padding:7px 18px; border-radius:20px; border:1px solid rgba(255,255,255,0.15);
+  background:transparent; color:rgba(240,240,255,0.6); font-size:0.85rem; font-weight:700;
+  cursor:pointer; transition:background 0.15s,border-color 0.15s,color 0.15s;
+}
+.assess-setup-op-btn.on { background:rgba(255,159,67,0.15); border-color:rgba(255,159,67,0.5); color:var(--a6); }
+.assess-setup-section { font-size:0.7rem; font-weight:800; letter-spacing:0.07em; text-transform:uppercase; color:rgba(240,240,255,0.45); margin-bottom:6px; }
+.assess-timer-note { font-size:0.78rem; color:var(--muted); margin:12px 0 16px; padding:10px 12px; background:rgba(255,255,255,0.04); border-radius:8px; border:1px solid var(--border); }
+.assess-timer-note strong { color:var(--text); }
+
+/* Assessment screen */
+#assessment-screen {
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+  padding:24px 16px 32px;
+}
+.assess-badge {
+  display:inline-block; background:rgba(255,159,67,0.12);
+  border:1px solid rgba(255,159,67,0.32); color:var(--a6);
+  font-size:0.7rem; font-weight:800; letter-spacing:0.09em; text-transform:uppercase;
+  padding:4px 12px; border-radius:20px; margin-bottom:8px;
+}
+.assess-progress {
+  font-size:0.78rem; font-weight:700; color:var(--muted); margin-bottom:20px; letter-spacing:0.03em;
+}
+.assess-fact-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:28px 36px; text-align:center; width:100%; max-width:400px; margin-bottom:8px;
+}
+.assess-question { font-size:2.4rem; font-weight:800; font-family:var(--font-display); color:var(--text); }
+.assess-feedback {
+  min-height:1.5em; font-size:0.9rem; font-weight:700; margin-top:8px; text-align:center;
+  transition:opacity 0.2s;
+}
+.assess-bar-wrap {
+  width:100%; max-width:400px; height:6px; background:rgba(255,255,255,0.06);
+  border-radius:3px; overflow:hidden; margin-bottom:16px;
+}
+.assess-bar-fill {
+  height:100%; border-radius:3px; background:var(--a6);
+  box-shadow:0 0 6px 1px rgba(255,159,67,0.4);
+  transition:background 0.4s, box-shadow 0.4s;
+}
+.assess-bar-fill.almost { background:#c77dff; box-shadow:0 0 8px 2px rgba(199,125,255,0.6); }
+.assess-bar-fill.danger { background:#4d96ff; box-shadow:0 0 8px 2px rgba(77,150,255,0.6); }
+.assess-input-row { display:flex; gap:10px; align-items:center; width:100%; max-width:400px; margin-bottom:12px; }
+.assess-input {
+  flex:1; padding:13px 14px; background:var(--surface); border:2px solid var(--border);
+  border-radius:10px; color:var(--text); font-size:1.4rem; font-weight:700; text-align:center; outline:none;
+  font-family:var(--font-display); transition:border-color 0.2s;
+}
+.assess-input:focus { border-color:var(--a4); }
+.assess-input.correct { border-color:var(--correct); }
+.assess-input.wrong   { border-color:var(--wrong); }
+.assess-check-btn {
+  padding:13px 20px; border-radius:10px; background:var(--a4); border:none;
+  color:#fff; font-size:1rem; font-weight:700; cursor:pointer; transition:background 0.15s;
+  white-space:nowrap;
+}
+.assess-check-btn:hover { background:#3a85ff; }
+.assess-check-btn:disabled { background:rgba(255,255,255,0.1); cursor:default; }
+
+/* Assessment records list in My Constellation */
+.mp-assess-record {
+  background:rgba(255,255,255,0.03); border:1px solid var(--border);
+  border-radius:10px; padding:12px 14px; margin-bottom:8px;
+}
+.mp-assess-record-header { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:5px; }
+.mp-assess-record-label { font-size:0.85rem; font-weight:800; color:var(--text); }
+.mp-assess-record-date  { font-size:0.7rem; color:var(--muted); }
+.mp-assess-record-summary { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:8px; }
+.mp-assess-stat { font-size:0.72rem; font-weight:700; }
+.mp-assess-stat.fluent  { color:var(--a6); }
+.mp-assess-stat.almost  { color:#c77dff; }
+.mp-assess-stat.needs   { color:var(--a4); }
+.mp-assess-stat.total   { color:var(--muted); }
+.mp-assess-record-chips { display:flex; flex-wrap:wrap; gap:5px; }
+.mp-assess-chip { font-size:0.7rem; font-weight:700; padding:3px 8px; border-radius:6px; border:1px solid; }
+.mp-assess-chip.fluent  { background:rgba(255,159,67,0.16); border-color:rgba(255,159,67,0.45); color:var(--a6); }
+.mp-assess-chip.almost  { background:rgba(199,125,255,0.13); border-color:rgba(199,125,255,0.38); color:#c77dff; }
+.mp-assess-chip.needs   { background:rgba(77,150,255,0.13); border-color:rgba(77,150,255,0.38); color:var(--a4); }
+.mp-assess-chip.autokick{ background:rgba(255,107,107,0.13); border-color:rgba(255,107,107,0.38); color:var(--a1); }
+
+/* Assessment results overlay */
+.assess-results-overlay {
+  position:fixed; inset:0; background:rgba(10,10,20,0.88); z-index:8000;
+  display:none; align-items:center; justify-content:center; padding:16px;
+}
+.assess-results-overlay.visible { display:flex; }
+.assess-results-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:28px 24px; max-width:520px; width:100%; max-height:90vh; overflow-y:auto;
+}
+.assess-results-title { font-size:1.4rem; font-weight:800; color:var(--a6); margin-bottom:2px; font-family:var(--font-display); }
+.assess-results-sublabel { font-size:0.72rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); margin-bottom:18px; }
+.assess-summary-row { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+.assess-summary-stat { flex:1; min-width:80px; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:10px; padding:11px 8px; text-align:center; }
+.assess-summary-num { font-size:1.5rem; font-weight:800; }
+.assess-summary-lbl { font-size:0.63rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:var(--muted); margin-top:2px; }
+.assess-results-section-title { font-size:0.68rem; font-weight:800; letter-spacing:0.07em; text-transform:uppercase; color:rgba(240,240,255,0.4); margin-bottom:8px; }
+.assess-result-grid { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:22px; max-height:200px; overflow-y:auto; }
+.assess-result-chip { font-size:0.78rem; font-weight:700; padding:5px 10px; border-radius:8px; border:1px solid; }
+.assess-result-chip.fluent  { background:rgba(255,159,67,0.18); border-color:rgba(255,159,67,0.5);   color:var(--a6); }
+.assess-result-chip.almost  { background:rgba(199,125,255,0.15); border-color:rgba(199,125,255,0.4); color:#c77dff; }
+.assess-result-chip.needs   { background:rgba(77,150,255,0.14); border-color:rgba(77,150,255,0.4);   color:var(--a4); }
+.assess-result-chip.autokick{ background:rgba(255,107,107,0.14); border-color:rgba(255,107,107,0.4); color:var(--a1); }
+.assess-results-btns { display:flex; gap:10px; flex-wrap:wrap; }
+
+.mp-assess-btn-enabled {
+  padding:10px 22px; border-radius:10px;
+  border:1px solid rgba(255,159,67,0.4); background:rgba(255,159,67,0.1);
+  color:var(--a6); font-family:var(--font-body);
+  font-size:0.85rem; font-weight:700; cursor:pointer; transition:background 0.15s,border-color 0.15s;
+}
+.mp-assess-btn-enabled:hover { background:rgba(255,159,67,0.18); border-color:rgba(255,159,67,0.6); }
 </style>
 </head>
 <body>
@@ -2154,6 +2274,44 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="about-prose" style="margin-top:4px;margin-bottom:16px;font-size:0.8rem;font-style:italic;opacity:0.6;">Built by a teacher with a Master's in Educational Therapy and 15+ years working with students across public, private, and homeschool settings.</div>
 
     <button class="about-play-btn" onclick="hideOverlay('about-overlay'); goSetup();">Start →</button>
+  </div>
+</div>
+
+<!-- ══ ASSESSMENT SETUP OVERLAY ══ -->
+<div id="assess-setup-overlay" class="overlay">
+  <div class="overlay-card" style="max-width:440px;">
+    <button class="overlay-close" onclick="hideOverlay('assess-setup-overlay')">✕</button>
+    <div style="font-family:var(--font-display);font-size:1.25rem;color:var(--a6);margin-bottom:4px;">Run Assessment</div>
+    <div style="font-size:0.78rem;color:var(--muted);margin-bottom:16px;line-height:1.5;">Each fact shown once, random order. One attempt, no Practice Quest. Results saved separately from practice data.</div>
+
+    <div class="assess-setup-section">Operation</div>
+    <div class="assess-setup-op-row" id="assess-op-row">
+      <button class="assess-setup-op-btn on" data-op="x">× Multiplication</button>
+      <button class="assess-setup-op-btn" data-op="/">÷ Division</button>
+      <button class="assess-setup-op-btn" data-op="+">+ Addition</button>
+      <button class="assess-setup-op-btn" data-op="-">− Subtraction</button>
+    </div>
+
+    <div class="assess-setup-section" style="margin-top:14px;">Scope</div>
+    <div class="assess-setup-op-row" id="assess-scope-row">
+      <button class="assess-setup-op-btn on" data-scope="full">Full</button>
+      <button class="assess-setup-op-btn" data-scope="pertable">Per-Table</button>
+      <button class="assess-setup-op-btn" data-scope="group" id="assess-scope-group-btn">Family Groups</button>
+    </div>
+
+    <div id="assess-table-area" style="margin-top:12px;">
+      <!-- populated by buildAssessTablePicker() -->
+    </div>
+    <div class="num-input-msg" id="assess-table-msg" style="margin-bottom:8px;"></div>
+
+    <div class="assess-timer-note">
+      Timer: <strong id="assess-thresh-label">3 seconds</strong> per fact — your current fluency threshold. Graded the same as Per-Question Timer mode.
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px;">
+      <button class="res-btn secondary" style="padding:9px 18px;font-size:0.85rem;" onclick="hideOverlay('assess-setup-overlay')">Cancel</button>
+      <button class="res-btn primary"   style="padding:9px 18px;font-size:0.85rem;" onclick="startAssessment()">Start Assessment →</button>
+    </div>
   </div>
 </div>
 
@@ -2447,6 +2605,43 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   <div class="stats-footer">
     <button class="btn-ghost" onclick="showScreen('title-screen')">← Back</button>
     <button class="btn-ghost" onclick="printConstellation()">🖨 Print / Save as PDF</button>
+  </div>
+</div>
+
+<!-- ══ ASSESSMENT SCREEN ══ -->
+<div id="assessment-screen" class="screen">
+  <div class="assess-badge">📋 Assessment</div>
+  <div class="assess-progress" id="assess-progress">Fact 1 of 0</div>
+  <div class="assess-fact-card">
+    <div class="assess-question" id="assess-question">—</div>
+    <div class="assess-feedback" id="assess-feedback"></div>
+  </div>
+  <div class="assess-bar-wrap">
+    <div class="assess-bar-fill" id="assess-bar-fill" style="width:100%;"></div>
+  </div>
+  <div class="assess-input-row">
+    <input type="text" inputmode="numeric" pattern="[0-9\-]*" class="assess-input" id="assess-input" placeholder="?" autocomplete="off" maxlength="4">
+    <button class="assess-check-btn" id="assess-check-btn" onclick="submitAssessmentAnswer()">Check →</button>
+  </div>
+  <button class="btn-ghost" style="margin-top:8px;font-size:0.78rem;" onclick="cancelAssessment()">✕ Cancel assessment</button>
+
+  <!-- Results overlay sits inside this screen -->
+  <div class="assess-results-overlay" id="assess-results-overlay">
+    <div class="assess-results-card">
+      <div class="assess-results-title">Assessment Complete!</div>
+      <div class="assess-results-sublabel" id="assess-results-sublabel">Baseline</div>
+      <div class="assess-summary-row" id="assess-summary-row"></div>
+      <div class="assess-results-section-title">⚡ Fluent</div>
+      <div class="assess-result-grid" id="assess-grid-fluent"></div>
+      <div class="assess-results-section-title">🔄 Almost</div>
+      <div class="assess-result-grid" id="assess-grid-almost"></div>
+      <div class="assess-results-section-title">📚 Needs Practice</div>
+      <div class="assess-result-grid" id="assess-grid-needs"></div>
+      <div class="assess-results-btns">
+        <button class="res-btn primary"   onclick="saveAssessmentRecord()">Save &amp; View Records</button>
+        <button class="res-btn secondary" onclick="printAssessmentResults()">🖨 Print</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -3336,7 +3531,8 @@ function updatePoolNotice() {
   var msgEl   = document.getElementById(msgIds[S.format]);
   var inputEl = document.getElementById(inputIds[S.format]);
   if (!msgEl || !inputEl) return;
-  if (msgEl.textContent && !msgEl.classList.contains('info')) return; // don't overwrite a validation error
+  // Clear any stale validation error — pool notice always wins on settings change
+  if (msgEl.textContent && !msgEl.classList.contains('info')) { msgEl.textContent = ''; }
   var qCount   = parseInt(inputEl.value) || 0;
   var poolSize = getPoolSize();
   if (poolSize > 1 && qCount > poolSize) {
@@ -5283,13 +5479,16 @@ function buildStatsScreen() {
       '<div class="mp-section-title">Facts to Watch</div>' +
       watchHTML +
     '</div>' +
-    '<div class="mp-section">' +
+    '<div class="mp-section" id="mp-assess-section">' +
       '<div class="mp-section-title">Assessment Records</div>' +
-      '<div class="mp-assessment-empty">No assessments yet.</div>' +
-      '<button class="mp-assess-btn" disabled>Run Assessment</button>' +
+      '<div id="mp-assess-records-inner"></div>' +
     '</div>';
 
   buildConstellation(activeOp);
+
+  // Assessment Records section
+  var assessInner = document.getElementById('mp-assess-records-inner');
+  if (assessInner) buildAssessmentRecords(assessInner, username);
 
   // Op filter interaction
   var filterEl = document.getElementById('mp-op-filter');
@@ -5491,15 +5690,626 @@ function endGame() {
   showScreen('results-screen');
 }
 
+// ══ ASSESSMENT MODE ════════════════════════════════════
+const ASSESS_KEY = 'mathflash_assessments';
+
+// Family group definitions (Spark — Session AF)
+const ASSESS_FAMILY_GROUPS = [
+  { id: 'doubling', label: 'Doubling Facts', tables: [2, 4, 8] },
+  { id: 'anchor',   label: 'Anchor Facts',   tables: [5, 10] },
+  { id: 'triple',   label: 'Triple Family',  tables: [3, 6, 9] },
+];
+
+// Assessment state
+var A = {
+  facts:       [],        // shuffled fact pool
+  cur:         0,         // current index
+  results:     [],        // { key, label, ms, correct, tier }
+  startMs:     0,         // when current question shown
+  timer:       null,      // interval ID
+  op:          'x',       // selected operation
+  tables:      [],        // selected tables (resolved for storage)
+  scope:       'full',    // 'full' | 'pertable' | 'group'
+  groupId:     null,      // family group id if scope=group
+  scopeLabel:  '',        // human-readable scope for records
+  threshMs:    3000,      // fluency threshold
+  akMs:        7000,      // autokick ms
+  answered:    false,     // guard against double-submit
+  // setup state
+  _setupOp:     'x',
+  _setupScope:  'full',
+  _setupTables: [],
+  _setupGroup:  null,
+};
+
+function loadAssessments() {
+  try { return JSON.parse(localStorage.getItem(ASSESS_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveAssessments(data) {
+  try { localStorage.setItem(ASSESS_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+// ── Setup overlay ──────────────────────────────────────
+function openAssessmentSetup() {
+  A._setupOp    = 'x';
+  A._setupScope = 'full';
+  A._setupGroup = null;
+  A._setupTables = S.tables.x.length ? S.tables.x.slice() : [1,2,3,4,5,6,7,8,9,10,11,12];
+
+  // Sync op buttons
+  document.querySelectorAll('#assess-op-row .assess-setup-op-btn').forEach(function(btn) {
+    btn.classList.toggle('on', btn.dataset.op === A._setupOp);
+    btn.onclick = function() {
+      A._setupOp = this.dataset.op;
+      document.querySelectorAll('#assess-op-row .assess-setup-op-btn').forEach(function(b) { b.classList.remove('on'); });
+      this.classList.add('on');
+      // Reset tables for new op
+      if (A._setupOp === 'x' || A._setupOp === '/') {
+        A._setupTables = (S.tables[A._setupOp] || []).length ? S.tables[A._setupOp].slice() : [1,2,3,4,5,6,7,8,9,10,11,12];
+      } else {
+        A._setupTables = [];
+        A._setupScope = 'full'; // groups only for x
+      }
+      // Hide family group scope for non-mult ops
+      var groupBtn = document.getElementById('assess-scope-group-btn');
+      if (groupBtn) groupBtn.style.display = (A._setupOp === 'x') ? '' : 'none';
+      // Force scope back to full if currently group and op changed away from x
+      if (A._setupScope === 'group' && A._setupOp !== 'x') {
+        A._setupScope = 'full';
+        document.querySelectorAll('#assess-scope-row .assess-setup-op-btn').forEach(function(b) {
+          b.classList.toggle('on', b.dataset.scope === 'full');
+        });
+      }
+      buildAssessTablePicker();
+    };
+  });
+
+  // Sync scope buttons
+  document.querySelectorAll('#assess-scope-row .assess-setup-op-btn').forEach(function(btn) {
+    btn.classList.toggle('on', btn.dataset.scope === A._setupScope);
+    btn.onclick = function() {
+      A._setupScope = this.dataset.scope;
+      document.querySelectorAll('#assess-scope-row .assess-setup-op-btn').forEach(function(b) { b.classList.remove('on'); });
+      this.classList.add('on');
+      if (A._setupScope === 'full') {
+        A._setupTables = (S.tables[A._setupOp] || []).length ? S.tables[A._setupOp].slice() : [1,2,3,4,5,6,7,8,9,10,11,12];
+      } else if (A._setupScope === 'pertable') {
+        A._setupTables = A._setupTables.length ? [A._setupTables[0]] : [1];
+      } else if (A._setupScope === 'group') {
+        A._setupGroup = A._setupGroup || 'doubling';
+        A._setupTables = ASSESS_FAMILY_GROUPS.find(function(g) { return g.id === A._setupGroup; }).tables.slice();
+      }
+      buildAssessTablePicker();
+    };
+  });
+
+  // Timer label
+  var threshSec = ((S.fluencyTier && S.fluencyTier.fluencyMs) ? S.fluencyTier.fluencyMs : 3000) / 1000;
+  var threshLabel = document.getElementById('assess-thresh-label');
+  if (threshLabel) threshLabel.textContent = threshSec + ' second' + (threshSec === 1 ? '' : 's');
+
+  // Hide family group for non-mult ops
+  var groupBtn = document.getElementById('assess-scope-group-btn');
+  if (groupBtn) groupBtn.style.display = (A._setupOp === 'x') ? '' : 'none';
+
+  document.getElementById('assess-table-msg').textContent = '';
+  buildAssessTablePicker();
+  showOverlay('assess-setup-overlay');
+}
+
+function buildAssessTablePicker() {
+  var area = document.getElementById('assess-table-area');
+  if (!area) return;
+  var isMultDiv = (A._setupOp === 'x' || A._setupOp === '/');
+  var opSym = { x: '×', '/': '÷', '+': '+', '-': '−' }[A._setupOp] || A._setupOp;
+
+  if (!isMultDiv) {
+    area.innerHTML = '<div style="font-size:0.78rem;color:var(--muted);padding:6px 0;">All facts for this operation will be assessed.</div>';
+    A._setupTables = ['all'];
+    return;
+  }
+
+  if (A._setupScope === 'group') {
+    // Family group selector
+    var html = '<div class="assess-setup-section" style="margin-bottom:8px;">Choose a fact family</div><div style="display:flex;flex-direction:column;gap:8px;">';
+    ASSESS_FAMILY_GROUPS.forEach(function(grp) {
+      var tablesStr = grp.tables.map(function(t){ return opSym + t; }).join(', ');
+      var active = A._setupGroup === grp.id;
+      html += '<button class="assess-setup-op-btn' + (active ? ' on' : '') + '" data-grp="' + grp.id + '" style="text-align:left;padding:9px 14px;">' +
+        '<strong>' + grp.label + '</strong> <span style="font-size:0.75rem;opacity:0.7;">(' + tablesStr + ')</span>' +
+        '</button>';
+    });
+    html += '</div>';
+    area.innerHTML = html;
+    area.querySelectorAll('[data-grp]').forEach(function(btn) {
+      btn.onclick = function() {
+        A._setupGroup = this.dataset.grp;
+        var grp = ASSESS_FAMILY_GROUPS.find(function(g) { return g.id === A._setupGroup; });
+        A._setupTables = grp.tables.slice();
+        area.querySelectorAll('[data-grp]').forEach(function(b) { b.classList.remove('on'); });
+        this.classList.add('on');
+        document.getElementById('assess-table-msg').textContent = '';
+      };
+    });
+    if (A._setupGroup) {
+      var grp = ASSESS_FAMILY_GROUPS.find(function(g) { return g.id === A._setupGroup; });
+      if (grp) A._setupTables = grp.tables.slice();
+    }
+    return;
+  }
+
+  var maxT = S.extendedTables ? 20 : 12;
+
+  if (A._setupScope === 'pertable') {
+    // Single-select — only one table at a time
+    var selected = A._setupTables[0] || 1;
+    var html2 = '<div class="assess-setup-section" style="margin-bottom:8px;">Choose one table</div><div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px;">';
+    for (var n = 1; n <= maxT; n++) {
+      html2 += '<button class="chip' + (selected === n ? ' on' : '') + '" data-t="' + n + '" style="font-size:0.8rem;padding:6px 10px;">' + opSym + n + '</button>';
+    }
+    html2 += '</div>';
+    area.innerHTML = html2;
+    A._setupTables = [selected];
+    area.querySelectorAll('[data-t]').forEach(function(btn) {
+      btn.onclick = function() {
+        A._setupTables = [parseInt(this.dataset.t)];
+        area.querySelectorAll('[data-t]').forEach(function(b) { b.classList.remove('on'); });
+        this.classList.add('on');
+        document.getElementById('assess-table-msg').textContent = '';
+      };
+    });
+    return;
+  }
+
+  // Full — multi-select
+  var html3 = '<div class="assess-setup-section" style="margin-bottom:8px;">Tables to include</div><div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px;" id="assess-full-chips">';
+  for (var n2 = 1; n2 <= maxT; n2++) {
+    html3 += '<button class="chip' + (A._setupTables.indexOf(n2) !== -1 ? ' on' : '') + '" data-t="' + n2 + '" style="font-size:0.8rem;padding:6px 10px;">' + opSym + n2 + '</button>';
+  }
+  html3 += '</div><div style="display:flex;gap:8px;margin-bottom:4px;flex-wrap:wrap;">' +
+    '<button class="btn-ghost" style="font-size:0.75rem;padding:4px 12px;" onclick="assessSelAll(true)">Select All</button>' +
+    '<button class="btn-ghost" style="font-size:0.75rem;padding:4px 12px;" onclick="assessSelAll(false)">Clear All</button>' +
+    '</div>';
+  area.innerHTML = html3;
+  area.querySelectorAll('[data-t]').forEach(function(btn) {
+    btn.onclick = function() {
+      var t = parseInt(this.dataset.t);
+      var idx = A._setupTables.indexOf(t);
+      if (idx === -1) { A._setupTables.push(t); this.classList.add('on'); }
+      else            { A._setupTables.splice(idx, 1); this.classList.remove('on'); }
+      document.getElementById('assess-table-msg').textContent = '';
+    };
+  });
+}
+
+function assessSelAll(sel) {
+  var isMultDiv = (A._setupOp === 'x' || A._setupOp === '/');
+  if (!isMultDiv || A._setupScope !== 'full') return;
+  var maxT = S.extendedTables ? 20 : 12;
+  A._setupTables = sel ? Array.from({length:maxT}, function(_,i){ return i+1; }) : [];
+  buildAssessTablePicker();
+}
+
+// ── Build assessment fact pool ──────────────────────────
+function buildAssessPool(op, tables) {
+  var facts = [];
+  if (op === 'x') {
+    var seen = new Set();
+    tables.forEach(function(tbl) {
+      var maxT = S.extendedTables ? 20 : 12;
+      for (var m = 1; m <= maxT; m++) {
+        var key = Math.min(tbl,m) + '_' + Math.max(tbl,m);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        var a = Math.random() < 0.5 ? tbl : m;
+        var b = a === tbl ? m : tbl;
+        facts.push({ q: a + ' × ' + b + ' = ?', a: tbl * m, hint: { table: tbl, op: 'x' }, fa: a, fb: b });
+      }
+    });
+  } else if (op === '/') {
+    tables.forEach(function(tbl) {
+      var maxT = S.extendedTables ? 20 : 12;
+      for (var m = 1; m <= maxT; m++) {
+        var prod = tbl * m;
+        var div  = Math.random() < 0.5 ? tbl : m;
+        facts.push({ q: prod + ' ÷ ' + div + ' = ?', a: prod / div,
+          hint: { table: div, op: '/', prod: prod, other: div === tbl ? m : tbl }, fa: prod, fb: div });
+      }
+    });
+  } else if (op === '+') {
+    for (var a = 0; a <= (S.maxAdd || 10); a++) {
+      for (var b = a; b <= (S.maxAdd || 10) - a; b++) {
+        facts.push({ q: a + ' + ' + b + ' = ?', a: a + b, hint: null });
+      }
+    }
+  } else if (op === '-') {
+    for (var a2 = 0; a2 <= (S.maxSub || 10); a2++) {
+      for (var b2 = 0; b2 <= a2; b2++) {
+        facts.push({ q: a2 + ' − ' + b2 + ' = ?', a: a2 - b2, hint: null });
+      }
+    }
+  }
+  // Shuffle
+  for (var i = facts.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = facts[i]; facts[i] = facts[j]; facts[j] = tmp;
+  }
+  return facts;
+}
+
+// ── 24-hour advisory check ───────────────────────────────
+function assessRecentRunWarning(username, op, scope, groupId) {
+  var assessData = loadAssessments();
+  var records = (assessData[username] && assessData[username].records) || [];
+  var cutoff = Date.now() - 24 * 60 * 60 * 1000;
+  var recentRun = records.find(function(r) {
+    if (r.op !== op || r.scope !== scope) return false;
+    if (scope === 'group' && r.groupId !== groupId) return false;
+    var ts = r.timestamp || (r.date ? new Date(r.date + 'T12:00:00').getTime() : 0);
+    return ts > cutoff;
+  });
+  return recentRun;
+}
+
+// ── Resolve human-readable scope label ──────────────────
+function resolveAssessScopeLabel(op, scope, groupId, tables) {
+  var opNames = { x: 'Multiplication', '/': 'Division', '+': 'Addition', '-': 'Subtraction' };
+  var opSym   = { x: '×', '/': '÷', '+': '+', '-': '−' }[op] || op;
+  if (scope === 'group') {
+    var grp = ASSESS_FAMILY_GROUPS.find(function(g) { return g.id === groupId; });
+    return grp ? grp.label : 'Family Group';
+  }
+  if (scope === 'pertable') {
+    return opSym + (tables[0] || '?') + ' Table';
+  }
+  return opNames[op] || op; // full
+}
+
+// ── Start assessment ────────────────────────────────────
+function startAssessment() {
+  var op     = A._setupOp;
+  var scope  = A._setupScope;
+  var groupId = A._setupGroup;
+  var tables = A._setupTables;
+
+  // Validate selection
+  if ((op === 'x' || op === '/') && tables[0] !== 'all' && !tables.length) {
+    document.getElementById('assess-table-msg').textContent = 'Select at least one table.';
+    return;
+  }
+  if (scope === 'group' && !groupId) {
+    document.getElementById('assess-table-msg').textContent = 'Choose a fact family.';
+    return;
+  }
+
+  var pool = buildAssessPool(op, tables[0] === 'all' ? [] : tables);
+  if (pool.length === 0) {
+    document.getElementById('assess-table-msg').textContent = 'No facts found for this selection.';
+    return;
+  }
+
+  // 24-hour advisory (soft — teacher confirms to proceed)
+  var username = localStorage.getItem('sparkwright_active') || '';
+  if (username) {
+    var recent = assessRecentRunWarning(username, op, scope, groupId);
+    if (recent) {
+      var lbl = resolveAssessScopeLabel(op, scope, groupId, tables);
+      var ok = window.confirm('You ran a ' + lbl + ' assessment less than 24 hours ago. Running again this soon may not show meaningful change.\n\nContinue anyway?');
+      if (!ok) return;
+    }
+  }
+
+  A.facts      = pool;
+  A.cur        = 0;
+  A.results    = [];
+  A.op         = op;
+  A.scope      = scope;
+  A.groupId    = groupId;
+  A.scopeLabel = resolveAssessScopeLabel(op, scope, groupId, tables);
+  A.tables     = tables[0] === 'all' ? [] : tables.slice();
+  A.threshMs   = (S.fluencyTier && S.fluencyTier.fluencyMs)  ? S.fluencyTier.fluencyMs  : 3000;
+  A.akMs       = (S.fluencyTier && S.fluencyTier.autokickMs) ? S.fluencyTier.autokickMs : 7000;
+  A.answered   = false;
+
+  hideOverlay('assess-setup-overlay');
+  showScreen('assessment-screen');
+  showAssessmentFact();
+}
+
+// ── Show one fact ────────────────────────────────────────
+function showAssessmentFact() {
+  if (A.cur >= A.facts.length) { endAssessment(); return; }
+  var f = A.facts[A.cur];
+
+  A.answered = false;
+  document.getElementById('assess-question').textContent = f.q;
+  document.getElementById('assess-feedback').textContent = '';
+  document.getElementById('assess-feedback').style.color = '';
+  document.getElementById('assess-progress').textContent = 'Fact ' + (A.cur + 1) + ' of ' + A.facts.length;
+
+  var inp = document.getElementById('assess-input');
+  inp.value = '';
+  inp.className = 'assess-input';
+  inp.disabled = false;
+
+  var btn = document.getElementById('assess-check-btn');
+  btn.disabled = false;
+
+  // Reset + start bar
+  var fill = document.getElementById('assess-bar-fill');
+  fill.style.width = '100%';
+  fill.className = 'assess-bar-fill';
+
+  A.startMs = Date.now();
+  if (A.timer) { clearInterval(A.timer); A.timer = null; }
+  A.timer = setInterval(function() {
+    var elapsed = (Date.now() - A.startMs) / 1000;
+    var akSecs  = A.akMs / 1000;
+    var left = Math.max(0, akSecs - elapsed);
+    // Update bar
+    fill.style.width = ((left / akSecs) * 100) + '%';
+    var threshSec = A.threshMs / 1000;
+    var almostThresh = akSecs - threshSec;
+    var dangerThresh = Math.min(1.5, threshSec * 0.4);
+    fill.classList.toggle('danger', left <= dangerThresh);
+    fill.classList.toggle('almost', left <= almostThresh && left > dangerThresh);
+    if (left <= 0) {
+      clearInterval(A.timer); A.timer = null;
+      if (!A.answered) assessAutoKick();
+    }
+  }, 100);
+
+  // Focus input
+  setTimeout(function() { inp.focus(); }, 50);
+
+  // Enter key submits
+  inp.onkeydown = function(e) {
+    if (e.key === 'Enter') submitAssessmentAnswer();
+  };
+}
+
+// ── Submit answer ────────────────────────────────────────
+function submitAssessmentAnswer() {
+  if (A.answered) return;
+  var f   = A.facts[A.cur];
+  var inp = document.getElementById('assess-input');
+  var raw = inp.value.trim();
+  if (!raw) return;
+
+  var elapsed = Date.now() - A.startMs;
+  if (A.timer) { clearInterval(A.timer); A.timer = null; }
+  A.answered = true;
+
+  var correct = (parseFloat(raw) === f.a);
+  var tier = getTierFromMs(elapsed, correct);
+  var key  = factKey(f);
+
+  A.results.push({ key: key, label: factLabel(f), ms: elapsed, correct: correct, tier: tier });
+
+  var fb = document.getElementById('assess-feedback');
+  inp.className = 'assess-input ' + (correct ? 'correct' : 'wrong');
+  inp.disabled = true;
+  document.getElementById('assess-check-btn').disabled = true;
+
+  if (correct) {
+    var secs = (elapsed / 1000).toFixed(1);
+    fb.textContent = '✓ ' + secs + 's';
+    fb.style.color = (tier === 'fluent') ? 'var(--a6)' : (tier === 'almost') ? '#c77dff' : 'var(--a4)';
+  } else {
+    fb.textContent = '✗ ' + f.a;
+    fb.style.color = 'var(--wrong)';
+  }
+
+  // Bar to zero
+  var fill = document.getElementById('assess-bar-fill');
+  fill.style.width = '0%';
+
+  // Advance after brief pause
+  setTimeout(function() {
+    A.cur++;
+    showAssessmentFact();
+  }, 900);
+}
+
+// ── Autokick (timer expired) ─────────────────────────────
+function assessAutoKick() {
+  if (A.answered) return;
+  A.answered = true;
+  var f   = A.facts[A.cur];
+  var key = factKey(f);
+
+  A.results.push({ key: key, label: factLabel(f), ms: A.akMs, correct: false, tier: 'autokick' });
+
+  var fb = document.getElementById('assess-feedback');
+  var inp = document.getElementById('assess-input');
+  inp.disabled = true;
+  inp.className = 'assess-input wrong';
+  document.getElementById('assess-check-btn').disabled = true;
+  fb.textContent = '— ' + f.a;
+  fb.style.color = 'var(--wrong)';
+
+  setTimeout(function() {
+    A.cur++;
+    showAssessmentFact();
+  }, 700);
+}
+
+// ── Tier from elapsed ms ─────────────────────────────────
+function getTierFromMs(ms, correct) {
+  if (!correct) return 'needs';
+  if (ms <= A.threshMs)         return 'fluent';
+  if (ms <= A.akMs)             return 'almost';
+  return 'needs';
+}
+
+// ── End assessment ───────────────────────────────────────
+function endAssessment() {
+  if (A.timer) { clearInterval(A.timer); A.timer = null; }
+
+  // Compute summary
+  var total = A.results.length;
+  var correct = A.results.filter(function(r) { return r.correct; }).length;
+  var fluent  = A.results.filter(function(r) { return r.tier === 'fluent'; }).length;
+  var almost  = A.results.filter(function(r) { return r.tier === 'almost'; }).length;
+  var needs   = total - fluent - almost;
+
+  // Compute label
+  var username = localStorage.getItem('sparkwright_active') || '';
+  var assessData = username ? loadAssessments() : {};
+  var userData   = assessData[username] || { nextId: 1, records: [] };
+  var nextId     = userData.nextId || (userData.records.length + 1);
+  var label      = nextId === 1 ? 'Baseline' : 'Assessment ' + nextId;
+
+  // Populate results overlay
+  document.getElementById('assess-results-sublabel').textContent = label;
+
+  var summaryRow = document.getElementById('assess-summary-row');
+  summaryRow.innerHTML =
+    '<div class="assess-summary-stat"><div class="assess-summary-num" style="color:var(--text)">' + correct + '/' + total + '</div><div class="assess-summary-lbl">Correct</div></div>' +
+    '<div class="assess-summary-stat"><div class="assess-summary-num" style="color:var(--a6)">'  + fluent + '</div><div class="assess-summary-lbl">⚡ Fluent</div></div>' +
+    '<div class="assess-summary-stat"><div class="assess-summary-num" style="color:#c77dff">' + almost + '</div><div class="assess-summary-lbl">🔄 Almost</div></div>' +
+    '<div class="assess-summary-stat"><div class="assess-summary-num" style="color:var(--a4)">'  + needs  + '</div><div class="assess-summary-lbl">📚 Needs Practice</div></div>';
+
+  function buildChips(tier) {
+    return A.results
+      .filter(function(r) { return r.tier === tier || (tier === 'needs' && (r.tier === 'needs' || r.tier === 'autokick')); })
+      .map(function(r) {
+        var cls = (r.tier === 'autokick') ? 'autokick' : tier;
+        var suffix = r.tier === 'autokick' ? ' (—)' : '';
+        return '<span class="assess-result-chip ' + cls + '">' + r.label + suffix + '</span>';
+      }).join('');
+  }
+
+  document.getElementById('assess-grid-fluent').innerHTML = buildChips('fluent') || '<span style="font-size:0.78rem;color:rgba(240,240,255,0.25)">None</span>';
+  document.getElementById('assess-grid-almost').innerHTML = buildChips('almost') || '<span style="font-size:0.78rem;color:rgba(240,240,255,0.25)">None</span>';
+  document.getElementById('assess-grid-needs').innerHTML  = buildChips('needs')  || '<span style="font-size:0.78rem;color:rgba(240,240,255,0.25)">None</span>';
+
+  document.getElementById('assess-results-overlay').classList.add('visible');
+}
+
+// ── Save record ──────────────────────────────────────────
+function saveAssessmentRecord() {
+  var username = localStorage.getItem('sparkwright_active');
+  if (!username) { showScreen('stats-screen'); return; }
+
+  var total   = A.results.length;
+  var correct = A.results.filter(function(r) { return r.correct; }).length;
+  var fluent  = A.results.filter(function(r) { return r.tier === 'fluent'; }).length;
+  var almost  = A.results.filter(function(r) { return r.tier === 'almost'; }).length;
+  var needs   = total - fluent - almost;
+
+  var assessData = loadAssessments();
+  var userData   = assessData[username] || { nextId: 1, records: [] };
+  var id         = userData.nextId || (userData.records.length + 1);
+  var label      = id === 1 ? 'Baseline' : 'Assessment ' + id;
+
+  var record = {
+    id:         id,
+    label:      label,
+    date:       new Date().toISOString().slice(0, 10),
+    timestamp:  Date.now(),
+    op:         A.op,
+    scope:      A.scope,
+    groupId:    A.groupId,
+    scopeLabel: A.scopeLabel,
+    tables:     A.tables,
+    threshMs:   A.threshMs,
+    akMs:       A.akMs,
+    results:    A.results.slice(),
+    summary:    { total: total, correct: correct, fluent: fluent, almost: almost, needs: needs }
+  };
+
+  userData.records.push(record);
+  userData.nextId = id + 1;
+  assessData[username] = userData;
+  saveAssessments(assessData);
+
+  document.getElementById('assess-results-overlay').classList.remove('visible');
+  showScreen('stats-screen');
+}
+
+// ── Print assessment results ─────────────────────────────
+function printAssessmentResults() {
+  window.print();
+}
+
+// ── Cancel mid-assessment ────────────────────────────────
+function cancelAssessment() {
+  if (!window.confirm('Cancel this assessment? Results will not be saved.')) return;
+  if (A.timer) { clearInterval(A.timer); A.timer = null; }
+  document.getElementById('assess-results-overlay').classList.remove('visible');
+  showScreen('stats-screen');
+}
+
+// ── Render assessment records in My Constellation ────────
+function buildAssessmentRecords(container, username) {
+  if (!username) {
+    container.innerHTML = '<div class="mp-assessment-empty">Sign in to run assessments.</div>';
+    return;
+  }
+  var assessData = loadAssessments();
+  var userData   = assessData[username] || { nextId: 1, records: [] };
+  var records    = userData.records || [];
+
+  var btn = '<button class="mp-assess-btn-enabled" onclick="openAssessmentSetup()">📋 Run Assessment</button>';
+
+  if (!records.length) {
+    container.innerHTML = '<div class="mp-assessment-empty">No assessments yet.</div>' + btn;
+    return;
+  }
+
+  var opSymbols = { x: '×', '/': '÷', '+': '+', '-': '−' };
+  var html = '';
+  // Newest first
+  for (var i = records.length - 1; i >= 0; i--) {
+    var rec = records[i];
+    var s   = rec.summary;
+    var opSym = opSymbols[rec.op] || rec.op;
+    var tablesStr = rec.scopeLabel ||
+      ((rec.tables && rec.tables.length)
+        ? opSym + rec.tables.sort(function(a,b){return a-b;}).join(', ' + opSym)
+        : opSym + ' All');
+    var dateStr = rec.date ? new Date(rec.date + 'T12:00:00').toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) : '';
+    var threshStr = (rec.threshMs / 1000) + 's threshold';
+
+    var fluentChips = rec.results.filter(function(r){ return r.tier === 'fluent'; })
+      .map(function(r){ return '<span class="mp-assess-chip fluent">' + r.label + '</span>'; }).join('');
+    var almostChips = rec.results.filter(function(r){ return r.tier === 'almost'; })
+      .map(function(r){ return '<span class="mp-assess-chip almost">' + r.label + '</span>'; }).join('');
+    var needsChips  = rec.results.filter(function(r){ return r.tier === 'needs' || r.tier === 'autokick'; })
+      .map(function(r){ return '<span class="mp-assess-chip ' + (r.tier === 'autokick' ? 'autokick' : 'needs') + '">' + r.label + (r.tier === 'autokick' ? ' (—)' : '') + '</span>'; }).join('');
+
+    html +=
+      '<div class="mp-assess-record">' +
+        '<div class="mp-assess-record-header">' +
+          '<span class="mp-assess-record-label">' + rec.label + '</span>' +
+          '<span class="mp-assess-record-date">' + dateStr + ' · ' + tablesStr + ' · ' + threshStr + '</span>' +
+        '</div>' +
+        '<div class="mp-assess-record-summary">' +
+          '<span class="mp-assess-stat total">' + s.correct + '/' + s.total + ' correct</span>' +
+          '<span class="mp-assess-stat fluent">⚡ ' + s.fluent + ' Fluent</span>' +
+          '<span class="mp-assess-stat almost">🔄 ' + s.almost + ' Almost</span>' +
+          '<span class="mp-assess-stat needs">📚 ' + s.needs + ' Needs Practice</span>' +
+        '</div>' +
+        (fluentChips ? '<div class="mp-assess-record-chips" style="margin-bottom:5px;">' + fluentChips + '</div>' : '') +
+        (almostChips ? '<div class="mp-assess-record-chips" style="margin-bottom:5px;">' + almostChips + '</div>' : '') +
+        (needsChips  ? '<div class="mp-assess-record-chips">' + needsChips + '</div>' : '') +
+      '</div>';
+  }
+  container.innerHTML = html + '<div style="margin-top:10px;">' + btn + '</div>';
+}
+
 // ── Leave-round warning (item 160) ──────────────────────
 // Any navigation away from the page while a round or Practice Quest is active
 // prompts the student to confirm. Applies to logo, footer links, browser back/refresh.
 
 function isGameActive() {
-  var game  = document.getElementById('game-screen');
-  var remed = document.getElementById('remediation-screen');
-  return (game  && game.classList.contains('active')) ||
-         (remed && remed.classList.contains('active'));
+  var game   = document.getElementById('game-screen');
+  var remed  = document.getElementById('remediation-screen');
+  var assess = document.getElementById('assessment-screen');
+  return (game   && game.classList.contains('active'))  ||
+         (remed  && remed.classList.contains('active')) ||
+         (assess && assess.classList.contains('active') && !document.getElementById('assess-results-overlay').classList.contains('visible'));
 }
 
 // Intercept in-page link clicks (logo + footer) via delegation
