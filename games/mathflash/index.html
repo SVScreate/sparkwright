@@ -2081,10 +2081,64 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 #assessment-screen {
   align-items:center; justify-content:flex-start;
   padding:24px 16px 32px;
+  position: relative; overflow: hidden;
+  background: radial-gradient(ellipse at 50% 38%, rgba(180,210,255,0.05) 0%, transparent 65%);
 }
+/* Silver starfield — unique to Star Scan */
+#assessment-screen::before,
+#assessment-screen::after {
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+#assessment-screen::before {
+  background-image:
+    radial-gradient(2px   2px   at 8%  14%, rgba(220,230,255,0.9) 0%, rgba(200,220,255,0.2) 50%, transparent 100%),
+    radial-gradient(3px   3px   at 19% 67%, rgba(200,215,255,0.8) 0%, rgba(190,210,255,0.15)50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 31% 28%, rgba(230,240,255,1.0) 0%, rgba(210,230,255,0.3) 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 47% 82%, rgba(210,225,255,0.85)0%, rgba(200,220,255,0.2) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 58% 11%, rgba(230,240,255,0.9) 0%, rgba(220,235,255,0.25)50%, transparent 100%),
+    radial-gradient(3px   3px   at 72% 55%, rgba(200,215,255,0.75)0%, rgba(190,210,255,0.15)50%, transparent 100%),
+    radial-gradient(2px   2px   at 85% 22%, rgba(220,230,255,0.9) 0%, rgba(210,225,255,0.2) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 93% 74%, rgba(230,240,255,0.8) 0%, rgba(220,235,255,0.2) 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 14% 90%, rgba(210,225,255,0.85)0%, rgba(200,220,255,0.2) 50%, transparent 100%),
+    radial-gradient(2px   2px   at 64% 38%, rgba(220,230,255,0.7) 0%, rgba(200,220,255,0.15)50%, transparent 100%),
+    radial-gradient(3.5px 3.5px at 39% 50%, rgba(200,215,255,0.6) 0%, rgba(190,210,255,0.12)50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 76% 88%, rgba(230,240,255,0.85)0%, rgba(220,235,255,0.2) 50%, transparent 100%),
+    radial-gradient(2px   2px   at 4%  52%, rgba(215,228,255,0.8) 0%, rgba(205,222,255,0.18)50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 55% 62%, rgba(200,215,255,0.7) 0%, rgba(190,210,255,0.15)50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 88% 40%, rgba(225,235,255,0.9) 0%, rgba(215,230,255,0.22)50%, transparent 100%);
+  animation: star-float-a 9s ease-in-out infinite;
+}
+#assessment-screen::after {
+  background-image:
+    radial-gradient(2px   2px   at 6%  35%, rgba(210,225,255,0.8) 0%, rgba(200,220,255,0.18)50%, transparent 100%),
+    radial-gradient(3px   3px   at 24% 58%, rgba(220,232,255,0.7) 0%, rgba(210,228,255,0.15)50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 37% 8%,  rgba(230,240,255,0.9) 0%, rgba(220,235,255,0.25)50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 52% 76%, rgba(200,215,255,0.75)0%, rgba(192,212,255,0.18)50%, transparent 100%),
+    radial-gradient(2px   2px   at 67% 19%, rgba(220,230,255,0.85)0%, rgba(210,225,255,0.2) 50%, transparent 100%),
+    radial-gradient(3px   3px   at 80% 64%, rgba(200,215,255,0.7) 0%, rgba(190,210,255,0.14)50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 91% 32%, rgba(230,240,255,0.88)0%, rgba(220,235,255,0.22)50%, transparent 100%),
+    radial-gradient(2px   2px   at 11% 78%, rgba(215,228,255,0.8) 0%, rgba(205,222,255,0.18)50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 43% 44%, rgba(200,215,255,0.65)0%, rgba(190,210,255,0.12)50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 61% 92%, rgba(225,237,255,0.8) 0%, rgba(215,230,255,0.18)50%, transparent 100%),
+    radial-gradient(3px   3px   at 29% 21%, rgba(210,222,255,0.72)0%, rgba(200,218,255,0.15)50%, transparent 100%),
+    radial-gradient(2px   2px   at 74% 48%, rgba(220,232,255,0.78)0%, rgba(210,228,255,0.18)50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 96% 85%, rgba(230,240,255,0.82)0%, rgba(220,235,255,0.2) 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 16% 46%, rgba(200,215,255,0.68)0%, rgba(190,210,255,0.14)50%, transparent 100%),
+    radial-gradient(2px   2px   at 83% 10%, rgba(220,232,255,0.85)0%, rgba(210,228,255,0.2) 50%, transparent 100%);
+  animation: star-float-b 11s 1.5s ease-in-out infinite;
+}
+#assessment-screen::before,
+#assessment-screen::after { animation-play-state: paused; }
+#assessment-screen.active::before,
+#assessment-screen.active::after { animation-play-state: running; }
+/* Lift all direct content above the starfield */
+#assessment-screen > * { position: relative; z-index: 1; }
 .assess-badge {
-  display:inline-block; background:rgba(255,159,67,0.12);
-  border:1px solid rgba(255,159,67,0.32); color:var(--a6);
+  display:inline-block; background:rgba(200,220,255,0.08);
+  border:1px solid rgba(200,220,255,0.22); color:rgba(210,230,255,0.9);
   font-size:0.7rem; font-weight:800; letter-spacing:0.09em; text-transform:uppercase;
   padding:4px 12px; border-radius:20px; margin-bottom:8px;
 }
@@ -2092,13 +2146,15 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   font-size:0.78rem; font-weight:700; color:var(--muted); margin-bottom:20px; letter-spacing:0.03em;
 }
 .assess-fact-card {
-  background: linear-gradient(135deg, var(--surface), var(--surface2));
-  border: 1.5px solid rgba(255,217,61,0.18);
+  background: linear-gradient(145deg, rgba(26,26,46,0.92), rgba(22,33,62,0.92));
+  border: 1.5px solid rgba(200,220,255,0.14);
   border-radius: var(--radius);
   padding: 36px 40px 28px;
   text-align: center; width: 100%; max-width: 440px;
   margin-bottom: 12px;
-  box-shadow: 0 0 32px rgba(255,217,61,0.06);
+  box-shadow: 0 0 40px rgba(180,210,255,0.10), 0 0 80px rgba(150,190,255,0.06);
+  backdrop-filter: blur(2px);
+  position: relative; z-index: 1;
 }
 .assess-question { font-size:3.2rem; font-weight:800; font-family:var(--font-display); color:var(--text); letter-spacing:-0.01em; }
 .assess-feedback {
@@ -2106,9 +2162,10 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   transition:opacity 0.2s;
 }
 .assess-feedback.autokick-reveal {
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 800;
-  color: rgba(255,255,255,0.92);
+  color: rgba(225,235,255,0.96);
+  text-shadow: 0 0 12px rgba(200,220,255,0.9), 0 0 28px rgba(170,200,255,0.55), 0 0 48px rgba(150,185,255,0.25);
   animation: assess-warm-reveal 0.35s ease-out;
 }
 @keyframes assess-warm-reveal {
@@ -2116,24 +2173,20 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   to   { opacity:1; transform:scale(1); }
 }
 .assess-bar-wrap {
-  width:100%; max-width:440px; height:7px; background:rgba(255,255,255,0.06);
+  width:100%; max-width:440px; height:7px; background:rgba(255,255,255,0.07);
   border-radius:4px; overflow:hidden; margin-bottom:16px;
 }
 .assess-bar-fill {
-  height:100%; border-radius:4px;
-  background: linear-gradient(90deg, var(--a2), var(--a6));
-  box-shadow: 0 0 8px 2px rgba(255,217,61,0.55);
-  transition: width 0.1s linear;
+  height:100%; border-radius:0; /* wrap's overflow:hidden handles shaping */
+  background: rgba(220,235,255,0.88);
+  box-shadow: 0 0 10px 3px rgba(200,220,255,0.65), 0 0 20px 4px rgba(180,210,255,0.28);
+  transition: width 0.05s linear;
 }
-.assess-pause-toggle {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 0.76rem; color: var(--muted);
-  background: none; border: 1px solid var(--border);
-  border-radius: 20px; padding: 5px 13px; cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
-  font-family: var(--font-body); margin-bottom: 10px;
+.assess-pause-row {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 0.8rem; color: var(--muted); margin-bottom: 8px;
+  user-select: none;
 }
-.assess-pause-toggle.on { border-color: rgba(255,217,61,0.45); color: var(--a2); }
 .assess-continue-btn {
   display: none;
   padding: 11px 28px; border-radius: 10px; background: var(--a2); border: none;
@@ -2782,7 +2835,13 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <button class="assess-check-btn" id="assess-check-btn" onclick="submitAssessmentAnswer()">Check →</button>
   </div>
   <button class="assess-continue-btn" id="assess-continue-btn" onclick="assessContinue()">Continue →</button>
-  <button class="assess-pause-toggle" id="assess-pause-toggle" onclick="togglePauseAfter()">⏸ Pause after each fact</button>
+  <div class="assess-pause-row">
+    <span>⏸ Pause after each fact</span>
+    <label class="switch" style="cursor:pointer;">
+      <input type="checkbox" id="assess-pause-check" onchange="togglePauseAfter()">
+      <span class="switch-track"></span>
+    </label>
+  </div>
   <button class="btn-ghost" style="margin-top:4px;font-size:0.78rem;" onclick="endAssessmentFlow()">✕ End Star Scan</button>
 
   <!-- Mid-scan pause / end overlay -->
@@ -2790,7 +2849,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="assess-pause-title">Star Scan paused</div>
     <div class="assess-pause-sub">The fact you were on has been recycled back into the pool.</div>
     <button class="res-btn primary" style="padding:12px 32px;font-size:1rem;" onclick="resumeAssessment()">Resume →</button>
-    <button class="res-btn secondary" style="padding:10px 24px;" onclick="cancelAssessmentFinal()">Cancel (don't save)</button>
+    <button class="res-btn secondary" style="padding:10px 24px;" onclick="cancelAssessmentFinal()">Exit Star Scan</button>
   </div>
 
   <!-- Results overlay sits inside this screen -->
@@ -6196,11 +6255,14 @@ function startAssessment() {
 
   hideOverlay('assess-setup-overlay');
   showScreen('assessment-screen');
-  // Reset pause toggle UI
-  var tog = document.getElementById('assess-pause-toggle');
-  if (tog) tog.classList.remove('on');
+  // Reset pause toggle
+  var chk = document.getElementById('assess-pause-check');
+  if (chk) chk.checked = false;
   var contBtn = document.getElementById('assess-continue-btn');
   if (contBtn) contBtn.style.display = 'none';
+  // Wire Enter key
+  document.removeEventListener('keydown', assessKeydown);
+  document.addEventListener('keydown', assessKeydown);
   showAssessmentFact();
 }
 
@@ -6249,11 +6311,6 @@ function showAssessmentFact() {
 
   // Focus input
   setTimeout(function() { inp.focus(); }, 50);
-
-  // Enter key submits
-  inp.onkeydown = function(e) {
-    if (e.key === 'Enter') submitAssessmentAnswer();
-  };
 }
 
 // ── Submit answer ────────────────────────────────────────
@@ -6346,6 +6403,7 @@ function getTierFromMs(ms, correct) {
 // ── End assessment ───────────────────────────────────────
 function endAssessment() {
   if (A.timer) { clearInterval(A.timer); A.timer = null; }
+  document.removeEventListener('keydown', assessKeydown);
 
   // Compute summary
   var total = A.results.length;
@@ -6436,9 +6494,26 @@ function printAssessmentResults() {
 
 // ── Pause-after toggle ───────────────────────────────────
 function togglePauseAfter() {
-  A.pauseAfter = !A.pauseAfter;
-  var tog = document.getElementById('assess-pause-toggle');
-  if (tog) tog.classList.toggle('on', A.pauseAfter);
+  var chk = document.getElementById('assess-pause-check');
+  A.pauseAfter = chk ? chk.checked : !A.pauseAfter;
+}
+
+// ── Global Enter key handler for Star Scan ───────────────
+function assessKeydown(e) {
+  if (e.key !== 'Enter') return;
+  // Don't fire when pause overlay is open
+  var pauseOverlay = document.getElementById('assess-pause-overlay');
+  if (pauseOverlay && pauseOverlay.classList.contains('visible')) return;
+  // Don't fire when results overlay is open
+  var resultsOverlay = document.getElementById('assess-results-overlay');
+  if (resultsOverlay && resultsOverlay.classList.contains('visible')) return;
+  // Continue button takes priority
+  var contBtn = document.getElementById('assess-continue-btn');
+  if (contBtn && contBtn.style.display === 'block') {
+    assessContinue();
+    return;
+  }
+  submitAssessmentAnswer();
 }
 
 // ── Continue after paused fact ───────────────────────────
@@ -6475,6 +6550,7 @@ function resumeAssessment() {
 
 function cancelAssessmentFinal() {
   if (A.timer) { clearInterval(A.timer); A.timer = null; }
+  document.removeEventListener('keydown', assessKeydown);
   document.getElementById('assess-pause-overlay').classList.remove('visible');
   document.getElementById('assess-results-overlay').classList.remove('visible');
   showScreen('assess-area-screen');
