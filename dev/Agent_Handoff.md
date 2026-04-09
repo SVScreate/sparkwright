@@ -44,7 +44,13 @@ Also: **mini-game backlog needs design specs for items 62 and 71** — Fact Fami
 
 **Note — Assessment Mode built (item 176, v72):** All three scope variants (Full / Per-Table / Family Groups) built and committed. Data model: scope tagged in record, treated identically by constellation. 24-hour soft advisory implemented. Groupings: Doubling Facts ×2,4,8 / Anchor Facts ×5,10 / Triple Family ×3,6,9. Live in My Constellation → Assessment Records. Kimberly tests Monday.
 
-— Wright
+**CRITICAL — Assessment data does not drive the constellation (Session AF decision):** Assessment records are benchmark snapshots only. They do NOT cause tier changes. They do NOT make facts go gold. Mastery is earned through practice exclusively — the constellation is practice-driven. Assessment data is stored separately (per Session Z spec) and stays in Assessment Records as a diagnostic layer. A student cannot test their way to mastery. If any current wiring feeds assessment response times into tier calculation, remove it. The two data streams are parallel, not combined.
+
+**Confirmed clean (Session AF/Wright):** `saveAssessmentRecord()` writes only to `mathflash_assessments` (ASSESS_KEY). Constellation reads only from `mathflash_facts`. No cross-contamination.
+
+**Assessment Area — architectural update (Session AF, v73):** Assessment moved out of My Constellation into a dedicated `assess-area-screen` — its own top-level page. Title screen now has a separate "📋 Assessment" button (alongside "My Constellation"). My Constellation now just has a "Go to Assessment Area" shortcut button. Assessment Area shows: profile chip, Run Assessment button, full past-records list. All post-assessment/cancel navigation routes to `assess-area-screen`. CSS bug fixed (ID selector was showing assessment screen on every page). Kimberly testing Monday.
+
+— Wright, 2026-04-09
 
 ---
 

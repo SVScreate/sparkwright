@@ -2012,9 +2012,74 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 .assess-timer-note { font-size:0.78rem; color:var(--muted); margin:12px 0 16px; padding:10px 12px; background:rgba(255,255,255,0.04); border-radius:8px; border:1px solid var(--border); }
 .assess-timer-note strong { color:var(--text); }
 
-/* Assessment screen */
+/* ── ASSESSMENT AREA SCREEN ── */
+#assess-area-screen {
+  flex-direction: column;
+  gap: 0;
+  padding: 28px 20px 80px;
+  overflow-y: auto;
+  align-items: stretch;
+}
+.assess-area-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.assess-area-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text);
+}
+.assess-area-subtitle {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.assess-area-body {
+  flex: 1;
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+}
+.assess-area-run-btn {
+  display: block;
+  width: 100%;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(77,150,255,0.18), rgba(199,125,255,0.18));
+  border: 1.5px solid rgba(77,150,255,0.5);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 32px;
+  transition: background 0.18s, border-color 0.18s;
+  font-family: var(--font-body);
+}
+.assess-area-run-btn:hover {
+  background: linear-gradient(135deg, rgba(77,150,255,0.28), rgba(199,125,255,0.28));
+  border-color: rgba(77,150,255,0.8);
+}
+.assess-area-records-title {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+  margin-bottom: 16px;
+}
+.assess-area-empty {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+  padding: 24px 0;
+}
+
+/* Assessment screen — display controlled by .screen/.screen.active, not this rule */
 #assessment-screen {
-  display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+  align-items:center; justify-content:flex-start;
   padding:24px 16px 32px;
 }
 .assess-badge {
@@ -2169,6 +2234,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <button class="btn-primary" onclick="goSetup()">Let's Go →</button>
     <button class="btn-ghost" onclick="showOverlay('howto-overlay')">How to Play</button>
     <button class="btn-ghost" onclick="showScreen('stats-screen')">My Constellation</button>
+    <button class="btn-ghost" onclick="showScreen('assess-area-screen')">📋 Assessment</button>
   </div>
   <div class="title-link-row">
     <button class="title-about-link" onclick="showOverlay('about-overlay')">About this game</button>
@@ -2608,6 +2674,19 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   </div>
 </div>
 
+<!-- ══ ASSESSMENT AREA SCREEN ══ -->
+<div id="assess-area-screen" class="screen">
+  <div class="assess-area-header">
+    <div class="stats-profile" id="assess-area-profile"></div>
+    <div class="assess-area-title">📋 Assessment Area</div>
+    <div class="assess-area-subtitle">Benchmark your students' fact fluency</div>
+  </div>
+  <div class="assess-area-body" id="assess-area-body"></div>
+  <div class="stats-footer">
+    <button class="btn-ghost" onclick="showScreen('title-screen')">← Back</button>
+  </div>
+</div>
+
 <!-- ══ ASSESSMENT SCREEN ══ -->
 <div id="assessment-screen" class="screen">
   <div class="assess-badge">📋 Assessment</div>
@@ -2744,6 +2823,7 @@ function showScreen(id) {
   const inRound = (id === 'game-screen' || id === 'remediation-screen');
   rh.style.display = inRound ? 'flex' : 'none';
   if (id === 'stats-screen') buildStatsScreen();
+  if (id === 'assess-area-screen') buildAssessArea();
 }
 
 function showOverlay(id)  { document.getElementById(id).classList.add('active'); }
@@ -5480,15 +5560,10 @@ function buildStatsScreen() {
       watchHTML +
     '</div>' +
     '<div class="mp-section" id="mp-assess-section">' +
-      '<div class="mp-section-title">Assessment Records</div>' +
-      '<div id="mp-assess-records-inner"></div>' +
+      '<button class="mp-assess-btn-enabled" onclick="showScreen(\'assess-area-screen\')" style="width:100%;">📋 Go to Assessment Area</button>' +
     '</div>';
 
   buildConstellation(activeOp);
-
-  // Assessment Records section
-  var assessInner = document.getElementById('mp-assess-records-inner');
-  if (assessInner) buildAssessmentRecords(assessInner, username);
 
   // Op filter interaction
   var filterEl = document.getElementById('mp-op-filter');
@@ -6190,7 +6265,7 @@ function endAssessment() {
 // ── Save record ──────────────────────────────────────────
 function saveAssessmentRecord() {
   var username = localStorage.getItem('sparkwright_active');
-  if (!username) { showScreen('stats-screen'); return; }
+  if (!username) { showScreen('assess-area-screen'); return; }
 
   var total   = A.results.length;
   var correct = A.results.filter(function(r) { return r.correct; }).length;
@@ -6225,7 +6300,7 @@ function saveAssessmentRecord() {
   saveAssessments(assessData);
 
   document.getElementById('assess-results-overlay').classList.remove('visible');
-  showScreen('stats-screen');
+  showScreen('assess-area-screen');
 }
 
 // ── Print assessment results ─────────────────────────────
@@ -6238,7 +6313,7 @@ function cancelAssessment() {
   if (!window.confirm('Cancel this assessment? Results will not be saved.')) return;
   if (A.timer) { clearInterval(A.timer); A.timer = null; }
   document.getElementById('assess-results-overlay').classList.remove('visible');
-  showScreen('stats-screen');
+  showScreen('assess-area-screen');
 }
 
 // ── Render assessment records in My Constellation ────────
@@ -6297,6 +6372,77 @@ function buildAssessmentRecords(container, username) {
       '</div>';
   }
   container.innerHTML = html + '<div style="margin-top:10px;">' + btn + '</div>';
+}
+
+// ── Assessment Area screen ──────────────────────────────
+function buildAssessArea() {
+  var username = localStorage.getItem('sparkwright_active') || '';
+  var profileEl = document.getElementById('assess-area-profile');
+  if (profileEl) {
+    profileEl.textContent = username ? username + '\u2019s assessments' : 'Guest mode';
+  }
+
+  var body = document.getElementById('assess-area-body');
+  if (!body) return;
+
+  var runBtn = '<button class="assess-area-run-btn" onclick="openAssessmentSetup()">📋 Run New Assessment</button>';
+
+  if (!username) {
+    body.innerHTML = '<div class="assess-area-empty">Sign in to run and save assessments.</div>';
+    return;
+  }
+
+  var assessData = loadAssessments();
+  var userData   = (assessData[username] || { records: [] });
+  var records    = userData.records || [];
+
+  var recordsHTML = '';
+  if (!records.length) {
+    recordsHTML = '<div class="assess-area-empty">No assessments yet — run one to get started.</div>';
+  } else {
+    var opSymbols = { x: '×', '/': '÷', '+': '+', '-': '−' };
+    var chips = '';
+    for (var i = records.length - 1; i >= 0; i--) {
+      var rec = records[i];
+      var s   = rec.summary;
+      var opSym = opSymbols[rec.op] || rec.op;
+      var tablesStr = rec.scopeLabel ||
+        ((rec.tables && rec.tables.length)
+          ? opSym + rec.tables.sort(function(a,b){return a-b;}).join(', ' + opSym)
+          : opSym + ' All');
+      var dateStr = rec.date ? new Date(rec.date + 'T12:00:00').toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) : '';
+      var threshStr = (rec.threshMs / 1000) + 's threshold';
+
+      var fluentChips = rec.results.filter(function(r){ return r.tier === 'fluent'; })
+        .map(function(r){ return '<span class="mp-assess-chip fluent">' + r.label + '</span>'; }).join('');
+      var almostChips = rec.results.filter(function(r){ return r.tier === 'almost'; })
+        .map(function(r){ return '<span class="mp-assess-chip almost">' + r.label + '</span>'; }).join('');
+      var needsChips  = rec.results.filter(function(r){ return r.tier === 'needs' || r.tier === 'autokick'; })
+        .map(function(r){ return '<span class="mp-assess-chip ' + (r.tier === 'autokick' ? 'autokick' : 'needs') + '">' + r.label + (r.tier === 'autokick' ? ' (—)' : '') + '</span>'; }).join('');
+
+      chips +=
+        '<div class="mp-assess-record">' +
+          '<div class="mp-assess-record-header">' +
+            '<span class="mp-assess-record-label">' + rec.label + '</span>' +
+            '<span class="mp-assess-record-date">' + dateStr + ' · ' + tablesStr + ' · ' + threshStr + '</span>' +
+          '</div>' +
+          '<div class="mp-assess-record-summary">' +
+            '<span class="mp-assess-stat total">' + s.correct + '/' + s.total + ' correct</span>' +
+            '<span class="mp-assess-stat fluent">⚡ ' + s.fluent + ' Fluent</span>' +
+            '<span class="mp-assess-stat almost">🔄 ' + s.almost + ' Almost</span>' +
+            '<span class="mp-assess-stat needs">📚 ' + s.needs + ' Needs Practice</span>' +
+          '</div>' +
+          (fluentChips ? '<div class="mp-assess-record-chips" style="margin-bottom:5px;">' + fluentChips + '</div>' : '') +
+          (almostChips ? '<div class="mp-assess-record-chips" style="margin-bottom:5px;">' + almostChips + '</div>' : '') +
+          (needsChips  ? '<div class="mp-assess-record-chips">' + needsChips + '</div>' : '') +
+        '</div>';
+    }
+    recordsHTML =
+      '<div class="assess-area-records-title">Past Assessments</div>' +
+      chips;
+  }
+
+  body.innerHTML = runBtn + recordsHTML;
 }
 
 // ── Leave-round warning (item 160) ──────────────────────
