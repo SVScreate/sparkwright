@@ -1594,14 +1594,11 @@
           if (!confirm(`Delete "${p.username}"? Their data cannot be recovered.`)) return;
           let updated = loadProfiles().filter(x => x.username !== p.username);
           saveProfiles(updated);
-          /* if deleted active, switch to first remaining or none */
+          /* if deleted active, clear active and stay on switcher to let user choose */
           if (p.username === active) {
-            const next = updated[0] || null;
-            if (next) saveActiveUsername(next.username);
-            else localStorage.removeItem(KEY_ACTIVE);
-            closeSwitcher();
-            renderNav(next);
-            renderWelcome(next);
+            localStorage.removeItem(KEY_ACTIVE);
+            renderNav(null);
+            renderSwitcherList();
           } else {
             renderSwitcherList();
           }

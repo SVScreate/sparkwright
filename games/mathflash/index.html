@@ -2151,7 +2151,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 }
 /* Inner wrapper lifts content above starfield without touching position:fixed overlays */
 .assess-screen-inner {
-  display: flex; flex-direction: column; align-items: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
   flex: 1; width: 100%; padding: 24px 16px 32px;
   position: relative; z-index: 1;
 }
@@ -2393,7 +2393,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div id="sw-divider"></div>
     <span id="sw-game-label" onclick="showScreen('title-screen')" style="cursor:pointer;" title="Back to title screen">Math Flash</span>
   </div>
-  <div id="sw-profile-chip" class="guest" onclick="showUserMenu('none')" style="cursor:pointer;" title="Switch user">
+  <div id="sw-profile-chip" class="guest" onclick="onChipClick()" style="cursor:pointer;" title="Switch user">
     <span class="sw-avatar">👤</span>
     <span class="sw-name">Guest</span>
   </div>
@@ -2600,6 +2600,16 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   </div>
 </div>
 
+<!-- ══ MATH FLASH ORIENTATION (existing user, first visit to Math Flash) ══ -->
+<div id="mf-welcome-overlay" class="overlay">
+  <div class="overlay-card" style="max-width:420px;">
+    <div class="overlay-title" style="font-size:1.5rem;margin-bottom:10px;">Welcome to Math Flash ⚡</div>
+    <p id="mf-welcome-greeting" style="color:var(--text);font-size:1rem;font-weight:700;margin-bottom:10px;"></p>
+    <p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:20px;">Practice math facts, earn your constellation, and build fluency one star at a time. Hit <strong style="color:var(--text);">Practice</strong> from the title screen whenever you're ready — and check <strong style="color:var(--text);">My Constellation</strong> to track your progress.</p>
+    <button class="btn-primary" style="width:100%;font-size:1rem;padding:13px;" onclick="completeMFWelcome()">Let's go! →</button>
+  </div>
+</div>
+
 <!-- ══ USER MENU ══ -->
 <div id="user-menu-overlay" class="overlay" onclick="if(event.target===this)hideOverlay('user-menu-overlay')">
   <div class="overlay-card" style="max-width:340px;">
@@ -2608,6 +2618,18 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div id="user-menu-list"></div>
     <div style="padding-top:12px;border-top:1px solid var(--border);">
       <button class="btn-ghost" style="width:100%;font-size:0.88rem;" onclick="addNewUserFromMenu()">+ Add New User</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MID-GAME NAV MENU ══ -->
+<div id="midgame-nav-overlay" class="overlay" onclick="if(event.target===this)hideOverlay('midgame-nav-overlay')">
+  <div class="overlay-card" style="max-width:320px;">
+    <button class="overlay-close" onclick="hideOverlay('midgame-nav-overlay')">✕</button>
+    <div class="overlay-title" style="font-size:1.2rem;margin-bottom:16px;">Navigate</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button class="btn-ghost" style="width:100%;" onclick="midgameNav('title')">← Main Menu</button>
+      <button class="btn-ghost" style="width:100%;" onclick="midgameNav('constellation')">My Constellation</button>
     </div>
   </div>
 </div>
@@ -2994,10 +3016,17 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       }
     } catch(e) { /* stay as guest */ }
   }
+  function checkMFOnboarding() {
+    var username = localStorage.getItem('sparkwright_active');
+    if (username && !localStorage.getItem('mathflash_onboarded_' + username)) {
+      showMFWelcome('none');
+    }
+  }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSWHeader);
+    document.addEventListener('DOMContentLoaded', function() { initSWHeader(); checkMFOnboarding(); });
   } else {
     initSWHeader();
+    checkMFOnboarding();
   }
 })();
 
@@ -3182,9 +3211,13 @@ function switchUser(name) {
   refreshProfileChip();
   hideOverlay('user-menu-overlay');
   if (_userMenuDest === 'practice') {
-    buildSetupUI();
-    loadAndApplySettings();
-    showScreen('setup-screen');
+    if (!localStorage.getItem('mathflash_onboarded_' + name)) {
+      showMFWelcome('practice');
+    } else {
+      buildSetupUI();
+      loadAndApplySettings();
+      showScreen('setup-screen');
+    }
   }
 }
 
@@ -3209,6 +3242,7 @@ function saveWelcomeName() {
   var name = inp ? inp.value.trim() : '';
   if (!name) { if (inp) inp.focus(); return; }
   localStorage.setItem('sparkwright_active', name);
+  localStorage.setItem('mathflash_onboarded_' + name, '1');
   var profiles = [];
   try { profiles = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]'); } catch(e) {}
   if (!profiles.find(function(p) { return p.username === name; })) {
@@ -3245,9 +3279,58 @@ function goSetup() {
     }
     return;
   }
+  if (!localStorage.getItem('mathflash_onboarded_' + username)) {
+    showMFWelcome('practice');          // has a profile but hasn't seen Math Flash welcome
+    return;
+  }
   buildSetupUI();
   loadAndApplySettings();
   showScreen('setup-screen');
+}
+
+// ── Math Flash orientation (existing user, first visit) ──
+var _mfWelcomeDest = 'none';
+function showMFWelcome(dest) {
+  _mfWelcomeDest = dest || 'none';
+  var username = localStorage.getItem('sparkwright_active') || '';
+  var greeting = document.getElementById('mf-welcome-greeting');
+  if (greeting) greeting.textContent = username ? 'Hi, ' + username + '!' : 'Hi there!';
+  showOverlay('mf-welcome-overlay');
+}
+function completeMFWelcome() {
+  var username = localStorage.getItem('sparkwright_active');
+  if (username) localStorage.setItem('mathflash_onboarded_' + username, '1');
+  hideOverlay('mf-welcome-overlay');
+  if (_mfWelcomeDest === 'practice') {
+    buildSetupUI();
+    loadAndApplySettings();
+    showScreen('setup-screen');
+  }
+}
+
+// ── Profile chip click — context-aware ───────────────────
+function onChipClick() {
+  var active = document.querySelector('.screen.active');
+  if (active && active.id === 'title-screen') {
+    showUserMenu('none');
+  } else {
+    showOverlay('midgame-nav-overlay');
+  }
+}
+
+// ── Mid-game navigation menu ──────────────────────────────
+function midgameNav(dest) {
+  var gameRunning = isGameActive();
+  if (gameRunning && !confirm('You\'ll lose your current progress. Continue?')) {
+    hideOverlay('midgame-nav-overlay');
+    return;
+  }
+  hideOverlay('midgame-nav-overlay');
+  if (dest === 'title') {
+    showScreen('title-screen');
+  } else if (dest === 'constellation') {
+    showScreen('stats-screen');
+  }
 }
 
 // ══ SETUP UI ══════════════════════════════════════════
@@ -6718,6 +6801,52 @@ function printAssessmentResults() {
   window.print();
 }
 
+// ── Print a single past Star Scan record ─────────────────
+function printAssessRecord(username, recIndex) {
+  var assessData = loadAssessments();
+  var records = (assessData[username] || { records: [] }).records;
+  var rec = records[recIndex];
+  if (!rec) return;
+  var s = rec.summary;
+  var opSymbols = { x: '×', '/': '÷', '+': '+', '-': '−' };
+  var opSym = opSymbols[rec.op] || rec.op;
+  var tablesStr = rec.scopeLabel || ((rec.tables && rec.tables.length) ? opSym + rec.tables.sort(function(a,b){return a-b;}).join(', '+opSym) : opSym+' All');
+  var dateStr = rec.date ? new Date(rec.date+'T12:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : '';
+  var threshStr = (rec.threshMs/1000)+'s';
+
+  var fluent  = rec.results.filter(function(r){ return r.tier==='fluent'; });
+  var almost  = rec.results.filter(function(r){ return r.tier==='almost'; });
+  var needs   = rec.results.filter(function(r){ return r.tier==='needs'||r.tier==='autokick'; });
+
+  function factList(arr) {
+    return arr.map(function(r){ return '<span class="print-fact-item">'+r.label+'</span>'; }).join('');
+  }
+
+  var existing = document.getElementById('print-area');
+  if (existing) existing.remove();
+  var div = document.createElement('div');
+  div.id = 'print-area';
+  div.innerHTML =
+    '<div class="print-header">' +
+      '<div class="print-title">⭐ Star Scan — '+rec.label+'</div>' +
+      '<div class="print-subtitle">'+dateStr+' · '+tablesStr+' · '+threshStr+' threshold</div>' +
+    '</div>' +
+    '<div class="print-name-line">Student: <span>'+username+'</span></div>' +
+    '<table class="print-table"><thead><tr><th>Total</th><th>Correct</th><th>Fluent (≤'+threshStr+')</th><th>Almost</th><th>Needs Practice</th></tr></thead>' +
+    '<tbody><tr><td>'+s.total+'</td><td>'+s.correct+'</td><td>'+s.fluent+'</td><td>'+s.almost+'</td><td>'+s.needs+'</td></tr></tbody></table>' +
+    '<div class="print-facts-section">' +
+      (fluent.length  ? '<div class="print-facts-group"><div class="print-facts-title">Fluent</div><div class="print-fact-list">'+factList(fluent)+'</div></div>' : '') +
+      (almost.length  ? '<div class="print-facts-group"><div class="print-facts-title">Almost</div><div class="print-fact-list">'+factList(almost)+'</div></div>' : '') +
+      (needs.length   ? '<div class="print-facts-group"><div class="print-facts-title">Needs Practice</div><div class="print-fact-list">'+factList(needs)+'</div></div>' : '') +
+    '</div>';
+  document.body.appendChild(div);
+  window.print();
+  window.addEventListener('afterprint', function() {
+    var el = document.getElementById('print-area');
+    if (el) el.remove();
+  }, { once: true });
+}
+
 // ── Pause-after toggle ───────────────────────────────────
 function togglePauseAfter() {
   var chk = document.getElementById('assess-pause-check');
@@ -6829,12 +6958,14 @@ function buildAssessmentRecords(container, username) {
     var needsChips  = rec.results.filter(function(r){ return r.tier === 'needs' || r.tier === 'autokick'; })
       .map(function(r){ return '<span class="mp-assess-chip ' + (r.tier === 'autokick' ? 'autokick' : 'needs') + '">' + r.label + (r.tier === 'autokick' ? ' (—)' : '') + '</span>'; }).join('');
 
+    var escUser = (username || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     html +=
       '<div class="mp-assess-record">' +
         '<div class="mp-assess-record-header">' +
           '<span class="mp-assess-record-label">' + rec.label + '</span>' +
-          '<span class="mp-assess-record-date">' + dateStr + ' · ' + tablesStr + ' · ' + threshStr + '</span>' +
+          '<button class="print-btn" style="font-size:0.7rem;padding:3px 8px;" onclick="printAssessRecord(\'' + escUser + '\',' + i + ')" title="Print this record">🖨 Print</button>' +
         '</div>' +
+        '<div class="mp-assess-record-date" style="margin-bottom:5px;">' + dateStr + ' · ' + tablesStr + ' · ' + threshStr + '</div>' +
         '<div class="mp-assess-record-summary">' +
           '<span class="mp-assess-stat total">' + s.correct + '/' + s.total + ' correct</span>' +
           '<span class="mp-assess-stat fluent">⚡ ' + s.fluent + ' Fluent</span>' +
@@ -6895,12 +7026,14 @@ function buildAssessArea() {
       var needsChips  = rec.results.filter(function(r){ return r.tier === 'needs' || r.tier === 'autokick'; })
         .map(function(r){ return '<span class="mp-assess-chip ' + (r.tier === 'autokick' ? 'autokick' : 'needs') + '">' + r.label + (r.tier === 'autokick' ? ' (—)' : '') + '</span>'; }).join('');
 
+      var escUser2 = username.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
       chips +=
         '<div class="mp-assess-record">' +
           '<div class="mp-assess-record-header">' +
             '<span class="mp-assess-record-label">' + rec.label + '</span>' +
-            '<span class="mp-assess-record-date">' + dateStr + ' · ' + tablesStr + ' · ' + threshStr + '</span>' +
+            '<button class="print-btn" style="font-size:0.7rem;padding:3px 8px;" onclick="printAssessRecord(\'' + escUser2 + '\',' + i + ')" title="Print this record">🖨 Print</button>' +
           '</div>' +
+          '<div class="mp-assess-record-date" style="margin-bottom:5px;">' + dateStr + ' · ' + tablesStr + ' · ' + threshStr + '</div>' +
           '<div class="mp-assess-record-summary">' +
             '<span class="mp-assess-stat total">' + s.correct + '/' + s.total + ' correct</span>' +
             '<span class="mp-assess-stat fluent">⚡ ' + s.fluent + ' Fluent</span>' +
