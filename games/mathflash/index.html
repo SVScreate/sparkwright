@@ -151,17 +151,71 @@ body {
 
 /* ── TITLE SCREEN ── */
 #title-screen {
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  overflow: hidden;
   text-align: center;
-  padding: 40px 24px;
-  gap: 24px;
+}
+/* Warm constellation starfield */
+#title-screen::before,
+#title-screen::after {
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+#title-screen::before {
+  background-image:
+    radial-gradient(2.5px 2.5px at 7%  12%, rgba(255,217,61,0.95)  0%, rgba(255,217,61,0.2)  50%, transparent 100%),
+    radial-gradient(2px   2px   at 21% 78%, rgba(255,159,67,0.85)  0%, rgba(255,159,67,0.15) 50%, transparent 100%),
+    radial-gradient(3px   3px   at 38% 22%, rgba(199,125,255,0.8)  0%, rgba(199,125,255,0.18)50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 52% 55%, rgba(255,217,61,0.9)   0%, rgba(255,217,61,0.2)  50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 68% 88%, rgba(255,107,107,0.75) 0%, rgba(255,107,107,0.15)50%, transparent 100%),
+    radial-gradient(3.5px 3.5px at 83% 34%, rgba(77,150,255,0.8)   0%, rgba(77,150,255,0.18) 50%, transparent 100%),
+    radial-gradient(2px   2px   at 93% 68%, rgba(255,217,61,0.9)   0%, rgba(255,217,61,0.2)  50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 14% 44%, rgba(107,203,119,0.7)  0%, rgba(107,203,119,0.15)50%, transparent 100%),
+    radial-gradient(2px   2px   at 45% 91%, rgba(199,125,255,0.75) 0%, rgba(199,125,255,0.15)50%, transparent 100%),
+    radial-gradient(3px   3px   at 78% 8%,  rgba(255,159,67,0.85)  0%, rgba(255,159,67,0.18) 50%, transparent 100%),
+    radial-gradient(2px   2px   at 29% 62%, rgba(77,150,255,0.7)   0%, rgba(77,150,255,0.15) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 62% 38%, rgba(255,217,61,0.85)  0%, rgba(255,217,61,0.18) 50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 4%  85%, rgba(199,125,255,0.8)  0%, rgba(199,125,255,0.18)50%, transparent 100%),
+    radial-gradient(2px   2px   at 55% 18%, rgba(255,159,67,0.9)   0%, rgba(255,159,67,0.2)  50%, transparent 100%),
+    radial-gradient(3px   3px   at 88% 52%, rgba(255,217,61,0.8)   0%, rgba(255,217,61,0.15) 50%, transparent 100%);
+  animation: star-float-a 11s ease-in-out infinite;
+}
+#title-screen::after {
+  background-image:
+    radial-gradient(2px   2px   at 11% 32%, rgba(199,125,255,0.85) 0%, rgba(199,125,255,0.18)50%, transparent 100%),
+    radial-gradient(3px   3px   at 26% 8%,  rgba(77,150,255,0.8)   0%, rgba(77,150,255,0.18) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 43% 72%, rgba(255,217,61,0.9)   0%, rgba(255,217,61,0.2)  50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 59% 44%, rgba(255,107,107,0.7)  0%, rgba(255,107,107,0.15)50%, transparent 100%),
+    radial-gradient(2px   2px   at 72% 25%, rgba(199,125,255,0.75) 0%, rgba(199,125,255,0.15)50%, transparent 100%),
+    radial-gradient(3.5px 3.5px at 87% 78%, rgba(255,159,67,0.85)  0%, rgba(255,159,67,0.18) 50%, transparent 100%),
+    radial-gradient(2px   2px   at 96% 15%, rgba(255,217,61,0.9)   0%, rgba(255,217,61,0.2)  50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 8%  58%, rgba(107,203,119,0.75) 0%, rgba(107,203,119,0.16)50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 33% 96%, rgba(77,150,255,0.8)   0%, rgba(77,150,255,0.18) 50%, transparent 100%),
+    radial-gradient(2px   2px   at 64% 5%,  rgba(255,217,61,0.85)  0%, rgba(255,217,61,0.18) 50%, transparent 100%),
+    radial-gradient(3px   3px   at 18% 18%, rgba(255,159,67,0.8)   0%, rgba(255,159,67,0.16) 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 49% 28%, rgba(199,125,255,0.7)  0%, rgba(199,125,255,0.14)50%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 76% 62%, rgba(255,217,61,0.88)  0%, rgba(255,217,61,0.2)  50%, transparent 100%),
+    radial-gradient(2px   2px   at 91% 40%, rgba(77,150,255,0.75)  0%, rgba(77,150,255,0.16) 50%, transparent 100%),
+    radial-gradient(3px   3px   at 37% 50%, rgba(255,107,107,0.7)  0%, rgba(255,107,107,0.14)50%, transparent 100%);
+  animation: star-float-b 14s 2s ease-in-out infinite;
+}
+#title-screen::before,
+#title-screen::after { animation-play-state: paused; }
+#title-screen.active::before,
+#title-screen.active::after { animation-play-state: running; }
+.title-inner {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  flex: 1; padding: 40px 24px; gap: 24px;
+  position: relative; z-index: 1;
 }
 .title-logo {
   font-family: var(--font-display);
   font-size: clamp(3rem, 10vw, 6rem);
   color: var(--a2);
   line-height: 1;
+  text-shadow: 0 0 30px rgba(255,217,61,0.55), 0 0 60px rgba(255,185,40,0.25);
 }
 .title-tagline {
   font-size: 1.1rem;
@@ -170,26 +224,17 @@ body {
   max-width: 420px;
   line-height: 1.5;
 }
-.title-facts {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.title-fact-chip {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 10px 20px;
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-}
 .title-btn-row {
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 8px;
+}
+.title-btn-secondary {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 .btn-primary {
   font-family: var(--font-display);
@@ -2160,15 +2205,20 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 }
 .assess-question { font-size:3.2rem; font-weight:800; font-family:var(--font-display); color:var(--text); letter-spacing:-0.01em; }
 .assess-feedback {
-  min-height:2em; font-size:1rem; font-weight:700; margin-top:10px; text-align:center;
+  min-height:1.6em; font-size:0.9rem; font-weight:700; margin-top:8px; text-align:center;
   transition:opacity 0.2s;
 }
-.assess-feedback.autokick-reveal {
-  font-size: 2rem;
-  font-weight: 800;
+/* Inline answer spans — shown inside the question, no layout shift */
+.assess-answer-reveal {
   color: rgba(225,235,255,0.96);
   text-shadow: 0 0 12px rgba(200,220,255,0.9), 0 0 28px rgba(170,200,255,0.55), 0 0 48px rgba(150,185,255,0.25);
   animation: assess-warm-reveal 0.35s ease-out;
+  display: inline-block;
+}
+.assess-answer-wrong-inline {
+  color: var(--a6);
+  animation: assess-warm-reveal 0.25s ease-out;
+  display: inline-block;
 }
 @keyframes assess-warm-reveal {
   from { opacity:0; transform:scale(0.82); }
@@ -2329,22 +2379,20 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
 <!-- ══ TITLE ══ -->
 <div id="title-screen" class="screen active">
-  <div class="title-logo">⚡ Math Flash</div>
-  <div class="title-tagline">Fast facts. Smart practice. Built for the classroom.</div>
-  <div class="title-facts">
-    <div class="title-fact-chip" style="color:var(--a3)">3 × 7 = 21</div>
-    <div class="title-fact-chip" style="color:var(--a4)">48 ÷ 6 = 8</div>
-    <div class="title-fact-chip" style="color:var(--a1)">17 − 9 = 8</div>
-    <div class="title-fact-chip" style="color:var(--a2)">8 × 9 = 72</div>
-  </div>
-  <div class="title-btn-row">
-    <button class="btn-primary" onclick="goSetup()">Let's Go →</button>
-    <button class="btn-ghost" onclick="showOverlay('howto-overlay')">How to Play</button>
-    <button class="btn-ghost" onclick="showScreen('stats-screen')">My Constellation</button>
-    <button class="btn-ghost" onclick="showScreen('assess-area-screen')">⭐ Star Scan</button>
-  </div>
-  <div class="title-link-row">
-    <button class="title-about-link" onclick="showOverlay('about-overlay')">About this game</button>
+  <div class="title-inner">
+    <div class="title-logo">⚡ Math Flash</div>
+    <div class="title-tagline">Fast facts. Smart practice. Built for the classroom.</div>
+    <div class="title-btn-row">
+      <button class="btn-primary" onclick="goSetup()">Practice</button>
+    </div>
+    <div class="title-btn-secondary">
+      <button class="btn-ghost" onclick="showOverlay('howto-overlay')">How to Play</button>
+      <button class="btn-ghost" onclick="showScreen('stats-screen')">My Constellation</button>
+      <button class="btn-ghost" onclick="showScreen('assess-area-screen')">⭐ Star Scan</button>
+    </div>
+    <div class="title-link-row">
+      <button class="title-about-link" onclick="showOverlay('about-overlay')">About this game</button>
+    </div>
   </div>
 </div>
 
@@ -2512,6 +2560,21 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       <li>If you click End and then decide to continue, the fact you were on disappears and a fresh one loads. The one you saw gets recycled later.</li>
     </ul>
     <button class="about-play-btn" style="margin-top:16px;" onclick="hideOverlay('starscan-info-overlay')">Got it</button>
+  </div>
+</div>
+
+<!-- ══ WELCOME / USERNAME ENTRY ══ -->
+<div id="welcome-overlay" class="overlay">
+  <div class="overlay-card" style="max-width:400px;">
+    <div class="overlay-title" style="font-size:1.6rem;margin-bottom:8px;">⚡ Welcome!</div>
+    <p style="color:var(--muted);font-size:0.9rem;margin-bottom:22px;line-height:1.55;">Enter your name to save your progress and build your constellation.</p>
+    <label style="display:block;font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Your name</label>
+    <input type="text" id="welcome-name-input"
+      style="width:100%;background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:1.1rem;padding:12px 14px;font-family:var(--font-body);outline:none;margin-bottom:18px;"
+      placeholder="e.g. Alex" maxlength="32" autocomplete="off"
+      onkeydown="if(event.key==='Enter')saveWelcomeName()">
+    <button class="btn-primary" style="width:100%;font-size:1rem;padding:13px;" onclick="saveWelcomeName()">Let's Go →</button>
+    <button class="btn-ghost" style="width:100%;margin-top:10px;font-size:0.85rem;" onclick="skipWelcomeName()">Skip for now</button>
   </div>
 </div>
 
@@ -2855,6 +2918,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="assess-pause-title">Star Scan paused</div>
     <div class="assess-pause-sub">The fact you were on has been recycled back into the pool. Resume to continue, or exit to discard this run.</div>
     <button class="res-btn primary" style="padding:12px 32px;font-size:1rem;" onclick="resumeAssessment()">Resume →</button>
+    <button class="res-btn secondary" style="padding:10px 24px;" onclick="restartAssessment()">Restart Star Scan</button>
     <button class="res-btn secondary" style="padding:10px 24px;" onclick="cancelAssessmentFinal()">Exit Star Scan</button>
   </div>
 
@@ -3036,7 +3100,67 @@ function toggleConstellationExt() {
   buildStatsScreen(); // re-render with updated grid
 }
 
+// ── Profile chip refresh (called after username is saved) ──
+function refreshProfileChip() {
+  var chip = document.getElementById('sw-profile-chip');
+  if (!chip) return;
+  try {
+    var profiles = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]');
+    var active   = localStorage.getItem('sparkwright_active');
+    var profile  = profiles.find(function(p) { return p.username === active; }) || null;
+    if (profile) {
+      chip.classList.remove('guest');
+      chip.querySelector('.sw-avatar').textContent = profile.avatar;
+      chip.querySelector('.sw-name').textContent   = profile.username;
+    }
+  } catch(e) {}
+}
+
+var _welcomeDest = 'practice';
+
+function showWelcomeOverlay(dest) {
+  _welcomeDest = dest || 'practice';
+  var inp = document.getElementById('welcome-name-input');
+  if (inp) inp.value = '';
+  showOverlay('welcome-overlay');
+  setTimeout(function() { if (inp) inp.focus(); }, 80);
+}
+
+function saveWelcomeName() {
+  var inp = document.getElementById('welcome-name-input');
+  var name = inp ? inp.value.trim() : '';
+  if (!name) { if (inp) inp.focus(); return; }
+  localStorage.setItem('sparkwright_active', name);
+  var profiles = [];
+  try { profiles = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]'); } catch(e) {}
+  if (!profiles.find(function(p) { return p.username === name; })) {
+    profiles.push({ username: name, avatar: '⭐' });
+    localStorage.setItem('sparkwright_profiles', JSON.stringify(profiles));
+  }
+  refreshProfileChip();
+  hideOverlay('welcome-overlay');
+  if (_welcomeDest === 'practice') {
+    buildSetupUI();
+    loadAndApplySettings();
+    showScreen('setup-screen');
+  }
+}
+
+function skipWelcomeName() {
+  hideOverlay('welcome-overlay');
+  if (_welcomeDest === 'practice') {
+    buildSetupUI();
+    loadAndApplySettings();
+    showScreen('setup-screen');
+  }
+}
+
 function goSetup() {
+  var username = localStorage.getItem('sparkwright_active');
+  if (!username) {
+    showWelcomeOverlay('practice');
+    return;
+  }
   buildSetupUI();
   loadAndApplySettings();
   showScreen('setup-screen');
@@ -6346,7 +6470,11 @@ function submitAssessmentAnswer() {
     fb.textContent = '✓ ' + secs + 's';
     fb.style.color = (tier === 'fluent') ? 'var(--a6)' : (tier === 'almost') ? '#c77dff' : 'var(--a4)';
   } else {
-    fb.textContent = '✗ ' + f.a;
+    // Show correct answer inline in question — no layout shift
+    var qEl = document.getElementById('assess-question');
+    var qBase = f.q.replace('= ?', '= ');
+    qEl.innerHTML = qBase + '<span class="assess-answer-wrong-inline">' + f.a + '</span>';
+    fb.textContent = '✗';
     fb.style.color = 'var(--wrong)';
   }
 
@@ -6381,10 +6509,12 @@ function assessAutoKick() {
   inp.className = 'assess-input';
   inp.style.borderColor = 'var(--border)';
   document.getElementById('assess-check-btn').disabled = true;
-  // Show answer — warm white reveal, no hyphen, no red
-  fb.textContent = String(f.a);
-  fb.style.color = '';
-  fb.className = 'assess-feedback autokick-reveal';
+  // Show answer inline in question — no height change
+  var qEl = document.getElementById('assess-question');
+  var qBase = f.q.replace('= ?', '= ');
+  qEl.innerHTML = qBase + '<span class="assess-answer-reveal">' + f.a + '</span>';
+  fb.textContent = '';
+  fb.className = 'assess-feedback';
 
   // Advance — auto or pause
   if (A.pauseAfter) {
@@ -6558,6 +6688,14 @@ function cancelAssessmentFinal() {
   document.removeEventListener('keydown', assessKeydown);
   document.getElementById('assess-pause-overlay').classList.remove('visible');
   document.getElementById('assess-results-overlay').classList.remove('visible');
+  showScreen('assess-area-screen');
+}
+
+function restartAssessment() {
+  if (A.timer) { clearInterval(A.timer); A.timer = null; }
+  document.removeEventListener('keydown', assessKeydown);
+  document.getElementById('assess-pause-overlay').classList.remove('visible');
+  // Go back to setup area — settings stay as-is, user clicks Start again
   showScreen('assess-area-screen');
 }
 
