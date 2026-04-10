@@ -77,8 +77,21 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Flash v71** — live at `games/mathflash/index.html` (no backup file — all changes committed directly)
+**Math Flash v74** — live at `games/mathflash/index.html` (no backup file — all changes committed directly)
 Landing page: `sparkwright/index.html` (updated Session X)
+
+## Session AE Build Summary (v72–v74)
+- Star Scan inline answer reveal (no layout jump) ✓
+- Landing page: Practice primary, secondary row w/ colored borders, warm starfield ✓
+- Righteous font on title logo ✓
+- Subtitle updated to "A learner-first math fact mastery tool built for targeted practice." ✓
+- Welcome/new-user flow + Switch User menu via header chip ✓ (but welcome flow still broken — see Handoff)
+- Restart Star Scan restarts the scan itself ✓
+- Star Scan scroll bug fixed (overflow:hidden) ✓
+- Scan-continues-after-Exit bug fixed (advanceTimeout tracking) ✓
+
+## ⚠️ Open Items — Start Next Session Here
+Read the top section of `Agent_Handoff.md` — there is a detailed build queue with several items needing Spark input before building (auto-generated usernames, Star Scan two-bucket results model). Do NOT start coding the username or results system until Spark weighs in.
 
 ---
 

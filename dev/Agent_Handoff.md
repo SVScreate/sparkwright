@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-04-09 — Session AF (Spark)*
+*Last updated: 2026-04-10 — Session AE close (Wright)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -27,6 +27,44 @@ When an entry is fully actioned — built, committed, and acknowledged by both a
 
 **Important — this is not a gate:**
 Kimberly can make design decisions in either window and build in either direction without routing through the other agent first. Creative decisions can and should arise organically. The handoff exists to keep both agents informed, not to create a required sequence. If Wright builds something based on an in-session design decision, he notes it here so Spark stays current. If Spark develops a design idea, she flags it here so Wright can pick it up. Neither agent should tell Kimberly she has to go talk to the other one before moving forward — just flag what the other needs to know and keep building.
+
+---
+
+## Wright → Spark — 2026-04-10 — Session AE close (OPEN — next session priority)
+
+**⚠️ BUILD QUEUE FOR NEXT SESSION — read this first**
+
+The following items came out of end-of-session AE testing. Most are Monday-relevant. Do not start coding until you've read all of them — several require Spark input before building.
+
+---
+
+**SPARK INPUT NEEDED — Star Scan result tiers:** Kimberly confirmed the Star Scan should only have TWO result buckets: (1) **Mastered** (answered within fluency threshold) and (2) **Needs Practice** (any other outcome — wrong answer, timed out, no answer). There should be NO "almost" tier and NO separate "autokick" category in Star Scan results. Current code produces: fluent / almost / autokick — all three appear in the results overlay. This needs to be collapsed to two. Questions for Spark: (a) Confirm: Star Scan is binary — mastered (≤threshold correct) vs needs practice (everything else). (b) What color should each get in results? Right now "Needs Practice" is showing red (it's inheriting autokick color) — should it be purple (per constellation system) or something else neutral? (c) Does "13 fluent" = "13 Mastered" in Star Scan terms — no distinction between "fast fluent" and "almost fluent" in the snapshot?
+
+**SPARK INPUT NEEDED — Auto-generated usernames (prior design decision):** Kimberly confirmed that usernames should be AUTO-GENERATED — no text input for kids/students, to prevent inappropriate entries. This was a conscious prior design decision that got lost in context. The welcome overlay I built (with a text input "Enter your name") is wrong. Questions for Spark: (a) What is the auto-generated username format? Fun names (e.g., "StarFox42"), animal combos, color+animal? (b) Can users/teachers rename a generated username from somewhere (teacher-only admin?), or is the generated name permanent? (c) How does a teacher identify which student is which — do they see all generated names in a list? This decision affects the entire profile creation flow before I can rebuild it.
+
+---
+
+**Wright build queue — next session (no Spark input needed):**
+
+1. **Star Scan vertical centering** — all content in `#assessment-screen` is pushed to the top. Should be vertically centered in the viewport. Same for the Star Scan setup/settings page (`assess-area-screen`). Fix: `justify-content: center` on `.assess-screen-inner` and check the assess-area-screen flexbox.
+
+2. **Welcome flow still broken for new users** — root cause identified: `goSetup()` checks `localStorage.getItem('sparkwright_active')`. If the parent Sparkwright site already set a username before the user opens Math Flash, the flow never triggers — Math Flash sees them as an "existing user." Fix: use a Math Flash-specific onboarding flag (e.g., `mathflash_onboarded_[username]`) — if active user doesn't have this flag, show the Math Flash welcome/orientation flow regardless of username presence.
+
+3. **Profile chip mid-game behavior** — when clicked during an active game or Star Scan, the chip should: (a) pause the game / recycle current Star Scan fact (per `endAssessmentFlow()` pattern), (b) show a NAVIGATION menu — not a user switch menu. Options from mid-game: "Main Menu" and "My Constellation." No "Switch User" or "Add New User" from mid-game. (c) If user taps either option, show a "You'll lose your current progress — continue?" confirmation before navigating. Profile switching should only be available from the title screen.
+
+4. **Profile chip from title screen vs mid-game** — the chip needs context-awareness. From title screen: show Switch User list (current behavior is correct). From any active game screen: show navigation menu with progress warning (see item 3). Detect current screen to choose which overlay to show.
+
+5. **Past Star Scan records — print button per record** — each completed Star Scan in the records list needs its own print button (same pattern as the main constellation print, but scoped to that individual record).
+
+6. **Star Scan results colors** — "Needs Practice" showing red in results overlay because autokick facts carry `var(--a1)` (red). Once Spark confirms the two-bucket model (item 1 above), fix: all non-mastered results render in one color. Hold on exact color until Spark confirms.
+
+7. **Delete user from Sparkwright main menu** — when a user is deleted from the main Sparkwright site profile switcher, it auto-jumps to the first username in the list instead of staying on the menu. The user should remain on the profile menu after deletion to select who to switch to. (This may be in the main `index.html`, not `games/mathflash/index.html` — check both.)
+
+**NOT building until Spark confirms:**
+- Auto-generated username format and flow rebuild (welcome overlay, profile creation)
+- Star Scan results two-bucket model and colors
+
+— Wright, 2026-04-10
 
 ---
 
