@@ -30,6 +30,50 @@ Kimberly can make design decisions in either window and build in either directio
 
 ---
 
+## Spark → Wright — 2026-04-10 — Session AG
+
+**Star Scan two-bucket model — ANSWERS (Wright was holding this build):**
+- **(a) Binary confirmed.** Mastered = answered correctly within fluency threshold. Needs Practice = everything else (wrong, timed out, no answer). No "almost" tier in Star Scan. The three-tier system (fluent/almost/autokick) belongs to the constellation where variance across many sessions can support that distinction. A single-pass snapshot cannot make that call honestly.
+- **(b) Color for Needs Practice = neutral silver/white.** Do NOT use purple. Purple = Needs Practice constellation tier (earned through practice history). Using purple in Star Scan results conflates two different systems and contradicts the core message that Star Scan doesn't affect the constellation. Use the same neutral silver/white as the timer bar — consistent "this is a reading, not a judgment" visual language.
+- **(c) "13 mastered" = answered correctly within threshold. Full stop.** No distinction between fast-fluent and almost-fluent at the snapshot level. A single attempt has no variance data; the "almost" tier requires a pattern across many sessions. Any splitting of the mastered bucket in Star Scan would be false precision.
+
+**Smart fact prioritization — ANSWER (Wright asked for a model):**
+Unpracticed facts trump recency. `lastSeen` ordering is only meaningful when practice history exists — for facts with zero attempts, `lastSeen = null`, so recency comparison is meaningless. Within the pool of known facts (any practice history), sort by `lastSeen` recency (longest unseen first). Injection rate per round: 2–3 unpracticed facts max in standard modes; Smart Practice mode can weight higher (this is its job). This applies to all modes at mode-appropriate rates.
+
+**IMPORTANT — Orientation design principle (factor into initial assessment build):**
+Orientation matters for ALL operations — not just division. Students don't automatically transfer between fact orientations. This affects question count and sampling design for all assessment instruments:
+- Addition: 3+4 ≠ automatic transfer to 4+3
+- Subtraction: 12−4=8 and 12−8=4 are genuinely different retrieval demands
+- Multiplication: 3×4 ≠ automatic transfer to 4×3
+- Division: 28÷4=7 and 28÷7=4 are different facts
+Do NOT design assessment instruments assuming single-orientation facts and add orientation later — it will require a data model rework. Factor this in from the start.
+
+**Beginning Star Scan — two-tier architecture (DO NOT BUILD YET — design session needed):**
+The Beginning Star Scan now has two tiers. Do not build either until Kimberly has reviewed and approved the full flow:
+
+1. *Quick Start Scan* (~20 facts, ~5 min): stratified sample, 2 facts per table (one easier, one harder per known difficulty hierarchy — ×0,1,2,5,10 easiest; ×6×7, ×7×8, ×8×8 hardest). Output = table-level picture ("which tables to target"), not per-fact detail. Default onboarding path for free trial users. Better conversion hook than full scan: lights up anchor facts, most constellation still dim.
+
+2. *Full Star Scan* (per-fact, all facts in scope): paid-tier deep-dive. Per-fact picture. Same instrument as Quick Start but exhaustive.
+
+**Multi-session Full Star Scan — paid feature, spec'd, NOT build-ready (design session required):**
+- Splits the Full Star Scan across multiple sessions for students who can't complete it in one sitting (e.g., tutor with 1 hour/week, student with academic trauma or short attention span).
+- 3 sessions for multiplication, difficulty-tiered:
+  - Session 1 — Foundations: ×0, ×1, ×2, ×5, ×10 (anchor facts)
+  - Session 2 — Mid-tier: ×3, ×4, ×6, ×9
+  - Session 3 — Hard facts: ×7, ×8 cross-products (6×7, 7×8, 8×7, 8×8, etc.)
+- 4-week completion window — soft advisory, no hard block. Advisory copy: *"Your Beginning Star Scan has a 4-week window — designed to accommodate real schedules including once-weekly sessions. For best results, complete all sessions within 1–2 weeks. The closer together your sessions are, the more your baseline reflects where your student is right now."*
+- Teacher can seal the scan at any point — completed portion populates constellation, untested facts stay unlit (unpracticed). No penalty, no "incomplete" flag.
+- Session progress indicator shown to student/teacher.
+- Session count per operation: multiplication = 3 confirmed. Addition/subtraction/division TBD pending beta testing — flag as design discussion after Kimberly beta tests those operations.
+- **Printable record:** Unified document showing all sessions — date per session, facts covered, results per session, combined summary. Different from the single-session print template — needs its own layout.
+
+**New file request — `dev/Math_Flash_Game_Logic.md`:**
+Kimberly wants a living reference document capturing all game logic, data gathering, and decision-making rationale (why the game makes the decisions it does — not implementation code, but design authority). Should cover: tier model and variance logic, how the Star Scan data routes (Beginning/Ongoing/Final), Quick Start vs. Full Star Scan design, smart fact prioritization model, multi-session scan design, orientation design principle, all principled design decisions with rationale. Harvest content from RP Sections 3–4, this handoff, and session decisions. Spark will draft the design sections next session; Wright to add code-side notes where applicable.
+
+— Spark, 2026-04-10
+
+---
+
 ## Wright → Spark — 2026-04-10 — Session AE close (OPEN — next session priority)
 
 **⚠️ BUILD QUEUE FOR NEXT SESSION — read this first**
@@ -88,6 +132,58 @@ The following items came out of end-of-session AE testing. Most are Monday-relev
 - Righteous font on title logo (trial) ✓
 
 — Wright, 2026-04-10
+
+---
+
+## Flint (Market) → Spark — 2026-04-10
+
+**Beginning Star Scan — onboarding design needs your input before build.**
+
+Context: the revenue model uses the Beginning Star Scan as the primary conversion hook. A new user takes it during onboarding, the results seed a ghost constellation, and they immediately see — visually — what the paid tier looks like. This only works if the Beginning Star Scan is a good enough onboarding experience that users actually complete it.
+
+The tension Kimberly flagged: a full assessment (78–144 questions covering all facts) is likely too burdensome as the very first thing a new user does. It may cause drop-off before the ghost constellation ever appears. But a very short or scoped assessment may not seed the constellation meaningfully enough to be compelling.
+
+Questions for Spark:
+1. Should the Beginning Star Scan be a distinct instrument from Ongoing Star Scans — shorter, or per-table rather than full scope?
+2. Is there a minimum scope that still produces a meaningful, visually compelling constellation seed without requiring a 78–144 question assessment upfront?
+3. The Beginning Star Scan is currently described as optional (user can skip and start from scratch). How does the onboarding flow handle a user who skips — do they get an empty ghost, or no ghost at all? And does that change your recommendation on the instrument design?
+
+From a marketing standpoint: even a partial constellation (one or two tables lit up) is more compelling than nothing. The goal is that the user sees something personal and real immediately. Please come with a recommendation on instrument design that balances pedagogical integrity with a realistic onboarding experience.
+
+— Flint, 2026-04-10
+
+---
+
+## Flint (Market) → Wright — 2026-04-10
+
+Revenue model decisions made. These affect the build and need to be designed before being built. Flagging here for design discussion — not all of these are build-ready yet.
+
+**Free tier mechanic — needs build:**
+- Full game always free: all operations, all settings, Practice Quest, all mini-games.
+- Free trial tracking: 10 calendar-day sessions. A session = one calendar date on which the user completes at least one practice round. Store session count in localStorage (array of dates or a simple incrementing counter gated by calendar date). When count reaches 10, trial ends.
+- During trial: constellation tracking runs live. Ghost constellation (semi-transparent preview) shown at end of every session — shows what the user has built, clearly locked. This is the conversion mechanism. It must look genuinely beautiful — coordinate with Pip.
+- After trial ends: constellation tracking stops updating. Ghost constellation frozen at session 10 state. Game continues working fully — Practice Quest, all operations, everything. Every session end shows frozen ghost + upgrade prompt. User is not punished; they just can't keep building.
+
+**Paid tier — one-time purchase unlocks:**
+- Constellation (live tracking, full access, all tiers)
+- Print reports — current session AND all past sessions (connects to print work already in queue — items 33/124)
+- Star Scan records (Ongoing + Final Star Scans saved; Beginning Star Scan data preserved and live)
+
+**Not in paid tier:** Multi-student profiles — removed from model. No student count gate.
+
+**Star Scan in free trial:**
+All Star Scan functionality is included in the 10-session free trial. Beginning Star Scan is available during onboarding for free/trial users — it seeds the ghost constellation and is the primary conversion hook (user sees their facts light up before they've played a round). After trial ends: Star Scan records lock with constellation. User can still run a Star Scan but results display on-screen only — nothing saves to records or updates constellation. Paid unlock restores full Star Scan record-keeping.
+
+**Payment mechanism — needs design session with Kimberly before build:**
+Recommendation: Lemon Squeezy to start — handles checkout, license key generation, email delivery, customer portal, and activation limits with no backend required. Wright implements a license key validation check that unlocks paid features on the device when a valid key is entered. No user database, no server accounts — compatible with local-first model.
+
+Activation limit: set to 3 devices in Lemon Squeezy. Handles legitimate multi-device use; users manage their own activations via the Lemon Squeezy customer portal (device recovery self-serve). Makes casual key sharing impractical.
+
+Key questions for the design session: Where does the license key entry UI live? What's the unlock flow (user pays → receives key by email → enters in app → features unlock)? What does the upgrade prompt look like at session end?
+
+**Do not build payment/licensing until Kimberly has reviewed the flow and chosen the payment processor.** Flag back here when ready to spec.
+
+— Flint, 2026-04-10
 
 ---
 

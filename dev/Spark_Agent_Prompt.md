@@ -8,7 +8,18 @@
 
 ## Paste-In Prompt (for starting a new Spark session)
 
-> I'm starting a new research session. You are Spark — read `dev/Spark_Agent_Prompt.md` first, then `dev/Math_Flash_Research_and_Pedagogy.md`, then `dev/Math_Flash_ConsumerData.md`, then check `dev/Agent_Handoff.md` for anything from Wright. Tell me where the research stands and what's open. As always, conserve tokens and be efficient wherever possible.
+> Spark — Research, Development & Pedagogy ← that's you
+>
+> Read `dev/Spark_Agent_Prompt.md` first — Current State tells you what's open this session.
+>
+> Then read selectively:
+> - `dev/Agent_Handoff.md` — always
+> - `dev/Math_Flash_Research_and_Pedagogy.md` — research, citations, or competitive analysis only
+> - `dev/Math_Flash_ConsumerData.md` — market, consumer, or positioning work only
+>
+> Design, copy, or product discussions: bootstrap + handoff only.
+>
+> Catch me up on what's open and flag anything from Wright. Token-efficient — don't sacrifice accuracy.
 
 ---
 
@@ -181,49 +192,57 @@ One-time purchase per game, a la carte. No account required for core experience.
 ## Current State of Open Work
 *(Replace this section at each session end — do not append)*
 
-### As of Session AF — April 10, 2026
+### As of Session AG — April 10, 2026
 
 **What Wright built since Session AB (v63–v73):**
 - ✅ Student Dashboard / Fact Constellation — built (items 147/66/140)
 - ✅ Star Scan (formerly Assessment Mode) — built, all three scope variants (Full / Per-Table / Family Groups), moved to dedicated screen with title page button (v72/v73)
 - ✅ Assessment data confirmed clean — `saveAssessmentRecord()` writes only to `mathflash_assessments`, constellation reads only from `mathflash_facts`. No cross-contamination.
 
-**What happened Session AF (Spark — April 9–10, 2026):**
-- **Assessment renamed Star Scan** — "A Star Scan" everywhere in UI. Handoff updated. Living with the name.
-- **Assessment scope decisions (item 176):** All four open questions answered and shipped to Wright. Data model identical regardless of scope; fixed family groupings (Doubling Facts ×2/4/8, Anchor Facts ×5/10, Triple Family ×3/6/9); 24-hour soft advisory gate; always supplement never replace.
-- **Assessment data does NOT drive the constellation** — CRITICAL decision. Assessment/Star Scan = benchmark snapshot only. Mastery earned through practice exclusively. Logged in handoff as critical note to Wright.
-- **Three Star Scan moments architecture:** (1) Beginning — seeds constellation tiers only, not mastery, opt-out available; (2) Ongoing — pure snapshot, no constellation effect; (3) Final — appears at full mastery, certification basis. Data routing differs for #1 vs #2/#3.
-- **Star Scan pop-out card copy** — written and shipped to Wright in handoff. Build-ready.
-- **Star Scan UX notes shipped to Wright:** Timer = hard stop at threshold, neutral white/silver bar, no tier colors. No gold flash on unanswered facts. Pause between facts supported. End→cancel→recycle logic specified. Dynamic problem count on scope selector.
-- **User reset option** — logged as new MPF item. Design before building.
-- **New user onboarding/setup** — logged as new MPF item. Design before building.
-- **Title page subtitle:** *"A learner-first math fact mastery tool built for targeted practice."* — working, living with it.
-- **"Why memorize math facts" content** — logged as two deliverables: FAQ/About copy + interactive visual element for title page. Shelved for now.
-- **Market agent created** — new agent onboarded for Marketing, Launch & Revenue Strategy. Bootstrap file: `dev/Market_Agent_Prompt.md`. Revenue model decision is their first job.
+**What happened Session AG (Spark — April 10, 2026):**
+- **Star Scan two-bucket model confirmed** — binary: mastered (correct within threshold) / needs practice (everything else). No "almost" tier in Star Scan. No distinction between fast-fluent and almost-fluent in a single-pass snapshot — a single attempt has no variance data, so the distinction would be false precision. Results color: neutral silver/white, NOT purple (purple = constellation tier, would conflate the two systems). "13 mastered" in Star Scan = answered correctly within threshold, full stop. Shipped to Wright.
+- **Smart fact prioritization model** — unpracticed trumps recency (lastSeen is only meaningful when practice history exists); 2–3 unpracticed facts per round cap in standard mode; Smart Practice mode weights higher. Within the known-facts bucket, sort by lastSeen recency (longest unseen first). Applies to all modes at mode-appropriate injection rates. Shipped to Wright.
+- **Beginning Star Scan redesigned — two-tier architecture:**
+  - *Quick Start Scan* (~20 facts, ~5 min): stratified sample, 2 facts per table (one easier, one harder per known difficulty hierarchy). Output = table-level picture (which tables to target) — not per-fact detail. Default onboarding path. Better ghost constellation seed than full scan: lights up anchor facts with most still dim = stronger conversion hook.
+  - *Full Star Scan* (per-fact, all facts in selected scope): paid-tier deep-dive. Per-fact picture. Can be split into a multi-session scan (see below).
+- **Multi-session Full Star Scan — paid feature, spec'd, NOT build-ready:**
+  - 3 sessions for multiplication, difficulty-tiered: Session 1 = anchor facts (×0,1,2,5,10); Session 2 = mid-tier (×3,4,6,9); Session 3 = hard facts (×7,8 cross-products).
+  - 4-week completion window — soft advisory, no hard block. Advisory copy: *"Your Beginning Star Scan has a 4-week window to complete all sessions — designed to accommodate real schedules, including once-weekly sessions. For best results, complete all sessions within 1–2 weeks. The closer together your sessions are, the more your baseline reflects where your student is right now."*
+  - Teacher can seal the scan at any point — completed portion populates constellation, untested facts remain unlit (unpracticed).
+  - Session progress indicator shown to student and teacher.
+  - Printable output: unified record showing all sessions (dates, facts covered, results per session, combined summary).
+  - Session count per operation: multiplication = 3 confirmed. Addition/subtraction/division TBD pending beta testing.
+  - Full design spec in handoff. Design session with Kimberly required before Wright builds.
+- **Orientation design principle** — orientation matters for ALL operations and must be factored into initial assessment build, not added later. Addition: 3+4 vs 4+3; subtraction: 12−4 vs 12−8; multiplication: 3×4 vs 4×3; division: 28÷4 vs 28÷7. Students don't automatically transfer between orientations. All assessment instruments must account for this — affects question count and sampling design. Flagged for Wright.
+- **Revenue model confirmed (Flint)** — 10-session free trial, one-time paid unlock (constellation + print reports + Star Scan records). Full game always works free. Lemon Squeezy recommended, 3-device activation. Design session with Kimberly before Wright builds payment UI.
+- **New file to create:** `dev/Math_Flash_Game_Logic.md` — game design reference capturing all logic, data gathering, and decision-making rationale. Harvest from RP, handoff, and session decisions. Draft next Spark session.
+- **Wake-up prompt tightened** — see updated bootstrap prompt at top of this file.
 
 **Note on required reading (token efficiency):**
-Not every session needs the full RP + ConsumerData. Check the "Required reading this session" flag below before reading both in full.
-
-**Required reading this session:** Bootstrap + Handoff only unless session involves research, citations, consumer data, or positioning copy. Read RP when: citing research, updating pedagogy, reviewing competitive landscape. Read ConsumerData when: consumer research, positioning copy, target user profile work.
+Not every session needs the full RP + ConsumerData. Bootstrap + Handoff only unless session involves research, citations, consumer data, or positioning copy.
 
 ### Open Items
 
 **Blocking Wright (highest priority):**
-- [ ] **"Facts to Watch" copy** — Wright wrote placeholder descriptions himself; developer has specific copy in mind. **Get exact copy from Kimberly at start of next Wright session before anything else on constellation.**
-- [ ] **Three Star Scan moments — data routing** — flag for Wright before constellation wiring finalized. Beginning scan seeds tiers only (not mastery); ongoing = snapshot only; final = certification basis. Full spec in handoff.
+- [ ] **"Facts to Watch" copy** — Wright wrote placeholder descriptions; developer has specific copy in mind. **Get exact copy from Kimberly at start of next Wright session before anything else on constellation.**
 
-**New MPF items to log (not blocking, don't build yet):**
-- [ ] Tier freshness flags — internal only; gates forward progress on near-mastery facts; mastered facts stay gold and are refreshed via Smart Practice maintenance sprinkle
+**Design spec'd, not build-ready yet (Wright: read handoff before building these):**
+- [ ] **Quick Start Scan + Full Star Scan two-tier architecture** — spec in handoff. Orientation design principle must be factored in.
+- [ ] **Multi-session Full Star Scan** — paid tier, difficulty-tiered sessions, 4-week window, seal-at-any-point, unified printable record. Full spec in handoff. Design session with Kimberly first.
+- [ ] **Beginning Star Scan data routing** — Quick Start seeds table-level tiers; Full Star Scan seeds per-fact tiers. Design before wiring.
+
+**New MPF items (not blocking, don't build yet):**
+- [ ] Tier freshness flags — internal only; gates forward progress on near-mastery facts; mastered facts refreshed via Smart Practice maintenance sprinkle
 - [ ] Smart Practice (game-designed round) — reads constellation, prioritizes fluent→almost→needs practice, sprinkles mastered; mode card description approved
 - [ ] Durability check — teacher-initiated via Star Scan Records; no game-prompted check
 - [ ] Full constellation mastered ceremony — celebration screen + profile badge + printable certificate
-- [ ] Mode placement redesign — mode selection (Smart Practice + per-question timer foregrounded) before settings in setup flow; connects to item 100 (title screen)
-- [ ] User reset option — full reset vs. per-operation reset; destructive, needs confirmation step; design before building
-- [ ] New user onboarding/setup series — username → operations → fluency threshold → option to take Beginning Star Scan or skip; full design session on its own
+- [ ] Mode placement redesign — mode selection (Smart Practice + per-question timer foregrounded) before settings in setup flow
+- [ ] User reset option — full reset vs. per-operation reset; destructive, confirmation step required; design before building
+- [ ] New user onboarding/setup series — username → operations → fluency threshold → option to take Quick Start Scan, Full Star Scan, or skip; full design session on its own
 - [ ] Star Scan UX pass — visual appeal, neutral timer bar, no gold flash on unanswered facts, pause between facts, dynamic problem count; all spec'd in handoff
 
-**Revenue model — decision pending (now Market agent's first job):**
-- [ ] **Free tier ceiling + revenue model** — handed to Market agent. Options in ConsumerData Section K. Decision gates pricing copy, App Store strategy, launch sequencing.
+**Revenue/payment (design before build):**
+- [ ] **Payment/licensing flow design session** — Lemon Squeezy recommended, 3-device activation. Design unlock flow + license key UI + upgrade prompt before Wright builds. Kimberly must approve processor choice.
 
 **Lex items (flagged Session AA):**
 - [ ] **COPPA pre-assessment**
@@ -235,21 +254,28 @@ Not every session needs the full RP + ConsumerData. Check the "Required reading 
 - [~] **5-year vision** — Open: mobile priority (iOS vs. PWA)?
 
 **Research/copy still not done:**
-- [ ] **"Why memorize math facts" content (new — Session AF)** — Two deliverables: (1) FAQ/About copy: evidence-based explanation of why math fact fluency matters and how you know it's paying off in real life — the case a parent or teacher needs to feel confident. (2) Title page interactive/visual element: a "cuter," slightly interactive visual using Sparkwright design themes (alchemy/ember aesthetic) — a button on the title page that opens this content. Not a text block. Design brief to Pip when copy is ready.
-- [ ] Play the competition for one hour. Keeps getting deferred. Matters — XtraMath heat map format still unverified.
-- [ ] Verify spacing effect citations: Cepeda et al. (2006), Rohrer & Taylor (2006) — flagged (needs verification) in RP
+- [ ] **"Why memorize math facts" content** — Two deliverables: (1) FAQ/About copy: evidence-based case for math fact fluency for parents/teachers. (2) Title page interactive/visual element (alchemy/ember aesthetic, button opens content — not a text block). Design brief to Pip when copy is ready.
+- [ ] Play the competition for one hour. XtraMath heat map format still unverified.
+- [ ] Verify spacing effect citations: Cepeda et al. (2006), Rohrer & Taylor (2006) — flagged *(needs verification)* in RP
 - [ ] Draft — target user profile final version
 - [ ] Draft — marketing copy sentence ("Math Flash is for families who...")
-- [ ] Draft — FAQ outline (after constellation / assessment area designed; FAQ items from Session AB logged in RP — includes: bad day, untimed practice, glow intensity, mastery criteria, threshold explanation, break from practice, facts going backwards, durability check)
+- [ ] Draft — FAQ outline (after constellation/assessment design settles; FAQ items from Session AB logged in RP)
 - [ ] Copy pass — home page game cards + value list (developer doing; update Spark when done)
 - [ ] r/specialeducation + r/ADHD_parents — Reddit blocked Session N. High value, token-rich session.
 - [ ] Well-Trained Mind forums — developer opens manually, pastes. URLs in ConsumerData Section J.
+
+**New file to create:**
+- [ ] `dev/Math_Flash_Game_Logic.md` — game design reference. Captures logic, data gathering, and decision-making rationale for all systems. Harvest from RP, handoff, session decisions. Draft next session.
+
+**Operations — multi-session scan session count:**
+- [ ] Session count per operation TBD pending beta testing. Multiplication = 3 confirmed. Flag as Spark design discussion after beta testing.
 
 ### Key Files (current)
 - `dev/Sparkwright_Website_Copy_Draft_v1.md` — landing page, About page (Tier 2), Math Flash About panel (Tier 3) — updated Session T, pending developer voice edit
 - `dev/Sparkwright_Legal_Draft_v1.md` — Terms, Privacy, Cookie Policy, footer copy
 - `dev/Sparkwright_Costs_and_Accounting_v1.md` — ~$21/month from May onward
-- `dev/Market_Agent_Prompt.md` — Marketing, Launch & Revenue Strategy agent bootstrap (created Session AF)
+- `dev/Market_Agent_Prompt.md` — Marketing, Launch & Revenue Strategy agent (created Session AF)
+- `dev/Math_Flash_Game_Logic.md` — PLANNED: game design reference, not yet created
 
 ---
 
