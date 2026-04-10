@@ -181,40 +181,25 @@ One-time purchase per game, a la carte. No account required for core experience.
 ## Current State of Open Work
 *(Replace this section at each session end — do not append)*
 
-### As of Session AB — April 1, 2026
+### As of Session AF — April 10, 2026
 
-**What Wright built since Session T (v62/v63):**
-- ✅ Extended tables ×13–×20 (Advanced Settings toggle, off by default)
-- ✅ Print output redesign (items 33/124) — done, developer using in practice
-- ✅ Fluency threshold tiers (items 130/139) — 4 pills, Advanced Settings collapsible
-- ✅ Stats page + Challenge Facts (items 88/89/110)
-- ✅ Sparkwright nav logo + favicon (Pip)
-- ✅ Fluency bar: amber `#ff9f43` (fluent) + blue `#4d96ff` (almost), purple dropped, tier-scaling (item 141) — built Session X
-- ✅ Fact Constellation mockup — `dev/mockup_constellation.html` — visual prototype built Session AB
+**What Wright built since Session AB (v63–v73):**
+- ✅ Student Dashboard / Fact Constellation — built (items 147/66/140)
+- ✅ Star Scan (formerly Assessment Mode) — built, all three scope variants (Full / Per-Table / Family Groups), moved to dedicated screen with title page button (v72/v73)
+- ✅ Assessment data confirmed clean — `saveAssessmentRecord()` writes only to `mathflash_assessments`, constellation reads only from `mathflash_facts`. No cross-contamination.
 
-**What happened Session Z (Spark):**
-- Assessment Mode + Student Dashboard (items 147/66/140) — full spec designed and shipped to Wright. Ready to build.
-- Fact Constellation aesthetic locked: warm forge/alchemy, not cold space.
-
-**What happened Session AA (Spark — March 31, 2026):**
-- **localStorage vs. server accounts (item 151):** Recommendation delivered and logged. Don't build now. Three conditions before building: COPPA assessed by Lex, free tier ceiling defined, real teacher/multi-student use case validated. Language reframe: retire "you own your data" → "your data stays on your device by default." Lex flagged in handoff on COPPA + language review.
-- **Market size analysis:** Full TAM analysis logged in ConsumerData Section K. 1K = proof of concept; 10K = career milestone ($100–150K); server accounts are a feature-threshold trigger, not a user-count trigger. Risk is obscurity, not competition.
-- **"What success looks like" framing logged to RP Section 6**
-- **Free tier ceiling + revenue model:** Options logged in ConsumerData Section K. Decision pending.
-- **Threshold-change data integrity:** Designed and shipped to Wright. Option C: warning + recalculation.
-- **Items 142 + 149 (Session lock / product model): CLOSED.**
-
-**What happened Session AB (Spark — April 1, 2026):**
-- **Wright's flagged questions answered (handoff):** Mode exclusivity (don't gate to timer-only; mode tagged), per-round toggle (no — variance is the answer).
-- **Variance model documented:** Full new RP section — how it works, edge cases, sparse data problem, mode tagging, day-spread requirement. RP Section 4.
-- **Mastery definition v2 proposed:** 6 of last 8 correct, 3 sessions, ≥2 calendar days, recency gate, de-certification flag. See RP Section 4. Build v1 first; data model must support v2.
-- **Purple tier reinstated:** Canonical tier color table in RP. Consistent across all UI. Wright to update countdown bar.
-- **"How your constellation works" explainer:** Permanent clickable in My Constellation view. Design spec + copy draft in RP.
-- **Fluency threshold location:** Surface in My Constellation context (*"Fluency graded at 3s · Change"*), not only Advanced Settings. Design decision made.
-- **×13–×20 toggle in My Constellation:** Extended tables toggle should also live in constellation view. When on, constellation expands + game settings auto-surface those options. Constellation is the hub; settings follow it.
-- **Renamed "My Progress" → "My Constellation":** Nav label = "My Constellation." Hero heading = "Your Math Fact Constellation."
-- **Results screen mastery reveal:** New item — show "turned gold this round" celebration on results screen. Shipped to Wright.
-- **Full constellation mastered — ceremony:** Big celebration screen + profile badge + printable certificate. Logged in handoff. Design before building.
+**What happened Session AF (Spark — April 9–10, 2026):**
+- **Assessment renamed Star Scan** — "A Star Scan" everywhere in UI. Handoff updated. Living with the name.
+- **Assessment scope decisions (item 176):** All four open questions answered and shipped to Wright. Data model identical regardless of scope; fixed family groupings (Doubling Facts ×2/4/8, Anchor Facts ×5/10, Triple Family ×3/6/9); 24-hour soft advisory gate; always supplement never replace.
+- **Assessment data does NOT drive the constellation** — CRITICAL decision. Assessment/Star Scan = benchmark snapshot only. Mastery earned through practice exclusively. Logged in handoff as critical note to Wright.
+- **Three Star Scan moments architecture:** (1) Beginning — seeds constellation tiers only, not mastery, opt-out available; (2) Ongoing — pure snapshot, no constellation effect; (3) Final — appears at full mastery, certification basis. Data routing differs for #1 vs #2/#3.
+- **Star Scan pop-out card copy** — written and shipped to Wright in handoff. Build-ready.
+- **Star Scan UX notes shipped to Wright:** Timer = hard stop at threshold, neutral white/silver bar, no tier colors. No gold flash on unanswered facts. Pause between facts supported. End→cancel→recycle logic specified. Dynamic problem count on scope selector.
+- **User reset option** — logged as new MPF item. Design before building.
+- **New user onboarding/setup** — logged as new MPF item. Design before building.
+- **Title page subtitle:** *"A learner-first math fact mastery tool built for targeted practice."* — working, living with it.
+- **"Why memorize math facts" content** — logged as two deliverables: FAQ/About copy + interactive visual element for title page. Shelved for now.
+- **Market agent created** — new agent onboarded for Marketing, Launch & Revenue Strategy. Bootstrap file: `dev/Market_Agent_Prompt.md`. Revenue model decision is their first job.
 
 **Note on required reading (token efficiency):**
 Not every session needs the full RP + ConsumerData. Check the "Required reading this session" flag below before reading both in full.
@@ -224,18 +209,21 @@ Not every session needs the full RP + ConsumerData. Check the "Required reading 
 ### Open Items
 
 **Blocking Wright (highest priority):**
-- [ ] **Student Dashboard / Assessment Mode (items 147 + 66 + 140)** — spec shipped Session Z. Constellation mockup built. New items from Session AB in handoff (purple, rename, threshold location, "how it works" explainer, extended tables in constellation view, results mastery reveal, "You mastered X!" copy direction).
 - [ ] **"Facts to Watch" copy** — Wright wrote placeholder descriptions himself; developer has specific copy in mind. **Get exact copy from Kimberly at start of next Wright session before anything else on constellation.**
+- [ ] **Three Star Scan moments — data routing** — flag for Wright before constellation wiring finalized. Beginning scan seeds tiers only (not mastery); ongoing = snapshot only; final = certification basis. Full spec in handoff.
 
 **New MPF items to log (not blocking, don't build yet):**
 - [ ] Tier freshness flags — internal only; gates forward progress on near-mastery facts; mastered facts stay gold and are refreshed via Smart Practice maintenance sprinkle
 - [ ] Smart Practice (game-designed round) — reads constellation, prioritizes fluent→almost→needs practice, sprinkles mastered; mode card description approved
-- [ ] Durability check — teacher-initiated via Assessment Records; no game-prompted check
+- [ ] Durability check — teacher-initiated via Star Scan Records; no game-prompted check
 - [ ] Full constellation mastered ceremony — celebration screen + profile badge + printable certificate
 - [ ] Mode placement redesign — mode selection (Smart Practice + per-question timer foregrounded) before settings in setup flow; connects to item 100 (title screen)
+- [ ] User reset option — full reset vs. per-operation reset; destructive, needs confirmation step; design before building
+- [ ] New user onboarding/setup series — username → operations → fluency threshold → option to take Beginning Star Scan or skip; full design session on its own
+- [ ] Star Scan UX pass — visual appeal, neutral timer bar, no gold flash on unanswered facts, pause between facts, dynamic problem count; all spec'd in handoff
 
-**Revenue model — decision pending:**
-- [ ] **Free tier ceiling + revenue model (Math Flash + site-wide)** — options logged in ConsumerData Section K. Two paths: (A) free game + professional tools unlock ~$15–25; (B) one-time game purchase $9.99–$14.99. Spark leans Option A. Developer thinking it over. Decide before pricing copy is written.
+**Revenue model — decision pending (now Market agent's first job):**
+- [ ] **Free tier ceiling + revenue model** — handed to Market agent. Options in ConsumerData Section K. Decision gates pricing copy, App Store strategy, launch sequencing.
 
 **Lex items (flagged Session AA):**
 - [ ] **COPPA pre-assessment**
@@ -247,6 +235,7 @@ Not every session needs the full RP + ConsumerData. Check the "Required reading 
 - [~] **5-year vision** — Open: mobile priority (iOS vs. PWA)?
 
 **Research/copy still not done:**
+- [ ] **"Why memorize math facts" content (new — Session AF)** — Two deliverables: (1) FAQ/About copy: evidence-based explanation of why math fact fluency matters and how you know it's paying off in real life — the case a parent or teacher needs to feel confident. (2) Title page interactive/visual element: a "cuter," slightly interactive visual using Sparkwright design themes (alchemy/ember aesthetic) — a button on the title page that opens this content. Not a text block. Design brief to Pip when copy is ready.
 - [ ] Play the competition for one hour. Keeps getting deferred. Matters — XtraMath heat map format still unverified.
 - [ ] Verify spacing effect citations: Cepeda et al. (2006), Rohrer & Taylor (2006) — flagged (needs verification) in RP
 - [ ] Draft — target user profile final version
@@ -260,6 +249,7 @@ Not every session needs the full RP + ConsumerData. Check the "Required reading 
 - `dev/Sparkwright_Website_Copy_Draft_v1.md` — landing page, About page (Tier 2), Math Flash About panel (Tier 3) — updated Session T, pending developer voice edit
 - `dev/Sparkwright_Legal_Draft_v1.md` — Terms, Privacy, Cookie Policy, footer copy
 - `dev/Sparkwright_Costs_and_Accounting_v1.md` — ~$21/month from May onward
+- `dev/Market_Agent_Prompt.md` — Marketing, Launch & Revenue Strategy agent bootstrap (created Session AF)
 
 ---
 

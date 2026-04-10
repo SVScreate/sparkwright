@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-04-08 — Session AF (Spark)*
+*Last updated: 2026-04-09 — Session AF (Spark)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -27,6 +27,64 @@ When an entry is fully actioned — built, committed, and acknowledged by both a
 
 **Important — this is not a gate:**
 Kimberly can make design decisions in either window and build in either direction without routing through the other agent first. Creative decisions can and should arise organically. The handoff exists to keep both agents informed, not to create a required sequence. If Wright builds something based on an in-session design decision, he notes it here so Spark stays current. If Spark develops a design idea, she flags it here so Wright can pick it up. Neither agent should tell Kimberly she has to go talk to the other one before moving forward — just flag what the other needs to know and keep building.
+
+---
+
+## Spark → Wright — 2026-04-09 — Session AF
+
+**Assessment renamed: "Star Scan" — update everywhere.** Replace all instances of "Assessment" in UI labels, button text, screen headings, and print output with "Star Scan." Assessment Records → Star Scan Records. Run Assessment → Run Star Scan. Assessment Area → Star Scan Area. Assessment 1 / Baseline → Star Scan 1 / Baseline. Keep the underlying code variable names as-is for now — this is a display label change only.
+
+**Three assessment moments — different data routing for #1 (design before wiring):**
+Three distinct moments use the same instrument but route data differently:
+1. **Beginning Star Scan** — one-time at account creation. Seeds constellation tiers (amber/almost/needs practice) from results. Does NOT grant mastery — gold still requires practice criteria. Student can opt out and start from scratch. This is the only Star Scan that writes to the constellation.
+2. **Ongoing Star Scans** — teacher-initiated. Pure snapshot. Stored in Star Scan Records only. Does NOT affect constellation.
+3. **Final Star Scan** — appears automatically when all facts reach mastered. Same instrument. Serves as certification basis — this is the one that prints as the certificate.
+Do not finalize data wiring until this routing is confirmed. Flag in code with comments.
+
+**User reset option — log as MPF item, design before building.** User wants to start fresh. Design: full reset (clears all practice data + Star Scan records + constellation) vs. per-operation reset. Requires explicit confirmation step — destructive action.
+
+**Star Scan timer — hard stop, neutral color, no tier colors.**
+- Timer counts down to fluency threshold and kicks. No extra time past it. Data integrity: extra time means you're no longer measuring fluency.
+- No tier colors on the Star Scan timer bar. All tier colors carry meaning in this product. Use soft white or silver — neutral countdown only.
+- Tier analysis appears in results after the run, not during it.
+
+**Unanswered fact reveal — do not use gold flash.** Gold = mastery throughout the product. A fact the student didn't answer getting a gold flash sends a conflicting signal. Use a neutral warm reveal instead (white or soft bright flash).
+
+**Pause between facts — support it.** A "pause after this fact" option, available between facts only — never mid-fact. Mid-fact pause gives extra thinking time and contaminates data. Between-fact pause is legitimate anxiety management and produces cleaner data.
+
+**End → cancel → new fact logic:**
+When user clicks End: current fact disappears immediately, no answer shown, recycled into remaining pool. If user cancels and continues: fresh fact loads. The seen-but-unanswered fact is not lost — it returns later in randomized order.
+
+**Problem count — show dynamically on scope selector.** "You'll answer X questions" displayed before the run begins. Updates as user selects/deselects scope (full / per-table / family group).
+
+**New user onboarding/setup — log as MPF item, design before building.** Flow: username → choose operations → fluency threshold → option to take Beginning Star Scan OR skip and start from scratch. This is a full design session on its own. Don't absorb it into another item.
+
+**On the purple timer color question:** Purple is correct — purple (#c77dff) = Needs Practice per Session AB reinstatement. Blue (#4d96ff) = Almost. Two different tiers. The color confusion goes away once the timer is neutral (white/silver) anyway.
+
+**Star Scan pop-out card — copy below, build-ready:**
+
+*Card heading:* What is a Star Scan?
+
+*Body:*
+A Star Scan is a timed snapshot of where your facts are right now — before practice, after a lot of practice, or any time you want a clear picture. It's not a test and it doesn't affect your constellation. It's just a reading.
+
+**How it works**
+Facts appear one at a time in random order. You get one attempt per fact at your fluency threshold — answer before time runs out, or the answer is shown and you move on. No Practice Quest, no retries. Just you and the fact.
+
+**Your answers don't change your constellation.**
+Your constellation is built through practice. A Star Scan records a separate snapshot — it lives in your Star Scan Records, not in your stars. You can't scan your way to gold. That's earned through practice.
+
+**When to use it**
+- *At the start* — take a Beginning Star Scan to light up what you already know before you begin practicing. (You can skip this and start from scratch — your choice.)
+- *Along the way* — run one any time you or your teacher wants a clear picture of where things stand.
+- *At the end* — when all your facts reach mastered, a Final Star Scan becomes available as a completion confirmation. This is the one that prints as your certificate.
+
+**A few things to know**
+- The number of questions is shown before you begin — it updates as you choose your scope.
+- You can pause after any fact. You can't pause mid-fact — that would give extra thinking time, which wouldn't be a fair reading.
+- If you click End and then decide to continue, the fact you were on disappears and a fresh one loads. The one you saw gets recycled later.
+
+— Spark
 
 ---
 
