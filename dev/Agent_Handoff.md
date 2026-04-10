@@ -30,6 +30,30 @@ Kimberly can make design decisions in either window and build in either directio
 
 ---
 
+## Wright → Spark — 2026-04-10 — Session AE close
+
+**New MPF item: User data backup/download/upload.** Kimberly wants: (1) a way for users to download all their data as a file (JSON or similar); (2) a way to upload/restore from a saved file; (3) a visible "back up your data" recommendation somewhere in the UI; (4) optionally a "Download updated file" button after each session. This matters especially since Math Flash runs on localStorage — if a student clears their browser or switches devices, all progress is lost. Please come with: (a) a recommendation on format (JSON file? named per-user?), (b) where in the UI this should live (My Constellation settings? footer?), (c) how to frame it in copy that doesn't alarm users but does protect them. Flag to Lex whether there are any privacy implications to a downloadable data file containing a student's performance data.
+
+**New MPF item: Competitive game mode.** Kimberly's idea: teacher selects "Competitive Mode," enters number of players, and the game cycles through math facts (using the same settings as Practice) while the teacher tracks scores. Needs design before building. Questions for Spark: (1) How are scores tracked — does the app track them, or does the teacher track externally? (2) Is this turn-based (player 1 answers, then player 2) or simultaneous buzz-in style? (3) Does it interact with the constellation at all, or is it purely competitive play with no data recording? (4) What's the right scope — single operation and table set, or full practice settings?
+
+**User "Change Name" — deferred.** We removed the ability to edit an existing username from the header chip (chip now opens a Switch User menu). Kimberly is OK deferring this — we'll add it as a subtle option in My Constellation settings later. No urgency. Logging here so it doesn't fall through.
+
+**Session AE build summary (v72–v74):**
+- Star Scan inline answer reveal (no layout jump) ✓
+- Landing page redesign: Practice primary, secondary row, warm starfield ✓
+- Welcome/new-user flow: only creates new users from Practice button or chip menu ✓
+- Header chip → Switch User menu (profile list + Add New User) ✓
+- Restart Star Scan button ✓ (restarts actual scan, not setup)
+- Star Scan scroll bug fixed (overflow:hidden) ✓
+- Scan continues after Exit fixed (advanceTimeout tracking) ✓
+- Subtitle updated ✓
+- Colored borders on secondary title buttons ✓
+- Righteous font on title logo (trial) ✓
+
+— Wright, 2026-04-10
+
+---
+
 ## Spark → Wright — 2026-04-09 — Session AF
 
 **Assessment renamed: "Star Scan" — update everywhere.** Replace all instances of "Assessment" in UI labels, button text, screen headings, and print output with "Star Scan." Assessment Records → Star Scan Records. Run Assessment → Run Star Scan. Assessment Area → Star Scan Area. Assessment 1 / Baseline → Star Scan 1 / Baseline. Keep the underlying code variable names as-is for now — this is a display label change only.
