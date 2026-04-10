@@ -1594,13 +1594,17 @@
           if (!confirm(`Delete "${p.username}"? Their data cannot be recovered.`)) return;
           let updated = loadProfiles().filter(x => x.username !== p.username);
           saveProfiles(updated);
-          /* if deleted active, clear active and stay on switcher to let user choose */
+          /* if deleted active, clear active and keep switcher open so user can choose next */
           if (p.username === active) {
             localStorage.removeItem(KEY_ACTIVE);
             renderNav(null);
-            renderSwitcherList();
-          } else {
-            renderSwitcherList();
+          }
+          /* always re-render list and ensure switcher is open */
+          renderSwitcherList();
+          const sw = document.getElementById('switcherOverlay');
+          if (sw && !sw.classList.contains('open')) {
+            sw.classList.add('open');
+            document.body.style.overflow = 'hidden';
           }
         });
 

@@ -2064,6 +2064,21 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   .tile-grid { grid-template-columns: repeat(2,1fr); }
 }
 
+/* ══ USERNAME PICKER (new user creation overlay) ══════ */
+.mf-username-row { display:flex; align-items:center; gap:8px; margin-bottom:14px; }
+.mf-username-display { flex:1; background:rgba(255,255,255,0.06); border:1.5px solid rgba(160,130,255,0.35); border-radius:var(--radius-sm); color:var(--text); font-size:1.1rem; font-weight:700; padding:11px 14px; text-align:center; }
+.mf-regen-btn { width:42px; height:42px; flex-shrink:0; background:rgba(255,255,255,0.05); border:1.5px solid var(--border); border-radius:var(--radius-sm); color:var(--muted); font-size:1.15rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.15s, color 0.15s; font-family:var(--font-body); }
+.mf-regen-btn:hover { background:rgba(255,255,255,0.1); color:var(--text); }
+@keyframes mf-spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+.mf-regen-btn.spinning { animation:mf-spin 0.4s ease; }
+.mf-name-pills { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+.mf-name-pill { background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:20px; color:var(--muted); font-size:0.8rem; padding:4px 12px; cursor:pointer; transition:background 0.15s,color 0.15s; font-family:var(--font-body); }
+.mf-name-pill:hover { background:rgba(255,255,255,0.1); color:var(--text); }
+.mf-avatar-grid { display:grid; grid-template-columns:repeat(8,1fr); gap:5px; margin-bottom:16px; max-height:168px; overflow-y:auto; }
+.mf-avatar-btn { aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:1.15rem; background:rgba(255,255,255,0.03); border:1.5px solid transparent; border-radius:8px; cursor:pointer; transition:background 0.12s,border-color 0.12s; }
+.mf-avatar-btn:hover { background:rgba(255,255,255,0.09); }
+.mf-avatar-btn.selected { background:rgba(77,150,255,0.14); border-color:var(--a4); }
+
 /* ══ ASSESSMENT MODE ══════════════════════════════════ */
 
 /* Setup overlay — table picker */
@@ -2587,26 +2602,38 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
 <!-- ══ WELCOME / USERNAME ENTRY ══ -->
 <div id="welcome-overlay" class="overlay">
-  <div class="overlay-card" style="max-width:400px;">
-    <div class="overlay-title" style="font-size:1.6rem;margin-bottom:8px;">⚡ New User</div>
-    <p style="color:var(--muted);font-size:0.9rem;margin-bottom:22px;line-height:1.55;">Enter a name to save progress and build a constellation.</p>
-    <label style="display:block;font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Your name</label>
-    <input type="text" id="welcome-name-input"
-      style="width:100%;background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:1.1rem;padding:12px 14px;font-family:var(--font-body);outline:none;margin-bottom:18px;"
-      placeholder="e.g. Alex" maxlength="32" autocomplete="off"
-      onkeydown="if(event.key==='Enter')saveWelcomeName()">
-    <button class="btn-primary" style="width:100%;font-size:1rem;padding:13px;" onclick="saveWelcomeName()">Let's Go →</button>
-    <button id="welcome-skip-btn" class="btn-ghost" style="width:100%;margin-top:10px;font-size:0.85rem;" onclick="skipWelcomeName()">Skip for now</button>
+  <div class="overlay-card" style="max-width:420px;">
+    <div class="overlay-title" style="font-size:1.4rem;margin-bottom:6px;">⚡ Create your profile</div>
+    <p style="color:var(--muted);font-size:0.88rem;margin-bottom:14px;line-height:1.5;">Pick a username and choose an avatar.</p>
+    <div id="mf-prev-pills" class="mf-name-pills"></div>
+    <div class="mf-username-row">
+      <div class="mf-username-display" id="mf-username-display">—</div>
+      <button class="mf-regen-btn" id="mf-regen-btn" title="Generate new username" aria-label="Generate new username" onclick="mfRegenUsername()">↻</button>
+    </div>
+    <p style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:8px;">Choose your avatar</p>
+    <div class="mf-avatar-grid" id="mf-avatar-grid"></div>
+    <button class="btn-primary" id="mf-confirm-btn" style="width:100%;font-size:1rem;padding:13px;" disabled onclick="saveMFProfile()">Looks good! →</button>
+    <button class="btn-ghost" style="width:100%;margin-top:8px;font-size:0.85rem;" onclick="cancelMFCreate()">Cancel</button>
   </div>
 </div>
 
 <!-- ══ MATH FLASH ORIENTATION (existing user, first visit to Math Flash) ══ -->
 <div id="mf-welcome-overlay" class="overlay">
   <div class="overlay-card" style="max-width:420px;">
-    <div class="overlay-title" style="font-size:1.5rem;margin-bottom:10px;">Welcome to Math Flash ⚡</div>
-    <p id="mf-welcome-greeting" style="color:var(--text);font-size:1rem;font-weight:700;margin-bottom:10px;"></p>
-    <p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:20px;">Practice math facts, earn your constellation, and build fluency one star at a time. Hit <strong style="color:var(--text);">Practice</strong> from the title screen whenever you're ready — and check <strong style="color:var(--text);">My Constellation</strong> to track your progress.</p>
-    <button class="btn-primary" style="width:100%;font-size:1rem;padding:13px;" onclick="completeMFWelcome()">Let's go! →</button>
+    <!-- Step 1: Greeting -->
+    <div id="mf-welcome-step1">
+      <div class="overlay-title" style="font-size:1.5rem;margin-bottom:10px;">Welcome to Math Flash ⚡</div>
+      <p id="mf-welcome-greeting" style="color:var(--text);font-size:1rem;font-weight:700;margin-bottom:10px;"></p>
+      <p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:20px;">Practice math facts, light up your constellation, and build fluency one star at a time.</p>
+      <button class="btn-primary" style="width:100%;font-size:1rem;padding:13px;" onclick="mfWelcomeNext()">Next →</button>
+    </div>
+    <!-- Step 2: Beginning Star Scan offer -->
+    <div id="mf-welcome-step2" style="display:none;">
+      <div class="overlay-title" style="font-size:1.3rem;margin-bottom:10px;">⭐ Beginning Star Scan</div>
+      <p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:20px;">Want to start with a quick Star Scan? It takes a snapshot of which facts you already know so your constellation lights up in the right places. You can skip this and start from scratch — your choice, and you can always run one later.</p>
+      <button class="btn-primary" style="width:100%;font-size:1rem;padding:13px;margin-bottom:10px;" onclick="completeMFWelcome('scan')">Yes, start with a Star Scan</button>
+      <button class="btn-ghost" style="width:100%;font-size:0.9rem;" onclick="completeMFWelcome('skip')">Skip — I'll start fresh</button>
+    </div>
   </div>
 </div>
 
@@ -3182,6 +3209,160 @@ function refreshProfileChip() {
 var _welcomeDest = 'practice';
 var _userMenuDest = 'none';
 
+// ── Username picker — word lists ──────────────────────────
+var MF_ADJECTIVES = [
+  'Ember','Nova','Echo','Rune','Flux','Forge','Shimmer','Arc',
+  'Cipher','Surge','Flare','Gleam','Drift','Solstice','Storm','Wisp',
+  'Helix','Onyx','Opal','Cobalt','Azure','Scarlet','Indigo','Blaze',
+  'Frost','Dawn','Dusk','Ash','Cinder','Rift','Glow','Spark',
+  'Cosmic','Solar','Lunar','Blazing','Crimson','Golden','Jade','Radiant',
+  'Silver','Stellar','Vivid','Amber','Bronze','Crystal','Galactic','Neon',
+  'Obsidian','Prism','Quantum','Sapphire','Thunder','Velvet','Xenon','Zephyr',
+  'Electric','Frosty','Dazzling','Arctic','Swift','Hyper','Ultra','Topaz',
+  'Garnet','Teal','Misty','Veil','Apex','Cascade'
+];
+var MF_NOUNS = [
+  'Fox','Wolf','Raven','Lynx','Dragon','Phoenix','Otter','Crane',
+  'Hawk','Tiger','Bear','Gecko','Falcon','Panda','Eagle','Shark',
+  'Viper','Puffin','Sparrow','Axolotl','Ferret','Husky','Narwhal','Capybara',
+  'Quokka','Pangolin','Ocelot','Salamander','Wombat','Meerkat','Chameleon','Chinchilla',
+  'Manatee','Tapir','Dingo','Condor','Osprey','Lemur','Impala','Newt',
+  'Wright','Wanderer','Seeker','Sage','Scout','Keeper','Weaver','Warden',
+  'Caster','Rider'
+];
+var MF_AVATARS = [
+  '🦊','🐉','🌙','⚡','🦋','🔥','🌊','🦅',
+  '🐺','🦁','🐯','🦄','🌟','🎯','🚀','🌈',
+  '🐬','🦉','🐢','🌺','❄️','🍄','🎮','🦖',
+  '🐙','🌵','🎸','🏔️','💎','🦚','🐸','🦀',
+  '⭐','🎪','🧊','🦩','🌸','🎲','🦜','🐋',
+  '🦦','🦘','🦙','🧸','🪄','🔮','✨','🫧',
+  '🎀','🐨','🐼','🌻','🪐','🐝','🦔','🐞',
+  '🧁','🪴','🌮','🐠','💫','🌠','🔭','🧩',
+  '⚗️','🌋','🧲','🦑','🦌','🐇'
+];
+
+// ── Username picker — state and functions ─────────────────
+var mfCurrentUsername = '';
+var mfSelectedAvatar  = '';
+var mfNameHistory     = [];
+var _createDest       = 'practice';
+
+function mfGenerateUsername() {
+  var profiles = [];
+  try { profiles = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]'); } catch(e) {}
+  var existing = {};
+  profiles.forEach(function(p) { existing[p.username] = true; });
+  var name, attempts = 0;
+  do {
+    var adj  = MF_ADJECTIVES[Math.floor(Math.random() * MF_ADJECTIVES.length)];
+    var noun = MF_NOUNS[Math.floor(Math.random() * MF_NOUNS.length)];
+    name = adj + noun;
+    attempts++;
+  } while (existing[name] && attempts < 50);
+  if (existing[name]) {
+    var base = name, n = 2;
+    while (existing[base + n] && n < 999) n++;
+    name = base + n;
+  }
+  return name;
+}
+
+function openMFCreateModal(dest) {
+  _createDest = dest || 'practice';
+  mfSelectedAvatar = '';
+  mfNameHistory = [];
+  mfCurrentUsername = mfGenerateUsername();
+  var display = document.getElementById('mf-username-display');
+  if (display) display.textContent = mfCurrentUsername;
+  buildMFAvatarGrid();
+  mfRenderNamePills();
+  mfUpdateConfirm();
+  showOverlay('welcome-overlay');
+}
+
+function mfRegenUsername() {
+  if (mfCurrentUsername) {
+    mfNameHistory.unshift(mfCurrentUsername);
+    if (mfNameHistory.length > 5) mfNameHistory.length = 5;
+  }
+  mfCurrentUsername = mfGenerateUsername();
+  var display = document.getElementById('mf-username-display');
+  if (display) display.textContent = mfCurrentUsername;
+  var btn = document.getElementById('mf-regen-btn');
+  if (btn) { btn.classList.add('spinning'); setTimeout(function(){ btn.classList.remove('spinning'); }, 400); }
+  mfRenderNamePills();
+  mfUpdateConfirm();
+}
+
+function mfRenderNamePills() {
+  var container = document.getElementById('mf-prev-pills');
+  if (!container) return;
+  container.innerHTML = '';
+  mfNameHistory.forEach(function(name) {
+    var pill = document.createElement('button');
+    pill.className = 'mf-name-pill';
+    pill.textContent = name;
+    pill.setAttribute('aria-label', 'Use name: ' + name);
+    pill.addEventListener('click', function() {
+      var outgoing = mfCurrentUsername;
+      mfCurrentUsername = name;
+      mfNameHistory = mfNameHistory.filter(function(n){ return n !== name; });
+      if (outgoing) { mfNameHistory.unshift(outgoing); if (mfNameHistory.length > 5) mfNameHistory.length = 5; }
+      var d = document.getElementById('mf-username-display');
+      if (d) d.textContent = mfCurrentUsername;
+      mfRenderNamePills();
+      mfUpdateConfirm();
+    });
+    container.appendChild(pill);
+  });
+}
+
+function buildMFAvatarGrid() {
+  var grid = document.getElementById('mf-avatar-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  MF_AVATARS.forEach(function(emoji) {
+    var btn = document.createElement('button');
+    btn.className = 'mf-avatar-btn';
+    btn.textContent = emoji;
+    btn.setAttribute('aria-label', emoji);
+    btn.addEventListener('click', function() {
+      grid.querySelectorAll('.mf-avatar-btn').forEach(function(b){ b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      mfSelectedAvatar = emoji;
+      mfUpdateConfirm();
+    });
+    grid.appendChild(btn);
+  });
+}
+
+function mfUpdateConfirm() {
+  var btn = document.getElementById('mf-confirm-btn');
+  if (btn) btn.disabled = !(mfCurrentUsername && mfSelectedAvatar);
+}
+
+function saveMFProfile() {
+  if (!mfCurrentUsername || !mfSelectedAvatar) return;
+  var name = mfCurrentUsername;
+  var avatar = mfSelectedAvatar;
+  localStorage.setItem('sparkwright_active', name);
+  var profiles = [];
+  try { profiles = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]'); } catch(e) {}
+  if (!profiles.find(function(p){ return p.username === name; })) {
+    profiles.push({ username: name, avatar: avatar, createdAt: new Date().toISOString().slice(0,10), hasVisited: false });
+    localStorage.setItem('sparkwright_profiles', JSON.stringify(profiles));
+  }
+  refreshProfileChip();
+  hideOverlay('welcome-overlay');
+  // Show MF orientation (includes Beginning Star Scan offer)
+  showMFWelcome(_createDest);
+}
+
+function cancelMFCreate() {
+  hideOverlay('welcome-overlay');
+}
+
 // ── User Menu ────────────────────────────────────────────
 function showUserMenu(dest) {
   _userMenuDest = dest || 'none';
@@ -3223,49 +3404,9 @@ function switchUser(name) {
 
 function addNewUserFromMenu() {
   hideOverlay('user-menu-overlay');
-  showWelcomeOverlay(_userMenuDest);
+  openMFCreateModal(_userMenuDest);
 }
 
-// ── Welcome / New User ───────────────────────────────────
-function showWelcomeOverlay(dest) {
-  _welcomeDest = dest || 'practice';
-  var inp  = document.getElementById('welcome-name-input');
-  var skip = document.getElementById('welcome-skip-btn');
-  if (inp)  inp.value = '';   // always blank — new user creation only
-  if (skip) skip.textContent = (dest === 'none') ? 'Cancel' : 'Skip for now';
-  showOverlay('welcome-overlay');
-  setTimeout(function() { if (inp) inp.focus(); }, 80);
-}
-
-function saveWelcomeName() {
-  var inp = document.getElementById('welcome-name-input');
-  var name = inp ? inp.value.trim() : '';
-  if (!name) { if (inp) inp.focus(); return; }
-  localStorage.setItem('sparkwright_active', name);
-  localStorage.setItem('mathflash_onboarded_' + name, '1');
-  var profiles = [];
-  try { profiles = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]'); } catch(e) {}
-  if (!profiles.find(function(p) { return p.username === name; })) {
-    profiles.push({ username: name, avatar: '⭐' });
-    localStorage.setItem('sparkwright_profiles', JSON.stringify(profiles));
-  }
-  refreshProfileChip();
-  hideOverlay('welcome-overlay');
-  if (_welcomeDest === 'practice') {
-    buildSetupUI();
-    loadAndApplySettings();
-    showScreen('setup-screen');
-  }
-}
-
-function skipWelcomeName() {
-  hideOverlay('welcome-overlay');
-  if (_welcomeDest === 'practice') {
-    buildSetupUI();
-    loadAndApplySettings();
-    showScreen('setup-screen');
-  }
-}
 
 function goSetup() {
   var username = localStorage.getItem('sparkwright_active');
@@ -3273,7 +3414,7 @@ function goSetup() {
     var profiles = [];
     try { profiles = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]'); } catch(e) {}
     if (profiles.length === 0) {
-      showWelcomeOverlay('practice');   // first-ever launch
+      openMFCreateModal('practice');    // first-ever launch — show picker
     } else {
       showUserMenu('practice');         // profiles exist, none active — pick one
     }
@@ -3295,12 +3436,24 @@ function showMFWelcome(dest) {
   var username = localStorage.getItem('sparkwright_active') || '';
   var greeting = document.getElementById('mf-welcome-greeting');
   if (greeting) greeting.textContent = username ? 'Hi, ' + username + '!' : 'Hi there!';
+  // Reset to step 1
+  var s1 = document.getElementById('mf-welcome-step1');
+  var s2 = document.getElementById('mf-welcome-step2');
+  if (s1) s1.style.display = '';
+  if (s2) s2.style.display = 'none';
   showOverlay('mf-welcome-overlay');
 }
-function completeMFWelcome() {
+function mfWelcomeNext() {
+  var s1 = document.getElementById('mf-welcome-step1');
+  var s2 = document.getElementById('mf-welcome-step2');
+  if (s1) s1.style.display = 'none';
+  if (s2) s2.style.display = '';
+}
+function completeMFWelcome(choice) {
   var username = localStorage.getItem('sparkwright_active');
   if (username) localStorage.setItem('mathflash_onboarded_' + username, '1');
   hideOverlay('mf-welcome-overlay');
+  // TODO: when choice === 'scan', trigger Beginning Star Scan flow (Spark to confirm data routing)
   if (_mfWelcomeDest === 'practice') {
     buildSetupUI();
     loadAndApplySettings();
