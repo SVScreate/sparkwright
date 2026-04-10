@@ -258,6 +258,12 @@ body {
   cursor: pointer;
 }
 .btn-ghost:hover { border-color: var(--a4); color: var(--a4); }
+.btn-ghost-blue   { border-color: rgba(77,150,255,0.45); }
+.btn-ghost-blue:hover  { border-color: var(--a4); color: var(--a4); }
+.btn-ghost-purple { border-color: rgba(199,125,255,0.45); }
+.btn-ghost-purple:hover { border-color: var(--a5); color: var(--a5); }
+.btn-ghost-gold   { border-color: rgba(255,217,61,0.45); }
+.btn-ghost-gold:hover  { border-color: var(--a2); color: var(--a2); }
 
 /* ── ABOUT LINK ── */
 .title-about-link {
@@ -2371,7 +2377,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div id="sw-divider"></div>
     <span id="sw-game-label" onclick="showScreen('title-screen')" style="cursor:pointer;" title="Back to title screen">Math Flash</span>
   </div>
-  <div id="sw-profile-chip" class="guest">
+  <div id="sw-profile-chip" class="guest" onclick="showWelcomeOverlay('none')" style="cursor:pointer;" title="Change name">
     <span class="sw-avatar">👤</span>
     <span class="sw-name">Guest</span>
   </div>
@@ -2381,14 +2387,14 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <div id="title-screen" class="screen active">
   <div class="title-inner">
     <div class="title-logo">⚡ Math Flash</div>
-    <div class="title-tagline">Fast facts. Smart practice. Built for the classroom.</div>
+    <div class="title-tagline">A learner-first math fact mastery tool built for targeted practice.</div>
     <div class="title-btn-row">
       <button class="btn-primary" onclick="goSetup()">Practice</button>
     </div>
     <div class="title-btn-secondary">
-      <button class="btn-ghost" onclick="showOverlay('howto-overlay')">How to Play</button>
-      <button class="btn-ghost" onclick="showScreen('stats-screen')">My Constellation</button>
-      <button class="btn-ghost" onclick="showScreen('assess-area-screen')">⭐ Star Scan</button>
+      <button class="btn-ghost btn-ghost-blue" onclick="showOverlay('howto-overlay')">How to Play</button>
+      <button class="btn-ghost btn-ghost-purple" onclick="showScreen('stats-screen')">My Constellation</button>
+      <button class="btn-ghost btn-ghost-gold" onclick="showScreen('assess-area-screen')">⭐ Star Scan</button>
     </div>
     <div class="title-link-row">
       <button class="title-about-link" onclick="showOverlay('about-overlay')">About this game</button>
@@ -2566,15 +2572,15 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <!-- ══ WELCOME / USERNAME ENTRY ══ -->
 <div id="welcome-overlay" class="overlay">
   <div class="overlay-card" style="max-width:400px;">
-    <div class="overlay-title" style="font-size:1.6rem;margin-bottom:8px;">⚡ Welcome!</div>
+    <div class="overlay-title" id="welcome-overlay-title" style="font-size:1.6rem;margin-bottom:8px;">⚡ Welcome!</div>
     <p style="color:var(--muted);font-size:0.9rem;margin-bottom:22px;line-height:1.55;">Enter your name to save your progress and build your constellation.</p>
     <label style="display:block;font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Your name</label>
     <input type="text" id="welcome-name-input"
       style="width:100%;background:rgba(255,255,255,0.05);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:1.1rem;padding:12px 14px;font-family:var(--font-body);outline:none;margin-bottom:18px;"
       placeholder="e.g. Alex" maxlength="32" autocomplete="off"
       onkeydown="if(event.key==='Enter')saveWelcomeName()">
-    <button class="btn-primary" style="width:100%;font-size:1rem;padding:13px;" onclick="saveWelcomeName()">Let's Go →</button>
-    <button class="btn-ghost" style="width:100%;margin-top:10px;font-size:0.85rem;" onclick="skipWelcomeName()">Skip for now</button>
+    <button id="welcome-save-btn" class="btn-primary" style="width:100%;font-size:1rem;padding:13px;" onclick="saveWelcomeName()">Let's Go →</button>
+    <button id="welcome-skip-btn" class="btn-ghost" style="width:100%;margin-top:10px;font-size:0.85rem;" onclick="skipWelcomeName()">Skip for now</button>
   </div>
 </div>
 
@@ -3120,10 +3126,17 @@ var _welcomeDest = 'practice';
 
 function showWelcomeOverlay(dest) {
   _welcomeDest = dest || 'practice';
-  var inp = document.getElementById('welcome-name-input');
-  if (inp) inp.value = '';
+  var existing = localStorage.getItem('sparkwright_active') || '';
+  var inp   = document.getElementById('welcome-name-input');
+  var title = document.getElementById('welcome-overlay-title');
+  var btn   = document.getElementById('welcome-save-btn');
+  var skip  = document.getElementById('welcome-skip-btn');
+  if (inp)   { inp.value = existing; }
+  if (title) { title.textContent = existing ? 'Change name' : '⚡ Welcome!'; }
+  if (btn)   { btn.textContent = existing ? 'Save' : 'Let\'s Go →'; }
+  if (skip)  { skip.textContent = dest === 'none' ? 'Cancel' : 'Skip for now'; }
   showOverlay('welcome-overlay');
-  setTimeout(function() { if (inp) inp.focus(); }, 80);
+  setTimeout(function() { if (inp) { inp.focus(); inp.select(); } }, 80);
 }
 
 function saveWelcomeName() {
@@ -6693,10 +6706,9 @@ function cancelAssessmentFinal() {
 
 function restartAssessment() {
   if (A.timer) { clearInterval(A.timer); A.timer = null; }
-  document.removeEventListener('keydown', assessKeydown);
   document.getElementById('assess-pause-overlay').classList.remove('visible');
-  // Go back to setup area — settings stay as-is, user clicks Start again
-  showScreen('assess-area-screen');
+  // Restart with same settings — A._setupOp/Scope/Tables are preserved
+  startAssessment();
 }
 
 // ── Render assessment records in My Constellation ────────
