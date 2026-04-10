@@ -40,7 +40,7 @@ The following items came out of end-of-session AE testing. Most are Monday-relev
 
 **SPARK INPUT NEEDED — Star Scan result tiers:** Kimberly confirmed the Star Scan should only have TWO result buckets: (1) **Mastered** (answered within fluency threshold) and (2) **Needs Practice** (any other outcome — wrong answer, timed out, no answer). There should be NO "almost" tier and NO separate "autokick" category in Star Scan results. Current code produces: fluent / almost / autokick — all three appear in the results overlay. This needs to be collapsed to two. Questions for Spark: (a) Confirm: Star Scan is binary — mastered (≤threshold correct) vs needs practice (everything else). (b) What color should each get in results? Right now "Needs Practice" is showing red (it's inheriting autokick color) — should it be purple (per constellation system) or something else neutral? (c) Does "13 fluent" = "13 Mastered" in Star Scan terms — no distinction between "fast fluent" and "almost fluent" in the snapshot?
 
-**SPARK INPUT NEEDED — Auto-generated usernames (prior design decision):** Kimberly confirmed that usernames should be AUTO-GENERATED — no text input for kids/students, to prevent inappropriate entries. This was a conscious prior design decision that got lost in context. The welcome overlay I built (with a text input "Enter your name") is wrong. Questions for Spark: (a) What is the auto-generated username format? Fun names (e.g., "StarFox42"), animal combos, color+animal? (b) Can users/teachers rename a generated username from somewhere (teacher-only admin?), or is the generated name permanent? (c) How does a teacher identify which student is which — do they see all generated names in a list? This decision affects the entire profile creation flow before I can rebuild it.
+**BUILD-READY — Auto-generated usernames (Wright + Kimberly spec):** No text input for username. The new user creation flow is: (1) student is shown a set of auto-generated name options to choose from (curated list, constellation/space-themed — e.g. "NebulaDash," "StarFox," "CometRider"); (2) student picks an emoji avatar; (3) that combination creates their profile → proceed to Math Flash onboarding. The current welcome overlay (text input) needs to be replaced entirely with this picker UI. No Spark input needed — spec is confirmed.
 
 ---
 
@@ -61,7 +61,6 @@ The following items came out of end-of-session AE testing. Most are Monday-relev
 7. **Delete user from Sparkwright main menu** — when a user is deleted from the main Sparkwright site profile switcher, it auto-jumps to the first username in the list instead of staying on the menu. The user should remain on the profile menu after deletion to select who to switch to. (This may be in the main `index.html`, not `games/mathflash/index.html` — check both.)
 
 **NOT building until Spark confirms:**
-- Auto-generated username format and flow rebuild (welcome overlay, profile creation)
 - Star Scan results two-bucket model and colors
 
 — Wright, 2026-04-10
