@@ -625,23 +625,17 @@ body {
 .mp-how-row strong { color: rgba(240,240,255,0.85); }
 
 /* Section 2: Facts to Watch */
-.mp-watch-sections { display: flex; flex-direction: column; gap: 10px; }
-.mp-watch-section  { border-radius: 10px; border: 1px solid; padding: 12px 14px; }
-.mp-watch-section.close-to-mastery { background: linear-gradient(to right, rgba(255,159,67,0.09), rgba(255,217,61,0.09)); border-color: rgba(255,159,67,0.32); }
-.mp-watch-section.challenge-section { background: linear-gradient(to right, rgba(77,150,255,0.09), rgba(199,125,255,0.09)); border-color: rgba(77,150,255,0.32); }
-.mp-watch-section-hdr  { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
-.mp-watch-section-title{ font-size: 0.72rem; font-weight: 800; }
-.close-to-mastery .mp-watch-section-title { color: var(--a6); }
-.challenge-section .mp-watch-section-title { color: var(--a4); }
-.mp-watch-section-desc { font-size: 0.65rem; color: rgba(240,240,255,0.5); margin-bottom: 9px; line-height: 1.4; }
-.mp-watch-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.mp-watch-chip {
-  font-size: 0.78rem; font-weight: 700;
-  padding: 5px 10px; border-radius: 8px; border: 1px solid;
-}
-.close-to-mastery .mp-watch-chip { background: linear-gradient(to right, rgba(255,159,67,0.16), rgba(255,217,61,0.13)); border-color: rgba(255,159,67,0.5); color: var(--a6); }
-.challenge-section .mp-watch-chip { background: linear-gradient(to right, rgba(77,150,255,0.14), rgba(199,125,255,0.12)); border-color: rgba(77,150,255,0.45); color: var(--a4); }
-.mp-watch-empty { font-size: 0.8rem; color: rgba(240,240,255,0.25); }
+.mp-watch-top { display:flex; align-items:flex-start; gap:8px; margin-bottom:6px; }
+.mp-watch-subhead { font-size:0.75rem; color:rgba(240,240,255,0.45); line-height:1.5; flex:1; }
+.mp-watch-help { background:none; border:1px solid rgba(255,255,255,0.18); border-radius:50%; width:16px; height:16px; font-size:0.62rem; color:rgba(240,240,255,0.4); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; padding:0; }
+.mp-watch-list { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+.mp-watch-item { display:flex; flex-direction:column; align-items:center; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:7px 10px; min-width:58px; }
+.mp-watch-item-eq { font-size:0.82rem; font-weight:700; color:var(--text); }
+.mp-watch-item-tier { font-size:0.58rem; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; margin-top:3px; }
+.mp-watch-item-tier.almost        { color:#4d96ff; }
+.mp-watch-item-tier.needs-practice { color:rgba(240,240,255,0.4); }
+.mp-watch-item-tier.unpracticed   { color:rgba(240,240,255,0.28); }
+.mp-watch-empty { font-size:0.8rem; color:rgba(240,240,255,0.25); }
 
 /* Section 3: Assessment Records */
 .mp-assessment-empty { font-size: 0.85rem; color: rgba(240,240,255,0.3); margin-bottom: 14px; }
@@ -2030,9 +2024,10 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   body.print-constellation .c-cell.almost         { background: #ead4ff !important; border-color: #c77dff !important; }
   body.print-constellation .c-cell.fluent         { background: #ffdea8 !important; border-color: #ff9f43 !important; }
   body.print-constellation .c-cell.mastered       { background: #fff0a0 !important; border-color: #ffd93d !important; }
-  body.print-constellation .mp-watch-section      { background: white !important; border-color: #ccc !important; }
-  body.print-constellation .mp-watch-section-title { color: #333 !important; }
-  body.print-constellation .mp-watch-section-desc  { color: #666 !important; }
+  body.print-constellation .mp-watch-item    { background: white !important; border-color: #ccc !important; }
+  body.print-constellation .mp-watch-subhead { color: #555 !important; }
+  body.print-constellation .mp-watch-item-eq { color: #000 !important; }
+  body.print-constellation .mp-watch-item-tier { color: #666 !important; }
 
   #print-area {
     position: fixed; inset: 0;
@@ -2323,16 +2318,13 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 .mp-assess-record-date  { font-size:0.7rem; color:var(--muted); }
 .mp-assess-record-summary { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:8px; }
 .mp-assess-stat { font-size:0.72rem; font-weight:700; }
-.mp-assess-stat.fluent  { color:var(--a6); }
-.mp-assess-stat.almost  { color:#c77dff; }
-.mp-assess-stat.needs   { color:var(--a4); }
-.mp-assess-stat.total   { color:var(--muted); }
+.mp-assess-stat.mastered { color:var(--a6); }
+.mp-assess-stat.needs    { color:rgba(240,240,255,0.55); }
+.mp-assess-stat.total    { color:var(--muted); }
 .mp-assess-record-chips { display:flex; flex-wrap:wrap; gap:5px; }
 .mp-assess-chip { font-size:0.7rem; font-weight:700; padding:3px 8px; border-radius:6px; border:1px solid; }
-.mp-assess-chip.fluent  { background:rgba(255,159,67,0.16); border-color:rgba(255,159,67,0.45); color:var(--a6); }
-.mp-assess-chip.almost  { background:rgba(199,125,255,0.13); border-color:rgba(199,125,255,0.38); color:#c77dff; }
-.mp-assess-chip.needs   { background:rgba(77,150,255,0.13); border-color:rgba(77,150,255,0.38); color:var(--a4); }
-.mp-assess-chip.autokick{ background:rgba(255,107,107,0.13); border-color:rgba(255,107,107,0.38); color:var(--a1); }
+.mp-assess-chip.mastered { background:rgba(255,159,67,0.16); border-color:rgba(255,159,67,0.45); color:var(--a6); }
+.mp-assess-chip.needs    { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.15); color:rgba(240,240,255,0.6); }
 
 /* Assessment results overlay */
 .assess-results-overlay {
@@ -2353,10 +2345,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 .assess-results-section-title { font-size:0.68rem; font-weight:800; letter-spacing:0.07em; text-transform:uppercase; color:rgba(240,240,255,0.4); margin-bottom:8px; }
 .assess-result-grid { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:22px; max-height:200px; overflow-y:auto; }
 .assess-result-chip { font-size:0.78rem; font-weight:700; padding:5px 10px; border-radius:8px; border:1px solid; }
-.assess-result-chip.fluent  { background:rgba(255,159,67,0.18); border-color:rgba(255,159,67,0.5);   color:var(--a6); }
-.assess-result-chip.almost  { background:rgba(199,125,255,0.15); border-color:rgba(199,125,255,0.4); color:#c77dff; }
-.assess-result-chip.needs   { background:rgba(77,150,255,0.14); border-color:rgba(77,150,255,0.4);   color:var(--a4); }
-.assess-result-chip.autokick{ background:rgba(255,107,107,0.14); border-color:rgba(255,107,107,0.4); color:var(--a1); }
+.assess-result-chip.mastered { background:rgba(255,159,67,0.18); border-color:rgba(255,159,67,0.5);   color:var(--a6); }
+.assess-result-chip.needs    { background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.18); color:rgba(240,240,255,0.65); }
 .assess-results-btns { display:flex; gap:10px; flex-wrap:wrap; }
 
 .mp-assess-btn-enabled {
@@ -2564,7 +2554,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="num-input-msg" id="assess-table-msg" style="margin-bottom:8px;"></div>
 
     <div class="assess-timer-note">
-      Timer: <strong id="assess-thresh-label">3 seconds</strong> per fact — your current fluency threshold. Graded the same as Per-Question Timer mode.
+      Fluency threshold: <strong id="assess-thresh-label">3s</strong> per fact. <button onclick="hideOverlay('assess-setup-overlay');openThreshModal();" style="background:none;border:none;color:var(--a6);font-size:inherit;font-weight:700;cursor:pointer;padding:0;text-decoration:underline;">Change</button>
     </div>
 
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px;">
@@ -2586,14 +2576,14 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <p>Your constellation is built through practice. A Star Scan records a separate snapshot — it lives in your Star Scan Records, not in your stars. You can't scan your way to gold. That's earned through practice.</p>
     <h3>When to use it</h3>
     <ul>
-      <li><em>Before you start practicing</em> — run a Star Scan first to see which facts you already know. Your first one is automatically labeled <strong>Baseline</strong>.</li>
+      <li><em>At the start</em> — take a Beginning Star Scan to light up what you already know before you begin practicing. (You can skip this and start from scratch — your choice.)</li>
       <li><em>Along the way</em> — run one any time you or your teacher wants a clear picture of where things stand.</li>
-      <li><em>At the end</em> — when all facts reach mastered, a final Star Scan serves as a completion confirmation.</li>
+      <li><em>At the end</em> — when all your facts reach mastered, a Final Star Scan becomes available as a completion confirmation. This is the one that prints as your certificate.</li>
     </ul>
     <h3>A few things to know</h3>
     <ul>
       <li>The number of questions is shown before you begin — it updates as you choose your scope.</li>
-      <li>You can pause after any fact. You can't pause mid-fact — that would give extra thinking time and change the reading.</li>
+      <li>You can pause after any fact. You can't pause mid-fact — that would give extra thinking time, which wouldn't be a fair reading.</li>
       <li>If you click End and then decide to continue, the fact you were on disappears and a fresh one loads. The one you saw gets recycled later.</li>
     </ul>
     <button class="about-play-btn" style="margin-top:16px;" onclick="hideOverlay('starscan-info-overlay')">Got it</button>
@@ -3010,10 +3000,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       <div class="assess-results-title">Star Scan Complete!</div>
       <div class="assess-results-sublabel" id="assess-results-sublabel">Baseline</div>
       <div class="assess-summary-row" id="assess-summary-row"></div>
-      <div class="assess-results-section-title">⚡ Fluent</div>
-      <div class="assess-result-grid" id="assess-grid-fluent"></div>
-      <div class="assess-results-section-title">🔄 Almost</div>
-      <div class="assess-result-grid" id="assess-grid-almost"></div>
+      <div class="assess-results-section-title">⭐ Mastered</div>
+      <div class="assess-result-grid" id="assess-grid-mastered"></div>
       <div class="assess-results-section-title">📚 Needs Practice</div>
       <div class="assess-result-grid" id="assess-grid-needs"></div>
       <div class="assess-results-btns">
@@ -6031,7 +6019,7 @@ function buildStatsScreen() {
     grid.appendChild(frag);
   }
 
-  // ── Facts to Watch ────────────────────────────────────────────
+  // ── Facts to Watch (Spark spec, Session AH) ──────────────────
   function parseFk(fk) {
     var m;
     m = fk.match(/^mul_(\d+)x(\d+)$/);
@@ -6045,67 +6033,60 @@ function buildStatsScreen() {
     return null;
   }
 
-  // Table difficulty rank: ×1 easiest → ×12 hardest (for surfacing easiest challenge facts first)
-  var TABLE_DIFF_RANK = {1:0, 2:1, 5:2, 10:3, 11:4, 4:5, 6:6, 7:7, 8:8, 9:9, 12:10};
-  function factDiffRank(fk) {
-    var m = fk.match(/^mul_(\d+)x(\d+)$/);
-    if (m) {
-      var r1 = TABLE_DIFF_RANK[+m[1]]; if (r1 === undefined) r1 = 11;
-      var r2 = TABLE_DIFF_RANK[+m[2]]; if (r2 === undefined) r2 = 11;
-      return Math.min(r1, r2);
-    }
-    m = fk.match(/^div_\d+d(\d+)$/);
-    if (m) { var r = TABLE_DIFF_RANK[+m[1]]; return r !== undefined ? r : 11; }
-    return 5; // addition/subtraction: middle rank
-  }
-
-  var closeToMastery = [], challengeFacts = [];
+  // Priority: almost → needs-practice → unpracticed (from userFacts), cap 8, sort by lastSeen oldest first
+  var watchAlmost = [], watchNeeds = [], watchUnpracticed = [];
   keys.forEach(function(fk) {
     var rec = userFacts[fk];
-    if (!rec || rec.mastered) return;
     var p = parseFk(fk);
     if (!p) return;
-    var total  = (rec.correct || 0) + (rec.incorrect || 0);
-    if (total < 2) return;
-    var recent = rec.recentAttempts || [];
-    if (recent.length < 2) return;
-    var misses   = recent.filter(function(a) { return !a.correct; }).length;
-    var missRate = misses / recent.length;
-    var last5    = recent.slice(-5);
-    var fluentInLast5 = last5.filter(function(a) { return a.correct && a.ms && a.ms <= threshMs; }).length;
-
-    if (fluentInLast5 >= 3 && missRate <= 0.35) {
-      closeToMastery.push({ eq: p.eq });
-    } else if (missRate >= 0.5 && total >= 3) {
-      challengeFacts.push({ eq: p.eq, diffRank: factDiffRank(fk) });
-    }
+    var tier = cellTier(rec);
+    if (tier === 'mastered' || tier === 'fluent') return;
+    var lastSeenVal = rec ? (rec.lastSeen || null) : null;
+    var item = { eq: p.eq, tier: tier, lastSeen: lastSeenVal };
+    if (tier === 'almost')         watchAlmost.push(item);
+    else if (tier === 'needs-practice') watchNeeds.push(item);
+    else if (tier === 'unpracticed')    watchUnpracticed.push(item);
   });
-  // Sort challenge facts easiest first (lowest table difficulty rank)
-  challengeFacts.sort(function(a, b) { return a.diffRank - b.diffRank; });
-  closeToMastery = closeToMastery.slice(0, 6);
-  challengeFacts = challengeFacts.slice(0, 6);
 
-  function makeWatchSection(cls, title, desc, chips) {
-    if (chips.length === 0) return '';
-    return '<div class="mp-watch-section ' + cls + '">' +
-      '<div class="mp-watch-section-hdr"><span class="mp-watch-section-title">' + title + '</span></div>' +
-      '<div class="mp-watch-section-desc">' + desc + '</div>' +
-      '<div class="mp-watch-chips">' +
-        chips.map(function(c) { return '<span class="mp-watch-chip">' + c.eq + '</span>'; }).join('') +
-      '</div>' +
-    '</div>';
+  // Sort by lastSeen: null (never) first, then oldest date first
+  function byLastSeen(a, b) {
+    if (!a.lastSeen && !b.lastSeen) return 0;
+    if (!a.lastSeen) return -1;
+    if (!b.lastSeen) return  1;
+    return a.lastSeen < b.lastSeen ? -1 : a.lastSeen > b.lastSeen ? 1 : 0;
   }
+  watchAlmost.sort(byLastSeen);
+  watchNeeds.sort(byLastSeen);
 
-  var watchHTML = (closeToMastery.length + challengeFacts.length) === 0
-    ? '<div class="mp-watch-empty">Keep practicing — suggestions will appear here.</div>'
-    : '<div class="mp-watch-sections">' +
-        makeWatchSection('close-to-mastery', 'Close to Mastery ★',
-          'You\'ve been fast and correct on these facts in 3+ of your last 5 tries. A star is close!',
-          closeToMastery) +
-        makeWatchSection('challenge-section', 'Challenge',
-          'Choose one or two of these to focus on the next few times you play.',
-          challengeFacts) +
+  var watchItems = watchAlmost.concat(watchNeeds, watchUnpracticed).slice(0, 8);
+
+  var TIER_LABELS = {
+    'almost':        'Almost automatic',
+    'needs-practice':'Needs practice',
+    'unpracticed':   'Not started yet'
+  };
+
+  var tooltipText = 'These facts are your best next steps. The game surfaces facts that are close to advancing a tier, or that have consistently shown up slow or wrong. Practicing these is the fastest way to light up your constellation.';
+
+  var watchHTML;
+  if (watchItems.length === 0) {
+    watchHTML = '<div class="mp-watch-empty">Your constellation is looking solid. Keep practicing to build toward mastery.</div>';
+  } else {
+    var itemsHTML = watchItems.map(function(item) {
+      var tierCls = item.tier;
+      var tierLabel = TIER_LABELS[tierCls] || '';
+      return '<div class="mp-watch-item">' +
+        '<span class="mp-watch-item-eq">' + item.eq + '</span>' +
+        (tierLabel ? '<span class="mp-watch-item-tier ' + tierCls + '">' + tierLabel + '</span>' : '') +
       '</div>';
+    }).join('');
+    watchHTML =
+      '<div class="mp-watch-top">' +
+        '<span class="mp-watch-subhead">Based on your constellation — the facts that\'ll move fastest with focused practice.</span>' +
+        '<button class="mp-watch-help" title="' + tooltipText + '">?</button>' +
+      '</div>' +
+      '<div class="mp-watch-list">' + itemsHTML + '</div>';
+  }
 
   // ── Render all three sections ─────────────────────────────────
   var activeOp = 'x';
@@ -6120,7 +6101,7 @@ function buildStatsScreen() {
       '</div>' +
       '<div class="mp-ctrl-row">' +
         '<button class="mp-ctrl-pill info-pill" id="mp-how-btn" onclick="document.getElementById(\'mp-how-panel\').classList.toggle(\'open\')">How this works ↓</button>' +
-        '<button class="mp-ctrl-pill" onclick="openThreshModal()">Fluency: ' + threshSec + 's &nbsp;<span class="mp-ctrl-action">Change</span></button>' +
+        '<span class="mp-ctrl-pill" style="cursor:default;">Fluency threshold: ' + threshSec + 's &nbsp;<button onclick="openThreshModal()" style="background:none;border:none;color:var(--a6);font-size:inherit;font-weight:700;cursor:pointer;padding:0;text-decoration:underline;">Change</button></span>' +
         '<button class="mp-ctrl-pill" onclick="toggleConstellationExt()">Facts ×1–' + (S.extendedTables ? '20' : '12') + ' &nbsp;<span class="mp-ctrl-action">' + (S.extendedTables ? 'Hide ×13–×20' : 'Show ×13–×20') + '</span></button>' +
       '</div>' +
       '<div class="mp-how-panel" id="mp-how-panel">' +
@@ -6462,7 +6443,7 @@ function openAssessmentSetup() {
   // Timer label
   var threshSec = ((S.fluencyTier && S.fluencyTier.fluencyMs) ? S.fluencyTier.fluencyMs : 3000) / 1000;
   var threshLabel = document.getElementById('assess-thresh-label');
-  if (threshLabel) threshLabel.textContent = threshSec + ' second' + (threshSec === 1 ? '' : 's');
+  if (threshLabel) threshLabel.textContent = threshSec + 's';
 
   // Hide family group for non-mult ops
   var groupBtn = document.getElementById('assess-scope-group-btn');
@@ -6825,7 +6806,7 @@ function assessAutoKick() {
   var f   = A.facts[A.cur];
   var key = factKey(f);
 
-  A.results.push({ key: key, label: factLabel(f), ms: A.threshMs, correct: false, tier: 'autokick' });
+  A.results.push({ key: key, label: factLabel(f), ms: A.threshMs, correct: false, tier: 'needs' });
 
   var fb = document.getElementById('assess-feedback');
   var inp = document.getElementById('assess-input');
@@ -6857,9 +6838,8 @@ function assessAutoKick() {
 
 // ── Tier from elapsed ms ─────────────────────────────────
 function getTierFromMs(ms, correct) {
-  if (!correct) return 'needs';
-  if (ms <= A.threshMs) return 'fluent';
-  return 'almost'; // answered but just over threshold (edge case with fast user input)
+  if (correct && ms <= A.threshMs) return 'mastered';
+  return 'needs';
 }
 
 // ── End assessment ───────────────────────────────────────
@@ -6868,11 +6848,9 @@ function endAssessment() {
   document.removeEventListener('keydown', assessKeydown);
 
   // Compute summary
-  var total = A.results.length;
-  var correct = A.results.filter(function(r) { return r.correct; }).length;
-  var fluent  = A.results.filter(function(r) { return r.tier === 'fluent'; }).length;
-  var almost  = A.results.filter(function(r) { return r.tier === 'almost'; }).length;
-  var needs   = total - fluent - almost;
+  var total    = A.results.length;
+  var mastered = A.results.filter(function(r) { return r.tier === 'mastered'; }).length;
+  var needs    = total - mastered;
 
   // Compute label
   var username = localStorage.getItem('sparkwright_active') || '';
@@ -6886,24 +6864,18 @@ function endAssessment() {
 
   var summaryRow = document.getElementById('assess-summary-row');
   summaryRow.innerHTML =
-    '<div class="assess-summary-stat"><div class="assess-summary-num" style="color:var(--text)">' + correct + '/' + total + '</div><div class="assess-summary-lbl">Correct</div></div>' +
-    '<div class="assess-summary-stat"><div class="assess-summary-num" style="color:var(--a6)">'  + fluent + '</div><div class="assess-summary-lbl">⚡ Fluent</div></div>' +
-    '<div class="assess-summary-stat"><div class="assess-summary-num" style="color:#c77dff">' + almost + '</div><div class="assess-summary-lbl">🔄 Almost</div></div>' +
-    '<div class="assess-summary-stat"><div class="assess-summary-num" style="color:var(--a4)">'  + needs  + '</div><div class="assess-summary-lbl">📚 Needs Practice</div></div>';
+    '<div class="assess-summary-stat"><div class="assess-summary-num" style="color:var(--text)">'  + mastered + '/' + total + '</div><div class="assess-summary-lbl">Mastered</div></div>' +
+    '<div class="assess-summary-stat"><div class="assess-summary-num" style="color:rgba(240,240,255,0.6)">' + needs + '</div><div class="assess-summary-lbl">Needs Practice</div></div>';
 
   function buildChips(tier) {
     return A.results
-      .filter(function(r) { return r.tier === tier || (tier === 'needs' && (r.tier === 'needs' || r.tier === 'autokick')); })
-      .map(function(r) {
-        var cls = (r.tier === 'autokick') ? 'autokick' : tier;
-        var suffix = r.tier === 'autokick' ? ' (—)' : '';
-        return '<span class="assess-result-chip ' + cls + '">' + r.label + suffix + '</span>';
-      }).join('');
+      .filter(function(r) { return r.tier === tier; })
+      .map(function(r) { return '<span class="assess-result-chip ' + tier + '">' + r.label + '</span>'; })
+      .join('');
   }
 
-  document.getElementById('assess-grid-fluent').innerHTML = buildChips('fluent') || '<span style="font-size:0.78rem;color:rgba(240,240,255,0.25)">None</span>';
-  document.getElementById('assess-grid-almost').innerHTML = buildChips('almost') || '<span style="font-size:0.78rem;color:rgba(240,240,255,0.25)">None</span>';
-  document.getElementById('assess-grid-needs').innerHTML  = buildChips('needs')  || '<span style="font-size:0.78rem;color:rgba(240,240,255,0.25)">None</span>';
+  document.getElementById('assess-grid-mastered').innerHTML = buildChips('mastered') || '<span style="font-size:0.78rem;color:rgba(240,240,255,0.25)">None</span>';
+  document.getElementById('assess-grid-needs').innerHTML    = buildChips('needs')    || '<span style="font-size:0.78rem;color:rgba(240,240,255,0.25)">None</span>';
 
   document.getElementById('assess-results-overlay').classList.add('visible');
 }
@@ -6913,11 +6885,9 @@ function saveAssessmentRecord() {
   var username = localStorage.getItem('sparkwright_active');
   if (!username) { showScreen('assess-area-screen'); return; }
 
-  var total   = A.results.length;
-  var correct = A.results.filter(function(r) { return r.correct; }).length;
-  var fluent  = A.results.filter(function(r) { return r.tier === 'fluent'; }).length;
-  var almost  = A.results.filter(function(r) { return r.tier === 'almost'; }).length;
-  var needs   = total - fluent - almost;
+  var total    = A.results.length;
+  var mastered = A.results.filter(function(r) { return r.tier === 'mastered'; }).length;
+  var needs    = total - mastered;
 
   var assessData = loadAssessments();
   var userData   = assessData[username] || { nextId: 1, records: [] };
@@ -6937,7 +6907,7 @@ function saveAssessmentRecord() {
     threshMs:   A.threshMs,
     akMs:       A.akMs,
     results:    A.results.slice(),
-    summary:    { total: total, correct: correct, fluent: fluent, almost: almost, needs: needs }
+    summary:    { total: total, mastered: mastered, needs: needs }
   };
 
   userData.records.push(record);
@@ -6967,9 +6937,13 @@ function printAssessRecord(username, recIndex) {
   var dateStr = rec.date ? new Date(rec.date+'T12:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) : '';
   var threshStr = (rec.threshMs/1000)+'s';
 
-  var fluent  = rec.results.filter(function(r){ return r.tier==='fluent'; });
-  var almost  = rec.results.filter(function(r){ return r.tier==='almost'; });
-  var needs   = rec.results.filter(function(r){ return r.tier==='needs'||r.tier==='autokick'; });
+  function normTierP(t) { return (t === 'mastered' || t === 'fluent') ? 'mastered' : 'needs'; }
+  var mastered = rec.results.filter(function(r){ return normTierP(r.tier)==='mastered'; });
+  var needs    = rec.results.filter(function(r){ return normTierP(r.tier)==='needs'; });
+
+  // Summary counts (backwards compat)
+  var masteredCount = s.mastered !== undefined ? s.mastered : (s.fluent || 0);
+  var needsCount    = s.mastered !== undefined ? s.needs    : (s.total - masteredCount);
 
   function factList(arr) {
     return arr.map(function(r){ return '<span class="print-fact-item">'+r.label+'</span>'; }).join('');
@@ -6985,12 +6959,11 @@ function printAssessRecord(username, recIndex) {
       '<div class="print-subtitle">'+dateStr+' · '+tablesStr+' · '+threshStr+' threshold</div>' +
     '</div>' +
     '<div class="print-name-line">Student: <span>'+username+'</span></div>' +
-    '<table class="print-table"><thead><tr><th>Total</th><th>Correct</th><th>Fluent (≤'+threshStr+')</th><th>Almost</th><th>Needs Practice</th></tr></thead>' +
-    '<tbody><tr><td>'+s.total+'</td><td>'+s.correct+'</td><td>'+s.fluent+'</td><td>'+s.almost+'</td><td>'+s.needs+'</td></tr></tbody></table>' +
+    '<table class="print-table"><thead><tr><th>Total</th><th>Mastered (≤'+threshStr+')</th><th>Needs Practice</th></tr></thead>' +
+    '<tbody><tr><td>'+s.total+'</td><td>'+masteredCount+'</td><td>'+needsCount+'</td></tr></tbody></table>' +
     '<div class="print-facts-section">' +
-      (fluent.length  ? '<div class="print-facts-group"><div class="print-facts-title">Fluent</div><div class="print-fact-list">'+factList(fluent)+'</div></div>' : '') +
-      (almost.length  ? '<div class="print-facts-group"><div class="print-facts-title">Almost</div><div class="print-fact-list">'+factList(almost)+'</div></div>' : '') +
-      (needs.length   ? '<div class="print-facts-group"><div class="print-facts-title">Needs Practice</div><div class="print-fact-list">'+factList(needs)+'</div></div>' : '') +
+      (mastered.length ? '<div class="print-facts-group"><div class="print-facts-title">Mastered</div><div class="print-fact-list">'+factList(mastered)+'</div></div>' : '') +
+      (needs.length    ? '<div class="print-facts-group"><div class="print-facts-title">Needs Practice</div><div class="print-fact-list">'+factList(needs)+'</div></div>' : '') +
     '</div>';
   document.body.appendChild(div);
   window.print();
@@ -7104,12 +7077,17 @@ function buildAssessmentRecords(container, username) {
     var dateStr = rec.date ? new Date(rec.date + 'T12:00:00').toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) : '';
     var threshStr = (rec.threshMs / 1000) + 's threshold';
 
-    var fluentChips = rec.results.filter(function(r){ return r.tier === 'fluent'; })
-      .map(function(r){ return '<span class="mp-assess-chip fluent">' + r.label + '</span>'; }).join('');
-    var almostChips = rec.results.filter(function(r){ return r.tier === 'almost'; })
-      .map(function(r){ return '<span class="mp-assess-chip almost">' + r.label + '</span>'; }).join('');
-    var needsChips  = rec.results.filter(function(r){ return r.tier === 'needs' || r.tier === 'autokick'; })
-      .map(function(r){ return '<span class="mp-assess-chip ' + (r.tier === 'autokick' ? 'autokick' : 'needs') + '">' + r.label + (r.tier === 'autokick' ? ' (—)' : '') + '</span>'; }).join('');
+    // Normalize tiers: old records may have fluent/almost/autokick
+    function normTier(t) { return (t === 'mastered' || t === 'fluent') ? 'mastered' : 'needs'; }
+    var masteredChips = rec.results.filter(function(r){ return normTier(r.tier) === 'mastered'; })
+      .map(function(r){ return '<span class="mp-assess-chip mastered">' + r.label + '</span>'; }).join('');
+    var needsChips = rec.results.filter(function(r){ return normTier(r.tier) === 'needs'; })
+      .map(function(r){ return '<span class="mp-assess-chip needs">' + r.label + '</span>'; }).join('');
+
+    // Summary counts (backwards compat: old records have s.fluent/s.almost/s.needs)
+    var masteredCount = s.mastered !== undefined ? s.mastered : (s.fluent || 0);
+    var needsCount    = s.needs    !== undefined ? (s.needs + (s.almost || 0)) : (s.almost || 0) + (s.needs || 0);
+    if (s.mastered === undefined && s.fluent !== undefined) needsCount = s.total - masteredCount;
 
     var escUser = (username || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     html +=
@@ -7120,14 +7098,11 @@ function buildAssessmentRecords(container, username) {
         '</div>' +
         '<div class="mp-assess-record-date" style="margin-bottom:5px;">' + dateStr + ' · ' + tablesStr + ' · ' + threshStr + '</div>' +
         '<div class="mp-assess-record-summary">' +
-          '<span class="mp-assess-stat total">' + s.correct + '/' + s.total + ' correct</span>' +
-          '<span class="mp-assess-stat fluent">⚡ ' + s.fluent + ' Fluent</span>' +
-          '<span class="mp-assess-stat almost">🔄 ' + s.almost + ' Almost</span>' +
-          '<span class="mp-assess-stat needs">📚 ' + s.needs + ' Needs Practice</span>' +
+          '<span class="mp-assess-stat total">' + masteredCount + '/' + s.total + ' mastered</span>' +
+          '<span class="mp-assess-stat needs">📚 ' + needsCount + ' Needs Practice</span>' +
         '</div>' +
-        (fluentChips ? '<div class="mp-assess-record-chips" style="margin-bottom:5px;">' + fluentChips + '</div>' : '') +
-        (almostChips ? '<div class="mp-assess-record-chips" style="margin-bottom:5px;">' + almostChips + '</div>' : '') +
-        (needsChips  ? '<div class="mp-assess-record-chips">' + needsChips + '</div>' : '') +
+        (masteredChips ? '<div class="mp-assess-record-chips" style="margin-bottom:5px;">' + masteredChips + '</div>' : '') +
+        (needsChips    ? '<div class="mp-assess-record-chips">' + needsChips + '</div>' : '') +
       '</div>';
   }
   container.innerHTML = html + '<div style="margin-top:10px;">' + btn + '</div>';
@@ -7172,12 +7147,14 @@ function buildAssessArea() {
       var dateStr = rec.date ? new Date(rec.date + 'T12:00:00').toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }) : '';
       var threshStr = (rec.threshMs / 1000) + 's threshold';
 
-      var fluentChips = rec.results.filter(function(r){ return r.tier === 'fluent'; })
-        .map(function(r){ return '<span class="mp-assess-chip fluent">' + r.label + '</span>'; }).join('');
-      var almostChips = rec.results.filter(function(r){ return r.tier === 'almost'; })
-        .map(function(r){ return '<span class="mp-assess-chip almost">' + r.label + '</span>'; }).join('');
-      var needsChips  = rec.results.filter(function(r){ return r.tier === 'needs' || r.tier === 'autokick'; })
-        .map(function(r){ return '<span class="mp-assess-chip ' + (r.tier === 'autokick' ? 'autokick' : 'needs') + '">' + r.label + (r.tier === 'autokick' ? ' (—)' : '') + '</span>'; }).join('');
+      function normTierA(t) { return (t === 'mastered' || t === 'fluent') ? 'mastered' : 'needs'; }
+      var masteredChips2 = rec.results.filter(function(r){ return normTierA(r.tier) === 'mastered'; })
+        .map(function(r){ return '<span class="mp-assess-chip mastered">' + r.label + '</span>'; }).join('');
+      var needsChips2 = rec.results.filter(function(r){ return normTierA(r.tier) === 'needs'; })
+        .map(function(r){ return '<span class="mp-assess-chip needs">' + r.label + '</span>'; }).join('');
+
+      var masteredCount2 = s.mastered !== undefined ? s.mastered : (s.fluent || 0);
+      var needsCount2    = s.mastered !== undefined ? s.needs : (s.total - masteredCount2);
 
       var escUser2 = username.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
       chips +=
@@ -7188,14 +7165,11 @@ function buildAssessArea() {
           '</div>' +
           '<div class="mp-assess-record-date" style="margin-bottom:5px;">' + dateStr + ' · ' + tablesStr + ' · ' + threshStr + '</div>' +
           '<div class="mp-assess-record-summary">' +
-            '<span class="mp-assess-stat total">' + s.correct + '/' + s.total + ' correct</span>' +
-            '<span class="mp-assess-stat fluent">⚡ ' + s.fluent + ' Fluent</span>' +
-            '<span class="mp-assess-stat almost">🔄 ' + s.almost + ' Almost</span>' +
-            '<span class="mp-assess-stat needs">📚 ' + s.needs + ' Needs Practice</span>' +
+            '<span class="mp-assess-stat total">' + masteredCount2 + '/' + s.total + ' mastered</span>' +
+            '<span class="mp-assess-stat needs">📚 ' + needsCount2 + ' Needs Practice</span>' +
           '</div>' +
-          (fluentChips ? '<div class="mp-assess-record-chips" style="margin-bottom:5px;">' + fluentChips + '</div>' : '') +
-          (almostChips ? '<div class="mp-assess-record-chips" style="margin-bottom:5px;">' + almostChips + '</div>' : '') +
-          (needsChips  ? '<div class="mp-assess-record-chips">' + needsChips + '</div>' : '') +
+          (masteredChips2 ? '<div class="mp-assess-record-chips" style="margin-bottom:5px;">' + masteredChips2 + '</div>' : '') +
+          (needsChips2    ? '<div class="mp-assess-record-chips">' + needsChips2 + '</div>' : '') +
         '</div>';
     }
     recordsHTML =
