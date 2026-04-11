@@ -70,28 +70,41 @@ You've been working with Kimberly across many sessions on a project she's buildi
 | `dev/Math_Flash_Code_Rationale.md` | Why the code is structured the way it is |
 | `dev/Sparkwright_File_Manifest.md` | Dev folder structure reference |
 | `dev/Agent_Handoff.md` | Wright ↔ Spark coordination |
-| `games/mathflash/index.html` | Live game (current: v60) |
-| `dev/2026-03-28_1530_Math_Flash_v60_scroll-house-placeholder-maxlength.html` | Current working backup |
+| `games/mathflash/index.html` | Live game (current: v78) |
 
 ---
 
 ## Current Version
 
-**Math Flash v74** — live at `games/mathflash/index.html` (no backup file — all changes committed directly)
-Landing page: `sparkwright/index.html` (updated Session X)
+**Math Flash v78** — live at `games/mathflash/index.html` (no backup file — all changes committed directly)
+Landing page: `sparkwright/index.html` (updated Session AE)
 
-## Session AE Build Summary (v72–v74)
-- Star Scan inline answer reveal (no layout jump) ✓
-- Landing page: Practice primary, secondary row w/ colored borders, warm starfield ✓
-- Righteous font on title logo ✓
-- Subtitle updated to "A learner-first math fact mastery tool built for targeted practice." ✓
-- Welcome/new-user flow + Switch User menu via header chip ✓ (but welcome flow still broken — see Handoff)
-- Restart Star Scan restarts the scan itself ✓
-- Star Scan scroll bug fixed (overflow:hidden) ✓
-- Scan-continues-after-Exit bug fixed (advanceTimeout tracking) ✓
+## Session AI Build Summary (v75–v78)
+- Auto-generated username picker in Math Flash (mirrors Sparkwright homepage) ✓ (v75/v76)
+- Welcome flow: 2-step overlay (greeting + Beginning Star Scan placeholder offer) ✓ (v76)
+- Profile chip context-awareness: title screen → Switch User menu; mid-game → navigation menu ✓ (v75)
+- Mid-game nav overlay (Main Menu / My Constellation) ✓ (v75)
+- `mathflash_onboarded_[username]` flag — prevents double-welcome for users from homepage ✓ (v75)
+- Delete user fix (Sparkwright homepage): stays on switcher after deletion ✓ (v75/v76)
+- Print per Star Scan record button ✓ (v75)
+- Avatar grid UI fix — 10 columns, no scroll, card width 600px ✓ (v77)
+- Copy fix: "earn your constellation" → "light up your constellation" ✓ (v76)
+- **Star Scan two-bucket model** — mastered (correct ≤ threshold) / needs practice (all else). Removed fluent/almost/autokick from all Star Scan paths. Old records normalize on render. ✓ (v78)
+- **Facts to Watch redesign** — Spark Session AH spec: single priority list (Almost→Needs Practice→Unpracticed), cap 8, sorted by lastSeen oldest first, per-fact tier labels, subhead + tooltip, new empty state. ✓ (v78)
+- **Fluency threshold one-liner** — My Constellation + Star Scan setup show read-only threshold with inline "Change" link (opens thresh-modal). ✓ (v78)
+- **Star Scan pop-out card copy** — updated "When to use it" and "A few things to know" to Spark Session AF copy. ✓ (v78)
 
 ## ⚠️ Open Items — Start Next Session Here
-Read the top section of `Agent_Handoff.md` — there is a detailed build queue with several items needing Spark input before building (auto-generated usernames, Star Scan two-bucket results model). Do NOT start coding the username or results system until Spark weighs in.
+**Next session = testing session.** All v75–v78 items need verification before moving forward. Read `Agent_Handoff.md` for the full testing queue. Key items to check:
+1. Star Scan full flow — run a scan, verify results show Mastered/Needs Practice (not Fluent/Almost/Autokick)
+2. Facts to Watch — verify with practice data; verify empty state for users with all facts Fluent/Mastered
+3. Fluency threshold one-liner — verify "Change" link opens modal from both My Constellation and Star Scan setup
+4. Username picker — full create flow from Math Flash title page (new user and "Add New User")
+5. Welcome flow — verify triggers for: (a) new user via MF title, (b) existing Sparkwright user first visit to MF
+6. Profile chip — title screen → Switch User, mid-game → nav menu
+7. Delete user — verify stays on switcher after deletion (Sparkwright homepage)
+8. Print per record — verify 🖨 button on each Star Scan record
+Do NOT build new features until testing is complete. Fix bugs found during testing.
 
 ---
 
