@@ -192,44 +192,41 @@ One-time purchase per game, a la carte. No account required for core experience.
 ## Current State of Open Work
 *(Replace this section at each session end — do not append)*
 
-### As of Session AG — April 10, 2026
+### As of Session AH — April 11, 2026
 
 **What Wright built since Session AB (v63–v73):**
 - ✅ Student Dashboard / Fact Constellation — built (items 147/66/140)
 - ✅ Star Scan (formerly Assessment Mode) — built, all three scope variants (Full / Per-Table / Family Groups), moved to dedicated screen with title page button (v72/v73)
 - ✅ Assessment data confirmed clean — `saveAssessmentRecord()` writes only to `mathflash_assessments`, constellation reads only from `mathflash_facts`. No cross-contamination.
 
-**What happened Session AG (Spark — April 10, 2026):**
-- **Star Scan two-bucket model confirmed** — binary: mastered (correct within threshold) / needs practice (everything else). No "almost" tier in Star Scan. No distinction between fast-fluent and almost-fluent in a single-pass snapshot — a single attempt has no variance data, so the distinction would be false precision. Results color: neutral silver/white, NOT purple (purple = constellation tier, would conflate the two systems). "13 mastered" in Star Scan = answered correctly within threshold, full stop. Shipped to Wright.
-- **Smart fact prioritization model** — unpracticed trumps recency (lastSeen is only meaningful when practice history exists); 2–3 unpracticed facts per round cap in standard mode; Smart Practice mode weights higher. Within the known-facts bucket, sort by lastSeen recency (longest unseen first). Applies to all modes at mode-appropriate injection rates. Shipped to Wright.
-- **Beginning Star Scan redesigned — two-tier architecture:**
-  - *Quick Start Scan* (~20 facts, ~5 min): stratified sample, 2 facts per table (one easier, one harder per known difficulty hierarchy). Output = table-level picture (which tables to target) — not per-fact detail. Default onboarding path. Better ghost constellation seed than full scan: lights up anchor facts with most still dim = stronger conversion hook.
-  - *Full Star Scan* (per-fact, all facts in selected scope): paid-tier deep-dive. Per-fact picture. Can be split into a multi-session scan (see below).
-- **Multi-session Full Star Scan — paid feature, spec'd, NOT build-ready:**
-  - 3 sessions for multiplication, difficulty-tiered: Session 1 = anchor facts (×0,1,2,5,10); Session 2 = mid-tier (×3,4,6,9); Session 3 = hard facts (×7,8 cross-products).
-  - 4-week completion window — soft advisory, no hard block. Advisory copy: *"Your Beginning Star Scan has a 4-week window to complete all sessions — designed to accommodate real schedules, including once-weekly sessions. For best results, complete all sessions within 1–2 weeks. The closer together your sessions are, the more your baseline reflects where your student is right now."*
-  - Teacher can seal the scan at any point — completed portion populates constellation, untested facts remain unlit (unpracticed).
-  - Session progress indicator shown to student and teacher.
-  - Printable output: unified record showing all sessions (dates, facts covered, results per session, combined summary).
-  - Session count per operation: multiplication = 3 confirmed. Addition/subtraction/division TBD pending beta testing.
-  - Full design spec in handoff. Design session with Kimberly required before Wright builds.
-- **Orientation design principle** — orientation matters for ALL operations and must be factored into initial assessment build, not added later. Addition: 3+4 vs 4+3; subtraction: 12−4 vs 12−8; multiplication: 3×4 vs 4×3; division: 28÷4 vs 28÷7. Students don't automatically transfer between orientations. All assessment instruments must account for this — affects question count and sampling design. Flagged for Wright.
-- **Revenue model confirmed (Flint)** — 10-session free trial, one-time paid unlock (constellation + print reports + Star Scan records). Full game always works free. Lemon Squeezy recommended, 3-device activation. Design session with Kimberly before Wright builds payment UI.
-- **New file to create:** `dev/Math_Flash_Game_Logic.md` — game design reference capturing all logic, data gathering, and decision-making rationale. Harvest from RP, handoff, and session decisions. Draft next Spark session.
-- **Wake-up prompt tightened** — see updated bootstrap prompt at top of this file.
+**What happened Sessions AG–AH (Spark — April 10–11, 2026):**
+- **Star Scan two-bucket model confirmed** — binary: mastered / needs practice, neutral color. Shipped.
+- **Smart fact prioritization model** — unpracticed trumps recency; 2–3 cap in standard modes. Shipped.
+- **Beginning Star Scan two-tier architecture confirmed:**
+  - *Quick Start Scan* — free/trial path. ~20 facts, table-level, single orientation per table. Confirmed.
+  - *Full Star Scan* — paid tier only. Per-fact, exhaustive. Confirmed.
+- **Multi-session Full Star Scan — fully designed and shipped (Session AH).** Build-ready for beta. Full spec in handoff + Game_Logic.md Section 9. 3 sessions (multiplication), per-session constellation update, resume flow, 4-week soft advisory, seal mechanic. Print layout pending Pip.
+- **Orientation design principle** — flagged for all operations. Shipped.
+- **Fluency threshold UI confirmed** — one Settings panel from chip/header; read-only contextual note in My Constellation + Star Scan setup. Shipped.
+- **"Facts to Watch" copy** — finalized and shipped (Session AH).
+- **"How to Play" card copy** — fully revised and shipped (Session AH). 5 items rewritten to middle-school voice; "reveal" replaces "flip/reveal"; Practice Quest trigger = 2 wrong answers; mini-games described generically; trophy icon flagged for Pip.
+- **Data backup + Competitive Mode** — recommendations approved and shipped.
+- **Lemon Squeezy** — Kimberly initiated account creation. Payment flow design session still needed before Wright builds.
+- **`dev/Math_Flash_Game_Logic.md`** — created Session AG. Living design reference for all systems.
+- **iReady deep dive** — completed Session AH. Section K added to ConsumerData. Key findings: federal lawsuit (Dec 2025, data harvesting allegations), 13–14M students, $750M revenue, 89% one-star Trustpilot, failure-loop diagnostic, EdReports nuance documented (curriculum only ≠ diagnostic). Positioning implications logged.
+- **Journaling deferred** — Kimberly confirmed: not useful until site is more fleshed out.
 
 **Note on required reading (token efficiency):**
 Not every session needs the full RP + ConsumerData. Bootstrap + Handoff only unless session involves research, citations, consumer data, or positioning copy.
 
 ### Open Items
 
-**Blocking Wright (highest priority):**
-- [ ] **"Facts to Watch" copy** — Wright wrote placeholder descriptions; developer has specific copy in mind. **Get exact copy from Kimberly at start of next Wright session before anything else on constellation.**
-
 **Design spec'd, not build-ready yet (Wright: read handoff before building these):**
-- [ ] **Quick Start Scan + Full Star Scan two-tier architecture** — spec in handoff. Orientation design principle must be factored in.
-- [ ] **Multi-session Full Star Scan** — paid tier, difficulty-tiered sessions, 4-week window, seal-at-any-point, unified printable record. Full spec in handoff. Design session with Kimberly first.
+- [ ] **Quick Start Scan + Full Star Scan two-tier architecture** — spec in handoff. Orientation design principle must be factored in. Full Star Scan = paid tier only (confirmed).
+- [x] **Multi-session Full Star Scan** — fully designed Session AH. Build-ready for beta. Full spec in handoff + Game_Logic.md Section 9. Printable record layout pending Pip.
 - [ ] **Beginning Star Scan data routing** — Quick Start seeds table-level tiers; Full Star Scan seeds per-fact tiers. Design before wiring.
+
+**Fluency threshold UI — CONFIRMED (Session AH):** One Settings panel from chip/header. Read-only contextual note in My Constellation + Star Scan setup with link to Settings. Shipped to Wright.
 
 **New MPF items (not blocking, don't build yet):**
 - [ ] Tier freshness flags — internal only; gates forward progress on near-mastery facts; mastered facts refreshed via Smart Practice maintenance sprinkle
@@ -238,34 +235,34 @@ Not every session needs the full RP + ConsumerData. Bootstrap + Handoff only unl
 - [ ] Full constellation mastered ceremony — celebration screen + profile badge + printable certificate
 - [ ] Mode placement redesign — mode selection (Smart Practice + per-question timer foregrounded) before settings in setup flow
 - [ ] User reset option — full reset vs. per-operation reset; destructive, confirmation step required; design before building
-- [ ] New user onboarding/setup series — username → operations → fluency threshold → option to take Quick Start Scan, Full Star Scan, or skip; full design session on its own
+- [ ] New user onboarding/setup series — username → operations → fluency threshold → option to take Quick Start Scan or skip; full design session on its own
 - [ ] Star Scan UX pass — visual appeal, neutral timer bar, no gold flash on unanswered facts, pause between facts, dynamic problem count; all spec'd in handoff
+- [ ] Data backup/download — JSON per user, My Constellation settings, quiet 10-session nudge. Shipped to Wright. Kimberly reviews during testing. Lex to review Privacy Policy language.
+- [ ] Competitive Mode — turn-based, display-only scoring, no constellation writes, existing Practice scope. Shipped to Wright. Build after beta.
 
 **Revenue/payment (design before build):**
-- [ ] **Payment/licensing flow design session** — Lemon Squeezy recommended, 3-device activation. Design unlock flow + license key UI + upgrade prompt before Wright builds. Kimberly must approve processor choice.
+- [ ] **Payment/licensing flow design session** — Lemon Squeezy account initiated by Kimberly (April 11). 3-device activation. Design unlock flow + license key UI + upgrade prompt before Wright builds. Processor choice confirmed; flow design still needed.
 
 **Lex items (flagged Session AA):**
 - [ ] **COPPA pre-assessment**
 - [ ] **Positioning language review** — "your data stays on your device by default"
-
-**Journaling — first passes done, loose ends remain:**
-- [~] **Who is she?** — Two clarifying questions unanswered: (1) context of use; (2) XtraMath personal experience or by reputation?
-- [~] **3-month signals** — Open: pre-launch signals before there are users.
-- [~] **5-year vision** — Open: mobile priority (iOS vs. PWA)?
+- [ ] **Data backup Privacy Policy line** — note that users can export their own locally-stored data
 
 **Research/copy still not done:**
-- [ ] **"Why memorize math facts" content** — Two deliverables: (1) FAQ/About copy: evidence-based case for math fact fluency for parents/teachers. (2) Title page interactive/visual element (alchemy/ember aesthetic, button opens content — not a text block). Design brief to Pip when copy is ready.
+- [ ] **"Why memorize math facts" content** — Two deliverables: (1) FAQ/About copy: evidence-based case for math fact fluency for parents/teachers. (2) Title page interactive/visual element (alchemy/ember aesthetic, button opens content). Design brief to Pip when copy is ready.
+- [x] **iReady competitive research** — deep dive completed Session AH. Section K added to ConsumerData. Pointer added to RP Section 5. See ConsumerData Section K for full findings, sources, and positioning implications.
+- [ ] **iReady → About page / FAQ copy pass** — positioning implications are documented; copy applying them has not been drafted. When FAQ and About page work resumes, draw from ConsumerData K: local-first as values statement (not just technical note), Practice Quest as the designed answer to iReady's failure loop. Keep iReady diagnostic vs. curriculum distinction sharp.
 - [ ] Play the competition for one hour. XtraMath heat map format still unverified.
 - [ ] Verify spacing effect citations: Cepeda et al. (2006), Rohrer & Taylor (2006) — flagged *(needs verification)* in RP
-- [ ] Draft — target user profile final version
+- [ ] Draft — target user profile final version (deferred; revisit when site is more flushed out)
 - [ ] Draft — marketing copy sentence ("Math Flash is for families who...")
 - [ ] Draft — FAQ outline (after constellation/assessment design settles; FAQ items from Session AB logged in RP)
 - [ ] Copy pass — home page game cards + value list (developer doing; update Spark when done)
 - [ ] r/specialeducation + r/ADHD_parents — Reddit blocked Session N. High value, token-rich session.
 - [ ] Well-Trained Mind forums — developer opens manually, pastes. URLs in ConsumerData Section J.
 
-**New file to create:**
-- [ ] `dev/Math_Flash_Game_Logic.md` — game design reference. Captures logic, data gathering, and decision-making rationale for all systems. Harvest from RP, handoff, session decisions. Draft next session.
+**Key files:**
+- [x] `dev/Math_Flash_Game_Logic.md` — created Session AG. Living design reference for all game systems.
 
 **Operations — multi-session scan session count:**
 - [ ] Session count per operation TBD pending beta testing. Multiplication = 3 confirmed. Flag as Spark design discussion after beta testing.

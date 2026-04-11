@@ -537,6 +537,9 @@ Almost no consumer math program goes past ×12. Confirmed market gap. Particular
 
 ## 5. Competitive Landscape
 
+**iReady — see ConsumerData Section K for full deep dive (April 11, 2026).**
+Key facts: federal class-action lawsuit filed Dec 2025 alleging student data harvesting and sale; 13–14M students; $750M annual revenue; private equity-backed; 89% one-star Trustpilot; adaptive diagnostic designed to end in failure with no in-moment support. EdReports gave iReady *Classroom Mathematics* (curriculum materials product) a perfect score March 2024 — this is distinct from the diagnostic/MyPath platform that is the subject of all criticism. Do not conflate. Positioning implications: local-first architecture is the structural opposite of iReady's data model; Practice Quest is the designed answer to iReady's failure-point-with-no-support design. iReady is school-sold and not a direct competitor — but parents Math Flash is targeting have almost certainly encountered it.
+
 ### Summary (from research to date)
 The dominant platforms fall into two categories:
 

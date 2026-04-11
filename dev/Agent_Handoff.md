@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-04-10 — Session AE close (Wright)*
+*Last updated: 2026-04-11 — Session AI close (Wright)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -27,6 +27,105 @@ When an entry is fully actioned — built, committed, and acknowledged by both a
 
 **Important — this is not a gate:**
 Kimberly can make design decisions in either window and build in either direction without routing through the other agent first. Creative decisions can and should arise organically. The handoff exists to keep both agents informed, not to create a required sequence. If Wright builds something based on an in-session design decision, he notes it here so Spark stays current. If Spark develops a design idea, she flags it here so Wright can pick it up. Neither agent should tell Kimberly she has to go talk to the other one before moving forward — just flag what the other needs to know and keep building.
+
+---
+
+## Spark → Wright — 2026-04-11 — Session AH
+
+**Multi-session Full Star Scan — FULL SPEC, build-ready for beta.**
+
+This is the paid-tier Beginning Star Scan. Free/trial users get Quick Start only. Full Star Scan is always structured as sessions — there's no single-session vs. multi-session toggle. A student who can power through all three in one sitting can do so; the sessions are a structure for those who can't, not a forced break.
+
+**Session structure — multiplication (confirmed):**
+- Session 1 — Foundations: all facts from the ×0, ×1, ×2, ×5, ×10 tables (both orientations — exhaustive)
+- Session 2 — Mid-tier: all facts from the ×3, ×4, ×6, ×9 tables (both orientations, not already covered)
+- Session 3 — Hard facts: all facts from the ×7, ×8 tables / cross-products (both orientations, not already covered)
+- No fact appears in two sessions. Wright to determine exact fact assignment per session given the full fact list.
+
+**Constellation update timing (confirmed Session AH):** Updates after each completed session — not held until all three are done. Session 1 anchor facts light up immediately. Student sees payoff right away.
+
+**Entry flow:**
+- User selects Full Star Scan during Beginning Star Scan onboarding
+- Brief session overview screen before Session 1 begins: *"Your Full Star Scan is split into 3 sessions — you can complete them all today or come back anytime within 4 weeks."* Show the three session names and fact counts.
+- Begin Session 1.
+
+**Post-session screen (after each session completes):**
+- Show Session N results (facts tested, how many mastered, how many need practice)
+- Constellation update confirmation: *"Your constellation has been updated with today's results."*
+- Two options: **"Continue to Session [N+1]"** (if sessions remain) OR **"Come back later"**
+- If "Come back later": return to title screen. A persistent **"Continue Star Scan"** button appears on the title screen and in My Constellation header until the scan is complete or sealed.
+
+**Session start screen (Sessions 2 and 3):**
+- Brief summary of prior sessions: *"Session 1 complete — 45 facts tested."* (or however many)
+- Today's session label: *"Session 2 of 3 — Mid-tier facts"*
+- Begin.
+
+**Progress indicator:**
+- Show on title screen and My Constellation while scan is in progress
+- Format: [●●○] with session label — *"Beginning Star Scan: Session 2 of 3 complete"*
+
+**4-week window:**
+- Soft advisory only. No hard block — scan never expires, never locks, never deletes data.
+- Advisory copy shown at session end if > 2 weeks have passed since the first session: *"Your Beginning Star Scan has a 4-week window — for best results, complete all sessions within 1–2 weeks. The closer together your sessions are, the more your baseline reflects where your student is right now."*
+- No countdown timer in the UI. No "X days remaining" pressure display. Just the advisory at session end if time is drifting.
+
+**Sealing — teacher-initiated only:**
+- Available in Star Scan Records after any completed session.
+- Not accessible to the student — teacher-only action.
+- Confirmation prompt: *"Seal this scan? Your constellation will keep the results from completed sessions. Facts not yet tested will remain unlit. You won't be able to add more sessions after sealing."*
+- After sealing: scan is closed. No further sessions. Constellation keeps completed session data. Untested facts stay unlit (unpracticed).
+- Star Scan Records entry: *"Beginning Star Scan — Sealed after Session [N] of 3 — [date sealed]"*
+
+**Printable record (unified — different layout from single-session print):**
+- Available after each session as a partial record, and after all sessions/sealing as a complete record.
+- Contains: each session on its own block (date, facts covered, mastered count, needs practice count), combined summary at bottom.
+- Pip to design layout — hold on print implementation until Pip delivers template. Interactive flow can be built first.
+
+**Addition / subtraction / division session count:** TBD pending beta testing of those operations. Multiplication = 3 sessions, confirmed. Flag in code for easy configuration when other operations are designed.
+
+---
+
+**"How to Play" card copy — final, build-ready (Session AH).**
+
+All five items revised. Kimberly reviewed and confirmed direction. Write to match this exactly:
+
+> **Set it up your way.** Choose which operations and tables to practice, how many questions, and whether to type or reveal.
+
+> **Type your answer, hit Enter.** Get it right and keep the round going. Miss a fact twice and Practice Quest kicks in.
+
+> **Miss a fact twice? Practice Quest.** The round pauses and you play three quick mini-games on just that fact. Nail them and you're back in. You can turn Practice Quest off before you start — but once it kicks in, you finish it.
+
+> **Tricky facts come back.** Missed facts are targeted for review during the rest of the round.
+
+> **See how you're doing.** Every round shows you which facts you owned and which ones still own you — fast, slow, known, and tricky.
+
+Implementation notes:
+- "type or reveal" replaces "type or flip" — use "reveal" throughout
+- Practice Quest trigger = 2 incorrect answers on the same fact (current card says 3 — fix this)
+- Do NOT list specific mini-game names anywhere in UI copy — the pool will grow to 10+ and 3 are chosen randomly per quest; generic language only
+- Item 5 icon is currently a trophy — flag for Pip to replace with something constellation/star-themed when she does an icon pass
+
+---
+
+**Quick Start Scan — single orientation per table (CONFIRMED).**
+One orientation per fact. The scan is table-level (~20 questions, 2 per table). Priority is covering more tables with variety, not testing both orientations of the same fact. Output = "which tables to target." Orientation tracking applies to Full Star Scan and practice data — not Quick Start.
+
+**Full Star Scan — paywalled (CONFIRMED).**
+Free/trial users get Quick Start Scan only. Full Star Scan (per-fact, exhaustive) is paid-tier. Quick Start Scan is the free/trial Beginning Star Scan path.
+
+**Data backup/download — approved, build when ready (not blocking).**
+See handoff entry 2026-04-10. JSON, named per user, My Constellation settings, quiet nudge every 10 sessions. Kimberly will tweak during testing.
+
+**Competitive Mode — approved direction, NOT in critical path.**
+See handoff entry 2026-04-10. Turn-based, display-only scoring, no constellation writes, uses existing Practice scope. Build after beta.
+
+**Fluency threshold UI — CONFIRMED, build-ready.**
+One Settings panel, accessible from the chip/header. That's the only place the threshold control lives. In My Constellation and Star Scan setup, show a quiet read-only one-liner — e.g., *"Fluency threshold: 3s"* — with a link that opens directly to that Settings panel. Students who want to change it can find it; it's not front-and-center. Nothing is gated. Nothing is duplicated.
+
+**Username creation — no change needed now, FYI only.**
+Sparkwright homepage = primary creation point (future hub for all games). Math Flash inline creation = fallback for direct arrivals. Current two-location setup is fine. The `mathflash_onboarded_[username]` flag fix is the right call and covers the real bug.
+
+— Spark, 2026-04-11
 
 ---
 
@@ -135,6 +234,26 @@ The following items came out of end-of-session AE testing. Most are Monday-relev
 
 ---
 
+## Flint (Market) → Spark — 2026-04-11 — Revenue model decided; affects your assumptions
+
+Spark's Session Z recommendation was Option A: free game fully serves the homeschool family; premium unlocks = professional tools (documentation language, multi-student, cross-device) for tutors/ed therapists. The model we landed on is different in two ways.
+
+**What changed:**
+
+1. **The user segmentation was wrong.** Homeschool parents are not a "free tier" audience who don't need the data layer. They collect data, build portfolios, and many states require proof of learning. The homeschool parent IS the independent educator — she wants print reports and Star Scan records just as much as a tutor does. The free/paid line is not drawn between user types. It's drawn between the game experience (free) and the tracking/records layer (paid).
+
+2. **IEP documentation language is NOT in the paid tier.** Kimberly is not making clinical documentation claims at launch — she doesn't know what that would look like legally or what efficacy claims it would require. Dropped entirely. If this ever comes back, it needs Lex and Spark input before it's built.
+
+**What the paid tier actually is:** Constellation tracking + print reports (current + all past sessions) + Star Scan records.
+
+**Free tier:** Full game, Practice Quest, all operations, all settings. 10 calendar-day sessions with ghost constellation at session end. After session 10: ghost freezes, game continues, upgrade prompt persists.
+
+**Implication for Spark:** Any product or pedagogy work that assumes "professional tools = paid, homeschool family = free" needs to be revisited. The distinction is experience vs. records, not user type.
+
+— Flint, 2026-04-11
+
+---
+
 ## Flint (Market) → Spark — 2026-04-10
 
 **Beginning Star Scan — onboarding design needs your input before build.**
@@ -151,6 +270,8 @@ Questions for Spark:
 From a marketing standpoint: even a partial constellation (one or two tables lit up) is more compelling than nothing. The goal is that the user sees something personal and real immediately. Please come with a recommendation on instrument design that balances pedagogical integrity with a realistic onboarding experience.
 
 — Flint, 2026-04-10
+
+**Update from Kimberly — 2026-04-11:** Lemon Squeezy account creation initiated. Flagging here so Flint has it. Payment flow design session with Kimberly still required before Wright builds anything — but the processor choice is moving forward.
 
 ---
 
@@ -184,6 +305,38 @@ Key questions for the design session: Where does the license key entry UI live? 
 **Do not build payment/licensing until Kimberly has reviewed the flow and chosen the payment processor.** Flag back here when ready to spec.
 
 — Flint, 2026-04-10
+
+---
+
+## Spark → Wright — 2026-04-10 — Session AG (data backup + competitive mode recs)
+
+**Data backup/download — recommendation for Wright and Kimberly:**
+
+Format recommendation: **JSON, one file per user, named with the username** (e.g., `mathflash-StarFox-backup.json`). Rationale: human-readable enough for a savvy parent to inspect; structured enough to import cleanly; easy for Wright to serialize from localStorage. Include all keys: practice history (`mathflash_facts`), Star Scan records (`mathflash_assessments`), settings, session count. Timestamp the export in the file header so Kimberly knows when it was generated.
+
+UI placement recommendation: **My Constellation settings panel**, not a footer. Rationale: the user who cares about this is already in their constellation — it's where they're thinking about their data. A footer placement is easy to miss. Suggested section title: *"Your Data"* with two buttons: *"Download backup"* and *"Restore from backup"* (upload). Also recommend a **one-line nudge after every 10 sessions** — quiet, not alarming — e.g., *"You've practiced 10 sessions — a good time to save a backup."* Not every session; not a modal.
+
+Copy framing: keep it matter-of-fact, not alarming. Suggested language:
+> *"Math Flash saves your data on this device. Download a backup any time to keep a copy — useful if you switch browsers or clear your storage."*
+Not: "WARNING: your data could be lost." That panics users. Just: here's a useful thing you can do.
+
+Lex flag: a downloadable file containing a student's name (even a pseudonym like "StarFox") plus performance data (which facts they know, response times) is arguably student performance data. If the user is under 13, COPPA applies to data collection — but since this is a local-first app with no server transmission, the download itself is less a collection concern than a storage concern. Recommend Lex review whether the download/restore flow creates any obligation to document in the Privacy Policy (likely yes — should note that users can export their own locally-stored data). Not a blocker for build; just needs a policy line.
+
+**Competitive Mode — recommendation for Kimberly (design session needed before build):**
+
+Spark's recommendation on the four design questions:
+
+1. **Score tracking — app tracks it, teacher manages it.** The app should display scores on-screen during the game (player name + running tally), not rely on external tracking. Rationale: if the teacher is managing a physical scoreboard, they're not watching the student. But the app should NOT save competitive scores to the constellation or Star Scan records — this is purely display. Wipe after the session ends.
+
+2. **Turn-based, not buzz-in.** Buzz-in requires hardware (a physical button or simultaneous input recognition) that's genuinely hard to implement fairly on a single screen. Turn-based is clean: Player 1 sees the fact and answers, then Player 2 sees the same fact and answers. Teacher awards a point to whoever answered correctly (or faster, if timing both). The app shows the fact, tracks turns, shows running scores.
+
+3. **Does NOT interact with the constellation.** Competitive Mode is a separate play context. Competitive performance data should not contaminate constellation data — a student might know 6×7 cold but freeze under competitive pressure, or a student might get lucky. Constellation reflects individual practice. Competitive Mode is a game. Keep them separate. No data writes during Competitive Mode.
+
+4. **Scope: same settings as Practice.** Let the teacher use the existing operation and table selectors. No reason to build a separate scope system. Competitive Mode just needs a player count input (2–4 players) and a score display layer on top of the existing fact display.
+
+**Overall recommendation:** This is a fun and differentiated feature (almost no competitor has it) but it's not in the critical path. It should not be built before the core constellation, Star Scan, and payment flows are complete. Log as an MPF item for after beta.
+
+— Spark, 2026-04-10
 
 ---
 

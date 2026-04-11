@@ -1,6 +1,6 @@
 # Consumer Data & Market Intelligence
 *Created: March 24, 2026 — Session L*
-*Last updated: March 25, 2026 — Session N (forum research pass, 4 new sources, to-do updated)*
+*Last updated: April 11, 2026 — Session AH (iReady deep dive — Section K added; federal lawsuit, market footprint, teacher/parent sentiment, positioning implications)*
 *Based on: 8 scraped Reddit threads + 4 forum/review sources + MPF and RP project files + web research on competitors*
 
 ---
@@ -655,6 +655,144 @@ The following tools were surfaced in the Session S competitive survey. Each need
 - [ ] **DeltaMath for Home** (family subscription) — immediate feedback; check: any in-moment remediation or just correction?
 - [ ] **MobyMax Fact Fluency** (mobymax.com) — school tool; check: wrong answer, ND accommodation, data model
 - [ ] **Reddit: "Imagine Math Facts alternative"** — search r/homeschool for parents who lost access and what they tried next
+
+---
+
+## K. iReady Deep Dive — April 2026 Research Pass
+
+*Research conducted April 11, 2026 via live web search. Sources named throughout. Methodology: search result excerpts and metadata — full article text not retrieved in all cases; flagged where this matters.*
+
+**Research standard:** All findings below are sourced. Claims attributed to sources are reported claims (what the source says), not independently verified facts. The federal lawsuit allegations are unproven — Curriculum Associates has not been found liable. Synthesized observations are marked as such.
+
+---
+
+### Current Moment (as of April 2026)
+
+iReady has moved from a target of educator frustration to the subject of active federal litigation and mainstream media coverage. The dominant current themes: no credible independent evidence of effectiveness, student emotional harm, data privacy exploitation of minors, and systematic teacher deskilling.
+
+**The lawsuit — M.C. v. Curriculum Associates (filed December 22, 2025, federal court, Massachusetts):**
+Key allegations per EdTech Law Center and plaintiff's public statements:
+- Curriculum Associates' "core business model depends on harvesting massive amounts of student data, monetizing it, and sharing children's personal information with dozens of third parties for commercial purposes."
+- The company builds "deeply invasive psychological and behavioral profiles" on students.
+- CA sells "highly intimate academic and psychographic profiles of children" to "advertising, marketing, and consumer-data-profiling companies."
+- The platform tracks "every click, scroll, keystroke, and pause" — including on school-issued devices used at home.
+- The company "evades child-privacy laws by forcing families to surrender basic privacy rights in exchange for a public education."
+
+The lead plaintiff's attorney runs a podcast called "Scrolling 2 Death" and has been publicly visible on social media — this is an intentional public-facing campaign, not a quiet legal filing.
+
+Viral teacher-community summary (Threads, @teachernoire, widely shared): *"iReady is being sued for harvesting and selling student data to third parties. 13+ million students use it. Zero studies prove it works. (which every teacher knew) Let that sink in."*
+
+Sources: [EdTech Law Center](https://edtech.law/cases/m-c-v-curriculum-associates/), [Scrolling 2 Death](https://www.scrolling2death.com/post/ive-sued-iready-answering-your-questions), [Threads @teachernoire](https://www.threads.com/@teachernoire/post/DW6mR4WlHYd/)
+
+**UnHerd, February 2026:** Long-form piece titled "The plot to replace teachers with tech" described iReady as "a private-equity-backed juggernaut" with $750 million in annual revenue derived "overwhelmingly from America's taxpayer-funded public schools" and characterized the screen-based learning paradigm as "a bust." Significant social media circulation among educators. [Source: UnHerd, Feb 2026]
+
+---
+
+### Market Footprint
+
+- **Students:** ~13–14 million K–8 students in the US (13M from The Digital Delusion Substack; 14M in lawsuit documents; Curriculum Associates' own press releases previously cited "more than 9 million" and "25% of all Grades K–8 students")
+- **District reach:** Reported 70% of top 100 US school districts; 30-plus states (UnHerd, Feb 2026)
+- **Revenue:** Reported $750M annual (UnHerd, Feb 2026 — from article, not financial filing)
+- **Employees:** ~1,790 as of July 2024 (CB Insights)
+- **Ownership:** Private equity — Permira + Berkshire Partners (2017), Hellman & Friedman minority investment (2022). Not publicly traded.
+
+**EdReports perfect score, March 2024:** iReady Classroom Mathematics (the curriculum/classroom materials product) received a perfect score from EdReports — the first K–8 math program to do so. **Important nuance:** This applies to the classroom curriculum materials, NOT the diagnostic assessment or MyPath personalized instruction platform. The widespread criticism is almost entirely directed at the diagnostic and MyPath, not the curriculum. Do not conflate in positioning.
+
+---
+
+### What Teachers Are Saying
+
+**Primary sources: Reddit r/teaching thread (scraped Session L), Common Sense Education reviews, John Allen Wooden Substack, The Digital Delusion Substack, UnHerd**
+
+Already documented from Session L Reddit data — key quotes now confirmed as part of broader pattern:
+> *"I constantly wish iReady was not treated as the magic pill to bridge a student from a 1st grade level to a 6th grade level."* — u/transtitch
+> *"I'm so tired of the emphasis on iReady. I wish I could throw it out a window and toss an air conditioner on it."* — u/festivehedgehog
+> *"Reports are lacking I feel and don't go into detail enough."* — u/Smokey19mom
+
+**New findings (April 2026):**
+
+*No independent evidence it works:* A 2016 Johns Hopkins study reportedly found "no evidence that iReady provides information teachers can use to help students learn." Despite this, use grew massively. The Digital Delusion Substack published "i-Ready: 13 Million Students, Zero Meaningful Evidence" — currently circulating in teacher communities. [Source: thedigitaldelusion.substack.com; Hopkins study from 2016, date of Substack post not confirmed]
+
+*Teachers cannot see student work:* iReady provides summary data but teachers never see individual student responses — correct answers, wrong answers, or the nature of misconceptions. Teachers who want to understand where a student is confused cannot get that from iReady. Documented consistently across multiple teacher review sources. [Sources: Nancy Bailey's Education Website, Common Sense Education reviews]
+
+*"I felt inadequate as a teacher":* A specific reported quote from a teacher who attended Curriculum Associates' "Extraordinary Educators" program in 2023, reflecting in spring 2025: *"I felt inadequate as a teacher just placing a student on a computer to mindlessly follow a program."* He added he wished he had known about studies showing iReady has "minimal effects on learning gains." [Source: John Allen Wooden Substack, "The 'Extraordinary Educators' Scam," 2025]
+
+*The "Extraordinary Educators" influencer program:* Curriculum Associates selects teachers annually for recognition, networking, and a leadership summit. Critics characterize it as an unpaid focus group and influencer pipeline. CA's own disclaimer: these educators receive "no remuneration." [Source: John Allen Wooden Substack, 2025]
+
+*Coercion dynamic:* Teachers reported being "badgered to put kids on iReady, rewarded for hours their students log in the tool, and reprimanded when their students don't log time." Characterized in teacher communities as: "Most teachers hate iReady but assign it so they don't get fired." [Source: multiple review aggregators]
+
+*LAUSD pushback (2023–2024):* When LAUSD adopted iReady (replacing Renaissance STAR, used since 1998), students and staff pushed back over test length and redundancy with state testing. A student poll at one school: 345 of 413 students said they did not like the tests ("boring," "took too long"). In 2024, LAUSD gave 10 community schools a pilot to opt out of non-mandated standardized tests starting 2025–26. [Sources: vnhsmirror.com, EdSource 2024]
+
+---
+
+### What Parents Are Saying
+
+**Sentiment indicators:**
+- Trustpilot: 89% one-star ratings (57 reviews)
+- Sitejabber: 1.3 stars across 1,496 reviews
+
+**Core themes:**
+
+*Emotional distress:* Multiple parent reports of children becoming distressed during iReady sessions — crying, visible anxiety. Reported: a second grader "coming home in tears and hysterical after being stuck on a question while classmates finished," a middle schooler "turning red and looking like she was going to cry." [Source: Brighterly review compilation, platform reviews]
+
+*The failure loop:* iReady's adaptive diagnostic is *designed* to end in failure — the test escalates until the student can't answer. No in-moment remediation. No human in the loop to catch the emotional and instructional fallout. Parents of students with learning differences are particularly affected.
+
+*Misclassification fears:* Parents worry iReady assessments misclassify children — compounded by the fact that teachers report results often don't correlate with classroom observations.
+
+*Screen time:* Reported usage requirement ~54 hours per student per year (UnHerd, Feb 2026). Parents citing American Academy of Pediatrics guidelines.
+
+*Data privacy (now amplified by lawsuit):* Parents alarmed that iReady collects names, birthdays, racial backgrounds combined with behavioral data from every click and keystroke. Privacy policies contain vague language; parents reportedly cannot directly request data deletion from Curriculum Associates.
+
+*"Torture website":* Direct parent and student characterization in reviews. Lessons described as "30 minutes of a robot speaking to teach you nothing."
+
+*Gaming the system:* Students intentionally bomb diagnostics to receive easier content. Teachers report this. When students game a diagnostic, the data becomes meaningless — and the platform continues to be treated by admin as authoritative. [Source: Reddit thread, documented Session L]
+
+---
+
+### iReady Math Specifically
+
+**EdReports score distinction (repeated for emphasis):** The March 2024 perfect score applies to iReady Classroom Mathematics curriculum materials. Criticism is of the diagnostic and MyPath. These are different products under the same brand.
+
+**Curriculum Associates' own efficacy data:** Effect sizes of .23 in math (Massachusetts, Grade 5) and .24 across 10 states. Critics note studies are company-funded; even positive independent findings show "clinically irrelevant" differences. [Source: Evidence for ESSA listing, The Digital Delusion]
+
+**The 2018 "dangerous" post:** "Why iReady is Dangerous" (mathexchanges.wordpress.com) — written by a math educator, amplified by Diane Ravitch's blog — argues iReady math assessment "strips away evidence of students' thinking and mathematical identity" and assigns "broad and largely meaningless labels." Still circulating in 2024–2026 discussions. [Source: Diane Ravitch blog, June 2018]
+
+**Practical complaints:** Math lessons "take about an hour" and "don't count if students get 60% or less of questions correct." A student can spend an hour on a lesson and have nothing to show for it.
+
+---
+
+### Positioning Implications for Math Flash
+
+*(These are analytical observations, not sourced claims.)*
+
+**The parent who's experienced iReady is primed for Math Flash's message.** They have seen their child cry during a diagnostic. They've watched an algorithm escalate difficulty until their kid failed, with no support in the moment and a report that told the teacher nothing useful. Math Flash's Practice Quest is the structural opposite: the moment of failure is *the* teaching moment, not a logged data point.
+
+**The data privacy lawsuit is a timely accelerant for local-first positioning.** The December 2025 lawsuit is actively circulating in parent and teacher communities right now. Math Flash's "no account required, local-first, one-time purchase" architecture is the philosophical opposite of what Curriculum Associates is being accused of. The timing is unusually favorable for making this explicit.
+
+**The "built by a teacher, not private equity" angle lands differently now.** iReady's private equity backing (Permira, Berkshire Partners, Hellman & Friedman) and $750M revenue figure are now public knowledge in educator communities. Math Flash being built by an actual teacher with an ed therapy master's degree — not a PE portfolio company — is a genuine values differentiator in the current climate.
+
+**iReady is not a direct competitor** — it's school-sold and Math Flash targets homeschool/private/tutor contexts. But the parents Math Flash is reaching have almost certainly encountered iReady. Their experience with it is a likely starting reference point. Understanding their wound is understanding the market.
+
+**What NOT to do:** Do not claim iReady's curriculum materials are bad — the EdReports perfect score is real and the classroom curriculum is a separate product. Be precise: the criticisms are of the diagnostic and personalized instruction platform. Precision protects credibility with exactly the audience (educators, ed therapists) who know the distinction.
+
+---
+
+### Key Sources for This Section
+
+- [UnHerd: "The plot to replace teachers with tech" (Feb 2026)](https://unherd.com/2026/02/why-your-kid-hates-learning-apps/)
+- [The Digital Delusion: "i-Ready: 13 Million Students, Zero Meaningful Evidence"](https://thedigitaldelusion.substack.com/p/i-ready-13-million-students-zero)
+- [John Allen Wooden Substack: "The 'Extraordinary Educators' Scam" (2025)](https://johnallenwooden.substack.com/p/extraordinary-educators-iready-scam-curriculum-associates-making-teachers-edtech-shills)
+- [EdTech Law Center: M.C. v. Curriculum Associates](https://edtech.law/cases/m-c-v-curriculum-associates/)
+- [Scrolling 2 Death: "I've sued i-Ready" (2025–26)](https://www.scrolling2death.com/post/ive-sued-iready-answering-your-questions)
+- [Nancy Bailey's Education Website: "The Murky World of i-Ready" (Feb 2022)](https://nancyebailey.com/2022/02/07/the-murky-world-of-i-ready-grading-and-online-data/)
+- [EdReports: i-Ready Classroom Mathematics (March 2024)](https://edreports.org/reports/overview/i-ready-classroom-mathematics-2024)
+- [Diane Ravitch: "Why the iReady Assessment Is Dangerous" (2018, still circulating)](https://dianeravitch.net/2018/06/18/mathematics-why-the-iready-assessment-is-dangerous/)
+- [LAUSD student newspaper: "i-Ready or not, here it comes" (2023–24)](https://vnhsmirror.com/223650/current-events/i-ready-or-not-here-it-comes-lausds-new-standardized-test-kindles-controversy/)
+- [EdSource: "10 LAUSD schools get a chance to opt out of standardized testing" (2024)](https://edsource.org/2024/10-lausd-schools-get-a-chance-to-opt-out-of-standardized-testing-create-alternative-measurements/718849)
+- [Threads @teachernoire: viral lawsuit summary](https://www.threads.com/@teachernoire/post/DW6mR4WlHYd/)
+- [Berkshire Partners portfolio: Curriculum Associates](https://berkshirepartners.com/portfolio-companies/curriculum-associates/)
+
+---
 
 ### To Prove or Disprove Redundancy
 
