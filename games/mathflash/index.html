@@ -2074,8 +2074,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 .mf-name-pills { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
 .mf-name-pill { background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:20px; color:var(--muted); font-size:0.8rem; padding:4px 12px; cursor:pointer; transition:background 0.15s,color 0.15s; font-family:var(--font-body); }
 .mf-name-pill:hover { background:rgba(255,255,255,0.1); color:var(--text); }
-.mf-avatar-grid { display:grid; grid-template-columns:repeat(8,1fr); gap:5px; margin-bottom:16px; max-height:168px; overflow-y:auto; }
-.mf-avatar-btn { aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:1.15rem; background:rgba(255,255,255,0.03); border:1.5px solid transparent; border-radius:8px; cursor:pointer; transition:background 0.12s,border-color 0.12s; }
+.mf-avatar-grid { display:grid; grid-template-columns:repeat(10,1fr); gap:5px; margin-bottom:16px; }
+.mf-avatar-btn { aspect-ratio:1; display:flex; align-items:center; justify-content:center; font-size:1.2rem; background:rgba(255,255,255,0.03); border:1.5px solid transparent; border-radius:8px; cursor:pointer; transition:background 0.12s,border-color 0.12s; }
 .mf-avatar-btn:hover { background:rgba(255,255,255,0.09); }
 .mf-avatar-btn.selected { background:rgba(77,150,255,0.14); border-color:var(--a4); }
 
@@ -2602,7 +2602,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
 <!-- ══ WELCOME / USERNAME ENTRY ══ -->
 <div id="welcome-overlay" class="overlay">
-  <div class="overlay-card" style="max-width:420px;">
+  <div class="overlay-card" style="max-width:600px;">
     <div class="overlay-title" style="font-size:1.4rem;margin-bottom:6px;">⚡ Create your profile</div>
     <p style="color:var(--muted);font-size:0.88rem;margin-bottom:14px;line-height:1.5;">Pick a username and choose an avatar.</p>
     <div id="mf-prev-pills" class="mf-name-pills"></div>
