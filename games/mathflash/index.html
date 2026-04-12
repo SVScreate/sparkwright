@@ -632,12 +632,11 @@ body {
 .mp-watch-subhead { font-size:0.75rem; color:rgba(240,240,255,0.45); line-height:1.5; flex:1; }
 .mp-watch-help { background:none; border:1px solid rgba(255,255,255,0.18); border-radius:50%; width:16px; height:16px; font-size:0.62rem; color:rgba(240,240,255,0.4); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; padding:0; }
 .mp-watch-list { display:flex; flex-wrap:nowrap; gap:8px; margin-top:4px; overflow-x:auto; }
-.mp-watch-item { display:flex; flex-direction:column; align-items:center; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:7px 10px; min-width:58px; }
+.mp-watch-item { display:flex; flex-direction:column; align-items:center; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-top-width:2px; border-radius:8px; padding:7px 10px; min-width:58px; }
+.mp-watch-item.needs-practice { border-top-color:rgba(77,150,255,0.7); }
+.mp-watch-item.almost         { border-top-color:rgba(199,125,255,0.7); }
+.mp-watch-item.unpracticed    { border-top-color:rgba(255,255,255,0.2); }
 .mp-watch-item-eq { font-size:0.82rem; font-weight:700; color:var(--text); }
-.mp-watch-item-tier { font-size:0.58rem; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; margin-top:3px; }
-.mp-watch-item-tier.almost        { color:#c77dff; }
-.mp-watch-item-tier.needs-practice { color:rgba(240,240,255,0.4); }
-.mp-watch-item-tier.unpracticed   { color:rgba(240,240,255,0.28); }
 .mp-watch-empty { font-size:0.8rem; color:rgba(240,240,255,0.25); }
 
 /* Section 3: Assessment Records */
@@ -2656,7 +2655,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   <div class="overlay-card" style="max-width:360px;">
     <div style="font-family:var(--font-display);font-size:1.1rem;color:#ff6b6b;margin-bottom:8px;">Delete Profile?</div>
     <div id="delete-user-msg" style="font-size:0.85rem;color:var(--muted);margin-bottom:8px;line-height:1.5;"></div>
-    <div style="font-size:0.78rem;color:rgba(240,240,255,0.35);margin-bottom:14px;line-height:1.5;">If you have downloaded this user's data, you can import it again later to restore their progress.</div>
+    <div style="font-size:0.78rem;color:rgba(240,240,255,0.35);margin-bottom:14px;line-height:1.5;">If you have downloaded this user's <a href="#data-backup" style="color:rgba(77,150,255,0.7);text-decoration:underline;cursor:pointer;" onclick="return false;">data</a>, you can import it again later to restore their progress.</div>
     <label style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:rgba(240,240,255,0.6);cursor:pointer;margin-bottom:18px;">
       <input type="checkbox" id="delete-user-confirm-check" style="margin-top:2px;flex-shrink:0;" onchange="var b=document.getElementById('delete-user-btn');b.disabled=!this.checked;b.style.opacity=this.checked?'1':'0.4';b.style.cursor=this.checked?'pointer':'not-allowed';">
       <span>I understand this cannot be undone. All data for this profile will be permanently deleted.</span>
@@ -6121,16 +6120,13 @@ function buildStatsScreen() {
   if (watchItems.length === 0) {
     var hasPracticeData = keys.length > 0;
     var emptyMsg = hasPracticeData
-      ? 'Your facts are looking solid. Keep practicing to build toward mastery.'
+      ? 'Nothing to see here. Nice work!'
       : 'Play some practice rounds to find your facts to watch.';
     watchHTML = '<div class="mp-watch-empty">' + emptyMsg + '</div>';
   } else {
     var itemsHTML = watchItems.map(function(item) {
-      var tierCls = item.tier;
-      var tierLabel = TIER_LABELS[tierCls] || '';
-      return '<div class="mp-watch-item">' +
+      return '<div class="mp-watch-item ' + item.tier + '">' +
         '<span class="mp-watch-item-eq">' + item.eq + '</span>' +
-        (tierLabel ? '<span class="mp-watch-item-tier ' + tierCls + '">' + tierLabel + '</span>' : '') +
       '</div>';
     }).join('');
     watchHTML =
