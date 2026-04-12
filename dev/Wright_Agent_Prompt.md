@@ -76,35 +76,38 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Flash v78** — live at `games/mathflash/index.html` (no backup file — all changes committed directly)
+**Math Flash v81** — live at `games/mathflash/index.html` (no backup file — all changes committed directly)
 Landing page: `sparkwright/index.html` (updated Session AE)
 
-## Session AI Build Summary (v75–v78)
-- Auto-generated username picker in Math Flash (mirrors Sparkwright homepage) ✓ (v75/v76)
-- Welcome flow: 2-step overlay (greeting + Beginning Star Scan placeholder offer) ✓ (v76)
-- Profile chip context-awareness: title screen → Switch User menu; mid-game → navigation menu ✓ (v75)
-- Mid-game nav overlay (Main Menu / My Constellation) ✓ (v75)
-- `mathflash_onboarded_[username]` flag — prevents double-welcome for users from homepage ✓ (v75)
-- Delete user fix (Sparkwright homepage): stays on switcher after deletion ✓ (v75/v76)
-- Print per Star Scan record button ✓ (v75)
-- Avatar grid UI fix — 10 columns, no scroll, card width 600px ✓ (v77)
-- Copy fix: "earn your constellation" → "light up your constellation" ✓ (v76)
-- **Star Scan two-bucket model** — mastered (correct ≤ threshold) / needs practice (all else). Removed fluent/almost/autokick from all Star Scan paths. Old records normalize on render. ✓ (v78)
-- **Facts to Watch redesign** — Spark Session AH spec: single priority list (Almost→Needs Practice→Unpracticed), cap 8, sorted by lastSeen oldest first, per-fact tier labels, subhead + tooltip, new empty state. ✓ (v78)
-- **Fluency threshold one-liner** — My Constellation + Star Scan setup show read-only threshold with inline "Change" link (opens thresh-modal). ✓ (v78)
-- **Star Scan pop-out card copy** — updated "When to use it" and "A few things to know" to Spark Session AF copy. ✓ (v78)
+## Session AJ Build Summary (v79–v81)
+- Star Scan results: "Fluent" replaces "Mastered" in scan context. Summary stat row removed. Print from live results functional. Navigate overlay bug fixed.
+- Star Scan setup: Threshold "Change" link removed (only in My Constellation). Settings persist across opens. Default: ×3, ×4, ×5 Per-Table.
+- Facts to Watch: needs-practice → almost → unpracticed priority. Cap 5, single row, no labels, color-coded top border. Smart empty state.
+- My Constellation: "Go to Star Scan Area" button removed.
+- Profile chip: stats-screen and assess-area-screen now open user menu (not mid-game nav).
+- User management (Math Flash): Delete button with checkbox confirmation modal in Switch User overlay.
+- User management (Sparkwright homepage): Custom delete confirmation modal. Trash icon display fix.
+- Delete modals: "data" hyperlink placeholder added (wire to backup page when built).
 
-## ⚠️ Open Items — Start Next Session Here
-**Next session = testing session.** All v75–v78 items need verification before moving forward. Read `Agent_Handoff.md` for the full testing queue. Key items to check:
-1. Star Scan full flow — run a scan, verify results show Mastered/Needs Practice (not Fluent/Almost/Autokick)
-2. Facts to Watch — verify with practice data; verify empty state for users with all facts Fluent/Mastered
-3. Fluency threshold one-liner — verify "Change" link opens modal from both My Constellation and Star Scan setup
-4. Username picker — full create flow from Math Flash title page (new user and "Add New User")
-5. Welcome flow — verify triggers for: (a) new user via MF title, (b) existing Sparkwright user first visit to MF
-6. Profile chip — title screen → Switch User, mid-game → nav menu
-7. Delete user — verify stays on switcher after deletion (Sparkwright homepage)
-8. Print per record — verify 🖨 button on each Star Scan record
-Do NOT build new features until testing is complete. Fix bugs found during testing.
+## ⚠️ CRITICAL BUGS — Fix Before Any New Features
+
+**1. User context does not reset on switch/create/delete (HIGH PRIORITY)**
+When switching, creating, or deleting a user from any screen except the title screen, the current screen continues showing the old user's data. New user's practice can bleed into wrong account. Fix plan: all user switch/create/delete paths must (a) set localStorage active user, (b) reload all data-dependent UI, (c) navigate to title screen. Needs a single `switchActiveUser(username)` helper called from all three code paths.
+
+**2. Welcome flow triggers on existing onboarded users after switch**
+`checkMFOnboarding` fires on the wrong timing or checks the flag before `sparkwright_active` is fully updated. Investigate and fix flag check ordering.
+
+**3. Profile chip during active Star Scan (assessment-screen) shows mid-game nav but timer doesn't pause**
+The chip opens midgame-nav-overlay but the scan timer keeps running. Need a decision: pause the scan timer while the overlay is open, OR change chip-click during scan to show user menu only (no nav during active scan). Lean: pause the timer if nav overlay is open.
+
+**4. Nav consistency redesign (design discussion with Kimberly first)**
+Profile chip behavior is still inconsistent across screens. Proposed clean model: chip click always opens user menu. Mid-game navigation (leave round / go to constellation) lives on a dedicated button in the round header, not on the chip. This eliminates all the context-switching logic.
+
+**5. Star Scan record delete button**
+Need 🗑 on each Star Scan record in both Star Scan Area and My Constellation, with the same checkbox-gate modal as user delete.
+
+**6. "Nothing to see here. Nice work!" empty state needs graduation check**
+Currently shows whenever watchItems is empty and user has data. Should only show when student is close to mastery (e.g. >80% of facts mastered). The check requires iterating constellation cells — not yet implemented. Flag for Spark: is there a simpler mastery-proximity signal we can use?
 
 ---
 

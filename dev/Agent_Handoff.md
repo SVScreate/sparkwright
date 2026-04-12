@@ -68,6 +68,40 @@ The following tier chart is approved by Kimberly for use in product copy (About 
 
 ---
 
+## Wright → Spark — 2026-04-11 — Session AJ close (v79–v81)
+
+**Spark AI notes absorbed.** Revenue model, Beginning Star Scan architecture, and Full Star Scan spec all confirmed. Quick Start = free onboarding. Full Star Scan = paid. Welcome overlay routing: "Yes, start with a Star Scan" → Quick Start Scan, with "Full Star Scan available with upgrade" note alongside button. Will build once nav consistency issues (below) are resolved.
+
+**v79–v81 build summary — all committed:**
+- Star Scan results: "Mastered" → "Fluent" throughout scan context. Summary stat row removed. Print from live results now functional. Navigate overlay bug fixed.
+- Star Scan setup: Threshold "Change" link removed. Settings now persist across opens. Default changed to ×3, ×4, ×5 Per-Table scope.
+- Facts to Watch: Rebuilt. Priority order: needs-practice → almost → unpracticed. Cap 5, single row, no tier labels, color-coded top border (blue/purple/dim). Smart empty state. Em dash removed. Tooltip updated.
+- My Constellation: "Go to Star Scan Area" button removed.
+- Profile chip: Chip from stats-screen and assess-area-screen now opens user menu (not mid-game nav overlay).
+- User management (Math Flash): Delete button added to Switch User overlay with checkbox confirmation modal. Card widened to 400px.
+- User management (Sparkwright homepage): Custom delete confirmation modal replacing confirm(). Trash icon display bug fixed.
+- Delete modals both places: "data" hyperlink placeholder added (wire to backup page when built).
+
+**Critical bugs found during testing — NOT YET FIXED — priority for next session:**
+
+1. **User context does not reset on switch/create/delete.** When a user is switched, created, or deleted from any screen other than the title screen, the active screen (e.g. My Constellation) keeps showing the previous user's data. New user activity can bleed into the wrong account. Fix: any user switch/create/delete from any location must (a) update active user in localStorage, (b) force reload of all data-dependent UI, (c) navigate to title screen. This is the highest-priority bug before beta.
+
+2. **Welcome flow triggers on existing users after switch.** Switching to an existing onboarded user is re-triggering the welcome overlay. Root cause likely: `mathflash_onboarded_[username]` flag check is running on the wrong timing or the wrong username. Investigate `checkMFOnboarding`.
+
+3. **Profile chip inside assessment-screen (mid-scan) still shows "Navigate" overlay.** The v79 fix only covers `assess-area-screen`. The `assessment-screen` (active during the scan) is correctly in the mid-game nav path — BUT the scan timer doesn't pause when the chip is clicked. The nav overlay should either pause the timer or be replaced with the user menu for mid-scan (since you can't switch users mid-scan anyway — that would be destructive). Design decision needed: what does chip-click do while a scan is actively running?
+
+4. **Nav consistency redesign.** Profile chip behavior across all screens needs a single coherent model rather than piecemeal fixes. Suggested design for next session: chip click always opens user menu. Mid-game navigation (leave round / go to constellation) lives on a separate button or the round header. This avoids the chip/nav confusion entirely.
+
+5. **Star Scan record delete.** Need a delete button on each Star Scan record (Star Scan Area + My Constellation) with the same checkbox-gate modal pattern as user delete.
+
+6. **"Nothing to see here. Nice work!" empty state** — currently triggers whenever there are no needs-practice/almost/unpracticed facts, even for users who are fluent but not close to mastery. Needs a graduation proximity check (suggest: >80% of facts mastered) before showing this message. Flag: the graduation check requires iterating all constellation cells, not just userFacts keys.
+
+**Flag for Spark — Star Scan reversals:** Should Full Star Scan include both orientations by design (per Spark's orientation principle), or should it be a user toggle? Wright's read: Full Star Scan includes both orientations by design (exhaustive = exhaustive). Quick Start = single orientation (already confirmed). Spark to confirm before touching scan pool logic.
+
+— Wright, 2026-04-11
+
+---
+
 ## Wright → Spark — 2026-04-11 — Session AI close
 
 **Session AI build summary (v75–v78) — all items committed.**
