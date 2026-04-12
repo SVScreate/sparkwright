@@ -635,7 +635,7 @@ body {
 .mp-watch-item { display:flex; flex-direction:column; align-items:center; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:7px 10px; min-width:58px; }
 .mp-watch-item-eq { font-size:0.82rem; font-weight:700; color:var(--text); }
 .mp-watch-item-tier { font-size:0.58rem; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; margin-top:3px; }
-.mp-watch-item-tier.almost        { color:#4d96ff; }
+.mp-watch-item-tier.almost        { color:#c77dff; }
 .mp-watch-item-tier.needs-practice { color:rgba(240,240,255,0.4); }
 .mp-watch-item-tier.unpracticed   { color:rgba(240,240,255,0.28); }
 .mp-watch-empty { font-size:0.8rem; color:rgba(240,240,255,0.25); }
@@ -2655,7 +2655,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <div id="delete-user-modal" class="overlay">
   <div class="overlay-card" style="max-width:360px;">
     <div style="font-family:var(--font-display);font-size:1.1rem;color:#ff6b6b;margin-bottom:8px;">Delete Profile?</div>
-    <div id="delete-user-msg" style="font-size:0.85rem;color:var(--muted);margin-bottom:16px;line-height:1.5;"></div>
+    <div id="delete-user-msg" style="font-size:0.85rem;color:var(--muted);margin-bottom:8px;line-height:1.5;"></div>
+    <div style="font-size:0.78rem;color:rgba(240,240,255,0.35);margin-bottom:14px;line-height:1.5;">If you have downloaded this user's data, you can import it again later to restore their progress.</div>
     <label style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:rgba(240,240,255,0.6);cursor:pointer;margin-bottom:18px;">
       <input type="checkbox" id="delete-user-confirm-check" style="margin-top:2px;flex-shrink:0;" onchange="var b=document.getElementById('delete-user-btn');b.disabled=!this.checked;b.style.opacity=this.checked?'1':'0.4';b.style.cursor=this.checked?'pointer':'not-allowed';">
       <span>I understand this cannot be undone. All data for this profile will be permanently deleted.</span>
@@ -6081,17 +6082,18 @@ function buildStatsScreen() {
     return null;
   }
 
-  // Priority: needs-practice → unpracticed, cap 5, sort by lastSeen oldest first
-  var watchNeeds = [], watchUnpracticed = [];
+  // Priority: needs-practice → almost → unpracticed, cap 5, sort by lastSeen oldest first
+  var watchNeeds = [], watchAlmost = [], watchUnpracticed = [];
   keys.forEach(function(fk) {
     var rec = userFacts[fk];
     var p = parseFk(fk);
     if (!p) return;
     var tier = cellTier(rec);
-    if (tier === 'mastered' || tier === 'fluent' || tier === 'almost') return;
+    if (tier === 'mastered' || tier === 'fluent') return;
     var lastSeenVal = rec ? (rec.lastSeen || null) : null;
     var item = { eq: p.eq, tier: tier, lastSeen: lastSeenVal };
     if (tier === 'needs-practice') watchNeeds.push(item);
+    else if (tier === 'almost')    watchAlmost.push(item);
     else if (tier === 'unpracticed') watchUnpracticed.push(item);
   });
 
@@ -6103,19 +6105,25 @@ function buildStatsScreen() {
     return a.lastSeen < b.lastSeen ? -1 : a.lastSeen > b.lastSeen ? 1 : 0;
   }
   watchNeeds.sort(byLastSeen);
+  watchAlmost.sort(byLastSeen);
 
-  var watchItems = watchNeeds.concat(watchUnpracticed).slice(0, 5);
+  var watchItems = watchNeeds.concat(watchAlmost, watchUnpracticed).slice(0, 5);
 
   var TIER_LABELS = {
-    'needs-practice': 'Needs practice',
+    'needs-practice': 'Getting wrong',
+    'almost':         'Correct but slow',
     'unpracticed':    'Not started yet'
   };
 
-  var tooltipText = 'These are the facts that need the most attention based on your practice history. Working on these is the fastest way to light up your constellation.';
+  var tooltipText = 'Facts from your practice history that need the most attention. Wrong answers come first, then facts you know but are still answering slowly.';
 
   var watchHTML;
   if (watchItems.length === 0) {
-    watchHTML = '<div class="mp-watch-empty">Your constellation is looking solid. Keep practicing to build toward mastery.</div>';
+    var hasPracticeData = keys.length > 0;
+    var emptyMsg = hasPracticeData
+      ? 'Your facts are looking solid. Keep practicing to build toward mastery.'
+      : 'Play some practice rounds to find your facts to watch.';
+    watchHTML = '<div class="mp-watch-empty">' + emptyMsg + '</div>';
   } else {
     var itemsHTML = watchItems.map(function(item) {
       var tierCls = item.tier;
@@ -6182,9 +6190,7 @@ function buildStatsScreen() {
       '<div class="mp-section-title">Facts to Watch</div>' +
       watchHTML +
     '</div>' +
-    '<div class="mp-section" id="mp-assess-section">' +
-      '<button class="mp-assess-btn-enabled" onclick="showScreen(\'assess-area-screen\')" style="width:100%;">⭐ Go to Star Scan Area</button>' +
-    '</div>';
+    '<div class="mp-section" id="mp-assess-section"></div>';
 
   buildConstellation(activeOp);
 
@@ -6429,12 +6435,36 @@ function saveAssessments(data) {
   try { localStorage.setItem(ASSESS_KEY, JSON.stringify(data)); } catch(e) {}
 }
 
+const ASSESS_SETTINGS_KEY = 'sparkwright_assess_settings';
+function loadAssessSettings() {
+  try { return JSON.parse(localStorage.getItem(ASSESS_SETTINGS_KEY)) || null; } catch(e) { return null; }
+}
+function saveAssessSettings() {
+  try {
+    localStorage.setItem(ASSESS_SETTINGS_KEY, JSON.stringify({
+      op:     A._setupOp,
+      scope:  A._setupScope,
+      tables: A._setupTables.slice(),
+      group:  A._setupGroup
+    }));
+  } catch(e) {}
+}
+
 // ── Setup overlay ──────────────────────────────────────
 function openAssessmentSetup() {
-  A._setupOp    = 'x';
-  A._setupScope = 'full';
-  A._setupGroup = null;
-  A._setupTables = S.tables.x.length ? S.tables.x.slice() : [1,2,3,4,5,6,7,8,9,10,11,12];
+  // Restore last used settings, or use natural defaults (×3, ×4, ×5 pertable)
+  var saved = loadAssessSettings();
+  if (saved) {
+    A._setupOp     = saved.op    || 'x';
+    A._setupScope  = saved.scope || 'pertable';
+    A._setupTables = (saved.tables && saved.tables.length) ? saved.tables.slice() : [3, 4, 5];
+    A._setupGroup  = saved.group || null;
+  } else {
+    A._setupOp     = 'x';
+    A._setupScope  = 'pertable';
+    A._setupGroup  = null;
+    A._setupTables = [3, 4, 5];
+  }
 
   // Sync op buttons
   document.querySelectorAll('#assess-op-row .assess-setup-op-btn').forEach(function(btn) {
@@ -6710,6 +6740,9 @@ function startAssessment() {
       if (!ok) return;
     }
   }
+
+  // Persist settings for next time
+  saveAssessSettings();
 
   A.facts      = pool;
   A.cur        = 0;
