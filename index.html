@@ -1277,6 +1277,21 @@
   </div>
 </div>
 
+<div class="profile-modal-overlay" id="deleteConfirmOverlay">
+  <div class="switcher-modal" role="dialog" aria-modal="true" style="max-width:360px;">
+    <p class="switcher-title" style="color:#ff6b6b;margin-bottom:8px;">Delete Profile?</p>
+    <p id="deleteConfirmMsg" style="font-size:14px;color:var(--text-muted,#aaa);margin-bottom:18px;line-height:1.5;"></p>
+    <label style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-muted,#aaa);cursor:pointer;margin-bottom:20px;">
+      <input type="checkbox" id="deleteConfirmCheck" style="margin-top:2px;flex-shrink:0;" onchange="var b=document.getElementById('deleteConfirmBtn');b.disabled=!this.checked;b.style.opacity=this.checked?'1':'0.4';b.style.cursor=this.checked?'pointer':'not-allowed';">
+      <span>I understand this cannot be undone. All data for this profile will be permanently deleted.</span>
+    </label>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button id="deleteConfirmCancel" style="padding:9px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:none;color:inherit;cursor:pointer;font-size:14px;">Cancel</button>
+      <button id="deleteConfirmBtn" style="padding:9px 18px;border-radius:10px;border:none;background:#ff6b6b;color:#fff;font-size:14px;font-weight:700;opacity:0.4;cursor:not-allowed;" disabled>Delete</button>
+    </div>
+  </div>
+</div>
+
 <script>
   /* ── Particles ── */
   (function() {
@@ -1565,6 +1580,8 @@
 
         const btn = document.createElement('button');
         btn.className = 'profile-list-item' + (p.username === active ? ' active' : '');
+        btn.style.flex = '1';
+        btn.style.width = 'auto';
         btn.innerHTML = `
           <span class="pli-avatar">${p.avatar}</span>
           <span class="pli-info">
@@ -1591,21 +1608,7 @@
         delBtn.setAttribute('aria-label', `Delete ${p.username}`);
         delBtn.addEventListener('click', (e) => {
           e.stopPropagation();
-          if (!confirm(`Delete "${p.username}"? Their data cannot be recovered.`)) return;
-          let updated = loadProfiles().filter(x => x.username !== p.username);
-          saveProfiles(updated);
-          /* if deleted active, clear active and keep switcher open so user can choose next */
-          if (p.username === active) {
-            localStorage.removeItem(KEY_ACTIVE);
-            renderNav(null);
-          }
-          /* always re-render list and ensure switcher is open */
-          renderSwitcherList();
-          const sw = document.getElementById('switcherOverlay');
-          if (sw && !sw.classList.contains('open')) {
-            sw.classList.add('open');
-            document.body.style.overflow = 'hidden';
-          }
+          openDeleteConfirm(p.username);
         });
 
         item.appendChild(btn);
@@ -1652,14 +1655,53 @@
       openCreateModal();
     });
 
-    /* backdrop + Escape to close both modals */
+    /* ── Delete confirm modal ── */
+    let deleteTargetUsername = null;
+    function openDeleteConfirm(username) {
+      deleteTargetUsername = username;
+      document.getElementById('deleteConfirmMsg').textContent = `Delete "${username}"? All their practice data and Star Scan records will be permanently deleted.`;
+      const check = document.getElementById('deleteConfirmCheck');
+      check.checked = false;
+      const btn = document.getElementById('deleteConfirmBtn');
+      btn.disabled = true; btn.style.opacity = '0.4'; btn.style.cursor = 'not-allowed';
+      const overlay = document.getElementById('deleteConfirmOverlay');
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDeleteConfirm() {
+      document.getElementById('deleteConfirmOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('deleteConfirmCancel').addEventListener('click', closeDeleteConfirm);
+    document.getElementById('deleteConfirmBtn').addEventListener('click', () => {
+      if (!deleteTargetUsername) return;
+      let updated = loadProfiles().filter(x => x.username !== deleteTargetUsername);
+      saveProfiles(updated);
+      if (deleteTargetUsername === localStorage.getItem(KEY_ACTIVE)) {
+        localStorage.removeItem(KEY_ACTIVE);
+        renderNav(null);
+      }
+      deleteTargetUsername = null;
+      closeDeleteConfirm();
+      renderSwitcherList();
+      const sw = document.getElementById('switcherOverlay');
+      if (sw && !sw.classList.contains('open')) {
+        sw.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+    document.getElementById('deleteConfirmOverlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('deleteConfirmOverlay')) closeDeleteConfirm();
+    });
+
+    /* backdrop + Escape to close all modals */
     ['profileOverlay','switcherOverlay'].forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
       el.addEventListener('click', (e) => { if (e.target === el) { closeCreateModal(); closeSwitcher(); } });
     });
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') { closeCreateModal(); closeSwitcher(); }
+      if (e.key === 'Escape') { closeCreateModal(); closeSwitcher(); closeDeleteConfirm(); }
     });
 
     /* ── Init ── */

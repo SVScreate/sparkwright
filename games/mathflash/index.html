@@ -279,6 +279,9 @@ body {
 .ump-avatar { font-size: 1.1rem; }
 .ump-name { flex: 1; }
 .ump-active { font-size: 0.65rem; color: var(--a2); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.ump-delete { background:none; border:none; color:rgba(240,240,255,0.3); font-size:0.95rem; cursor:pointer; padding:6px 8px; border-radius:6px; transition:color 0.15s,background 0.15s; flex-shrink:0; }
+.ump-delete:hover { color:#ff6b6b; background:rgba(255,107,107,0.1); }
+.user-menu-row { display:flex; align-items:center; gap:6px; }
 
 /* ── ABOUT LINK ── */
 .title-about-link {
@@ -628,7 +631,7 @@ body {
 .mp-watch-top { display:flex; align-items:flex-start; gap:8px; margin-bottom:6px; }
 .mp-watch-subhead { font-size:0.75rem; color:rgba(240,240,255,0.45); line-height:1.5; flex:1; }
 .mp-watch-help { background:none; border:1px solid rgba(255,255,255,0.18); border-radius:50%; width:16px; height:16px; font-size:0.62rem; color:rgba(240,240,255,0.4); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; padding:0; }
-.mp-watch-list { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+.mp-watch-list { display:flex; flex-wrap:nowrap; gap:8px; margin-top:4px; overflow-x:auto; }
 .mp-watch-item { display:flex; flex-direction:column; align-items:center; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:7px 10px; min-width:58px; }
 .mp-watch-item-eq { font-size:0.82rem; font-weight:700; color:var(--text); }
 .mp-watch-item-tier { font-size:0.58rem; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; margin-top:3px; }
@@ -2345,7 +2348,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 .assess-results-section-title { font-size:0.68rem; font-weight:800; letter-spacing:0.07em; text-transform:uppercase; color:rgba(240,240,255,0.4); margin-bottom:8px; }
 .assess-result-grid { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:22px; max-height:200px; overflow-y:auto; }
 .assess-result-chip { font-size:0.78rem; font-weight:700; padding:5px 10px; border-radius:8px; border:1px solid; }
-.assess-result-chip.mastered { background:rgba(255,159,67,0.18); border-color:rgba(255,159,67,0.5);   color:var(--a6); }
+.assess-result-chip.mastered,
+.assess-result-chip.fluent   { background:rgba(255,159,67,0.18); border-color:rgba(255,159,67,0.5);   color:var(--a6); }
 .assess-result-chip.needs    { background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.18); color:rgba(240,240,255,0.65); }
 .assess-results-btns { display:flex; gap:10px; flex-wrap:wrap; }
 
@@ -2553,10 +2557,6 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     </div>
     <div class="num-input-msg" id="assess-table-msg" style="margin-bottom:8px;"></div>
 
-    <div class="assess-timer-note">
-      Fluency threshold: <strong id="assess-thresh-label">3s</strong> per fact. <button onclick="hideOverlay('assess-setup-overlay');openThreshModal();" style="background:none;border:none;color:var(--a6);font-size:inherit;font-weight:700;cursor:pointer;padding:0;text-decoration:underline;">Change</button>
-    </div>
-
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px;">
       <button class="res-btn secondary" style="padding:9px 18px;font-size:0.85rem;" onclick="hideOverlay('assess-setup-overlay')">Cancel</button>
       <button class="res-btn primary"   style="padding:9px 18px;font-size:0.85rem;" onclick="startAssessment()">Start Star Scan →</button>
@@ -2629,7 +2629,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
 <!-- ══ USER MENU ══ -->
 <div id="user-menu-overlay" class="overlay" onclick="if(event.target===this)hideOverlay('user-menu-overlay')">
-  <div class="overlay-card" style="max-width:340px;">
+  <div class="overlay-card" style="max-width:400px;">
     <button class="overlay-close" onclick="hideOverlay('user-menu-overlay')">✕</button>
     <div class="overlay-title" style="font-size:1.2rem;margin-bottom:16px;">Switch User</div>
     <div id="user-menu-list"></div>
@@ -2647,6 +2647,22 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div style="display:flex;flex-direction:column;gap:10px;">
       <button class="btn-ghost" style="width:100%;" onclick="midgameNav('title')">← Main Menu</button>
       <button class="btn-ghost" style="width:100%;" onclick="midgameNav('constellation')">My Constellation</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DELETE USER CONFIRM MODAL ══ -->
+<div id="delete-user-modal" class="overlay">
+  <div class="overlay-card" style="max-width:360px;">
+    <div style="font-family:var(--font-display);font-size:1.1rem;color:#ff6b6b;margin-bottom:8px;">Delete Profile?</div>
+    <div id="delete-user-msg" style="font-size:0.85rem;color:var(--muted);margin-bottom:16px;line-height:1.5;"></div>
+    <label style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:rgba(240,240,255,0.6);cursor:pointer;margin-bottom:18px;">
+      <input type="checkbox" id="delete-user-confirm-check" style="margin-top:2px;flex-shrink:0;" onchange="var b=document.getElementById('delete-user-btn');b.disabled=!this.checked;b.style.opacity=this.checked?'1':'0.4';b.style.cursor=this.checked?'pointer':'not-allowed';">
+      <span>I understand this cannot be undone. All data for this profile will be permanently deleted.</span>
+    </label>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button class="res-btn secondary" style="padding:8px 16px;font-size:0.85rem;" onclick="hideOverlay('delete-user-modal')">Cancel</button>
+      <button id="delete-user-btn" class="res-btn primary" style="padding:8px 16px;font-size:0.85rem;background:#ff6b6b;border-color:#ff6b6b;opacity:0.4;cursor:not-allowed;" disabled onclick="confirmDeleteUserMF()">Delete</button>
     </div>
   </div>
 </div>
@@ -2999,9 +3015,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="assess-results-card">
       <div class="assess-results-title">Star Scan Complete!</div>
       <div class="assess-results-sublabel" id="assess-results-sublabel">Baseline</div>
-      <div class="assess-summary-row" id="assess-summary-row"></div>
-      <div class="assess-results-section-title">⭐ Mastered</div>
-      <div class="assess-result-grid" id="assess-grid-mastered"></div>
+      <div class="assess-results-section-title">⭐ Fluent</div>
+      <div class="assess-result-grid" id="assess-grid-fluent"></div>
       <div class="assess-results-section-title">📚 Needs Practice</div>
       <div class="assess-result-grid" id="assess-grid-needs"></div>
       <div class="assess-results-btns">
@@ -3365,11 +3380,14 @@ function showUserMenu(dest) {
     container.innerHTML = profiles.map(function(p) {
       var isActive = p.username === active;
       var esc = p.username.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-      return '<button onclick="switchUser(\'' + esc + '\')" class="user-menu-profile-btn' + (isActive ? ' active' : '') + '">' +
-        '<span class="ump-avatar">' + p.avatar + '</span>' +
-        '<span class="ump-name">' + p.username + '</span>' +
-        (isActive ? '<span class="ump-active">Active</span>' : '') +
-        '</button>';
+      return '<div class="user-menu-row">' +
+        '<button onclick="switchUser(\'' + esc + '\')" class="user-menu-profile-btn' + (isActive ? ' active' : '') + '" style="flex:1;min-width:0;">' +
+          '<span class="ump-avatar">' + p.avatar + '</span>' +
+          '<span class="ump-name">' + p.username + '</span>' +
+          (isActive ? '<span class="ump-active">Active</span>' : '') +
+        '</button>' +
+        '<button class="ump-delete" onclick="openDeleteUserMF(\'' + esc + '\')" title="Delete ' + p.username + '">🗑</button>' +
+      '</div>';
     }).join('');
   }
   showOverlay('user-menu-overlay');
@@ -3393,6 +3411,35 @@ function switchUser(name) {
 function addNewUserFromMenu() {
   hideOverlay('user-menu-overlay');
   openMFCreateModal(_userMenuDest);
+}
+
+var _deleteTargetUsername = null;
+function openDeleteUserMF(username) {
+  _deleteTargetUsername = username;
+  document.getElementById('delete-user-msg').textContent = 'Delete "' + username + '"? All their practice data and Star Scan records will be permanently deleted.';
+  var check = document.getElementById('delete-user-confirm-check');
+  check.checked = false;
+  var btn = document.getElementById('delete-user-btn');
+  btn.disabled = true;
+  btn.style.opacity = '0.4';
+  btn.style.cursor = 'not-allowed';
+  showOverlay('delete-user-modal');
+}
+function confirmDeleteUserMF() {
+  var username = _deleteTargetUsername;
+  if (!username) return;
+  var profiles = [];
+  try { profiles = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]'); } catch(e) {}
+  profiles = profiles.filter(function(p) { return p.username !== username; });
+  localStorage.setItem('sparkwright_profiles', JSON.stringify(profiles));
+  var active = localStorage.getItem('sparkwright_active');
+  if (active === username) {
+    localStorage.removeItem('sparkwright_active');
+    refreshProfileChip();
+  }
+  _deleteTargetUsername = null;
+  hideOverlay('delete-user-modal');
+  showUserMenu(_userMenuDest);
 }
 
 
@@ -3452,7 +3499,8 @@ function completeMFWelcome(choice) {
 // ── Profile chip click — context-aware ───────────────────
 function onChipClick() {
   var active = document.querySelector('.screen.active');
-  if (active && active.id === 'title-screen') {
+  var menuScreens = ['title-screen', 'stats-screen', 'assess-area-screen'];
+  if (active && menuScreens.indexOf(active.id) !== -1) {
     showUserMenu('none');
   } else {
     showOverlay('midgame-nav-overlay');
@@ -6033,19 +6081,18 @@ function buildStatsScreen() {
     return null;
   }
 
-  // Priority: almost → needs-practice → unpracticed (from userFacts), cap 8, sort by lastSeen oldest first
-  var watchAlmost = [], watchNeeds = [], watchUnpracticed = [];
+  // Priority: needs-practice → unpracticed, cap 5, sort by lastSeen oldest first
+  var watchNeeds = [], watchUnpracticed = [];
   keys.forEach(function(fk) {
     var rec = userFacts[fk];
     var p = parseFk(fk);
     if (!p) return;
     var tier = cellTier(rec);
-    if (tier === 'mastered' || tier === 'fluent') return;
+    if (tier === 'mastered' || tier === 'fluent' || tier === 'almost') return;
     var lastSeenVal = rec ? (rec.lastSeen || null) : null;
     var item = { eq: p.eq, tier: tier, lastSeen: lastSeenVal };
-    if (tier === 'almost')         watchAlmost.push(item);
-    else if (tier === 'needs-practice') watchNeeds.push(item);
-    else if (tier === 'unpracticed')    watchUnpracticed.push(item);
+    if (tier === 'needs-practice') watchNeeds.push(item);
+    else if (tier === 'unpracticed') watchUnpracticed.push(item);
   });
 
   // Sort by lastSeen: null (never) first, then oldest date first
@@ -6055,18 +6102,16 @@ function buildStatsScreen() {
     if (!b.lastSeen) return  1;
     return a.lastSeen < b.lastSeen ? -1 : a.lastSeen > b.lastSeen ? 1 : 0;
   }
-  watchAlmost.sort(byLastSeen);
   watchNeeds.sort(byLastSeen);
 
-  var watchItems = watchAlmost.concat(watchNeeds, watchUnpracticed).slice(0, 8);
+  var watchItems = watchNeeds.concat(watchUnpracticed).slice(0, 5);
 
   var TIER_LABELS = {
-    'almost':        'Almost automatic',
-    'needs-practice':'Needs practice',
-    'unpracticed':   'Not started yet'
+    'needs-practice': 'Needs practice',
+    'unpracticed':    'Not started yet'
   };
 
-  var tooltipText = 'These facts are your best next steps. The game surfaces facts that are close to advancing a tier, or that have consistently shown up slow or wrong. Practicing these is the fastest way to light up your constellation.';
+  var tooltipText = 'These are the facts that need the most attention based on your practice history. Working on these is the fastest way to light up your constellation.';
 
   var watchHTML;
   if (watchItems.length === 0) {
@@ -6082,7 +6127,7 @@ function buildStatsScreen() {
     }).join('');
     watchHTML =
       '<div class="mp-watch-top">' +
-        '<span class="mp-watch-subhead">Based on your constellation — the facts that\'ll move fastest with focused practice.</span>' +
+        '<span class="mp-watch-subhead">Facts from your practice history that need the most attention.</span>' +
         '<button class="mp-watch-help" title="' + tooltipText + '">?</button>' +
       '</div>' +
       '<div class="mp-watch-list">' + itemsHTML + '</div>';
@@ -6439,11 +6484,6 @@ function openAssessmentSetup() {
       updateAssessCount();
     };
   });
-
-  // Timer label
-  var threshSec = ((S.fluencyTier && S.fluencyTier.fluencyMs) ? S.fluencyTier.fluencyMs : 3000) / 1000;
-  var threshLabel = document.getElementById('assess-thresh-label');
-  if (threshLabel) threshLabel.textContent = threshSec + 's';
 
   // Hide family group for non-mult ops
   var groupBtn = document.getElementById('assess-scope-group-btn');
@@ -6838,7 +6878,7 @@ function assessAutoKick() {
 
 // ── Tier from elapsed ms ─────────────────────────────────
 function getTierFromMs(ms, correct) {
-  if (correct && ms <= A.threshMs) return 'mastered';
+  if (correct && ms <= A.threshMs) return 'fluent';
   return 'needs';
 }
 
@@ -6846,11 +6886,6 @@ function getTierFromMs(ms, correct) {
 function endAssessment() {
   if (A.timer) { clearInterval(A.timer); A.timer = null; }
   document.removeEventListener('keydown', assessKeydown);
-
-  // Compute summary
-  var total    = A.results.length;
-  var mastered = A.results.filter(function(r) { return r.tier === 'mastered'; }).length;
-  var needs    = total - mastered;
 
   // Compute label
   var username = localStorage.getItem('sparkwright_active') || '';
@@ -6862,11 +6897,6 @@ function endAssessment() {
   // Populate results overlay
   document.getElementById('assess-results-sublabel').textContent = label;
 
-  var summaryRow = document.getElementById('assess-summary-row');
-  summaryRow.innerHTML =
-    '<div class="assess-summary-stat"><div class="assess-summary-num" style="color:var(--text)">'  + mastered + '/' + total + '</div><div class="assess-summary-lbl">Mastered</div></div>' +
-    '<div class="assess-summary-stat"><div class="assess-summary-num" style="color:rgba(240,240,255,0.6)">' + needs + '</div><div class="assess-summary-lbl">Needs Practice</div></div>';
-
   function buildChips(tier) {
     return A.results
       .filter(function(r) { return r.tier === tier; })
@@ -6874,8 +6904,8 @@ function endAssessment() {
       .join('');
   }
 
-  document.getElementById('assess-grid-mastered').innerHTML = buildChips('mastered') || '<span style="font-size:0.78rem;color:rgba(240,240,255,0.25)">None</span>';
-  document.getElementById('assess-grid-needs').innerHTML    = buildChips('needs')    || '<span style="font-size:0.78rem;color:rgba(240,240,255,0.25)">None</span>';
+  document.getElementById('assess-grid-fluent').innerHTML = buildChips('fluent') || '<span style="font-size:0.78rem;color:rgba(240,240,255,0.25)">None</span>';
+  document.getElementById('assess-grid-needs').innerHTML  = buildChips('needs')  || '<span style="font-size:0.78rem;color:rgba(240,240,255,0.25)">None</span>';
 
   document.getElementById('assess-results-overlay').classList.add('visible');
 }
@@ -6886,8 +6916,8 @@ function saveAssessmentRecord() {
   if (!username) { showScreen('assess-area-screen'); return; }
 
   var total    = A.results.length;
-  var mastered = A.results.filter(function(r) { return r.tier === 'mastered'; }).length;
-  var needs    = total - mastered;
+  var fluent   = A.results.filter(function(r) { return r.tier === 'fluent'; }).length;
+  var needs    = total - fluent;
 
   var assessData = loadAssessments();
   var userData   = assessData[username] || { nextId: 1, records: [] };
@@ -6907,7 +6937,7 @@ function saveAssessmentRecord() {
     threshMs:   A.threshMs,
     akMs:       A.akMs,
     results:    A.results.slice(),
-    summary:    { total: total, mastered: mastered, needs: needs }
+    summary:    { total: total, fluent: fluent, needs: needs }
   };
 
   userData.records.push(record);
@@ -6916,12 +6946,49 @@ function saveAssessmentRecord() {
   saveAssessments(assessData);
 
   document.getElementById('assess-results-overlay').classList.remove('visible');
+  hideOverlay('midgame-nav-overlay');
   showScreen('assess-area-screen');
 }
 
-// ── Print assessment results ─────────────────────────────
+// ── Print assessment results (live scan) ─────────────────
 function printAssessmentResults() {
+  var username = localStorage.getItem('sparkwright_active') || 'Student';
+  var opSymbols = { x: '×', '/': '÷', '+': '+', '-': '−' };
+  var opSym = opSymbols[A.op] || A.op;
+  var tablesStr = A.scopeLabel || ((A.tables && A.tables.length) ? opSym + A.tables.slice().sort(function(a,b){return a-b;}).join(', '+opSym) : opSym+' All');
+  var threshStr = (A.threshMs / 1000) + 's';
+  var dateStr = new Date().toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+  var assessData = username ? loadAssessments() : {};
+  var userData   = (assessData[username] || { nextId: 1, records: [] });
+  var labelNum   = userData.nextId || (userData.records.length + 1);
+  var label      = labelNum === 1 ? 'Baseline' : 'Star Scan ' + labelNum;
+
+  var fluentFacts = A.results.filter(function(r){ return r.tier === 'fluent'; });
+  var needsFacts  = A.results.filter(function(r){ return r.tier === 'needs'; });
+
+  function factList(arr) {
+    return arr.map(function(r){ return '<span class="print-fact-item">'+r.label+'</span>'; }).join('');
+  }
+
+  var existing = document.getElementById('print-area');
+  if (existing) existing.remove();
+  var div = document.createElement('div');
+  div.id = 'print-area';
+  div.innerHTML =
+    '<div class="print-header">' +
+      '<div class="print-title">Star Scan — ' + label + '</div>' +
+      '<div class="print-subtitle">' + dateStr + ' · ' + tablesStr + ' · ' + threshStr + ' threshold</div>' +
+    '</div>' +
+    '<div class="print-name-line">Student: <span>' + username + '</span></div>' +
+    '<table class="print-table"><thead><tr><th>Total Facts</th><th>Fluent (within ' + threshStr + ')</th><th>Needs Practice</th></tr></thead>' +
+    '<tbody><tr><td>' + A.results.length + '</td><td>' + fluentFacts.length + '</td><td>' + needsFacts.length + '</td></tr></tbody></table>' +
+    '<div class="print-facts-section">' +
+      (fluentFacts.length ? '<div class="print-facts-group"><div class="print-facts-title">Fluent</div><div class="print-fact-list">' + factList(fluentFacts) + '</div></div>' : '') +
+      (needsFacts.length  ? '<div class="print-facts-group"><div class="print-facts-title">Needs Practice</div><div class="print-fact-list">' + factList(needsFacts)  + '</div></div>' : '') +
+    '</div>';
+  document.body.appendChild(div);
   window.print();
+  window.addEventListener('afterprint', function() { var el = document.getElementById('print-area'); if (el) el.remove(); }, { once: true });
 }
 
 // ── Print a single past Star Scan record ─────────────────
@@ -6942,8 +7009,8 @@ function printAssessRecord(username, recIndex) {
   var needs    = rec.results.filter(function(r){ return normTierP(r.tier)==='needs'; });
 
   // Summary counts (backwards compat)
-  var masteredCount = s.mastered !== undefined ? s.mastered : (s.fluent || 0);
-  var needsCount    = s.mastered !== undefined ? s.needs    : (s.total - masteredCount);
+  var fluentCount = s.fluent !== undefined ? s.fluent : (s.mastered || 0);
+  var needsCount  = s.total - fluentCount;
 
   function factList(arr) {
     return arr.map(function(r){ return '<span class="print-fact-item">'+r.label+'</span>'; }).join('');
@@ -6955,14 +7022,14 @@ function printAssessRecord(username, recIndex) {
   div.id = 'print-area';
   div.innerHTML =
     '<div class="print-header">' +
-      '<div class="print-title">⭐ Star Scan — '+rec.label+'</div>' +
+      '<div class="print-title">Star Scan — '+rec.label+'</div>' +
       '<div class="print-subtitle">'+dateStr+' · '+tablesStr+' · '+threshStr+' threshold</div>' +
     '</div>' +
     '<div class="print-name-line">Student: <span>'+username+'</span></div>' +
-    '<table class="print-table"><thead><tr><th>Total</th><th>Mastered (≤'+threshStr+')</th><th>Needs Practice</th></tr></thead>' +
-    '<tbody><tr><td>'+s.total+'</td><td>'+masteredCount+'</td><td>'+needsCount+'</td></tr></tbody></table>' +
+    '<table class="print-table"><thead><tr><th>Total Facts</th><th>Fluent (within '+threshStr+')</th><th>Needs Practice</th></tr></thead>' +
+    '<tbody><tr><td>'+s.total+'</td><td>'+fluentCount+'</td><td>'+needsCount+'</td></tr></tbody></table>' +
     '<div class="print-facts-section">' +
-      (mastered.length ? '<div class="print-facts-group"><div class="print-facts-title">Mastered</div><div class="print-fact-list">'+factList(mastered)+'</div></div>' : '') +
+      (mastered.length ? '<div class="print-facts-group"><div class="print-facts-title">Fluent</div><div class="print-fact-list">'+factList(mastered)+'</div></div>' : '') +
       (needs.length    ? '<div class="print-facts-group"><div class="print-facts-title">Needs Practice</div><div class="print-fact-list">'+factList(needs)+'</div></div>' : '') +
     '</div>';
   document.body.appendChild(div);
@@ -7084,10 +7151,9 @@ function buildAssessmentRecords(container, username) {
     var needsChips = rec.results.filter(function(r){ return normTier(r.tier) === 'needs'; })
       .map(function(r){ return '<span class="mp-assess-chip needs">' + r.label + '</span>'; }).join('');
 
-    // Summary counts (backwards compat: old records have s.fluent/s.almost/s.needs)
-    var masteredCount = s.mastered !== undefined ? s.mastered : (s.fluent || 0);
-    var needsCount    = s.needs    !== undefined ? (s.needs + (s.almost || 0)) : (s.almost || 0) + (s.needs || 0);
-    if (s.mastered === undefined && s.fluent !== undefined) needsCount = s.total - masteredCount;
+    // Summary counts (backwards compat: old records may use s.mastered or s.fluent)
+    var fluentCount = s.fluent !== undefined ? s.fluent : (s.mastered || 0);
+    var needsCount  = s.total - fluentCount;
 
     var escUser = (username || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     html +=
@@ -7098,8 +7164,8 @@ function buildAssessmentRecords(container, username) {
         '</div>' +
         '<div class="mp-assess-record-date" style="margin-bottom:5px;">' + dateStr + ' · ' + tablesStr + ' · ' + threshStr + '</div>' +
         '<div class="mp-assess-record-summary">' +
-          '<span class="mp-assess-stat total">' + masteredCount + '/' + s.total + ' mastered</span>' +
-          '<span class="mp-assess-stat needs">📚 ' + needsCount + ' Needs Practice</span>' +
+          '<span class="mp-assess-stat total">⚡ ' + fluentCount + '/' + s.total + ' fluent</span>' +
+          '<span class="mp-assess-stat needs">📚 ' + needsCount + ' needs practice</span>' +
         '</div>' +
         (masteredChips ? '<div class="mp-assess-record-chips" style="margin-bottom:5px;">' + masteredChips + '</div>' : '') +
         (needsChips    ? '<div class="mp-assess-record-chips">' + needsChips + '</div>' : '') +
@@ -7153,8 +7219,8 @@ function buildAssessArea() {
       var needsChips2 = rec.results.filter(function(r){ return normTierA(r.tier) === 'needs'; })
         .map(function(r){ return '<span class="mp-assess-chip needs">' + r.label + '</span>'; }).join('');
 
-      var masteredCount2 = s.mastered !== undefined ? s.mastered : (s.fluent || 0);
-      var needsCount2    = s.mastered !== undefined ? s.needs : (s.total - masteredCount2);
+      var fluentCount2   = s.fluent !== undefined ? s.fluent : (s.mastered || 0);
+      var needsCount2    = s.total - fluentCount2;
 
       var escUser2 = username.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
       chips +=
@@ -7165,8 +7231,8 @@ function buildAssessArea() {
           '</div>' +
           '<div class="mp-assess-record-date" style="margin-bottom:5px;">' + dateStr + ' · ' + tablesStr + ' · ' + threshStr + '</div>' +
           '<div class="mp-assess-record-summary">' +
-            '<span class="mp-assess-stat total">' + masteredCount2 + '/' + s.total + ' mastered</span>' +
-            '<span class="mp-assess-stat needs">📚 ' + needsCount2 + ' Needs Practice</span>' +
+            '<span class="mp-assess-stat total">⚡ ' + fluentCount2 + '/' + s.total + ' fluent</span>' +
+            '<span class="mp-assess-stat needs">📚 ' + needsCount2 + ' needs practice</span>' +
           '</div>' +
           (masteredChips2 ? '<div class="mp-assess-record-chips" style="margin-bottom:5px;">' + masteredChips2 + '</div>' : '') +
           (needsChips2    ? '<div class="mp-assess-record-chips">' + needsChips2 + '</div>' : '') +
