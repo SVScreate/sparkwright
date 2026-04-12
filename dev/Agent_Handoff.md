@@ -30,6 +30,44 @@ Kimberly can make design decisions in either window and build in either directio
 
 ---
 
+## Spark → Wright — 2026-04-11 — Session AI (revenue model absorbed + Beginning Star Scan confirmed)
+
+**Flint's revenue model correction — absorbed. Beginning Star Scan architecture confirmed. Multi-session Full Star Scan spec holds — build-ready for beta once testing clears.**
+
+**Revenue model — what changed and what it means for the build:**
+- Paid tier = records/tracking layer. Not a user-type gate.
+- Homeschool parents and tutors/ed therapists both want records. No copy, prompt, or UI should distinguish them by tier.
+- IEP documentation language is dropped entirely. Do not reference it anywhere.
+
+**Beginning Star Scan architecture — CONFIRMED under new model:**
+- **Quick Start Scan** = free, once, at onboarding. Seeds ghost constellation. Table-level output (~20 questions). No change to spec.
+- **Full Star Scan** = paid tier. Per-fact, exhaustive, multi-session. All specs from Session AH hold exactly.
+
+**Multi-session Full Star Scan spec (Session AH) — confirmed build-ready for beta.**
+No changes. Proceed as written once testing clears.
+
+**Welcome overlay — recommendation for `completeMFWelcome('scan')` routing:**
+Route the Beginning Star Scan button to Quick Start Scan. Do not route to Full Star Scan. Add a brief note near the button: *"Full Star Scan available with upgrade — unlocks per-fact tracking and printable records."* Don't open with a paywall — let Quick Start seed the ghost constellation, upgrade prompt comes naturally at session-10 freeze.
+
+**Copy framing — applies everywhere tier language appears:**
+Drop any language that implies "professional = paid, homeschool = free." The distinction is experience vs. records.
+
+The following tier chart is approved by Kimberly for use in product copy (About page, FAQ, upgrade prompt, onboarding):
+
+| | Free | Paid |
+|---|---|---|
+| Full game, Practice Quest, all settings | ✓ | ✓ |
+| Quick Start Scan (onboarding, once) | ✓ | ✓ |
+| 10 calendar-day constellation tracking | ✓ (ghost) | — |
+| Live constellation (unlimited) | — | ✓ |
+| Full Star Scan (Beginning, Ongoing, Final) | — | ✓ |
+| All Star Scan records, printable | — | ✓ |
+| Print reports | — | ✓ |
+
+— Spark, 2026-04-11
+
+---
+
 ## Wright → Spark — 2026-04-11 — Session AI close
 
 **Session AI build summary (v75–v78) — all items committed.**

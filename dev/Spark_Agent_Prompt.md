@@ -192,20 +192,35 @@ One-time purchase per game, a la carte. No account required for core experience.
 ## Current State of Open Work
 *(Replace this section at each session end — do not append)*
 
-### As of Session AH — April 11, 2026
+### As of Session AI — April 11, 2026
 
-**What Wright built since Session AB (v63–v73):**
+**What Wright built since Session AB (v63–v78):**
 - ✅ Student Dashboard / Fact Constellation — built (items 147/66/140)
 - ✅ Star Scan (formerly Assessment Mode) — built, all three scope variants (Full / Per-Table / Family Groups), moved to dedicated screen with title page button (v72/v73)
 - ✅ Assessment data confirmed clean — `saveAssessmentRecord()` writes only to `mathflash_assessments`, constellation reads only from `mathflash_facts`. No cross-contamination.
+- ✅ v75–v78 — username picker, 2-step welcome overlay, profile chip context-awareness, mid-game nav overlay, delete user fix, print per Star Scan record, avatar grid fix, Star Scan two-bucket model, Facts to Watch redesign, fluency threshold one-liner, Star Scan pop-out card copy. Full list in handoff Wright → Spark 2026-04-11.
 
-**What happened Sessions AG–AH (Spark — April 10–11, 2026):**
+**What happened Sessions AG–AI (Spark — April 10–11, 2026):**
 - **Star Scan two-bucket model confirmed** — binary: mastered / needs practice, neutral color. Shipped.
 - **Smart fact prioritization model** — unpracticed trumps recency; 2–3 cap in standard modes. Shipped.
-- **Beginning Star Scan two-tier architecture confirmed:**
-  - *Quick Start Scan* — free/trial path. ~20 facts, table-level, single orientation per table. Confirmed.
+- **Beginning Star Scan two-tier architecture confirmed and locked under revenue model:**
+  - *Quick Start Scan* — free, once at onboarding. ~20 facts, table-level, single orientation per table. Seeds ghost constellation.
   - *Full Star Scan* — paid tier only. Per-fact, exhaustive. Confirmed.
-- **Multi-session Full Star Scan — fully designed and shipped (Session AH).** Build-ready for beta. Full spec in handoff + Game_Logic.md Section 9. 3 sessions (multiplication), per-session constellation update, resume flow, 4-week soft advisory, seal mechanic. Print layout pending Pip.
+  - **Revenue model framing (Session AI):** Paid tier = records/tracking layer, not user type. Homeschool parents and professionals both want records — no copy should distinguish them by tier. IEP documentation language dropped entirely.
+- **Multi-session Full Star Scan — fully designed and shipped (Session AH). Confirmed build-ready (Session AI).** Full spec in handoff + Game_Logic.md Section 9. 3 sessions (multiplication), per-session constellation update, resume flow, 4-week soft advisory, seal mechanic. Print layout pending Pip.
+- **`completeMFWelcome('scan')` routing spec** — Quick Start Scan. Note: "Full Star Scan available with upgrade — unlocks per-fact tracking and printable records." Logged in handoff.
+- **Free/paid tier chart — approved for product copy** (About page, FAQ, upgrade prompt):
+
+  | | Free | Paid |
+  |---|---|---|
+  | Full game, Practice Quest, all settings | ✓ | ✓ |
+  | Quick Start Scan (onboarding, once) | ✓ | ✓ |
+  | 10 calendar-day constellation tracking | ✓ (ghost) | — |
+  | Live constellation (unlimited) | — | ✓ |
+  | Full Star Scan (Beginning, Ongoing, Final) | — | ✓ |
+  | All Star Scan records, printable | — | ✓ |
+  | Print reports | — | ✓ |
+
 - **Orientation design principle** — flagged for all operations. Shipped.
 - **Fluency threshold UI confirmed** — one Settings panel from chip/header; read-only contextual note in My Constellation + Star Scan setup. Shipped.
 - **"Facts to Watch" copy** — finalized and shipped (Session AH).
@@ -221,10 +236,11 @@ Not every session needs the full RP + ConsumerData. Bootstrap + Handoff only unl
 
 ### Open Items
 
-**Design spec'd, not build-ready yet (Wright: read handoff before building these):**
-- [ ] **Quick Start Scan + Full Star Scan two-tier architecture** — spec in handoff. Orientation design principle must be factored in. Full Star Scan = paid tier only (confirmed).
-- [x] **Multi-session Full Star Scan** — fully designed Session AH. Build-ready for beta. Full spec in handoff + Game_Logic.md Section 9. Printable record layout pending Pip.
+**Design spec'd and confirmed — Wright: read handoff before building:**
+- [x] **Quick Start Scan + Full Star Scan two-tier architecture** — confirmed Session AI. Quick Start = free/onboarding. Full Star Scan = paid. Orientation design principle factored in. Spec in handoff.
+- [x] **Multi-session Full Star Scan** — fully designed Session AH, confirmed Session AI. Build-ready for beta. Full spec in handoff + Game_Logic.md Section 9. Printable record layout pending Pip.
 - [ ] **Beginning Star Scan data routing** — Quick Start seeds table-level tiers; Full Star Scan seeds per-fact tiers. Design before wiring.
+- [ ] **`completeMFWelcome('scan')` routing** — spec in handoff Session AI. Route to Quick Start Scan + upgrade note for Full Star Scan.
 
 **Fluency threshold UI — CONFIRMED (Session AH):** One Settings panel from chip/header. Read-only contextual note in My Constellation + Star Scan setup with link to Settings. Shipped to Wright.
 
