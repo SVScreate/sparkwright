@@ -2639,6 +2639,18 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 </div>
 
 <!-- ══ SCAN IN PROGRESS (chip click during scan) ══ -->
+<!-- ══ ADD NEW USER CONFIRM (from in-game screens) ══ -->
+<div id="add-user-confirm-overlay" class="overlay">
+  <div class="overlay-card" style="max-width:320px;">
+    <div class="overlay-title" style="font-size:1.1rem;margin-bottom:10px;">Create a New User?</div>
+    <p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:20px;">You'll be taken to the main menu to set up the new profile.</p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button class="btn-primary" style="width:100%;" onclick="confirmAddNewUser()">Yes, go to main menu</button>
+      <button class="btn-ghost" style="width:100%;" onclick="hideOverlay('add-user-confirm-overlay')">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <div id="scan-chip-overlay" class="overlay">
   <div class="overlay-card" style="max-width:320px;">
     <div class="overlay-title" style="font-size:1.2rem;margin-bottom:10px;">⭐ Scan in Progress</div>
@@ -3446,8 +3458,22 @@ function switchUser(name) {
 }
 
 function addNewUserFromMenu() {
-  hideOverlay('user-menu-overlay');
-  openMFCreateModal(_userMenuDest);
+  var active = document.querySelector('.screen.active');
+  if (active && active.id === 'title-screen') {
+    // Already on title — no warning needed
+    hideOverlay('user-menu-overlay');
+    openMFCreateModal('none');
+  } else {
+    // On an in-game screen — confirm before leaving
+    hideOverlay('user-menu-overlay');
+    showOverlay('add-user-confirm-overlay');
+  }
+}
+
+function confirmAddNewUser() {
+  hideOverlay('add-user-confirm-overlay');
+  showScreen('title-screen');
+  openMFCreateModal('none');
 }
 
 var _deleteTargetUsername = null;
