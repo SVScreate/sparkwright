@@ -2379,7 +2379,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   display: flex; align-items: center; gap: 8px; padding: 0 2px;
 }
 .fc-progress {
-  font-size: 1.4rem; flex-shrink: 0; min-width: 3.6rem; letter-spacing: 3px;
+  display: flex; align-items: center; gap: 6px; flex-shrink: 0;
 }
 .fc-hud-label {
   flex: 1; text-align: center;
@@ -2426,16 +2426,22 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   transition: color 0.15s;
 }
 .fc-feedback.fc-fb-good  { color: var(--correct); }
-.fc-star { display: inline-block; }
-.fc-star-lost {
-  color: var(--wrong);
-  display: inline-block;
-  animation: fc-star-lost-anim 0.42s ease-out forwards;
+.fc-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: transparent; border: 2px solid rgba(255,255,255,0.28);
+  display: inline-block; flex-shrink: 0;
 }
-@keyframes fc-star-lost-anim {
+.fc-dot.filled {
+  background: var(--a2); border-color: var(--a2);
+}
+.fc-dot.losing {
+  background: var(--wrong); border-color: var(--wrong);
+  animation: fc-dot-lose-anim 0.42s ease-out forwards;
+}
+@keyframes fc-dot-lose-anim {
   0%   { transform: scale(1.4); opacity: 1; }
   55%  { transform: scale(1.0); opacity: 0.7; }
-  100% { transform: scale(0.3); opacity: 0; }
+  100% { transform: scale(0.2); opacity: 0; }
 }
 .fc-wrong-flash {
   position: absolute; transform: translateX(-50%);
@@ -2993,6 +2999,14 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
         <label class="switch"><input type="checkbox" id="tog-repeat" checked><div class="switch-track"></div></label>
         <span class="toggle-label"><strong>Re-queue missed facts</strong> — missed facts are targeted for review during the remainder of the round.</span>
       </div>
+      <div style="margin-top:14px; border-top:1px solid var(--border); padding-top:12px;">
+        <div style="font-size:0.75rem; color:var(--muted); font-weight:700; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">Mini-Game Speed</div>
+        <div class="chip-row" id="chips-fcspeed">
+          <div class="chip" data-val="slow">Slow</div>
+          <div class="chip on" data-val="medium">Medium</div>
+          <div class="chip" data-val="fast">Fast</div>
+        </div>
+      </div>
     </div>
 
     <div class="card">
@@ -3248,7 +3262,7 @@ const S = {
   easy:   { x: true, '/': true },
   maxAdd: 20, maxSub: 20, allowNeg: false,
   format: 'count', qCount: 20, timeLimit: 120,
-  mode: 'type', remed: true, repeat: true,
+  mode: 'type', remed: true, repeat: true, fcSpeed: 'medium',
   fluencyTier: FLUENCY_TIERS['standard'],
   extendedTables: false
 };
@@ -3963,6 +3977,14 @@ function buildSetupUI() {
   // Feature toggles
   document.getElementById('tog-remed').addEventListener('change',  function() { S.remed = this.checked; updateAnswerModeDesc(); });
   document.getElementById('tog-repeat').addEventListener('change', function() { S.repeat = this.checked; });
+  document.querySelectorAll('#chips-fcspeed .chip').forEach(function(c) {
+    c.addEventListener('click', function() {
+      document.querySelectorAll('#chips-fcspeed .chip').forEach(function(x) { x.classList.remove('on'); });
+      this.classList.add('on');
+      S.fcSpeed = this.dataset.val;
+      saveSettings();
+    });
+  });
 
   // Extended tables toggle (in Advanced Settings, if present)
   var extToggle = document.getElementById('extended-tables-toggle');
@@ -4020,6 +4042,7 @@ function saveSettings() {
       mode:           S.mode,
       remed:          S.remed,
       repeat:         S.repeat,
+      fcSpeed:        S.fcSpeed,
       fluencyTierName:   S.fluencyTier.name,
       extendedTables:    S.extendedTables
     };
@@ -4048,6 +4071,7 @@ function loadAndApplySettings() {
     S.mode         = saved.mode      || S.mode;
     S.remed        = typeof saved.remed  === 'boolean' ? saved.remed  : S.remed;
     S.repeat       = typeof saved.repeat === 'boolean' ? saved.repeat : S.repeat;
+    S.fcSpeed      = saved.fcSpeed || S.fcSpeed;
     if (saved.fluencyTierName && FLUENCY_TIERS[saved.fluencyTierName]) {
       S.fluencyTier = FLUENCY_TIERS[saved.fluencyTierName];
     }
@@ -4143,6 +4167,9 @@ function loadAndApplySettings() {
     var togRepeat = document.getElementById('tog-repeat');
     if (togRemed)  togRemed.checked  = S.remed;
     if (togRepeat) togRepeat.checked = S.repeat;
+    document.querySelectorAll('#chips-fcspeed .chip').forEach(function(c) {
+      c.classList.toggle('on', c.dataset.val === S.fcSpeed);
+    });
 
     // Fluency tier pills
     document.querySelectorAll('.tier-pill').forEach(function(p) {
@@ -5431,12 +5458,20 @@ function buildFactCatcher(body, f) {
   var distractorPool = _fcShuffle(distractors.filter(function(d, i, arr) { return arr.indexOf(d) === i; }));
   var correctPoolIdx = 0, distractorPoolIdx = 0;
 
+  // --- Speed config ---
+  var _fcSpeedMap = { slow: { fall: 3600, spawn: 2200 }, medium: { fall: 2200, spawn: 1500 }, fast: { fall: 1500, spawn: 950 } };
+  var _fcSpeedKey = (S.fcSpeed && _fcSpeedMap[S.fcSpeed]) ? S.fcSpeed : 'medium';
+  var FC_FALL_MS  = _fcSpeedMap[_fcSpeedKey].fall;
+  var FC_SPAWN_MS = _fcSpeedMap[_fcSpeedKey].spawn;
+
   // --- Game state ---
   var WIN_COUNT = 5;                // correct catches needed to win
   var INACTIVITY_MS = 18000;        // ms of no movement/catch → timeout
   var CORRECT_COOLDOWN = 3500;      // ms after catching a correct before next correct can spawn
+  var MAX_WRONG = 8;                // total wrong catches allowed before forced advance
   var catcherLane = 1;
   var caughtCorrect = 0;
+  var wrongCatches = 0;
   var fcDone = false;
   var fcFrozen = false;
   var fallingCards = [];
@@ -5450,7 +5485,7 @@ function buildFactCatcher(body, f) {
   body.innerHTML =
     '<div class="fc-container">' +
       '<div class="fc-hud">' +
-        '<div class="fc-progress" id="fc-progress">☆☆☆☆☆</div>' +
+        '<div class="fc-progress" id="fc-progress"></div>' +
         '<div class="fc-hud-label">Fact Catcher</div>' +
         '<div class="fc-timer-wrap"><div class="fc-timer-bar" id="fc-timer-bar"></div></div>' +
       '</div>' +
@@ -5486,7 +5521,7 @@ function buildFactCatcher(body, f) {
     if (!el) return;
     var html = '';
     for (var _i = 0; _i < WIN_COUNT; _i++) {
-      html += '<span class="fc-star" id="fc-star-' + _i + '">' + (_i < caughtCorrect ? '⭐' : '☆') + '</span>';
+      html += '<span class="fc-dot' + (_i < caughtCorrect ? ' filled' : '') + '" id="fc-dot-' + _i + '"></span>';
     }
     el.innerHTML = html;
   }
@@ -5561,7 +5596,7 @@ function buildFactCatcher(body, f) {
       lane = Math.floor(Math.random() * 3);
     }
 
-    var fallMs = 2200 + Math.random() * 500; // 2.2–2.7s — fast-paced
+    var fallMs = FC_FALL_MS + Math.random() * 500;
     var el = document.createElement('div');
     el.className = 'fc-card';
     el.textContent = text;
@@ -5619,14 +5654,22 @@ function buildFactCatcher(body, f) {
             if (fcField) fcField.appendChild(ghost);
             setTimeout(function() { ghost.remove(); }, 1020);
 
-            // Flash the losing star coral-red then shrink away
-            var lostIdx = caughtCorrect - 1;
-            var starEl = lostIdx >= 0 ? document.getElementById('fc-star-' + lostIdx) : null;
-            if (starEl) { starEl.textContent = '★'; starEl.className = 'fc-star fc-star-lost'; }
-            setTimeout(function() {
-              caughtCorrect = Math.max(0, caughtCorrect - 1);
-              renderProgress();
-            }, 400);
+            // Lose one dot (only if we have progress to lose)
+            if (caughtCorrect > 0) {
+              var lostIdx = caughtCorrect - 1;
+              var dotEl = document.getElementById('fc-dot-' + lostIdx);
+              if (dotEl) { dotEl.className = 'fc-dot losing'; }
+              setTimeout(function() {
+                caughtCorrect = Math.max(0, caughtCorrect - 1);
+                renderProgress();
+              }, 420);
+            }
+
+            // Kid exploit guard — too many wrong catches forces the round to end
+            wrongCatches++;
+            if (wrongCatches >= MAX_WRONG) {
+              setTimeout(function() { if (!fcDone) fcEndGame(false); }, 1200);
+            }
 
             flashCatcher('bad');
             fcFrozen = true;
@@ -5670,7 +5713,7 @@ function buildFactCatcher(body, f) {
   setTimeout(function() {
     if (fcDone) return;
     spawnCard();
-    spawnTimer = setInterval(spawnCard, 1500);
+    spawnTimer = setInterval(spawnCard, FC_SPAWN_MS);
     loopTimer  = setInterval(fcTick, 40);
   }, 60);
 }
