@@ -2425,8 +2425,18 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   min-height: 1.1em; color: transparent;
   transition: color 0.15s;
 }
-.fc-feedback.fc-fb-wrong { color: var(--wrong); }
 .fc-feedback.fc-fb-good  { color: var(--correct); }
+.fc-star { display: inline-block; }
+.fc-star-lost {
+  color: var(--wrong);
+  display: inline-block;
+  animation: fc-star-lost-anim 0.42s ease-out forwards;
+}
+@keyframes fc-star-lost-anim {
+  0%   { transform: scale(1.4); opacity: 1; }
+  55%  { transform: scale(1.0); opacity: 0.7; }
+  100% { transform: scale(0.3); opacity: 0; }
+}
 .fc-wrong-flash {
   position: absolute; transform: translateX(-50%);
   font-family: var(--font-display); font-size: 1.05rem;
@@ -5474,9 +5484,11 @@ function buildFactCatcher(body, f) {
   function renderProgress() {
     var el = document.getElementById('fc-progress');
     if (!el) return;
-    var s = '';
-    for (var _i = 0; _i < WIN_COUNT; _i++) s += (_i < caughtCorrect ? '⭐' : '☆');
-    el.textContent = s;
+    var html = '';
+    for (var _i = 0; _i < WIN_COUNT; _i++) {
+      html += '<span class="fc-star" id="fc-star-' + _i + '">' + (_i < caughtCorrect ? '⭐' : '☆') + '</span>';
+    }
+    el.innerHTML = html;
   }
   renderProgress();
 
@@ -5607,10 +5619,16 @@ function buildFactCatcher(body, f) {
             if (fcField) fcField.appendChild(ghost);
             setTimeout(function() { ghost.remove(); }, 1020);
 
-            caughtCorrect = Math.max(0, caughtCorrect - 1);
-            renderProgress();
+            // Flash the losing star coral-red then shrink away
+            var lostIdx = caughtCorrect - 1;
+            var starEl = lostIdx >= 0 ? document.getElementById('fc-star-' + lostIdx) : null;
+            if (starEl) { starEl.textContent = '★'; starEl.className = 'fc-star fc-star-lost'; }
+            setTimeout(function() {
+              caughtCorrect = Math.max(0, caughtCorrect - 1);
+              renderProgress();
+            }, 400);
+
             flashCatcher('bad');
-            showFeedback('✗ Wrong — lost a star!', 'wrong');
             fcFrozen = true;
             setTimeout(function() { if (!fcDone) fcFrozen = false; }, 1020);
           }
