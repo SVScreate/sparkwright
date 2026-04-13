@@ -60,8 +60,14 @@
   .fc-timer-bar.urgent { background: var(--wrong); }
 
   .fc-feedback { text-align: center; font-size: 0.82rem; font-weight: 700; min-height: 1.1em; color: transparent; transition: color 0.15s; }
-  .fc-feedback.fc-fb-wrong { color: var(--wrong); }
   .fc-feedback.fc-fb-good  { color: var(--correct); }
+  .fc-star { display: inline-block; }
+  .fc-star-lost { color: var(--wrong); display: inline-block; animation: fc-star-lost-anim 0.42s ease-out forwards; }
+  @keyframes fc-star-lost-anim {
+    0%  { transform: scale(1.4); opacity: 1; }
+    55% { transform: scale(1.0); opacity: 0.7; }
+    100%{ transform: scale(0.3); opacity: 0; }
+  }
 
   .fc-target-banner { text-align: center; flex-shrink: 0; font-family: var(--font-display); font-size: 1.3rem; color: var(--a2); background: rgba(255,217,61,0.1); border: 1.5px solid rgba(255,217,61,0.3); border-radius: 8px; padding: 6px 20px; white-space: nowrap; }
 
@@ -209,8 +215,9 @@ function setLane(l){
 }
 function renderProg(){
   var el=document.getElementById('fc-prog'); if(!el) return;
-  var s=''; for(var i=0;i<WIN_COUNT;i++) s+=(i<S.caught?'⭐':'☆');
-  el.textContent=s;
+  var html='';
+  for(var i=0;i<WIN_COUNT;i++) html+='<span class="fc-star" id="fc-star-'+i+'">'+(i<S.caught?'⭐':'☆')+'</span>';
+  el.innerHTML=html;
 }
 function renderTimer(){
   var b=document.getElementById('fc-timer'); if(!b) return;
@@ -291,9 +298,12 @@ function tick(){
           var ghost=document.createElement('div'); ghost.className='fc-wrong-flash';
           ghost.textContent=txt; ghost.style.left=lcx(S.lane)+'px'; ghost.style.top=(catchTop-10)+'px';
           if(field) field.appendChild(ghost); setTimeout(function(){ghost.remove();},1020);
-          S.caught=Math.max(0,S.caught-1); renderProg(); flashCatcher('bad');
-          showFeedback('✗ Wrong — lost a star!','wrong');
-          hint('❌ Wrong catch — <span>lost 1 star</span>');
+          var lostIdx=S.caught-1;
+          var starEl=lostIdx>=0?document.getElementById('fc-star-'+lostIdx):null;
+          if(starEl){starEl.textContent='★';starEl.className='fc-star fc-star-lost';}
+          setTimeout(function(){S.caught=Math.max(0,S.caught-1);renderProg();},400);
+          flashCatcher('bad');
+          hint('❌ Wrong catch — <span>lost 1 star (coral flash)</span>');
           S.frozen=true;
           setTimeout(function(){if(!S.done)S.frozen=false;},1020);
         }
