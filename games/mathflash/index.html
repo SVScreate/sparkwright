@@ -2638,6 +2638,18 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   </div>
 </div>
 
+<!-- ══ SCAN IN PROGRESS (chip click during scan) ══ -->
+<div id="scan-chip-overlay" class="overlay">
+  <div class="overlay-card" style="max-width:320px;">
+    <div class="overlay-title" style="font-size:1.2rem;margin-bottom:10px;">⭐ Scan in Progress</div>
+    <p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:20px;">Your Star Scan is paused. The current fact has been moved to later in the scan.</p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button class="btn-primary" style="width:100%;font-size:1rem;padding:13px;" onclick="returnToScan()">Return to Star Scan</button>
+      <button class="btn-ghost" style="width:100%;font-size:0.9rem;" onclick="quitScan()">Quit — lose this scan</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ MID-GAME NAV MENU ══ -->
 <div id="midgame-nav-overlay" class="overlay" onclick="if(event.target===this)hideOverlay('midgame-nav-overlay')">
   <div class="overlay-card" style="max-width:320px;">
@@ -3584,6 +3596,9 @@ function completeMFWelcome(choice) {
     buildSetupUI();
     loadAndApplySettings();
     showScreen('setup-screen');
+  } else {
+    // Always land on title for non-practice flow — prevents stale screen from previous user
+    showScreen('title-screen');
   }
 }
 
@@ -3592,15 +3607,16 @@ function onChipClick() {
   var active = document.querySelector('.screen.active');
   var menuScreens = ['title-screen', 'stats-screen', 'assess-area-screen'];
   if (active && active.id === 'assessment-screen') {
-    // Bug #3: mid-scan — pause timer, recycle current fact, open user menu
+    // Mid-scan: pause timer, recycle current unanswered fact, show scan overlay
     if (A.timer) { clearInterval(A.timer); A.timer = null; }
+    if (A.advanceTimeout) { clearTimeout(A.advanceTimeout); A.advanceTimeout = null; }
     if (!A.answered && A.cur < A.facts.length) {
       var recycled = A.facts.splice(A.cur, 1)[0];
       A.facts.push(recycled);
-      // A.cur now points to the next fact (splice shifted it)
+      // A.cur now points to the next fact (splice shifted array left)
     }
     A.menuPaused = true;
-    showUserMenu('none');
+    showOverlay('scan-chip-overlay');
   } else if (active && menuScreens.indexOf(active.id) !== -1) {
     showUserMenu('none');
   } else {
@@ -3608,14 +3624,39 @@ function onChipClick() {
   }
 }
 
-// ── User menu close — resumes scan if it was paused ──────
+// ── User menu close (close btn / click-outside) ───────────
 function closeUserMenuOverlay() {
   hideOverlay('user-menu-overlay');
-  if (A.menuPaused) {
-    A.menuPaused = false;
-    // Resume scan from next fact (current was recycled to end of pool)
-    showAssessmentFact();
-  }
+}
+
+// ── Scan chip overlay — Return to Star Scan ───────────────
+function returnToScan() {
+  hideOverlay('scan-chip-overlay');
+  // Show ready state: clear question, disable input, show Continue button
+  // A.menuPaused stays true — assessContinue() checks it to skip A.cur++
+  document.getElementById('assess-question').textContent = '';
+  var fill = document.getElementById('assess-bar-fill');
+  fill.style.width = '100%';
+  fill.className = 'assess-bar-fill';
+  document.getElementById('assess-progress').textContent = 'Fact ' + (A.cur + 1) + ' of ' + A.facts.length;
+  var inp = document.getElementById('assess-input');
+  inp.value = ''; inp.disabled = true; inp.className = 'assess-input';
+  var checkBtn = document.getElementById('assess-check-btn');
+  checkBtn.disabled = true;
+  var contBtn = document.getElementById('assess-continue-btn');
+  contBtn.textContent = 'Continue →';
+  contBtn.style.display = 'block';
+  contBtn.focus();
+}
+
+// ── Scan chip overlay — Quit ──────────────────────────────
+function quitScan() {
+  hideOverlay('scan-chip-overlay');
+  A.menuPaused = false;
+  if (A.timer) { clearInterval(A.timer); A.timer = null; }
+  if (A.advanceTimeout) { clearTimeout(A.advanceTimeout); A.advanceTimeout = null; }
+  document.removeEventListener('keydown', assessKeydown);
+  showScreen('title-screen');
 }
 
 // ── Mid-game navigation menu ──────────────────────────────
@@ -7203,15 +7244,17 @@ function togglePauseAfter() {
 // ── Global Enter key handler for Star Scan ───────────────
 function assessKeydown(e) {
   if (e.key !== 'Enter') return;
+  // Don't fire when scan-chip overlay is open
+  if (document.getElementById('scan-chip-overlay').classList.contains('active')) return;
   // Don't fire when pause overlay is open
   var pauseOverlay = document.getElementById('assess-pause-overlay');
   if (pauseOverlay && pauseOverlay.classList.contains('visible')) return;
   // Don't fire when results overlay is open
   var resultsOverlay = document.getElementById('assess-results-overlay');
   if (resultsOverlay && resultsOverlay.classList.contains('visible')) return;
-  // Continue button takes priority
+  // Continue button (or chip-paused ready state) takes priority
   var contBtn = document.getElementById('assess-continue-btn');
-  if (contBtn && contBtn.style.display === 'block') {
+  if (A.menuPaused || (contBtn && contBtn.style.display === 'block')) {
     assessContinue();
     return;
   }
@@ -7221,7 +7264,17 @@ function assessKeydown(e) {
 // ── Continue after paused fact ───────────────────────────
 function assessContinue() {
   var contBtn = document.getElementById('assess-continue-btn');
-  if (contBtn) contBtn.style.display = 'none';
+  if (contBtn) { contBtn.style.display = 'none'; contBtn.textContent = 'Continue →'; }
+  if (A.menuPaused) {
+    // Chip-paused ready state: A.cur already points to the right fact (recycled in onChipClick)
+    A.menuPaused = false;
+    var checkBtn = document.getElementById('assess-check-btn');
+    if (checkBtn) { checkBtn.disabled = false; checkBtn.style.display = ''; }
+    var inp = document.getElementById('assess-input');
+    if (inp) inp.disabled = false;
+    showAssessmentFact();
+    return;
+  }
   A.cur++;
   showAssessmentFact();
 }
