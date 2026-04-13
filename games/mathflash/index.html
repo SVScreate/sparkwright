@@ -5607,10 +5607,10 @@ function buildFactCatcher(body, f) {
             if (fcField) fcField.appendChild(ghost);
             setTimeout(function() { ghost.remove(); }, 1020);
 
-            caughtCorrect = 0;
+            caughtCorrect = Math.max(0, caughtCorrect - 1);
             renderProgress();
             flashCatcher('bad');
-            showFeedback('✗ Wrong — counter reset!', 'wrong');
+            showFeedback('✗ Wrong — lost a star!', 'wrong');
             fcFrozen = true;
             setTimeout(function() { if (!fcDone) fcFrozen = false; }, 1020);
           }

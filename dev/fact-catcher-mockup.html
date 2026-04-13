@@ -291,9 +291,9 @@ function tick(){
           var ghost=document.createElement('div'); ghost.className='fc-wrong-flash';
           ghost.textContent=txt; ghost.style.left=lcx(S.lane)+'px'; ghost.style.top=(catchTop-10)+'px';
           if(field) field.appendChild(ghost); setTimeout(function(){ghost.remove();},1020);
-          S.caught=0; renderProg(); flashCatcher('bad');
-          showFeedback('✗ Wrong — counter reset!','wrong');
-          hint('❌ Wrong catch — <span>counter reset to 0</span>');
+          S.caught=Math.max(0,S.caught-1); renderProg(); flashCatcher('bad');
+          showFeedback('✗ Wrong — lost a star!','wrong');
+          hint('❌ Wrong catch — <span>lost 1 star</span>');
           S.frozen=true;
           setTimeout(function(){if(!S.done)S.frozen=false;},1020);
         }
