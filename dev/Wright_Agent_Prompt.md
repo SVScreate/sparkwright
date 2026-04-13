@@ -76,18 +76,23 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Flash v81** — live at `games/mathflash/index.html` (no backup file — all changes committed directly)
+**Math Flash v82k** — live at `games/mathflash/index.html` (no backup file — all changes committed directly)
 Landing page: `sparkwright/index.html` (updated Session AE)
 
-## Session AJ Build Summary (v79–v81)
-- Star Scan results: "Fluent" replaces "Mastered" in scan context. Summary stat row removed. Print from live results functional. Navigate overlay bug fixed.
-- Star Scan setup: Threshold "Change" link removed (only in My Constellation). Settings persist across opens. Default: ×3, ×4, ×5 Per-Table.
-- Facts to Watch: needs-practice → almost → unpracticed priority. Cap 5, single row, no labels, color-coded top border. Smart empty state.
-- My Constellation: "Go to Star Scan Area" button removed.
-- Profile chip: stats-screen and assess-area-screen now open user menu (not mid-game nav).
-- User management (Math Flash): Delete button with checkbox confirmation modal in Switch User overlay.
-- User management (Sparkwright homepage): Custom delete confirmation modal. Trash icon display fix.
-- Delete modals: "data" hyperlink placeholder added (wire to backup page when built).
+## Session AK Build Summary (v82a–v82k)
+
+**Fact Catcher mini-game** — new PQ step (replaces "Match It" slot in the randomized sequence):
+- 5 CSS dot progress (yellow filled / white outline empty); dots animate coral+shrink on loss
+- 5-star win; inactivity timer (18s no movement/catch = timeout); 3 falling lanes
+- Controlled distractor-heavy spawn (~73% distractors); lane enforcement; correct cooldown (3.5s)
+- Wrong catch: lose 1 dot + freeze 1s; 0-star guard; MAX_WRONG=8 forces advance (exploit prevention)
+- Mini-Game Speed: Slow/Medium/Fast in Setup → Practice Features (persisted, controls fall + spawn speed)
+- PQ step pips stack below "⚡ Practice Quest" badge (was side-by-side)
+- Mockup at `dev/fact-catcher-mockup.html` kept in sync
+
+**Bug fixes also in this session (v82a–v82d):**
+- User context reset on switch/create/delete (partial fix)
+- Welcome flow timing fix (partial)
 
 ## ⚠️ CRITICAL BUGS — Fix Before Any New Features
 

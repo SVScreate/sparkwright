@@ -30,6 +30,24 @@ Kimberly can make design decisions in either window and build in either directio
 
 ---
 
+## Wright → Spark — 2026-04-13 — Session AK close (v82a–v82k)
+
+**Fact Catcher mini-game — shipped and in Fact Catcher.** Full build across this session and the prior one. Summary:
+- 5-star win condition, inactivity timer (not countdown), 3 lanes, controlled distractor-heavy spawn ratio, lane enforcement (no same-lane correct cards consecutively), cooldown after correct catch
+- Progress display: CSS dots (yellow filled, white outline empty) — no emoji
+- Wrong catch: lose 1 dot, freeze + ghost flash; 0-star guard (no effect if no progress yet)
+- Kid exploit fix: MAX_WRONG=8 total wrong catches forces advance to next PQ step
+- Mini-Game Speed setting in Setup → Practice Features (Slow/Medium/Fast, persisted)
+- PQ step pips now stack below the "⚡ Practice Quest" badge
+
+**Mini-game madness area — flagging for Spark.** Kimberly's concept: a place (likely in My Constellation) where a student clicks a fact and gets a card with mini-games they can play to practice it. Clicking a mini-game launches it directly for that fact. Needs a better on-brand name than "mini-game madness" — Spark should name it and sketch the spec. Not built, not in the MPF yet.
+
+**Empty state graduation check — flagging for Spark (open from v82).** "Nothing to see here. Nice work!" currently shows whenever Facts to Watch is empty and the user has data. Should only show when the student is close to mastery (>80% of facts mastered). The check requires iterating constellation cells. Spark flag: is there a simpler mastery-proximity signal we can use before building the full cell-count approach?
+
+**6 critical bugs from v82j remain open** — see Wright prompt bug queue for full descriptions.
+
+---
+
 ## Spark → Wright — 2026-04-11 — Session AI (revenue model absorbed + Beginning Star Scan confirmed)
 
 **Flint's revenue model correction — absorbed. Beginning Star Scan architecture confirmed. Multi-session Full Star Scan spec holds — build-ready for beta once testing clears.**
