@@ -2415,12 +2415,18 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   background: rgba(255,255,255,0.07); border-color: rgba(199,125,255,0.35); color: var(--text);
 }
 .fc-target-banner {
-  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  text-align: center; flex-shrink: 0;
   font-family: var(--font-display); font-size: 1.3rem; color: var(--a2);
   background: rgba(255,217,61,0.1); border: 1.5px solid rgba(255,217,61,0.3);
-  border-radius: 8px; padding: 6px 20px;
-  pointer-events: none; z-index: 2; white-space: nowrap;
+  border-radius: 8px; padding: 6px 20px; white-space: nowrap;
 }
+.fc-feedback {
+  text-align: center; font-size: 0.82rem; font-weight: 700;
+  min-height: 1.1em; color: transparent;
+  transition: color 0.15s;
+}
+.fc-feedback.fc-fb-wrong { color: var(--wrong); }
+.fc-feedback.fc-fb-good  { color: var(--correct); }
 .fc-wrong-flash {
   position: absolute; transform: translateX(-50%);
   font-family: var(--font-display); font-size: 1.05rem;
@@ -5385,21 +5391,21 @@ function buildFactCatcher(body, f) {
     fc_ans + ' = ' + fa + ' × ' + fb,
     fc_ans + ' = ' + fb + ' × ' + fa
   ];
-  var correctSet = {};
-  correctFacts.forEach(function(s) { correctSet[s] = true; });
 
-  // --- Distractors ---
+  // --- Distractors (larger pool for distractor-heavy spawning) ---
   var distractors = [];
-  [-3,-2,-1,1,2,3].forEach(function(d) {
+  [-4,-3,-2,-1,1,2,3,4].forEach(function(d) {
     var wa = fc_ans + d;
-    if (wa > 0) distractors.push(fa + ' × ' + fb + ' = ' + wa);
+    if (wa > 0) {
+      distractors.push(fa + ' × ' + fb + ' = ' + wa);
+      distractors.push(fc_ans + ' = ' + (fa + 1) + ' × ' + (fb - 1));
+    }
   });
-  if (fa > 1) distractors.push((fa - 1) + ' × ' + fb + ' = ' + fc_ans);
-  distractors.push((fa + 1) + ' × ' + fb + ' = ' + fc_ans);
-  if (fb > 1) distractors.push(fa + ' × ' + (fb - 1) + ' = ' + fc_ans);
-  distractors.push(fa + ' × ' + (fb + 1) + ' = ' + fc_ans);
-  distractors.push(fc_ans + ' = ' + (fa + 1) + ' × ' + fb);
-  if (fa > 1) distractors.push(fc_ans + ' = ' + (fa - 1) + ' × ' + fb);
+  [-2,-1,1,2].forEach(function(d) {
+    if (fa + d > 0) distractors.push((fa + d) + ' × ' + fb + ' = ' + fc_ans);
+    if (fb + d > 0) distractors.push(fa + ' × ' + (fb + d) + ' = ' + fc_ans);
+    if (fa + d > 0) distractors.push(fc_ans + ' = ' + (fa + d) + ' × ' + fb);
+  });
 
   function _fcShuffle(arr) {
     var a = arr.slice();
@@ -5410,49 +5416,57 @@ function buildFactCatcher(body, f) {
     return a;
   }
 
-  // Cycling card pool: all 4 correct + up to 8 distractors, shuffled together
-  var cardPool = _fcShuffle(correctFacts.concat(_fcShuffle(distractors).slice(0, 8)));
+  // Separate cycling pools — distractors spawn ~3× more often than correct
+  var correctPool    = _fcShuffle(correctFacts);
+  var distractorPool = _fcShuffle(distractors.filter(function(d, i, arr) { return arr.indexOf(d) === i; }));
+  var correctPoolIdx = 0, distractorPoolIdx = 0;
 
   // --- Game state ---
+  var WIN_COUNT = 5;                // correct catches needed to win
+  var INACTIVITY_MS = 18000;        // ms of no movement/catch → timeout
+  var CORRECT_COOLDOWN = 3500;      // ms after catching a correct before next correct can spawn
   var catcherLane = 1;
   var caughtCorrect = 0;
   var fcDone = false;
   var fcFrozen = false;
   var fallingCards = [];
-  var cardIdx = 0;
   var spawnTimer = null;
   var loopTimer  = null;
-  var clockTimer = null;
-  var fcTimeLeft = 30;
+  var lastCorrectLane = -1;          // prevents same-lane correct cards consecutively
+  var lastCorrectCaughtTime = 0;     // timestamp of last correct catch
+  var lastActivityTime = Date.now(); // reset on movement or any catch
 
-  // --- HTML ---
+  // --- HTML (target banner above the field) ---
   body.innerHTML =
     '<div class="fc-container">' +
       '<div class="fc-hud">' +
-        '<div class="fc-progress" id="fc-progress">☆☆☆</div>' +
+        '<div class="fc-progress" id="fc-progress">☆☆☆☆☆</div>' +
         '<div class="fc-hud-label">Fact Catcher</div>' +
         '<div class="fc-timer-wrap"><div class="fc-timer-bar" id="fc-timer-bar"></div></div>' +
       '</div>' +
+      '<div class="fc-feedback" id="fc-feedback"></div>' +
+      '<div class="fc-target-banner">' + fa + ' × ' + fb + ' = ' + fc_ans + '</div>' +
       '<div class="fc-field" id="fc-field">' +
         '<div class="fc-lane-div" style="left:33.33%"></div>' +
         '<div class="fc-lane-div" style="left:66.66%"></div>' +
-        '<div class="fc-target-banner">' + fa + ' × ' + fb + ' = ' + fc_ans + '</div>' +
         '<div class="fc-catcher" id="fc-catcher">' + fcAvatar + '</div>' +
       '</div>' +
       '<div class="fc-instr">← → or mouse to move · catch the correct facts!</div>' +
     '</div>';
 
-  injectRemedBtn(body, 'Next →', false); // hidden until fcEndGame shows it
+  injectRemedBtn(body, 'Next →', false);
 
   var fcField   = document.getElementById('fc-field');
   var fcCatcher = document.getElementById('fc-catcher');
 
   function getFieldW() { return fcField ? (fcField.offsetWidth  || 320) : 320; }
-  function getFieldH() { return fcField ? (fcField.offsetHeight || 240) : 240; }
+  function getFieldH() { return fcField ? (fcField.offsetHeight || 360) : 360; }
   function laneCenterX(lane) { return Math.round(getFieldW() / 3 * lane + getFieldW() / 6); }
 
   function setCatcherLane(lane) {
-    catcherLane = Math.max(0, Math.min(2, lane));
+    var newLane = Math.max(0, Math.min(2, lane));
+    if (newLane !== catcherLane) lastActivityTime = Date.now(); // only reset on actual move
+    catcherLane = newLane;
     if (fcCatcher) fcCatcher.style.left = laneCenterX(catcherLane) + 'px';
   }
   setTimeout(function() { setCatcherLane(1); }, 10);
@@ -5461,19 +5475,31 @@ function buildFactCatcher(body, f) {
     var el = document.getElementById('fc-progress');
     if (!el) return;
     var s = '';
-    for (var _i = 0; _i < 3; _i++) s += (_i < caughtCorrect ? '⭐' : '☆');
+    for (var _i = 0; _i < WIN_COUNT; _i++) s += (_i < caughtCorrect ? '⭐' : '☆');
     el.textContent = s;
   }
   renderProgress();
 
-  function renderTimer() {
+  function renderInactivityBar() {
     var bar = document.getElementById('fc-timer-bar');
     if (!bar) return;
-    bar.style.width = Math.max(0, (fcTimeLeft / 30) * 100) + '%';
-    if (fcTimeLeft <= 8) bar.classList.add('fc-timer-urgent');
+    var pct = Math.max(0, 1 - (Date.now() - lastActivityTime) / INACTIVITY_MS);
+    bar.style.width = (pct * 100) + '%';
+    if (pct < 0.25) bar.classList.add('fc-timer-urgent');
     else bar.classList.remove('fc-timer-urgent');
   }
-  renderTimer();
+  renderInactivityBar();
+
+  function showFeedback(msg, type) {
+    var el = document.getElementById('fc-feedback');
+    if (!el) return;
+    el.textContent = msg;
+    el.className = 'fc-feedback ' + (type === 'wrong' ? 'fc-fb-wrong' : 'fc-fb-good');
+    setTimeout(function() {
+      var fel = document.getElementById('fc-feedback');
+      if (fel) { fel.textContent = ''; fel.className = 'fc-feedback'; }
+    }, 1800);
+  }
 
   function flashCatcher(type) {
     var c = document.getElementById('fc-catcher');
@@ -5492,7 +5518,6 @@ function buildFactCatcher(body, f) {
     fcDone = true;
     clearInterval(spawnTimer); spawnTimer = null;
     clearInterval(loopTimer);  loopTimer  = null;
-    clearInterval(clockTimer); clockTimer = null;
     fallingCards.forEach(function(c) { try { c.el.remove(); } catch(e) {} });
     fallingCards = [];
     var res = document.createElement('div');
@@ -5503,13 +5528,28 @@ function buildFactCatcher(body, f) {
   }
 
   function spawnCard() {
-    if (fcDone) return;
-    var text = cardPool[cardIdx % cardPool.length];
-    cardIdx++;
-    var isCorrect = !!correctSet[text];
-    var lane = Math.floor(Math.random() * 3);
-    var fallMs = 3400 + Math.random() * 800; // 3.4–4.2s fall (scaled for taller field)
+    if (fcDone || fcFrozen) return;
 
+    // Allow correct only if: no correct card already on screen AND cooldown elapsed
+    var correctOnScreen = fallingCards.some(function(c) { return c.isCorrect && !c.caught && !c.missed; });
+    var cooldownOk = (Date.now() - lastCorrectCaughtTime) > CORRECT_COOLDOWN;
+    var isCorrect = !correctOnScreen && cooldownOk && (Math.random() < 0.27);
+
+    var text, lane;
+    if (isCorrect) {
+      text = correctPool[correctPoolIdx % correctPool.length];
+      correctPoolIdx++;
+      // Force correct card into a different lane than the last correct card
+      var tries = 0;
+      do { lane = Math.floor(Math.random() * 3); tries++; } while (lane === lastCorrectLane && tries < 8);
+      lastCorrectLane = lane;
+    } else {
+      text = distractorPool[distractorPoolIdx % distractorPool.length];
+      distractorPoolIdx++;
+      lane = Math.floor(Math.random() * 3);
+    }
+
+    var fallMs = 2200 + Math.random() * 500; // 2.2–2.7s — fast-paced
     var el = document.createElement('div');
     el.className = 'fc-card';
     el.textContent = text;
@@ -5526,7 +5566,11 @@ function buildFactCatcher(body, f) {
     if (fcDone || fcFrozen) return;
     var now = Date.now();
     var fh = getFieldH();
-    var catchTop = fh - 8 - 52; // catcher at bottom:8px, ~52px tall at 2.6rem
+    var catchTop = fh - 8 - 52;
+
+    // Inactivity timeout
+    renderInactivityBar();
+    if (now - lastActivityTime >= INACTIVITY_MS) { fcEndGame(false); return; }
 
     fallingCards = fallingCards.filter(function(card) {
       var y = -56 + ((now - card.startTime) / card.fallMs) * (fh + 80);
@@ -5537,9 +5581,10 @@ function buildFactCatcher(body, f) {
           card.caught = true;
           var cardText = card.el.textContent;
           card.el.remove();
+          lastActivityTime = now; // any catch resets inactivity
 
           if (card.isCorrect) {
-            // Correct: show green pop at catch position, update progress
+            lastCorrectCaughtTime = now;
             var pop = document.createElement('div');
             pop.className = 'fc-correct-pop';
             pop.textContent = cardText;
@@ -5551,9 +5596,9 @@ function buildFactCatcher(body, f) {
             caughtCorrect++;
             renderProgress();
             flashCatcher('good');
-            if (caughtCorrect >= 3) { fcEndGame(true); return false; }
+            showFeedback('✓ ' + caughtCorrect + ' / ' + WIN_COUNT, 'good');
+            if (caughtCorrect >= WIN_COUNT) { fcEndGame(true); return false; }
           } else {
-            // Wrong: show red shake ghost, freeze game briefly
             var ghost = document.createElement('div');
             ghost.className = 'fc-wrong-flash';
             ghost.textContent = cardText;
@@ -5565,26 +5610,14 @@ function buildFactCatcher(body, f) {
             caughtCorrect = 0;
             renderProgress();
             flashCatcher('bad');
+            showFeedback('✗ Wrong — counter reset!', 'wrong');
             fcFrozen = true;
-            clearInterval(clockTimer); clockTimer = null;
-            setTimeout(function() {
-              if (fcDone) return;
-              fcFrozen = false;
-              clockTimer = setInterval(function() {
-                fcTimeLeft--;
-                renderTimer();
-                if (fcTimeLeft <= 0) fcEndGame(false);
-              }, 1000);
-            }, 1020);
+            setTimeout(function() { if (!fcDone) fcFrozen = false; }, 1020);
           }
           return false;
         }
       }
-      if (y > fh + 20) {
-        card.missed = true;
-        card.el.remove();
-        return false;
-      }
+      if (y > fh + 20) { card.missed = true; card.el.remove(); return false; }
       return true;
     });
   }
@@ -5606,27 +5639,21 @@ function buildFactCatcher(body, f) {
   document.addEventListener('keydown', _fcKeyDown);
   document.addEventListener('mousemove', _fcMouseMove);
 
-  // --- Cleanup (called before any step transition) ---
+  // --- Cleanup ---
   window._fcCleanup = function() {
     document.removeEventListener('keydown', _fcKeyDown);
     document.removeEventListener('mousemove', _fcMouseMove);
     if (spawnTimer) { clearInterval(spawnTimer); spawnTimer = null; }
     if (loopTimer)  { clearInterval(loopTimer);  loopTimer  = null; }
-    if (clockTimer) { clearInterval(clockTimer); clockTimer = null; }
     fallingCards.forEach(function(c) { try { c.el.remove(); } catch(e) {} });
   };
 
-  // --- Start (slight delay so DOM is painted and field dimensions are accurate) ---
+  // --- Start ---
   setTimeout(function() {
     if (fcDone) return;
     spawnCard();
-    spawnTimer = setInterval(spawnCard, 1600);
+    spawnTimer = setInterval(spawnCard, 1500);
     loopTimer  = setInterval(fcTick, 40);
-    clockTimer = setInterval(function() {
-      fcTimeLeft--;
-      renderTimer();
-      if (fcTimeLeft <= 0) fcEndGame(false);
-    }, 1000);
   }, 60);
 }
 
