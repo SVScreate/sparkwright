@@ -2627,9 +2627,9 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 </div>
 
 <!-- ══ USER MENU ══ -->
-<div id="user-menu-overlay" class="overlay" onclick="if(event.target===this)hideOverlay('user-menu-overlay')">
+<div id="user-menu-overlay" class="overlay" onclick="if(event.target===this)closeUserMenuOverlay()">
   <div class="overlay-card" style="max-width:400px;">
-    <button class="overlay-close" onclick="hideOverlay('user-menu-overlay')">✕</button>
+    <button class="overlay-close" onclick="closeUserMenuOverlay()">✕</button>
     <div class="overlay-title" style="font-size:1.2rem;margin-bottom:16px;">Switch User</div>
     <div id="user-menu-list"></div>
     <div style="padding-top:12px;border-top:1px solid var(--border);">
@@ -2663,6 +2663,22 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div style="display:flex;gap:10px;justify-content:flex-end;">
       <button class="res-btn secondary" style="padding:8px 16px;font-size:0.85rem;" onclick="hideOverlay('delete-user-modal')">Cancel</button>
       <button id="delete-user-btn" class="res-btn primary" style="padding:8px 16px;font-size:0.85rem;background:#ff6b6b;border-color:#ff6b6b;opacity:0.4;cursor:not-allowed;" disabled onclick="confirmDeleteUserMF()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DELETE SCAN RECORD MODAL ══ -->
+<div id="delete-record-modal" class="overlay">
+  <div class="overlay-card" style="max-width:360px;">
+    <div style="font-family:var(--font-display);font-size:1.1rem;color:#ff6b6b;margin-bottom:8px;">Delete Star Scan?</div>
+    <div id="delete-record-msg" style="font-size:0.85rem;color:var(--muted);margin-bottom:14px;line-height:1.5;"></div>
+    <label style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:rgba(240,240,255,0.6);cursor:pointer;margin-bottom:18px;">
+      <input type="checkbox" id="delete-record-confirm-check" style="margin-top:2px;flex-shrink:0;" onchange="var b=document.getElementById('delete-record-btn');b.disabled=!this.checked;b.style.opacity=this.checked?'1':'0.4';b.style.cursor=this.checked?'pointer':'not-allowed';">
+      <span>I understand this cannot be undone.</span>
+    </label>
+    <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <button class="res-btn secondary" style="padding:8px 16px;font-size:0.85rem;" onclick="hideOverlay('delete-record-modal')">Cancel</button>
+      <button id="delete-record-btn" class="res-btn primary" style="padding:8px 16px;font-size:0.85rem;background:#ff6b6b;border-color:#ff6b6b;opacity:0.4;cursor:not-allowed;" disabled onclick="confirmDeleteAssessRecord()">Delete</button>
     </div>
   </div>
 </div>
@@ -3134,6 +3150,11 @@ function showScreen(id) {
   rh.style.display = inRound ? 'flex' : 'none';
   if (id === 'stats-screen') buildStatsScreen();
   if (id === 'assess-area-screen') buildAssessArea();
+  if (id === 'title-screen') {
+    // Bug #2: re-check onboarding when landing on title (handles user switches)
+    var _cu = localStorage.getItem('sparkwright_active');
+    if (_cu && !localStorage.getItem('mathflash_onboarded_' + _cu)) showMFWelcome('none');
+  }
 }
 
 function showOverlay(id)  { document.getElementById(id).classList.add('active'); }
@@ -3397,6 +3418,7 @@ function switchUser(name) {
   localStorage.setItem('sparkwright_active', name);
   refreshProfileChip();
   hideOverlay('user-menu-overlay');
+  A.menuPaused = false; // clear any scan-pause state
   if (_userMenuDest === 'practice') {
     if (!localStorage.getItem('mathflash_onboarded_' + name)) {
       showMFWelcome('practice');
@@ -3405,6 +3427,9 @@ function switchUser(name) {
       loadAndApplySettings();
       showScreen('setup-screen');
     }
+  } else {
+    // Bug #1: always reset to title screen so data-dependent UI reloads for new user
+    showScreen('title-screen');
   }
 }
 
@@ -3428,20 +3453,86 @@ function openDeleteUserMF(username) {
 function confirmDeleteUserMF() {
   var username = _deleteTargetUsername;
   if (!username) return;
+
+  // Remove from profiles list
   var profiles = [];
   try { profiles = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]'); } catch(e) {}
   profiles = profiles.filter(function(p) { return p.username !== username; });
   localStorage.setItem('sparkwright_profiles', JSON.stringify(profiles));
+
+  // Delete all user data
+  localStorage.removeItem('mathflash_onboarded_' + username);
+  var allFacts;
+  try { allFacts = JSON.parse(localStorage.getItem('mathflash_facts') || '{}'); } catch(e) { allFacts = {}; }
+  delete allFacts[username];
+  localStorage.setItem('mathflash_facts', JSON.stringify(allFacts));
+  var assessData = loadAssessments();
+  delete assessData[username];
+  saveAssessments(assessData);
+
   var active = localStorage.getItem('sparkwright_active');
-  if (active === username) {
+  var wasActive = (active === username);
+  if (wasActive) {
     localStorage.removeItem('sparkwright_active');
     refreshProfileChip();
   }
   _deleteTargetUsername = null;
   hideOverlay('delete-user-modal');
-  showUserMenu(_userMenuDest);
+  if (wasActive) {
+    // Bug #1: navigate to title so the UI fully resets; user picks profile via chip
+    showScreen('title-screen');
+  } else {
+    showUserMenu(_userMenuDest);
+  }
 }
 
+
+// ── Star Scan record delete ────────────────────────────────
+var _deleteRecordUsername = null;
+var _deleteRecordIndex = null;
+var _deleteRecordFrom = null; // 'area' or 'constellation'
+
+function openDeleteAssessRecord(username, idx) {
+  _deleteRecordUsername = username;
+  _deleteRecordIndex = idx;
+  // Determine which screen we're on to know which rebuild to call after delete
+  var active = document.querySelector('.screen.active');
+  _deleteRecordFrom = (active && active.id === 'assess-area-screen') ? 'area' : 'constellation';
+  document.getElementById('delete-record-msg').textContent = 'Delete this Star Scan record? The scan data will be permanently removed.';
+  var check = document.getElementById('delete-record-confirm-check');
+  check.checked = false;
+  var btn = document.getElementById('delete-record-btn');
+  btn.disabled = true;
+  btn.style.opacity = '0.4';
+  btn.style.cursor = 'not-allowed';
+  showOverlay('delete-record-modal');
+}
+
+function confirmDeleteAssessRecord() {
+  var username = _deleteRecordUsername;
+  var idx = _deleteRecordIndex;
+  if (!username || idx === null) return;
+
+  var assessData = loadAssessments();
+  var userData = assessData[username];
+  if (userData && userData.records && userData.records[idx] !== undefined) {
+    userData.records.splice(idx, 1);
+    assessData[username] = userData;
+    saveAssessments(assessData);
+  }
+
+  _deleteRecordUsername = null;
+  _deleteRecordIndex = null;
+  hideOverlay('delete-record-modal');
+
+  // Rebuild the appropriate view
+  if (_deleteRecordFrom === 'area') {
+    buildAssessArea();
+  } else {
+    buildStatsScreen();
+  }
+  _deleteRecordFrom = null;
+}
 
 function goSetup() {
   var username = localStorage.getItem('sparkwright_active');
@@ -3500,10 +3591,30 @@ function completeMFWelcome(choice) {
 function onChipClick() {
   var active = document.querySelector('.screen.active');
   var menuScreens = ['title-screen', 'stats-screen', 'assess-area-screen'];
-  if (active && menuScreens.indexOf(active.id) !== -1) {
+  if (active && active.id === 'assessment-screen') {
+    // Bug #3: mid-scan — pause timer, recycle current fact, open user menu
+    if (A.timer) { clearInterval(A.timer); A.timer = null; }
+    if (!A.answered && A.cur < A.facts.length) {
+      var recycled = A.facts.splice(A.cur, 1)[0];
+      A.facts.push(recycled);
+      // A.cur now points to the next fact (splice shifted it)
+    }
+    A.menuPaused = true;
+    showUserMenu('none');
+  } else if (active && menuScreens.indexOf(active.id) !== -1) {
     showUserMenu('none');
   } else {
     showOverlay('midgame-nav-overlay');
+  }
+}
+
+// ── User menu close — resumes scan if it was paused ──────
+function closeUserMenuOverlay() {
+  hideOverlay('user-menu-overlay');
+  if (A.menuPaused) {
+    A.menuPaused = false;
+    // Resume scan from next fact (current was recycled to end of pool)
+    showAssessmentFact();
   }
 }
 
@@ -6119,9 +6230,22 @@ function buildStatsScreen() {
   var watchHTML;
   if (watchItems.length === 0) {
     var hasPracticeData = keys.length > 0;
-    var emptyMsg = hasPracticeData
-      ? 'Nothing to see here. Nice work!'
-      : 'Play some practice rounds to find your facts to watch.';
+    var emptyMsg;
+    if (!hasPracticeData) {
+      emptyMsg = 'Play some practice rounds to find your facts to watch.';
+    } else {
+      // Graduation proximity check: only show "Nice work!" if >80% of practiced facts are mastered
+      // AND at least 20 facts have been practiced (avoids false positive for students just starting)
+      var masteredCount = keys.filter(function(k) { return userFacts[k] && userFacts[k].mastered; }).length;
+      var nearGraduation = keys.length >= 20 && (masteredCount / keys.length) >= 0.8;
+      if (nearGraduation) {
+        emptyMsg = 'Nothing to see here. Nice work!';
+      } else if (masteredCount > 0) {
+        emptyMsg = masteredCount + (masteredCount === 1 ? ' fact' : ' facts') + ' mastered — keep going!';
+      } else {
+        emptyMsg = 'Your fluency is building — keep practicing to earn your stars.';
+      }
+    }
     watchHTML = '<div class="mp-watch-empty">' + emptyMsg + '</div>';
   } else {
     var itemsHTML = watchItems.map(function(item) {
@@ -6416,6 +6540,7 @@ var A = {
   akMs:        7000,      // autokick ms
   answered:    false,     // guard against double-submit
   pauseAfter:  false,     // pause between facts
+  menuPaused:  false,     // true when user menu opened mid-scan (chip click)
   advanceTimeout: null,  // setTimeout ID for auto-advance after answer
   // setup state
   _setupOp:     'x',
@@ -7189,7 +7314,10 @@ function buildAssessmentRecords(container, username) {
       '<div class="mp-assess-record">' +
         '<div class="mp-assess-record-header">' +
           '<span class="mp-assess-record-label">' + rec.label + '</span>' +
-          '<button class="print-btn" style="font-size:0.7rem;padding:3px 8px;" onclick="printAssessRecord(\'' + escUser + '\',' + i + ')" title="Print this record">🖨 Print</button>' +
+          '<div style="display:flex;gap:6px;align-items:center;">' +
+            '<button class="print-btn" style="font-size:0.7rem;padding:3px 8px;" onclick="printAssessRecord(\'' + escUser + '\',' + i + ')" title="Print this record">🖨 Print</button>' +
+            '<button class="print-btn" style="font-size:0.7rem;padding:3px 8px;background:rgba(255,107,107,0.15);border-color:rgba(255,107,107,0.4);color:#ff6b6b;" onclick="openDeleteAssessRecord(\'' + escUser + '\',' + i + ')" title="Delete this record">🗑</button>' +
+          '</div>' +
         '</div>' +
         '<div class="mp-assess-record-date" style="margin-bottom:5px;">' + dateStr + ' · ' + tablesStr + ' · ' + threshStr + '</div>' +
         '<div class="mp-assess-record-summary">' +
@@ -7256,7 +7384,10 @@ function buildAssessArea() {
         '<div class="mp-assess-record">' +
           '<div class="mp-assess-record-header">' +
             '<span class="mp-assess-record-label">' + rec.label + '</span>' +
-            '<button class="print-btn" style="font-size:0.7rem;padding:3px 8px;" onclick="printAssessRecord(\'' + escUser2 + '\',' + i + ')" title="Print this record">🖨 Print</button>' +
+            '<div style="display:flex;gap:6px;align-items:center;">' +
+              '<button class="print-btn" style="font-size:0.7rem;padding:3px 8px;" onclick="printAssessRecord(\'' + escUser2 + '\',' + i + ')" title="Print this record">🖨 Print</button>' +
+              '<button class="print-btn" style="font-size:0.7rem;padding:3px 8px;background:rgba(255,107,107,0.15);border-color:rgba(255,107,107,0.4);color:#ff6b6b;" onclick="openDeleteAssessRecord(\'' + escUser2 + '\',' + i + ')" title="Delete this record">🗑</button>' +
+            '</div>' +
           '</div>' +
           '<div class="mp-assess-record-date" style="margin-bottom:5px;">' + dateStr + ' · ' + tablesStr + ' · ' + threshStr + '</div>' +
           '<div class="mp-assess-record-summary">' +
