@@ -2412,12 +2412,47 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   font-family: var(--font-display); font-size: 1.05rem;
   padding: 10px 16px; border-radius: 10px; border: 2px solid;
   white-space: nowrap; pointer-events: none; user-select: none;
+  background: rgba(255,255,255,0.07); border-color: rgba(199,125,255,0.35); color: var(--text);
 }
-.fc-card.fc-right {
-  background: rgba(77,150,255,0.18); border-color: var(--a4); color: var(--a4);
+.fc-target-banner {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-display); font-size: 1.3rem; color: var(--a2);
+  background: rgba(255,217,61,0.1); border: 1.5px solid rgba(255,217,61,0.3);
+  border-radius: 8px; padding: 6px 20px;
+  pointer-events: none; z-index: 2; white-space: nowrap;
 }
-.fc-card.fc-wrong {
-  background: rgba(199,125,255,0.1); border-color: rgba(199,125,255,0.3); color: var(--muted);
+.fc-wrong-flash {
+  position: absolute; transform: translateX(-50%);
+  font-family: var(--font-display); font-size: 1.05rem;
+  padding: 10px 16px; border-radius: 10px;
+  border: 2px solid var(--wrong); background: rgba(255,107,107,0.22); color: var(--wrong);
+  white-space: nowrap; pointer-events: none; z-index: 10;
+  animation: fc-wrong-shake 1s ease-out forwards;
+}
+@keyframes fc-wrong-shake {
+  0%   { transform: translateX(-50%) scale(1.05); opacity: 1; }
+  10%  { transform: translateX(calc(-50% + 10px)) scale(1.05); }
+  22%  { transform: translateX(calc(-50% - 10px)); }
+  34%  { transform: translateX(calc(-50% + 7px)); }
+  46%  { transform: translateX(calc(-50% - 7px)); }
+  58%  { transform: translateX(calc(-50% + 3px)); }
+  70%  { transform: translateX(-50%); }
+  88%  { opacity: 1; }
+  100% { transform: translateX(-50%) scale(0.85); opacity: 0; }
+}
+.fc-correct-pop {
+  position: absolute; transform: translateX(-50%);
+  font-family: var(--font-display); font-size: 1.05rem;
+  padding: 10px 16px; border-radius: 10px;
+  border: 2px solid var(--correct); background: rgba(107,203,119,0.22); color: var(--correct);
+  white-space: nowrap; pointer-events: none; z-index: 10;
+  animation: fc-correct-pop-anim 0.8s ease-out forwards;
+}
+@keyframes fc-correct-pop-anim {
+  0%   { transform: translateX(-50%) scale(0.7); opacity: 0; }
+  25%  { transform: translateX(-50%) scale(1.2); opacity: 1; }
+  55%  { transform: translateX(-50%) scale(1);   opacity: 1; }
+  100% { transform: translateX(-50%) translateY(-55px) scale(0.85); opacity: 0; }
 }
 .fc-catcher {
   position: absolute; bottom: 8px; font-size: 2.6rem;
@@ -5382,6 +5417,7 @@ function buildFactCatcher(body, f) {
   var catcherLane = 1;
   var caughtCorrect = 0;
   var fcDone = false;
+  var fcFrozen = false;
   var fallingCards = [];
   var cardIdx = 0;
   var spawnTimer = null;
@@ -5400,6 +5436,7 @@ function buildFactCatcher(body, f) {
       '<div class="fc-field" id="fc-field">' +
         '<div class="fc-lane-div" style="left:33.33%"></div>' +
         '<div class="fc-lane-div" style="left:66.66%"></div>' +
+        '<div class="fc-target-banner">' + fa + ' × ' + fb + ' = ' + fc_ans + '</div>' +
         '<div class="fc-catcher" id="fc-catcher">' + fcAvatar + '</div>' +
       '</div>' +
       '<div class="fc-instr">← → or mouse to move · catch the correct facts!</div>' +
@@ -5474,7 +5511,7 @@ function buildFactCatcher(body, f) {
     var fallMs = 3400 + Math.random() * 800; // 3.4–4.2s fall (scaled for taller field)
 
     var el = document.createElement('div');
-    el.className = 'fc-card ' + (isCorrect ? 'fc-right' : 'fc-wrong');
+    el.className = 'fc-card';
     el.textContent = text;
     el.style.left = laneCenterX(lane) + 'px';
     el.style.top  = '-56px';
@@ -5486,10 +5523,10 @@ function buildFactCatcher(body, f) {
   }
 
   function fcTick() {
-    if (fcDone) return;
+    if (fcDone || fcFrozen) return;
     var now = Date.now();
     var fh = getFieldH();
-    var catchTop = fh - 8 - 40; // catcher sits at bottom:8px, ~40px tall
+    var catchTop = fh - 8 - 52; // catcher at bottom:8px, ~52px tall at 2.6rem
 
     fallingCards = fallingCards.filter(function(card) {
       var y = -56 + ((now - card.startTime) / card.fallMs) * (fh + 80);
@@ -5498,16 +5535,47 @@ function buildFactCatcher(body, f) {
       if (!card.caught && !card.missed && card.lane === catcherLane) {
         if (y >= catchTop - 16 && y <= fh) {
           card.caught = true;
+          var cardText = card.el.textContent;
           card.el.remove();
+
           if (card.isCorrect) {
+            // Correct: show green pop at catch position, update progress
+            var pop = document.createElement('div');
+            pop.className = 'fc-correct-pop';
+            pop.textContent = cardText;
+            pop.style.left = laneCenterX(catcherLane) + 'px';
+            pop.style.top  = (catchTop - 10) + 'px';
+            if (fcField) fcField.appendChild(pop);
+            setTimeout(function() { pop.remove(); }, 820);
+
             caughtCorrect++;
             renderProgress();
             flashCatcher('good');
             if (caughtCorrect >= 3) { fcEndGame(true); return false; }
           } else {
+            // Wrong: show red shake ghost, freeze game briefly
+            var ghost = document.createElement('div');
+            ghost.className = 'fc-wrong-flash';
+            ghost.textContent = cardText;
+            ghost.style.left = laneCenterX(catcherLane) + 'px';
+            ghost.style.top  = (catchTop - 10) + 'px';
+            if (fcField) fcField.appendChild(ghost);
+            setTimeout(function() { ghost.remove(); }, 1020);
+
             caughtCorrect = 0;
             renderProgress();
             flashCatcher('bad');
+            fcFrozen = true;
+            clearInterval(clockTimer); clockTimer = null;
+            setTimeout(function() {
+              if (fcDone) return;
+              fcFrozen = false;
+              clockTimer = setInterval(function() {
+                fcTimeLeft--;
+                renderTimer();
+                if (fcTimeLeft <= 0) fcEndGame(false);
+              }, 1000);
+            }, 1020);
           }
           return false;
         }
@@ -5524,8 +5592,6 @@ function buildFactCatcher(body, f) {
   // --- Controls ---
   var _fcKeyDown = function(e) {
     if (fcDone) return;
-    if (!document.getElementById('remediation-screen') ||
-        !document.getElementById('remediation-screen').classList.contains('active')) return;
     if (e.key === 'ArrowLeft')  { setCatcherLane(catcherLane - 1); e.preventDefault(); }
     if (e.key === 'ArrowRight') { setCatcherLane(catcherLane + 1); e.preventDefault(); }
   };
