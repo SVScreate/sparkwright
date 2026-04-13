@@ -23,143 +23,91 @@
     --font-body: system-ui, sans-serif;
     --radius: 20px;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-body);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    padding: 24px 16px 40px;
-    gap: 20px;
+    background: var(--bg); color: var(--text); font-family: var(--font-body);
+    display: flex; flex-direction: column; align-items: center;
+    min-height: 100vh; padding: 20px 16px 40px; gap: 16px;
   }
 
   /* ── Controls bar ── */
   .controls-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-    max-width: 560px;
-    padding: 12px 16px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    font-size: 0.8rem;
-    color: var(--muted);
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    justify-content: center; width: 100%; max-width: 560px;
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    border-radius: 12px; font-size: 0.8rem; color: var(--muted);
   }
-  .controls-bar label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
-  .controls-bar input[type=range] { width: 80px; accent-color: var(--a5); }
+  .controls-bar strong { color: var(--text); }
+  .controls-bar label { display: flex; align-items: center; gap: 5px; }
+  .controls-bar input[type=text] {
+    width: 56px; background: transparent; border: 1px solid var(--border);
+    border-radius: 4px; color: var(--text); text-align: center; font-size: 0.85rem; padding: 2px 4px;
+  }
   .ctrl-btn {
-    background: rgba(199,125,255,0.15);
-    border: 1px solid var(--a5);
-    color: var(--a5);
-    border-radius: 8px;
-    padding: 5px 12px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    font-weight: 700;
+    background: rgba(199,125,255,0.15); border: 1px solid var(--a5); color: var(--a5);
+    border-radius: 8px; padding: 5px 12px; cursor: pointer; font-size: 0.8rem; font-weight: 700;
   }
-  .ctrl-btn:hover { background: rgba(199,125,255,0.25); }
+  .ctrl-btn:hover { background: rgba(199,125,255,0.28); }
   .ctrl-sep { color: var(--border); }
 
-  /* ── PQ chrome (badge + dots) ── */
+  /* ── PQ chrome ── */
   .quest-badge-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    width: 100%;
-    max-width: 560px;
-    padding: 0 0 4px;
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; width: 100%; max-width: 560px;
   }
   .remed-badge {
-    background: rgba(255,217,61,0.15);
-    border: 1px solid var(--a2);
-    color: var(--a2);
-    border-radius: 20px;
-    padding: 4px 14px;
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    background: rgba(255,217,61,0.15); border: 1px solid var(--a2); color: var(--a2);
+    border-radius: 20px; padding: 4px 14px; font-size: 0.75rem; font-weight: 800;
+    letter-spacing: 0.06em; text-transform: uppercase;
   }
   .remed-dots { display: flex; gap: 6px; }
-  .rdot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--faint); border: 1px solid var(--border);
-  }
+  .rdot { width: 8px; height: 8px; border-radius: 50%; background: var(--faint); border: 1px solid var(--border); }
   .rdot.done { background: var(--correct); border-color: var(--correct); }
   .rdot.now  { background: var(--a2); border-color: var(--a2); transform: scale(1.3); }
 
-  /* ── remed-body wrapper ── */
+  /* ── remed body ── */
   .remed-body {
     width: 100%; max-width: 560px;
-    display: flex; flex-direction: column;
-    align-items: center; gap: 18px;
-    padding: 0 0 8px;
+    display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 0 0 8px;
   }
 
-  /* ── Fact Catcher game ── */
-  .fc-container {
-    width: 100%; max-width: 480px;
-    display: flex; flex-direction: column; gap: 8px;
-  }
-  .fc-hud {
-    display: flex; align-items: center; gap: 8px; padding: 0 2px;
-  }
-  .fc-progress {
-    font-size: 1.4rem; flex-shrink: 0; min-width: 3.6rem; letter-spacing: 3px;
-  }
-  .fc-hud-label {
-    flex: 1; text-align: center;
-    font-family: var(--font-display); font-size: 1rem;
-    color: var(--a5); font-weight: 700;
-  }
-  .fc-timer-wrap {
-    width: 70px; height: 7px;
-    background: var(--faint); border: 1px solid var(--border);
-    border-radius: 4px; overflow: hidden; flex-shrink: 0;
-  }
-  .fc-timer-bar {
-    height: 100%; width: 100%; background: var(--a4); border-radius: 4px;
-    transition: width 0.95s linear, background 0.3s;
-  }
+  /* ── Fact Catcher ── */
+  .fc-container { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 8px; }
+  .fc-hud { display: flex; align-items: center; gap: 8px; padding: 0 2px; }
+  .fc-progress { font-size: 1.4rem; flex-shrink: 0; min-width: 3.6rem; letter-spacing: 3px; }
+  .fc-hud-label { flex: 1; text-align: center; font-family: var(--font-display); font-size: 1rem; color: var(--a5); font-weight: 700; }
+  .fc-timer-wrap { width: 70px; height: 7px; background: var(--faint); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; flex-shrink: 0; }
+  .fc-timer-bar { height: 100%; width: 100%; background: var(--a4); border-radius: 4px; transition: width 0.95s linear, background 0.3s; }
   .fc-timer-bar.urgent { background: var(--wrong); }
+
   .fc-field {
     position: relative; width: 100%; height: 360px;
-    background: rgba(16,10,32,0.75);
-    border: 1.5px solid rgba(199,125,255,0.2);
+    background: rgba(16,10,32,0.75); border: 1.5px solid rgba(199,125,255,0.2);
     border-radius: 14px; overflow: hidden;
   }
-  .fc-lane-div {
-    position: absolute; top: 0; bottom: 0; width: 1px;
-    background: rgba(255,255,255,0.05);
+  .fc-lane-div { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.05); }
+
+  .fc-target-banner {
+    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-display); font-size: 1.3rem; color: var(--a2);
+    background: rgba(255,217,61,0.1); border: 1.5px solid rgba(255,217,61,0.3);
+    border-radius: 8px; padding: 6px 20px;
+    pointer-events: none; z-index: 2; white-space: nowrap;
   }
+
+  /* All falling cards look identical */
   .fc-card {
-    position: absolute;
-    transform: translateX(-50%);
+    position: absolute; transform: translateX(-50%);
     font-family: var(--font-display); font-size: 1.05rem;
     padding: 10px 16px; border-radius: 10px; border: 2px solid;
     white-space: nowrap; pointer-events: none; user-select: none;
+    background: rgba(255,255,255,0.07); border-color: rgba(199,125,255,0.35); color: var(--text);
   }
-  .fc-card.fc-right {
-    background: rgba(77,150,255,0.18); border-color: var(--a4); color: var(--a4);
-  }
-  .fc-card.fc-wrong {
-    background: rgba(199,125,255,0.1); border-color: rgba(199,125,255,0.3); color: var(--muted);
-  }
+
   .fc-catcher {
     position: absolute; bottom: 8px; font-size: 2.6rem;
-    transform: translateX(-50%);
-    transition: left 0.1s cubic-bezier(0.25,0.1,0.25,1);
+    transform: translateX(-50%); transition: left 0.1s cubic-bezier(0.25,0.1,0.25,1);
     pointer-events: none; user-select: none;
   }
   @keyframes fc-flash-good-anim {
@@ -172,8 +120,39 @@
   }
   .fc-catcher.flash-good { animation: fc-flash-good-anim 0.4s ease-out; }
   .fc-catcher.flash-bad  { animation: fc-flash-bad-anim  0.4s ease-out; }
-  .fc-instr {
-    text-align: center; font-size: 0.72rem; color: var(--muted);
+
+  .fc-wrong-flash {
+    position: absolute; transform: translateX(-50%);
+    font-family: var(--font-display); font-size: 1.05rem;
+    padding: 10px 16px; border-radius: 10px;
+    border: 2px solid var(--wrong); background: rgba(255,107,107,0.22); color: var(--wrong);
+    white-space: nowrap; pointer-events: none; z-index: 10;
+    animation: fc-wrong-shake 1s ease-out forwards;
+  }
+  @keyframes fc-wrong-shake {
+    0%   { transform: translateX(-50%) scale(1.05); opacity: 1; }
+    10%  { transform: translateX(calc(-50% + 10px)) scale(1.05); }
+    22%  { transform: translateX(calc(-50% - 10px)); }
+    34%  { transform: translateX(calc(-50% + 7px)); }
+    46%  { transform: translateX(calc(-50% - 7px)); }
+    58%  { transform: translateX(calc(-50% + 3px)); }
+    70%  { transform: translateX(-50%); }
+    88%  { opacity: 1; }
+    100% { transform: translateX(-50%) scale(0.85); opacity: 0; }
+  }
+  .fc-correct-pop {
+    position: absolute; transform: translateX(-50%);
+    font-family: var(--font-display); font-size: 1.05rem;
+    padding: 10px 16px; border-radius: 10px;
+    border: 2px solid var(--correct); background: rgba(107,203,119,0.22); color: var(--correct);
+    white-space: nowrap; pointer-events: none; z-index: 10;
+    animation: fc-correct-pop-anim 0.8s ease-out forwards;
+  }
+  @keyframes fc-correct-pop-anim {
+    0%   { transform: translateX(-50%) scale(0.7);  opacity: 0; }
+    25%  { transform: translateX(-50%) scale(1.2);  opacity: 1; }
+    55%  { transform: translateX(-50%) scale(1);    opacity: 1; }
+    100% { transform: translateX(-50%) translateY(-55px) scale(0.85); opacity: 0; }
   }
   .fc-result {
     position: absolute; inset: 0;
@@ -182,22 +161,17 @@
     background: rgba(10,6,24,0.88); border-radius: 12px; z-index: 5;
   }
 
+  .fc-instr { text-align: center; font-size: 0.72rem; color: var(--muted); }
+
   /* ── Next button ── */
   .remed-cont-btn {
-    font-family: var(--font-display);
-    font-size: 1.3rem;
-    padding: 14px 48px;
-    border: none; border-radius: var(--radius);
-    cursor: pointer;
-    background: linear-gradient(135deg, #4d96ff, #c77dff);
-    color: white;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.3s, transform 0.3s;
+    font-family: var(--font-display); font-size: 1.3rem; padding: 14px 48px;
+    border: none; border-radius: 20px; cursor: pointer;
+    background: linear-gradient(135deg, var(--a4), var(--a5)); color: white;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s;
     transform: translateY(4px);
   }
-  .remed-cont-btn.show {
-    opacity: 1; pointer-events: auto; transform: translateY(0);
-  }
+  .remed-cont-btn.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
   /* ── State hint ── */
   .state-hint {
@@ -211,17 +185,16 @@
 <body>
 
 <div class="controls-bar">
-  <strong style="color:var(--text)">Fact Catcher — Mockup</strong>
+  <strong>Fact Catcher — Mockup</strong>
   <span class="ctrl-sep">|</span>
-  <label>Avatar: <input type="text" id="avatar-input" value="🐉" style="width:36px;background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--text);text-align:center;font-size:1rem;padding:2px"></label>
-  <label>Fact: <input type="text" id="fact-input" value="7 × 4" style="width:56px;background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--text);text-align:center;font-size:0.85rem;padding:2px"></label>
+  <label>Avatar: <input type="text" id="avatar-input" value="🐉"></label>
+  <label>Fact: <input type="text" id="fact-input" value="7 × 4" style="width:64px"></label>
   <span class="ctrl-sep">|</span>
   <button class="ctrl-btn" onclick="restartMockup()">↺ Restart</button>
   <button class="ctrl-btn" onclick="skipToWin()">⭐ Show Win</button>
-  <button class="ctrl-btn" onclick="skipToLose()">⏱ Show Timeout</button>
+  <button class="ctrl-btn" onclick="skipToTimeout()">⏱ Show Timeout</button>
 </div>
 
-<!-- PQ chrome -->
 <div class="quest-badge-wrap">
   <div class="remed-badge">⚡ Practice Quest</div>
   <div class="remed-dots">
@@ -232,260 +205,226 @@
   </div>
 </div>
 
-<!-- Game body -->
-<div class="remed-body" id="remed-body">
-  <!-- fc-container injected here by JS -->
-</div>
+<div class="remed-body" id="remed-body"></div>
 
-<div class="state-hint" id="state-hint">← → arrow keys or mouse to move the catcher</div>
+<div class="state-hint" id="state-hint">← → arrow keys or mouse to move</div>
 
 <script>
-// ── Fact parsing ──────────────────────────────────────────
+// ── Parse fact ───────────────────────────────────────────
 function parseFact(str) {
-  // e.g. "7 × 4" or "7x4" or "3 * 8"
-  var m = str.replace(/×|x|\*/g, '×').match(/(\d+)\s*×\s*(\d+)/);
-  if (!m) return { fa: 7, fb: 4, a: 28 };
+  var m = str.replace(/[×x\*]/g,'×').match(/(\d+)\s*×\s*(\d+)/);
+  if (!m) return { fa:7, fb:4, a:28 };
   var fa = parseInt(m[1]), fb = parseInt(m[2]);
-  return { fa: fa, fb: fb, a: fa * fb };
+  return { fa:fa, fb:fb, a:fa*fb };
 }
 
-// ── Game state ────────────────────────────────────────────
-var state = {};
+// ── State ────────────────────────────────────────────────
+var S = {};
 
 function initState() {
   var factStr = document.getElementById('fact-input').value;
   var f = parseFact(factStr);
   var avatar = document.getElementById('avatar-input').value.trim() || '⭐';
+  var fa=f.fa, fb=f.fb, fc=f.a;
 
-  var fa = f.fa, fb = f.fb, fc_ans = f.a;
-  var correctFacts = [
-    fa + ' × ' + fb + ' = ' + fc_ans,
-    fb + ' × ' + fa + ' = ' + fc_ans,
-    fc_ans + ' = ' + fa + ' × ' + fb,
-    fc_ans + ' = ' + fb + ' × ' + fa
+  var correct = [
+    fa+' × '+fb+' = '+fc, fb+' × '+fa+' = '+fc,
+    fc+' = '+fa+' × '+fb, fc+' = '+fb+' × '+fa
   ];
-  var correctSet = {};
-  correctFacts.forEach(function(s) { correctSet[s] = true; });
+  var cSet = {};
+  correct.forEach(function(s){ cSet[s]=true; });
 
-  var distractors = [];
-  [-3,-2,-1,1,2,3].forEach(function(d) {
-    var wa = fc_ans + d; if (wa > 0) distractors.push(fa + ' × ' + fb + ' = ' + wa);
-  });
-  if (fa > 1) distractors.push((fa-1) + ' × ' + fb + ' = ' + fc_ans);
-  distractors.push((fa+1) + ' × ' + fb + ' = ' + fc_ans);
-  if (fb > 1) distractors.push(fa + ' × ' + (fb-1) + ' = ' + fc_ans);
-  distractors.push(fa + ' × ' + (fb+1) + ' = ' + fc_ans);
-  distractors.push(fc_ans + ' = ' + (fa+1) + ' × ' + fb);
-  if (fa > 1) distractors.push(fc_ans + ' = ' + (fa-1) + ' × ' + fb);
+  var dist = [];
+  [-3,-2,-1,1,2,3].forEach(function(d){ var wa=fc+d; if(wa>0) dist.push(fa+' × '+fb+' = '+wa); });
+  if(fa>1) dist.push((fa-1)+' × '+fb+' = '+fc);
+  dist.push((fa+1)+' × '+fb+' = '+fc);
+  if(fb>1) dist.push(fa+' × '+(fb-1)+' = '+fc);
+  dist.push(fa+' × '+(fb+1)+' = '+fc);
+  dist.push(fc+' = '+(fa+1)+' × '+fb);
+  if(fa>1) dist.push(fc+' = '+(fa-1)+' × '+fb);
 
-  function shuffle(arr) {
-    var a = arr.slice();
-    for (var i = a.length-1; i>0; i--) {
-      var j = Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t;
-    }
-    return a;
-  }
+  function sh(a){ var r=a.slice(); for(var i=r.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)),t=r[i];r[i]=r[j];r[j]=t;} return r; }
 
-  state = {
-    avatar: avatar,
-    cardPool: shuffle(correctFacts.concat(shuffle(distractors).slice(0,8))),
-    correctSet: correctSet,
-    catcherLane: 1,
-    caughtCorrect: 0,
-    done: false,
-    fallingCards: [],
-    cardIdx: 0,
-    spawnTimer: null,
-    loopTimer: null,
-    clockTimer: null,
-    timeLeft: 30,
+  S = {
+    fa:fa, fb:fb, fc:fc, avatar:avatar,
+    pool: sh(correct.concat(sh(dist).slice(0,8))),
+    cSet: cSet,
+    lane: 1, caught: 0,
+    done: false, frozen: false,
+    cards: [], idx: 0,
+    spawnT: null, loopT: null, clockT: null,
+    time: 30,
+    targetText: fa+' × '+fb+' = '+fc
   };
 }
 
-// ── Build HTML ────────────────────────────────────────────
+// ── Build HTML ───────────────────────────────────────────
 function buildHTML() {
-  var body = document.getElementById('remed-body');
-  body.innerHTML =
-    '<div class="fc-container">' +
-      '<div class="fc-hud">' +
-        '<div class="fc-progress" id="fc-progress">☆☆☆</div>' +
-        '<div class="fc-hud-label">Fact Catcher</div>' +
-        '<div class="fc-timer-wrap"><div class="fc-timer-bar" id="fc-timer-bar"></div></div>' +
-      '</div>' +
-      '<div class="fc-field" id="fc-field">' +
-        '<div class="fc-lane-div" style="left:33.33%"></div>' +
-        '<div class="fc-lane-div" style="left:66.66%"></div>' +
-        '<div class="fc-catcher" id="fc-catcher">' + state.avatar + '</div>' +
-      '</div>' +
-      '<div class="fc-instr">← → or mouse to move · catch the correct facts!</div>' +
-    '</div>' +
-    '<button class="remed-cont-btn" id="next-btn" onclick="alert(\'Would advance to next step!\')">Next →</button>';
+  document.getElementById('remed-body').innerHTML =
+    '<div class="fc-container">'+
+      '<div class="fc-hud">'+
+        '<div class="fc-progress" id="fc-prog">☆☆☆</div>'+
+        '<div class="fc-hud-label">Fact Catcher</div>'+
+        '<div class="fc-timer-wrap"><div class="fc-timer-bar" id="fc-timer"></div></div>'+
+      '</div>'+
+      '<div class="fc-field" id="fc-field">'+
+        '<div class="fc-lane-div" style="left:33.33%"></div>'+
+        '<div class="fc-lane-div" style="left:66.66%"></div>'+
+        '<div class="fc-target-banner">'+S.targetText+'</div>'+
+        '<div class="fc-catcher" id="fc-catcher">'+S.avatar+'</div>'+
+      '</div>'+
+      '<div class="fc-instr">← → or mouse to move · catch the correct facts!</div>'+
+    '</div>'+
+    '<button class="remed-cont-btn" id="next-btn" onclick="alert(\'Would advance to next PQ step!\')">Next →</button>';
 
-  setTimeout(function() { setCatcherLane(1); }, 10);
+  setTimeout(function(){ setLane(1); }, 10);
+  renderProg();
+  renderTimer();
 }
 
-// ── Helpers ───────────────────────────────────────────────
-function getFieldW() {
-  var f = document.getElementById('fc-field'); return f ? (f.offsetWidth || 320) : 320;
+// ── Helpers ──────────────────────────────────────────────
+function fw(){ var f=document.getElementById('fc-field'); return f?(f.offsetWidth||320):320; }
+function fh(){ var f=document.getElementById('fc-field'); return f?(f.offsetHeight||360):360; }
+function lcx(lane){ return Math.round(fw()/3*lane+fw()/6); }
+
+function setLane(l){
+  S.lane = Math.max(0,Math.min(2,l));
+  var c=document.getElementById('fc-catcher');
+  if(c) c.style.left=lcx(S.lane)+'px';
 }
-function getFieldH() {
-  var f = document.getElementById('fc-field'); return f ? (f.offsetHeight || 360) : 360;
+function renderProg(){
+  var el=document.getElementById('fc-prog'); if(!el) return;
+  var s=''; for(var i=0;i<3;i++) s+=(i<S.caught?'⭐':'☆');
+  el.textContent=s;
 }
-function laneCenterX(lane) {
-  return Math.round(getFieldW() / 3 * lane + getFieldW() / 6);
+function renderTimer(){
+  var b=document.getElementById('fc-timer'); if(!b) return;
+  b.style.width=Math.max(0,(S.time/30)*100)+'%';
+  if(S.time<=8) b.classList.add('urgent'); else b.classList.remove('urgent');
 }
-function setCatcherLane(lane) {
-  state.catcherLane = Math.max(0, Math.min(2, lane));
-  var c = document.getElementById('fc-catcher');
-  if (c) c.style.left = laneCenterX(state.catcherLane) + 'px';
-}
-function renderProgress() {
-  var el = document.getElementById('fc-progress');
-  if (!el) return;
-  var s = ''; for (var i=0; i<3; i++) s += (i < state.caughtCorrect ? '⭐' : '☆');
-  el.textContent = s;
-}
-function renderTimer() {
-  var bar = document.getElementById('fc-timer-bar');
-  if (!bar) return;
-  bar.style.width = Math.max(0, (state.timeLeft / 30) * 100) + '%';
-  if (state.timeLeft <= 8) bar.classList.add('urgent');
-  else bar.classList.remove('urgent');
-}
-function flashCatcher(type) {
-  var c = document.getElementById('fc-catcher');
-  if (!c) return;
+function flashCatcher(type){
+  var c=document.getElementById('fc-catcher'); if(!c) return;
   c.classList.remove('flash-good','flash-bad');
   void c.offsetWidth;
-  c.classList.add(type === 'good' ? 'flash-good' : 'flash-bad');
-  setTimeout(function() {
-    var cc = document.getElementById('fc-catcher');
-    if (cc) cc.classList.remove('flash-good','flash-bad');
-  }, 420);
+  c.classList.add(type==='good'?'flash-good':'flash-bad');
+  setTimeout(function(){ var cc=document.getElementById('fc-catcher'); if(cc) cc.classList.remove('flash-good','flash-bad'); },420);
 }
-function updateStateHint(msg) {
-  var el = document.getElementById('state-hint');
-  if (el) el.innerHTML = msg;
-}
+function hint(msg){ var el=document.getElementById('state-hint'); if(el) el.innerHTML=msg; }
 
-// ── End game ──────────────────────────────────────────────
-function endGame(won) {
-  if (state.done) return;
-  state.done = true;
-  clearInterval(state.spawnTimer);
-  clearInterval(state.loopTimer);
-  clearInterval(state.clockTimer);
-  state.fallingCards.forEach(function(c) { try { c.el.remove(); } catch(e){} });
-  state.fallingCards = [];
-  var res = document.createElement('div');
-  res.className = 'fc-result';
-  res.textContent = won ? '⭐ Great catching!' : 'Keep going!';
-  var field = document.getElementById('fc-field');
-  if (field) field.appendChild(res);
-  var btn = document.getElementById('next-btn');
-  if (btn) btn.classList.add('show');
-  updateStateHint(won
-    ? '✅ Win state — <span>Next →</span> button appears'
-    : '⏱ Timeout — <span>Next →</span> button appears anyway');
+// ── End ──────────────────────────────────────────────────
+function endGame(won){
+  if(S.done) return;
+  S.done=true;
+  clearInterval(S.spawnT); clearInterval(S.loopT); clearInterval(S.clockT);
+  S.cards.forEach(function(c){ try{c.el.remove();}catch(e){} }); S.cards=[];
+  var res=document.createElement('div');
+  res.className='fc-result';
+  res.textContent=won?'⭐ Great catching!':'Keep going!';
+  var f=document.getElementById('fc-field'); if(f) f.appendChild(res);
+  var btn=document.getElementById('next-btn'); if(btn) btn.classList.add('show');
+  hint(won?'✅ Win — <span>Next →</span> button is now active':'⏱ Timeout — <span>Next →</span> appears anyway');
 }
 
-// ── Spawn + tick ──────────────────────────────────────────
-function spawnCard() {
-  if (state.done) return;
-  var text = state.cardPool[state.cardIdx % state.cardPool.length];
-  state.cardIdx++;
-  var isCorrect = !!state.correctSet[text];
-  var lane = Math.floor(Math.random() * 3);
-  var fallMs = 3400 + Math.random() * 800;
-
-  var el = document.createElement('div');
-  el.className = 'fc-card ' + (isCorrect ? 'fc-right' : 'fc-wrong');
-  el.textContent = text;
-  el.style.left = laneCenterX(lane) + 'px';
-  el.style.top = '-56px';
-  var field = document.getElementById('fc-field');
-  if (field) field.appendChild(el);
-  state.fallingCards.push({ el:el, lane:lane, isCorrect:isCorrect,
-                            startTime:Date.now(), fallMs:fallMs,
-                            caught:false, missed:false });
+// ── Spawn ────────────────────────────────────────────────
+function spawn(){
+  if(S.done) return;
+  var text=S.pool[S.idx%S.pool.length]; S.idx++;
+  var isC=!!S.cSet[text];
+  var lane=Math.floor(Math.random()*3);
+  var ms=3400+Math.random()*800;
+  var el=document.createElement('div');
+  el.className='fc-card';
+  el.textContent=text;
+  el.style.left=lcx(lane)+'px';
+  el.style.top='-56px';
+  var field=document.getElementById('fc-field'); if(field) field.appendChild(el);
+  S.cards.push({el:el,lane:lane,isC:isC,t:Date.now(),ms:ms,caught:false,missed:false});
 }
 
-function fcTick() {
-  if (state.done) return;
-  var now = Date.now();
-  var fh = getFieldH();
-  var catchTop = fh - 8 - 52; // catcher at bottom:8px, ~52px tall at 2.6rem
+// ── Tick ─────────────────────────────────────────────────
+function tick(){
+  if(S.done||S.frozen) return;
+  var now=Date.now();
+  var h=fh();
+  var catchTop=h-8-52;
 
-  state.fallingCards = state.fallingCards.filter(function(card) {
-    var y = -56 + ((now - card.startTime) / card.fallMs) * (fh + 80);
-    card.el.style.top = Math.round(y) + 'px';
+  S.cards=S.cards.filter(function(card){
+    var y=-56+((now-card.t)/card.ms)*(h+80);
+    card.el.style.top=Math.round(y)+'px';
 
-    if (!card.caught && !card.missed && card.lane === state.catcherLane) {
-      if (y >= catchTop - 16 && y <= fh) {
-        card.caught = true;
+    if(!card.caught&&!card.missed&&card.lane===S.lane){
+      if(y>=catchTop-16&&y<=h){
+        card.caught=true;
+        var txt=card.el.textContent;
         card.el.remove();
-        if (card.isCorrect) {
-          state.caughtCorrect++;
-          renderProgress();
-          flashCatcher('good');
-          updateStateHint('✅ Correct catch! <span>' + state.caughtCorrect + '/3</span>');
-          if (state.caughtCorrect >= 3) { endGame(true); return false; }
+        var field=document.getElementById('fc-field');
+
+        if(card.isC){
+          var pop=document.createElement('div');
+          pop.className='fc-correct-pop';
+          pop.textContent=txt;
+          pop.style.left=lcx(S.lane)+'px';
+          pop.style.top=(catchTop-10)+'px';
+          if(field) field.appendChild(pop);
+          setTimeout(function(){ pop.remove(); },820);
+          S.caught++; renderProg(); flashCatcher('good');
+          hint('✅ Correct! <span>'+S.caught+'/3</span>');
+          if(S.caught>=3){ endGame(true); return false; }
         } else {
-          state.caughtCorrect = 0;
-          renderProgress();
-          flashCatcher('bad');
-          updateStateHint('❌ Wrong catch — counter reset to <span>0/3</span>');
+          var ghost=document.createElement('div');
+          ghost.className='fc-wrong-flash';
+          ghost.textContent=txt;
+          ghost.style.left=lcx(S.lane)+'px';
+          ghost.style.top=(catchTop-10)+'px';
+          if(field) field.appendChild(ghost);
+          setTimeout(function(){ ghost.remove(); },1020);
+          S.caught=0; renderProg(); flashCatcher('bad');
+          hint('❌ Wrong — counter reset to <span>0/3</span>');
+          S.frozen=true;
+          clearInterval(S.clockT); S.clockT=null;
+          setTimeout(function(){
+            if(S.done) return;
+            S.frozen=false;
+            S.clockT=setInterval(function(){ S.time--; renderTimer(); if(S.time<=0) endGame(false); },1000);
+          },1020);
         }
         return false;
       }
     }
-    if (y > fh + 20) { card.missed = true; card.el.remove(); return false; }
+    if(y>h+20){ card.missed=true; card.el.remove(); return false; }
     return true;
   });
 }
 
-// ── Start / restart ───────────────────────────────────────
-function startGame() {
-  spawnCard();
-  state.spawnTimer = setInterval(spawnCard, 1800);
-  state.loopTimer  = setInterval(fcTick, 40);
-  state.clockTimer = setInterval(function() {
-    state.timeLeft--;
-    renderTimer();
-    if (state.timeLeft <= 0) endGame(false);
-  }, 1000);
-  renderTimer();
-}
-
-function restartMockup() {
-  if (state.spawnTimer) clearInterval(state.spawnTimer);
-  if (state.loopTimer)  clearInterval(state.loopTimer);
-  if (state.clockTimer) clearInterval(state.clockTimer);
-  initState();
-  buildHTML();
-  updateStateHint('← → arrow keys or mouse to move the catcher');
-  setTimeout(startGame, 60);
-}
-
-function skipToWin()  { endGame(true);  }
-function skipToLose() { endGame(false); }
-
-// ── Controls ──────────────────────────────────────────────
-document.addEventListener('keydown', function(e) {
-  if (state.done) return;
-  if (e.key === 'ArrowLeft')  { setCatcherLane(state.catcherLane - 1); e.preventDefault(); }
-  if (e.key === 'ArrowRight') { setCatcherLane(state.catcherLane + 1); e.preventDefault(); }
+// ── Controls ─────────────────────────────────────────────
+document.addEventListener('keydown',function(e){
+  if(S.done) return;
+  if(e.key==='ArrowLeft') { setLane(S.lane-1); e.preventDefault(); }
+  if(e.key==='ArrowRight'){ setLane(S.lane+1); e.preventDefault(); }
 });
-document.addEventListener('mousemove', function(e) {
-  if (state.done) return;
-  var f = document.getElementById('fc-field');
-  if (!f) return;
-  var rect = f.getBoundingClientRect();
-  var lane = Math.floor((e.clientX - rect.left) / (rect.width / 3));
-  setCatcherLane(Math.max(0, Math.min(2, lane)));
+document.addEventListener('mousemove',function(e){
+  if(S.done) return;
+  var f=document.getElementById('fc-field'); if(!f) return;
+  var r=f.getBoundingClientRect();
+  setLane(Math.max(0,Math.min(2,Math.floor((e.clientX-r.left)/(r.width/3)))));
 });
 
-// ── Init ──────────────────────────────────────────────────
+// ── Start / controls ─────────────────────────────────────
+function startGame(){
+  spawn();
+  S.spawnT=setInterval(spawn,1800);
+  S.loopT=setInterval(tick,40);
+  S.clockT=setInterval(function(){ S.time--; renderTimer(); if(S.time<=0) endGame(false); },1000);
+}
+function restartMockup(){
+  clearInterval(S.spawnT); clearInterval(S.loopT); clearInterval(S.clockT);
+  initState(); buildHTML();
+  hint('← → arrow keys or mouse to move');
+  setTimeout(startGame,60);
+}
+function skipToWin(){ endGame(true); }
+function skipToTimeout(){ endGame(false); }
+
 restartMockup();
 </script>
 </body>
