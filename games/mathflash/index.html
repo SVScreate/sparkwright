@@ -2368,6 +2368,83 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 .starscan-info-card ul li { margin-bottom:6px; }
 .starscan-info-card em { color:var(--muted); }
 .starscan-info-card strong { color:var(--text); }
+
+/* ── FACT CATCHER MINI-GAME ── */
+.fc-container {
+  width: 100%; max-width: 480px;
+  display: flex; flex-direction: column; gap: 8px;
+  flex-shrink: 0;
+}
+.fc-hud {
+  display: flex; align-items: center; gap: 8px; padding: 0 2px;
+}
+.fc-lives {
+  font-size: 1.15rem; flex-shrink: 0; min-width: 3.2rem; letter-spacing: 1px;
+}
+.fc-hud-label {
+  flex: 1; text-align: center;
+  font-family: var(--font-display); font-size: 0.9rem;
+  color: var(--a5); font-weight: 700;
+}
+.fc-timer-wrap {
+  width: 70px; height: 7px;
+  background: var(--faint); border: 1px solid var(--border);
+  border-radius: 4px; overflow: hidden; flex-shrink: 0;
+}
+.fc-timer-bar {
+  height: 100%; width: 100%; background: var(--a4); border-radius: 4px;
+  transition: width 0.95s linear, background 0.3s;
+}
+.fc-timer-bar.fc-timer-urgent { background: var(--wrong); }
+.fc-field {
+  position: relative; width: 100%; height: 240px;
+  background: rgba(16,10,32,0.75);
+  border: 1.5px solid rgba(199,125,255,0.2);
+  border-radius: 14px; overflow: hidden; flex-shrink: 0;
+}
+.fc-lane-div {
+  position: absolute; top: 0; bottom: 0; width: 1px;
+  background: rgba(255,255,255,0.05);
+}
+.fc-card {
+  position: absolute;
+  transform: translateX(-50%);
+  font-family: var(--font-display); font-size: 0.82rem;
+  padding: 6px 10px; border-radius: 8px; border: 1.5px solid;
+  white-space: nowrap; pointer-events: none; user-select: none;
+}
+.fc-card.fc-right {
+  background: rgba(77,150,255,0.18); border-color: var(--a4); color: var(--a4);
+}
+.fc-card.fc-wrong {
+  background: rgba(199,125,255,0.1); border-color: rgba(199,125,255,0.3); color: var(--muted);
+}
+.fc-catcher {
+  position: absolute; bottom: 8px; font-size: 1.8rem;
+  transform: translateX(-50%);
+  transition: left 0.1s cubic-bezier(0.25,0.1,0.25,1);
+  pointer-events: none; user-select: none;
+}
+@keyframes fc-flash-good-anim {
+  0%,100% { filter: brightness(1); }
+  35%     { filter: drop-shadow(0 0 16px rgba(107,203,119,0.9)) brightness(1.6); }
+}
+@keyframes fc-flash-bad-anim {
+  0%,100% { filter: brightness(1); }
+  35%     { filter: drop-shadow(0 0 16px rgba(255,107,107,0.9)) brightness(1.4); }
+}
+.fc-catcher.fc-flash-good { animation: fc-flash-good-anim 0.4s ease-out; }
+.fc-catcher.fc-flash-bad  { animation: fc-flash-bad-anim  0.4s ease-out; }
+.fc-instr {
+  text-align: center; font-size: 0.72rem; color: var(--muted); flex-shrink: 0;
+}
+.fc-result {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 1.6rem; color: var(--a2);
+  background: rgba(10,6,24,0.88); border-radius: 12px;
+  animation: fadeSlideUp 0.4s ease; z-index: 5;
+}
 </style>
 </head>
 <body>
@@ -3157,7 +3234,7 @@ const G = {
   gen: 0               // incremented on every restart — stale callbacks self-abort
 };
 
-const R = { step: 0, fact: null };
+const R = { step: 0, fact: null, sequence: [] };
 
 // setTimeout wrapper for mini-game callbacks — aborts if round has been restarted
 function safeTimeout(fn, ms) {
@@ -4491,6 +4568,7 @@ function hideErr() {
 function restartGame() {
   // Called from pauseRestart — skips setup validation, uses existing S settings
   G.gen++; // invalidate all pending mini-game callbacks
+  if (window._fcCleanup) { window._fcCleanup(); window._fcCleanup = null; }
   const remedBody = document.getElementById('remed-body');
   if (remedBody) remedBody.innerHTML = ''; // detach dead DOM refs immediately
   if (G.remTimeout)   { clearTimeout(G.remTimeout);   G.remTimeout   = null; }
@@ -5083,6 +5161,13 @@ function startRemed() {
   R.fact = G.missedFact;
   R.step = 0;
   G.missedFact = null;
+  // Build randomized sequence: 3 games in random order, always end with Prove It
+  var _pool = ['findIt', 'findAll', 'factCatcher'];
+  for (var _pi = _pool.length - 1; _pi > 0; _pi--) {
+    var _pj = Math.floor(Math.random() * (_pi + 1));
+    var _pt = _pool[_pi]; _pool[_pi] = _pool[_pj]; _pool[_pj] = _pt;
+  }
+  R.sequence = _pool.concat(['proveIt']);
   pauseTimers();
   showScreen('remediation-screen');
   showRemedStep();
@@ -5123,8 +5208,9 @@ function pauseEndRound() {
 }
 
 function advanceRemed() {
+  if (window._fcCleanup) { window._fcCleanup(); window._fcCleanup = null; }
   R.step++;
-  if (R.step >= 4) {
+  if (R.step >= R.sequence.length) {
     showScreen('game-screen');
     resumeTimers();
     nextQuestion();
@@ -5212,15 +5298,17 @@ function remedContClick() {
 }
 
 function showRemedStep() {
+  if (window._fcCleanup) { window._fcCleanup(); window._fcCleanup = null; }
   updateDots();
   const body = document.getElementById('remed-body');
   body.innerHTML = ''; // clear previous step entirely including old btn
   const f = R.fact;
   const tbl = f.hint.table;
-  if      (R.step === 0) buildStep1(body, f, tbl);
-  else if (R.step === 1) buildStep2(body, f, tbl);
-  else if (R.step === 2) buildStep3(body, f, tbl);
-  else                   buildStep4(body, f);
+  const step = R.sequence[R.step];
+  if      (step === 'findIt')      buildStep1(body, f, tbl);
+  else if (step === 'findAll')     buildStep2(body, f, tbl);
+  else if (step === 'factCatcher') buildFactCatcher(body, f);
+  else                             buildStep4(body, f);
 }
 
 // ── helpers used by multiple steps ──────────────────────
@@ -5241,6 +5329,237 @@ function wrongAnswers(correct, tbl, op) {
     if (v !== correct && v > 0) pool.add(v);
   }
   return [...pool].filter(function(v) { return v !== correct; }).sort(function() { return Math.random() - 0.5; });
+}
+
+// ── Fact Catcher Mini-Game ────────────────────────────────
+function buildFactCatcher(body, f) {
+  // --- Avatar ---
+  var fcAvatar = '⭐';
+  try {
+    var _fcP = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]');
+    var _fcU = localStorage.getItem('sparkwright_active');
+    var _fcPr = _fcP.find(function(p) { return p.name === _fcU; });
+    if (_fcPr && _fcPr.avatar) fcAvatar = _fcPr.avatar;
+  } catch(e) {}
+
+  // --- Fact orientations (all 4 multiplication forms) ---
+  var fa = f.fa, fb = f.fb, fc_ans = f.a;
+  var correctFacts = [
+    fa + ' × ' + fb + ' = ' + fc_ans,
+    fb + ' × ' + fa + ' = ' + fc_ans,
+    fc_ans + ' = ' + fa + ' × ' + fb,
+    fc_ans + ' = ' + fb + ' × ' + fa
+  ];
+  var correctSet = {};
+  correctFacts.forEach(function(s) { correctSet[s] = true; });
+
+  // --- Distractors ---
+  var distractors = [];
+  [-3,-2,-1,1,2,3].forEach(function(d) {
+    var wa = fc_ans + d;
+    if (wa > 0) distractors.push(fa + ' × ' + fb + ' = ' + wa);
+  });
+  if (fa > 1) distractors.push((fa - 1) + ' × ' + fb + ' = ' + fc_ans);
+  distractors.push((fa + 1) + ' × ' + fb + ' = ' + fc_ans);
+  if (fb > 1) distractors.push(fa + ' × ' + (fb - 1) + ' = ' + fc_ans);
+  distractors.push(fa + ' × ' + (fb + 1) + ' = ' + fc_ans);
+  distractors.push(fc_ans + ' = ' + (fa + 1) + ' × ' + fb);
+  if (fa > 1) distractors.push(fc_ans + ' = ' + (fa - 1) + ' × ' + fb);
+
+  function _fcShuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  // Cycling card pool: all 4 correct + up to 8 distractors, shuffled together
+  var cardPool = _fcShuffle(correctFacts.concat(_fcShuffle(distractors).slice(0, 8)));
+
+  // --- Game state ---
+  var catcherLane = 1;
+  var fcLives = 3;
+  var caughtCorrect = 0;
+  var fcDone = false;
+  var fallingCards = [];
+  var cardIdx = 0;
+  var spawnTimer = null;
+  var loopTimer  = null;
+  var clockTimer = null;
+  var fcTimeLeft = 30;
+
+  // --- HTML ---
+  body.innerHTML =
+    '<div class="fc-container">' +
+      '<div class="fc-hud">' +
+        '<div class="fc-lives" id="fc-lives"></div>' +
+        '<div class="fc-hud-label">Fact Catcher</div>' +
+        '<div class="fc-timer-wrap"><div class="fc-timer-bar" id="fc-timer-bar"></div></div>' +
+      '</div>' +
+      '<div class="fc-field" id="fc-field">' +
+        '<div class="fc-lane-div" style="left:33.33%"></div>' +
+        '<div class="fc-lane-div" style="left:66.66%"></div>' +
+        '<div class="fc-catcher" id="fc-catcher">' + fcAvatar + '</div>' +
+      '</div>' +
+      '<div class="fc-instr">← → or mouse to move · catch the correct facts!</div>' +
+    '</div>';
+
+  var fcField   = document.getElementById('fc-field');
+  var fcCatcher = document.getElementById('fc-catcher');
+
+  function getFieldW() { return fcField ? (fcField.offsetWidth  || 320) : 320; }
+  function getFieldH() { return fcField ? (fcField.offsetHeight || 240) : 240; }
+  function laneCenterX(lane) { return Math.round(getFieldW() / 3 * lane + getFieldW() / 6); }
+
+  function setCatcherLane(lane) {
+    catcherLane = Math.max(0, Math.min(2, lane));
+    if (fcCatcher) fcCatcher.style.left = laneCenterX(catcherLane) + 'px';
+  }
+  setTimeout(function() { setCatcherLane(1); }, 10);
+
+  function renderLives() {
+    var el = document.getElementById('fc-lives');
+    if (!el) return;
+    var s = ''; for (var _i = 0; _i < fcLives; _i++) s += fcAvatar;
+    el.textContent = s;
+  }
+  renderLives();
+
+  function renderTimer() {
+    var bar = document.getElementById('fc-timer-bar');
+    if (!bar) return;
+    bar.style.width = Math.max(0, (fcTimeLeft / 30) * 100) + '%';
+    if (fcTimeLeft <= 8) bar.classList.add('fc-timer-urgent');
+    else bar.classList.remove('fc-timer-urgent');
+  }
+  renderTimer();
+
+  function flashCatcher(type) {
+    var c = document.getElementById('fc-catcher');
+    if (!c) return;
+    c.classList.remove('fc-flash-good', 'fc-flash-bad');
+    void c.offsetWidth;
+    c.classList.add(type === 'good' ? 'fc-flash-good' : 'fc-flash-bad');
+    setTimeout(function() {
+      var cc = document.getElementById('fc-catcher');
+      if (cc) cc.classList.remove('fc-flash-good', 'fc-flash-bad');
+    }, 420);
+  }
+
+  function fcEndGame(won) {
+    if (fcDone) return;
+    fcDone = true;
+    clearInterval(spawnTimer); spawnTimer = null;
+    clearInterval(loopTimer);  loopTimer  = null;
+    clearInterval(clockTimer); clockTimer = null;
+    fallingCards.forEach(function(c) { try { c.el.remove(); } catch(e) {} });
+    fallingCards = [];
+    var res = document.createElement('div');
+    res.className = 'fc-result';
+    res.textContent = won ? '⭐ Great catching!' : 'Keep going!';
+    if (fcField) fcField.appendChild(res);
+    showRemedCont('Next →');
+  }
+
+  function spawnCard() {
+    if (fcDone) return;
+    var text = cardPool[cardIdx % cardPool.length];
+    cardIdx++;
+    var isCorrect = !!correctSet[text];
+    var lane = Math.floor(Math.random() * 3);
+    var fallMs = 1800 + Math.random() * 600; // 1.8–2.4s fall
+
+    var el = document.createElement('div');
+    el.className = 'fc-card ' + (isCorrect ? 'fc-right' : 'fc-wrong');
+    el.textContent = text;
+    el.style.left = laneCenterX(lane) + 'px';
+    el.style.top  = '-56px';
+    if (fcField) fcField.appendChild(el);
+
+    fallingCards.push({ el: el, lane: lane, isCorrect: isCorrect,
+                        startTime: Date.now(), fallMs: fallMs,
+                        caught: false, missed: false });
+  }
+
+  function fcTick() {
+    if (fcDone) return;
+    var now = Date.now();
+    var fh = getFieldH();
+    var catchTop = fh - 8 - 40; // catcher sits at bottom:8px, ~40px tall
+
+    fallingCards = fallingCards.filter(function(card) {
+      var y = -56 + ((now - card.startTime) / card.fallMs) * (fh + 80);
+      card.el.style.top = Math.round(y) + 'px';
+
+      if (!card.caught && !card.missed && card.lane === catcherLane) {
+        if (y >= catchTop - 16 && y <= fh) {
+          card.caught = true;
+          card.el.remove();
+          if (card.isCorrect) {
+            caughtCorrect++;
+            flashCatcher('good');
+            if (caughtCorrect >= 3) { fcEndGame(true); return false; }
+          } else {
+            fcLives--;
+            renderLives();
+            flashCatcher('bad');
+            if (fcLives <= 0) { fcEndGame(false); return false; }
+          }
+          return false;
+        }
+      }
+      if (y > fh + 20) {
+        card.missed = true;
+        card.el.remove();
+        return false;
+      }
+      return true;
+    });
+  }
+
+  // --- Controls ---
+  var _fcKeyDown = function(e) {
+    if (fcDone) return;
+    if (!document.getElementById('remediation-screen') ||
+        !document.getElementById('remediation-screen').classList.contains('active')) return;
+    if (e.key === 'ArrowLeft')  { setCatcherLane(catcherLane - 1); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { setCatcherLane(catcherLane + 1); e.preventDefault(); }
+  };
+  var _fcMouseMove = function(e) {
+    if (fcDone) return;
+    var f_el = document.getElementById('fc-field');
+    if (!f_el) return;
+    var rect = f_el.getBoundingClientRect();
+    var lane = Math.floor((e.clientX - rect.left) / (rect.width / 3));
+    setCatcherLane(Math.max(0, Math.min(2, lane)));
+  };
+  document.addEventListener('keydown', _fcKeyDown);
+  document.addEventListener('mousemove', _fcMouseMove);
+
+  // --- Cleanup (called before any step transition) ---
+  window._fcCleanup = function() {
+    document.removeEventListener('keydown', _fcKeyDown);
+    document.removeEventListener('mousemove', _fcMouseMove);
+    if (spawnTimer) { clearInterval(spawnTimer); spawnTimer = null; }
+    if (loopTimer)  { clearInterval(loopTimer);  loopTimer  = null; }
+    if (clockTimer) { clearInterval(clockTimer); clockTimer = null; }
+    fallingCards.forEach(function(c) { try { c.el.remove(); } catch(e) {} });
+  };
+
+  // --- Start (slight delay so DOM is painted and field dimensions are accurate) ---
+  setTimeout(function() {
+    if (fcDone) return;
+    spawnCard();
+    spawnTimer = setInterval(spawnCard, 1600);
+    loopTimer  = setInterval(fcTick, 40);
+    clockTimer = setInterval(function() {
+      fcTimeLeft--;
+      renderTimer();
+      if (fcTimeLeft <= 0) fcEndGame(false);
+    }, 1000);
+  }, 60);
 }
 
 // ── Step 1: Find It ──────────────────────────────────────
