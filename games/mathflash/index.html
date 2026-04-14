@@ -2414,6 +2414,9 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   white-space: nowrap; pointer-events: none; user-select: none;
   background: rgba(255,255,255,0.07); border-color: rgba(199,125,255,0.35); color: var(--text);
   will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 .fc-target-banner {
   text-align: center; flex-shrink: 0;
@@ -2769,6 +2772,19 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div id="user-menu-list"></div>
     <div style="padding-top:12px;border-top:1px solid var(--border);">
       <button class="btn-ghost" style="width:100%;font-size:0.88rem;" onclick="addNewUserFromMenu()">+ Add New User</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CHANGE AVATAR ══ -->
+<div id="change-avatar-overlay" class="overlay">
+  <div class="overlay-card" style="max-width:420px;">
+    <button class="overlay-close" onclick="hideOverlay('change-avatar-overlay')">✕</button>
+    <div class="overlay-title" style="font-size:1.2rem;margin-bottom:12px;">Change Avatar</div>
+    <div class="mf-avatar-grid" id="change-avatar-grid"></div>
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <button class="btn-ghost" style="flex:1;" onclick="hideOverlay('change-avatar-overlay')">Cancel</button>
+      <button class="btn-primary" id="change-avatar-save" style="flex:1;" disabled onclick="saveAvatarChange()">Save</button>
     </div>
   </div>
 </div>
@@ -3574,6 +3590,7 @@ function showUserMenu(dest) {
           '<span class="ump-name">' + p.username + '</span>' +
           (isActive ? '<span class="ump-active">Active</span>' : '') +
         '</button>' +
+        (isActive ? '<button class="ump-delete" title="Change avatar" onclick="openChangeAvatar(\'' + esc + '\')" style="font-size:1rem;">🎨</button>' : '') +
         '<button class="ump-delete" onclick="openDeleteUserMF(\'' + esc + '\')" title="Delete ' + p.username + '">🗑</button>' +
       '</div>';
     }).join('');
@@ -3598,6 +3615,53 @@ function switchUser(name) {
     // Bug #1: always reset to title screen so data-dependent UI reloads for new user
     showScreen('title-screen');
   }
+}
+
+var _changeAvatarUsername = '';
+var _changeAvatarSelected = '';
+
+function openChangeAvatar(username) {
+  _changeAvatarUsername = username;
+  _changeAvatarSelected = '';
+  var grid = document.getElementById('change-avatar-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  // Pre-select current avatar
+  var profiles = [];
+  try { profiles = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]'); } catch(e) {}
+  var prof = profiles.find(function(p) { return p.username === username; });
+  var currentAvatar = prof ? prof.avatar : '';
+  MF_AVATARS.forEach(function(emoji) {
+    var btn = document.createElement('button');
+    btn.className = 'mf-avatar-btn' + (emoji === currentAvatar ? ' selected' : '');
+    btn.textContent = emoji;
+    btn.setAttribute('aria-label', emoji);
+    btn.addEventListener('click', function() {
+      grid.querySelectorAll('.mf-avatar-btn').forEach(function(b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      _changeAvatarSelected = emoji;
+      var saveBtn = document.getElementById('change-avatar-save');
+      if (saveBtn) saveBtn.disabled = (_changeAvatarSelected === currentAvatar);
+    });
+    grid.appendChild(btn);
+  });
+  var saveBtn = document.getElementById('change-avatar-save');
+  if (saveBtn) saveBtn.disabled = true;
+  hideOverlay('user-menu-overlay');
+  showOverlay('change-avatar-overlay');
+}
+
+function saveAvatarChange() {
+  if (!_changeAvatarUsername || !_changeAvatarSelected) return;
+  var profiles = [];
+  try { profiles = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]'); } catch(e) {}
+  var prof = profiles.find(function(p) { return p.username === _changeAvatarUsername; });
+  if (prof) {
+    prof.avatar = _changeAvatarSelected;
+    localStorage.setItem('sparkwright_profiles', JSON.stringify(profiles));
+    refreshProfileChip();
+  }
+  hideOverlay('change-avatar-overlay');
 }
 
 function addNewUserFromMenu() {
@@ -5604,7 +5668,7 @@ function buildFactCatcher(body, f) {
     el.className = 'fc-card';
     el.textContent = text;
     el.style.left = laneCenterX(lane) + 'px';
-    el.style.transform = 'translateX(-50%) translateY(-56px)';
+    el.style.transform = 'translateX(-50%) translateY(-56px) translateZ(0)';
     if (fcField) fcField.appendChild(el);
 
     fallingCards.push({ el: el, lane: lane, isCorrect: isCorrect,
@@ -5624,7 +5688,7 @@ function buildFactCatcher(body, f) {
 
     fallingCards = fallingCards.filter(function(card) {
       var y = -56 + ((now - card.startTime) / card.fallMs) * (fh + 80);
-      card.el.style.transform = 'translateX(-50%) translateY(' + Math.round(y) + 'px)';
+      card.el.style.transform = 'translateX(-50%) translateY(' + y.toFixed(2) + 'px) translateZ(0)';
 
       if (!card.caught && !card.missed && card.lane === catcherLane) {
         if (y >= catchTop - 16 && y <= fh) {
@@ -5903,10 +5967,16 @@ function buildStep2(body, f, tbl) {
     return '<div class="fa-card" data-correct="' + isCorr + '" data-idx="' + i + '" data-card="' + card + '">' + makeCardInner(card) + '</div>';
   }).join('');
 
+  const hintText = 'The answer is ' + correct + '. Look for cards that equal ' + correct + '. Skip-count by ' + Math.min(f.fa, f.fb) + ' if it helps!';
+
   body.innerHTML =
     '<div class="remed-card s2" style="max-width:620px;width:100%">' +
       '<div class="remed-title" style="color:var(--a2)">Find All</div>' +
       '<div class="remed-instr">Tap every card that shows a <strong>correct</strong> fact. Find all ' + totalCorrect + '!</div>' +
+      '<div style="text-align:center;margin-bottom:4px;">' +
+        '<button class="btn-ghost" style="font-size:0.78rem;padding:5px 14px;opacity:0.75;" onclick="this.style.display=\'none\';document.getElementById(\'fa-hint-text\').style.display=\'block\';">Forget the fact you\'re looking for?</button>' +
+        '<div id="fa-hint-text" style="display:none;font-size:0.82rem;color:var(--a2);padding:6px 12px;background:rgba(255,217,61,0.08);border:1px solid rgba(255,217,61,0.25);border-radius:8px;line-height:1.5;">' + hintText + '</div>' +
+      '</div>' +
       '<div class="fa-counter" id="fa-counter">Found <span id="fa-found">0</span> of ' + totalCorrect + '</div>' +
       '<div class="fa-penalty" id="fa-penalty"></div>' +
       '<div class="fa-grid" id="fa-grid">' + gridHTML + '</div>' +
