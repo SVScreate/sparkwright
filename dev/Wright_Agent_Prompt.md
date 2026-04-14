@@ -76,23 +76,25 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Flash v82k** — live at `games/mathflash/index.html` (no backup file — all changes committed directly)
+**Math Flash v83a** — live at `games/mathflash/index.html` (no backup file — all changes committed directly)
 Landing page: `sparkwright/index.html` (updated Session AE)
 
-## Session AK Build Summary (v82a–v82k)
+## Session AL Build Summary (v83a) — 2026-04-14
 
-**Fact Catcher mini-game** — new PQ step (replaces "Match It" slot in the randomized sequence):
-- 5 CSS dot progress (yellow filled / white outline empty); dots animate coral+shrink on loss
-- 5-star win; inactivity timer (18s no movement/catch = timeout); 3 falling lanes
-- Controlled distractor-heavy spawn (~73% distractors); lane enforcement; correct cooldown (3.5s)
-- Wrong catch: lose 1 dot + freeze 1s; 0-star guard; MAX_WRONG=8 forces advance (exploit prevention)
-- Mini-Game Speed: Slow/Medium/Fast in Setup → Practice Features (persisted, controls fall + spawn speed)
-- PQ step pips stack below "⚡ Practice Quest" badge (was side-by-side)
-- Mockup at `dev/fact-catcher-mockup.html` kept in sync
+**Beta testing fixes:**
+- **Falling Facts** (renamed from "Fact Catcher"): avatar bug fixed (was looking up `p.name`, correct is `p.username`), card jumping fixed (freeze now offsets card startTimes so no teleporting on unfreeze), text jiggling fixed (RAF loop at 60fps + GPU `transform: translateY` instead of `setInterval` + `style.top`), instruction text clarified
+- **Per-question timer bar**: interval reduced from 100ms → 50ms; bar and autokick fire with ≤50ms of visual sliver
+- **Find All spam-click exploit**: `faScrambleLocked` flag blocks clicks during scramble + 600ms cooldown after cards settle
+- **Reload exploit**: `beforeunload` hides `.fact-card` so user can't read fact during browser dialog; `showQuestion()` restores visibility on next question
+- **Constellation stat cards**: now close on `mouseleave` (no longer linger until click)
+- **"How this works" panel**: duplicate color key removed (the one below the grid is sufficient), content restructured with dividers
+- **Button copy**: "Yes, go to main menu" → "Main Menu"
 
-**Bug fixes also in this session (v82a–v82d):**
-- User context reset on switch/create/delete (partial fix)
-- Welcome flow timing fix (partial)
+**Needs design discussion with Kimberly before building:**
+- Per-session printout area (what exactly is needed? where is it accessible?)
+- Change avatar for existing users (where does this live — user menu? profile screen?)
+- Find All hint button (what copy? when does it appear?)
+- Settings page restructure (see Handoff → Spark)
 
 ## ⚠️ CRITICAL BUGS — Fix Before Any New Features
 
@@ -112,7 +114,7 @@ Profile chip behavior is still inconsistent across screens. Proposed clean model
 Need 🗑 on each Star Scan record in both Star Scan Area and My Constellation, with the same checkbox-gate modal as user delete.
 
 **6. "Nothing to see here. Nice work!" empty state needs graduation check**
-Currently shows whenever watchItems is empty and user has data. Should only show when student is close to mastery (e.g. >80% of facts mastered). The check requires iterating constellation cells — not yet implemented. Flag for Spark: is there a simpler mastery-proximity signal we can use?
+Currently shows whenever watchItems is empty and user has data. Should only show when student is close to mastery (e.g. >80% of facts mastered). The check requires iterating constellation cells — not yet implemented. Spark flagged for simpler signal — no answer yet.
 
 ---
 

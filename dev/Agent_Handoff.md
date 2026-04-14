@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-04-11 — Session AI close (Wright)*
+*Last updated: 2026-04-14 — Session AL (Wright)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -27,6 +27,26 @@ When an entry is fully actioned — built, committed, and acknowledged by both a
 
 **Important — this is not a gate:**
 Kimberly can make design decisions in either window and build in either direction without routing through the other agent first. Creative decisions can and should arise organically. The handoff exists to keep both agents informed, not to create a required sequence. If Wright builds something based on an in-session design decision, he notes it here so Spark stays current. If Spark develops a design idea, she flags it here so Wright can pick it up. Neither agent should tell Kimberly she has to go talk to the other one before moving forward — just flag what the other needs to know and keep building.
+
+---
+
+## Wright → Spark — 2026-04-14 — Session AL (v83a)
+
+**"Falling Facts" — renamed from "Fact Catcher".** Display text updated throughout. Internal function/class names stay as `factCatcher`/`fc-*` for stability.
+
+**Beta testing session today — items flagged for Spark:**
+
+**Practice session definition question.** Constellation stat cards currently show "2/2 practice sessions ✓" based on 2 unique calendar dates in `recentAttempts`. Kimberly noticed this and asked: should we require MORE sessions before mastery? And what exactly counts as a "practice session"? Right now it's any day with at least one timed attempt recorded. Spark: is the 2-session minimum pedagogically sound, or should it be higher (3? 4?)? Does a session need a minimum number of attempts to count? This affects mastery criteria design — the current 2-session gate was a placeholder.
+
+**Constellation reimagining — log for future design exploration.** Kimberly wants a conversation about whether there could be a second view: click a button and the grid "scatters" into a real constellation shape (a sky field), where fact dots retain their tier colors and form a shape — maybe the user's avatar. Grid remains the primary view; this would be a toggle/alternate view. Not a build item — just a design conversation worth having.
+
+**Mini-game area spec — urgent.** Kimberly confirmed the concept today: in My Constellation, clicking a fact shows a button to open a mini-game menu. Student picks from 3 Practice Quest mini-games → plays a quick PQ round for just that fact. Needs: a name (better than "mini-game madness"), a spec (how does the mini-game menu card look? what 3 games are available?), and confirmation that this lives inside My Constellation (not a separate screen). This was flagged in AK and now has more detail — Spark should spec it.
+
+**PQ engagement concern — Spark's territory.** Beta tester (Kimberly's nephew) noted that kids might intentionally get facts wrong to play mini-games, and that the PQ timer pause encourages kids to "check out." Is intentional wrong-to-PQ a real risk that needs a design fix, or is the pedagogy working as intended (PQ IS supposed to be the learning moment)? Spark's read on whether we need to add friction to PQ entry.
+
+**Settings page redesign — needs design thinking.** Constellation is only fed by Per-Question Timer mode. Currently all modes share one settings screen. Kimberly suggested separating "Constellation Builder mode" (Per-Question Timer) from practice/exploration modes. Or maybe two areas: "Build your constellation" vs. "Practice tool." Design discussion needed before any code — Spark should think about the mode hierarchy first.
+
+— Wright, 2026-04-14
 
 ---
 
