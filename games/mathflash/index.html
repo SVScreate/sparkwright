@@ -2408,12 +2408,12 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   background: rgba(255,255,255,0.05);
 }
 .fc-card {
-  position: absolute;
-  transform: translateX(-50%);
+  position: absolute; top: 0;
   font-family: var(--font-display); font-size: 1.05rem;
   padding: 10px 16px; border-radius: 10px; border: 2px solid;
   white-space: nowrap; pointer-events: none; user-select: none;
   background: rgba(255,255,255,0.07); border-color: rgba(199,125,255,0.35); color: var(--text);
+  will-change: transform;
 }
 .fc-target-banner {
   text-align: center; flex-shrink: 0;
@@ -2780,7 +2780,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="overlay-title" style="font-size:1.1rem;margin-bottom:10px;">Create a New User?</div>
     <p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:20px;">You'll be taken to the main menu to set up the new profile.</p>
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <button class="btn-primary" style="width:100%;" onclick="confirmAddNewUser()">Yes, go to main menu</button>
+      <button class="btn-primary" style="width:100%;" onclick="confirmAddNewUser()">Main Menu</button>
       <button class="btn-ghost" style="width:100%;" onclick="hideOverlay('add-user-confirm-overlay')">Cancel</button>
     </div>
   </div>
@@ -4897,7 +4897,7 @@ function startPerQTimer() {
       clearInterval(G.perQTimer); G.perQTimer = null;
       if (!G.answered) autoKick();
     }
-  }, 100);
+  }, 50);
 }
 
 function stopPerQTimer() {
@@ -4986,7 +4986,7 @@ function resumeTimers() {
         clearInterval(G.perQTimer); G.perQTimer = null;
         if (!G.answered) autoKick();
       }
-    }, 100);
+    }, 50);
   }
 }
 
@@ -5004,6 +5004,8 @@ function showQuestion() {
   G.answered = false;
   G.qStartTime = Date.now();
 
+  var _fc = document.querySelector('#game-screen .fact-card');
+  if (_fc) _fc.style.visibility = '';  // restore if hidden by beforeunload
   document.getElementById('g-question').textContent = q.q;
   document.getElementById('g-feedback').textContent = '';
   document.getElementById('g-feedback').className = 'feedback';
@@ -5410,14 +5412,14 @@ function wrongAnswers(correct, tbl, op) {
   return [...pool].filter(function(v) { return v !== correct; }).sort(function() { return Math.random() - 0.5; });
 }
 
-// ── Fact Catcher Mini-Game ────────────────────────────────
+// ── Falling Facts Mini-Game ───────────────────────────────
 function buildFactCatcher(body, f) {
   // --- Avatar ---
   var fcAvatar = '⭐';
   try {
     var _fcP = JSON.parse(localStorage.getItem('sparkwright_profiles') || '[]');
     var _fcU = localStorage.getItem('sparkwright_active');
-    var _fcPr = _fcP.find(function(p) { return p.name === _fcU; });
+    var _fcPr = _fcP.find(function(p) { return p.username === _fcU; });
     if (_fcPr && _fcPr.avatar) fcAvatar = _fcPr.avatar;
   } catch(e) {}
 
@@ -5477,7 +5479,7 @@ function buildFactCatcher(body, f) {
   var fcFrozen = false;
   var fallingCards = [];
   var spawnTimer = null;
-  var loopTimer  = null;
+  var loopRAF    = null;            // requestAnimationFrame handle
   var lastCorrectLane = -1;          // prevents same-lane correct cards consecutively
   var lastCorrectCaughtTime = 0;     // timestamp of last correct catch
   var lastActivityTime = Date.now(); // reset on movement or any catch
@@ -5487,7 +5489,7 @@ function buildFactCatcher(body, f) {
     '<div class="fc-container">' +
       '<div class="fc-hud">' +
         '<div class="fc-progress" id="fc-progress"></div>' +
-        '<div class="fc-hud-label">Fact Catcher</div>' +
+        '<div class="fc-hud-label">Falling Facts</div>' +
         '<div class="fc-timer-wrap"><div class="fc-timer-bar" id="fc-timer-bar"></div></div>' +
       '</div>' +
       '<div class="fc-feedback" id="fc-feedback"></div>' +
@@ -5497,7 +5499,7 @@ function buildFactCatcher(body, f) {
         '<div class="fc-lane-div" style="left:66.66%"></div>' +
         '<div class="fc-catcher" id="fc-catcher">' + fcAvatar + '</div>' +
       '</div>' +
-      '<div class="fc-instr">← → or mouse to move · catch the correct facts!</div>' +
+      '<div class="fc-instr">Use ← → arrow keys or move your mouse to catch the correct facts!</div>' +
     '</div>';
 
   injectRemedBtn(body, 'Next →', false);
@@ -5565,7 +5567,7 @@ function buildFactCatcher(body, f) {
     if (fcDone) return;
     fcDone = true;
     clearInterval(spawnTimer); spawnTimer = null;
-    clearInterval(loopTimer);  loopTimer  = null;
+    if (loopRAF) { cancelAnimationFrame(loopRAF); loopRAF = null; }
     fallingCards.forEach(function(c) { try { c.el.remove(); } catch(e) {} });
     fallingCards = [];
     var res = document.createElement('div');
@@ -5602,7 +5604,7 @@ function buildFactCatcher(body, f) {
     el.className = 'fc-card';
     el.textContent = text;
     el.style.left = laneCenterX(lane) + 'px';
-    el.style.top  = '-56px';
+    el.style.transform = 'translateX(-50%) translateY(-56px)';
     if (fcField) fcField.appendChild(el);
 
     fallingCards.push({ el: el, lane: lane, isCorrect: isCorrect,
@@ -5622,7 +5624,7 @@ function buildFactCatcher(body, f) {
 
     fallingCards = fallingCards.filter(function(card) {
       var y = -56 + ((now - card.startTime) / card.fallMs) * (fh + 80);
-      card.el.style.top = Math.round(y) + 'px';
+      card.el.style.transform = 'translateX(-50%) translateY(' + Math.round(y) + 'px)';
 
       if (!card.caught && !card.missed && card.lane === catcherLane) {
         if (y >= catchTop - 16 && y <= fh) {
@@ -5674,7 +5676,17 @@ function buildFactCatcher(body, f) {
 
             flashCatcher('bad');
             fcFrozen = true;
-            setTimeout(function() { if (!fcDone) fcFrozen = false; }, 1020);
+            var _freezeStart = Date.now();
+            setTimeout(function() {
+              if (!fcDone) {
+                // Offset all cards' startTimes by freeze duration so they resume without jumping
+                var _frozenDur = Date.now() - _freezeStart;
+                fallingCards.forEach(function(c) {
+                  if (!c.caught && !c.missed) c.startTime += _frozenDur;
+                });
+                fcFrozen = false;
+              }
+            }, 1020);
           }
           return false;
         }
@@ -5706,7 +5718,7 @@ function buildFactCatcher(body, f) {
     document.removeEventListener('keydown', _fcKeyDown);
     document.removeEventListener('mousemove', _fcMouseMove);
     if (spawnTimer) { clearInterval(spawnTimer); spawnTimer = null; }
-    if (loopTimer)  { clearInterval(loopTimer);  loopTimer  = null; }
+    if (loopRAF)    { cancelAnimationFrame(loopRAF); loopRAF = null; }
     fallingCards.forEach(function(c) { try { c.el.remove(); } catch(e) {} });
   };
 
@@ -5715,7 +5727,11 @@ function buildFactCatcher(body, f) {
     if (fcDone) return;
     spawnCard();
     spawnTimer = setInterval(spawnCard, FC_SPAWN_MS);
-    loopTimer  = setInterval(fcTick, 40);
+    (function runFCLoop() {
+      if (fcDone) { loopRAF = null; return; }
+      fcTick();
+      loopRAF = requestAnimationFrame(runFCLoop);
+    })();
   }, 60);
 }
 
@@ -5880,6 +5896,7 @@ function buildStep2(body, f, tbl) {
 
   let found = 0;
   const totalCorrect = corrFinal.length;
+  let faScrambleLocked = false; // prevents spam-clicking during/after scramble
 
   const gridHTML = allCards.map(function(card, i) {
     const isCorr = corrFinal.includes(card);
@@ -5901,6 +5918,7 @@ function buildStep2(body, f, tbl) {
   function scrambleGrid() {
     const grid = document.getElementById('fa-grid');
     if (!grid) return;
+    faScrambleLocked = true;
     grid.classList.add('blurred');
 
     const cards = Array.from(grid.querySelectorAll('.fa-card'));
@@ -5931,13 +5949,14 @@ function buildStep2(body, f, tbl) {
       safeTimeout(function() {
         unfound.forEach(function(c) { c.style.animation = ''; });
         grid.classList.remove('blurred');
+        safeTimeout(function() { faScrambleLocked = false; }, 600); // extra cooldown after cards settle
       }, 500);
     });
   }
 
   body.querySelectorAll('.fa-card').forEach(function(card) {
     card.addEventListener('click', function() {
-      if (this.classList.contains('fa-good') || this.classList.contains('fa-bad')) return;
+      if (faScrambleLocked || this.classList.contains('fa-good') || this.classList.contains('fa-bad')) return;
       const correct = this.dataset.correct === 'true';
       if (correct) {
         this.classList.add('fa-good');
@@ -6821,20 +6840,13 @@ function buildStatsScreen() {
         '<button class="mp-ctrl-pill" onclick="toggleConstellationExt()">Facts ×1–' + (S.extendedTables ? '20' : '12') + ' &nbsp;<span class="mp-ctrl-action">' + (S.extendedTables ? 'Hide ×13–×20' : 'Show ×13–×20') + '</span></button>' +
       '</div>' +
       '<div class="mp-how-panel" id="mp-how-panel">' +
-        '<div style="font-size:0.68rem;color:rgba(240,240,255,0.65);margin-bottom:10px;">' +
-          '<div style="font-weight:800;color:rgba(240,240,255,0.85);font-size:0.72rem;margin-bottom:7px;">How to light up your constellation</div>' +
-          '<div style="margin-bottom:5px;">⚡ <strong>Use Per-Question Timer mode</strong> — this is how the constellation learns your speed. Each answer is timed and graded.</div>' +
-          '<div style="margin-bottom:5px;">🔄 <strong>Practice across multiple sessions</strong> — mastery requires showing up more than once. A great single round won\'t earn a star.</div>' +
-          '<div style="margin-bottom:5px;">📚 <strong>When a fact triggers Practice Quest, don\'t just click through</strong> — use it as a chance to really build your memory of that fact.</div>' +
-          '<div>★ <strong>Watch the amber facts</strong> — fluent but not mastered yet. A few more consistent sessions and they earn their star.</div>' +
-        '</div>' +
-        '<div style="padding-top:9px;border-top:1px solid rgba(255,255,255,0.07);">' +
-          '<div class="mp-how-row"><span class="mp-legend-dot mastered" style="display:inline-block;vertical-align:middle;margin-right:7px;flex-shrink:0"></span><strong>Mastered ★</strong> — Correct in ≤' + threshSec + 's, 4 of your last 5 tries, 2+ sessions, consistent timing.</div>' +
-          '<div class="mp-how-row"><span class="mp-legend-dot fluent" style="display:inline-block;vertical-align:middle;margin-right:7px;flex-shrink:0"></span><strong>Fluent</strong> — Correct in ≤' + threshSec + 's. Automatic — coming from memory.</div>' +
-          '<div class="mp-how-row"><span class="mp-legend-dot almost" style="display:inline-block;vertical-align:middle;margin-right:7px;flex-shrink:0"></span><strong>Almost</strong> — Correct but slower than ' + threshSec + 's. You know it — keep building speed.</div>' +
-          '<div class="mp-how-row"><span class="mp-legend-dot needs-practice" style="display:inline-block;vertical-align:middle;margin-right:7px;flex-shrink:0"></span><strong>Needs Practice</strong> — Wrong answer, or time ran out.</div>' +
-          '<div class="mp-how-row"><span class="mp-legend-dot unpracticed" style="display:inline-block;vertical-align:middle;margin-right:7px;flex-shrink:0"></span><strong>Not yet practiced</strong> — You haven\'t seen this one yet.</div>' +
-          '<div style="font-size:0.62rem;color:rgba(240,240,255,0.28);margin-top:6px;">Brighter glow = more established. Click any dot to see its details.</div>' +
+        '<div style="font-size:0.7rem;color:rgba(240,240,255,0.75);line-height:1.6;">' +
+          '<div style="font-weight:800;color:rgba(240,240,255,0.9);font-size:0.75rem;margin-bottom:10px;">How to light up your constellation</div>' +
+          '<div style="margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.07);">⚡ <strong>Use Per-Question Timer mode.</strong> This is how the constellation learns your speed — each answer is timed and graded automatically.</div>' +
+          '<div style="margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.07);">🔄 <strong>Practice across multiple sessions.</strong> Mastery requires showing up more than once. A great single round won\'t earn a star.</div>' +
+          '<div style="margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.07);">📚 <strong>Use Practice Quest, don\'t click through it.</strong> When a fact triggers the quest, slow down — that\'s the learning moment.</div>' +
+          '<div>★ <strong>Watch the amber (Fluent) facts.</strong> You\'re almost there — a few more consistent sessions and they earn their star.</div>' +
+          '<div style="margin-top:10px;font-size:0.62rem;color:rgba(240,240,255,0.35);">Color key is shown below the grid. Click any dot for details.</div>' +
         '</div>' +
       '</div>' +
       '<div class="constellation-wrap" style="position:relative">' +
@@ -6882,6 +6894,7 @@ function buildStatsScreen() {
 
   var gridEl = document.getElementById('constellation-grid');
   if (gridEl && statCard) {
+    gridEl.addEventListener('mouseleave', closeStatCard);
     gridEl.addEventListener('click', function(e) {
       var cell = e.target.closest('.c-cell[data-fact]');
       if (!cell) { closeStatCard(); return; }
@@ -7993,6 +8006,9 @@ window.addEventListener('beforeunload', function(e) {
   if (isGameActive()) {
     e.preventDefault();
     e.returnValue = '';
+    // Hide the current fact immediately so user can't read it during the dialog
+    var fc = document.querySelector('#game-screen .fact-card');
+    if (fc) fc.style.visibility = 'hidden';
   }
 });
 
