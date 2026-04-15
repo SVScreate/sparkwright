@@ -281,7 +281,7 @@ body {
 .ump-active { font-size: 0.65rem; color: var(--a2); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
 .ump-delete { background:none; border:none; color:rgba(240,240,255,0.3); font-size:0.95rem; cursor:pointer; padding:6px 8px; border-radius:6px; transition:color 0.15s,background 0.15s; flex-shrink:0; }
 .ump-delete:hover { color:#ff6b6b; background:rgba(255,107,107,0.1); }
-.user-menu-row { display:flex; align-items:center; gap:6px; }
+.user-menu-row { display:flex; align-items:center; gap:6px; overflow:visible; }
 
 /* ── ABOUT LINK ── */
 .title-about-link {
@@ -2766,7 +2766,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
 <!-- ══ USER MENU ══ -->
 <div id="user-menu-overlay" class="overlay" onclick="if(event.target===this)closeUserMenuOverlay()">
-  <div class="overlay-card" style="max-width:400px;">
+  <div class="overlay-card" style="max-width:440px;padding:24px;">
     <button class="overlay-close" onclick="closeUserMenuOverlay()">✕</button>
     <div class="overlay-title" style="font-size:1.2rem;margin-bottom:16px;">Switch User</div>
     <div id="user-menu-list"></div>
@@ -5632,7 +5632,7 @@ function buildFactCatcher(body, f) {
     fcDone = true;
     clearInterval(spawnTimer); spawnTimer = null;
     if (loopRAF) { cancelAnimationFrame(loopRAF); loopRAF = null; }
-    fallingCards.forEach(function(c) { try { c.el.remove(); } catch(e) {} });
+    fallingCards.forEach(function(c) { try { if (c.anim) c.anim.cancel(); c.el.remove(); } catch(e) {} });
     fallingCards = [];
     var res = document.createElement('div');
     res.className = 'fc-result';
@@ -5653,7 +5653,6 @@ function buildFactCatcher(body, f) {
     if (isCorrect) {
       text = correctPool[correctPoolIdx % correctPool.length];
       correctPoolIdx++;
-      // Force correct card into a different lane than the last correct card
       var tries = 0;
       do { lane = Math.floor(Math.random() * 3); tries++; } while (lane === lastCorrectLane && tries < 8);
       lastCorrectLane = lane;
@@ -5664,15 +5663,22 @@ function buildFactCatcher(body, f) {
     }
 
     var fallMs = FC_FALL_MS + Math.random() * 500;
+    var fh = getFieldH();
     var el = document.createElement('div');
     el.className = 'fc-card';
     el.textContent = text;
     el.style.left = laneCenterX(lane) + 'px';
-    el.style.transform = 'translateX(-50%) translateY(-56px) translateZ(0)';
     if (fcField) fcField.appendChild(el);
+
+    // Web Animations API — browser owns the motion, no JS per-frame style writes = smooth
+    var anim = el.animate([
+      { transform: 'translateX(-50%) translateY(-56px)', offset: 0 },
+      { transform: 'translateX(-50%) translateY(' + (fh + 80) + 'px)', offset: 1 }
+    ], { duration: fallMs, easing: 'linear', fill: 'forwards' });
 
     fallingCards.push({ el: el, lane: lane, isCorrect: isCorrect,
                         startTime: Date.now(), fallMs: fallMs,
+                        anim: anim,
                         caught: false, missed: false });
   }
 
@@ -5687,8 +5693,8 @@ function buildFactCatcher(body, f) {
     if (now - lastActivityTime >= INACTIVITY_MS) { fcEndGame(false); return; }
 
     fallingCards = fallingCards.filter(function(card) {
+      // Collision position calculated from elapsed time (same math as animation)
       var y = -56 + ((now - card.startTime) / card.fallMs) * (fh + 80);
-      card.el.style.transform = 'translateX(-50%) translateY(' + y.toFixed(2) + 'px) translateZ(0)';
 
       if (!card.caught && !card.missed && card.lane === catcherLane) {
         if (y >= catchTop - 16 && y <= fh) {
@@ -5740,13 +5746,17 @@ function buildFactCatcher(body, f) {
 
             flashCatcher('bad');
             fcFrozen = true;
+            // Pause all card animations during freeze so they hold position
+            fallingCards.forEach(function(c) { if (c.anim) c.anim.pause(); });
             var _freezeStart = Date.now();
             setTimeout(function() {
               if (!fcDone) {
-                // Offset all cards' startTimes by freeze duration so they resume without jumping
                 var _frozenDur = Date.now() - _freezeStart;
                 fallingCards.forEach(function(c) {
-                  if (!c.caught && !c.missed) c.startTime += _frozenDur;
+                  if (!c.caught && !c.missed) {
+                    c.startTime += _frozenDur; // keep collision math in sync
+                    if (c.anim) c.anim.play();  // resume visual animation
+                  }
                 });
                 fcFrozen = false;
               }
@@ -5783,7 +5793,7 @@ function buildFactCatcher(body, f) {
     document.removeEventListener('mousemove', _fcMouseMove);
     if (spawnTimer) { clearInterval(spawnTimer); spawnTimer = null; }
     if (loopRAF)    { cancelAnimationFrame(loopRAF); loopRAF = null; }
-    fallingCards.forEach(function(c) { try { c.el.remove(); } catch(e) {} });
+    fallingCards.forEach(function(c) { try { if (c.anim) c.anim.cancel(); c.el.remove(); } catch(e) {} });
   };
 
   // --- Start ---
