@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Math Flash</title>
+<title>Starlight Math</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2537,7 +2537,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       <span class="sw-logo-wordmark"><span class="sw-logo-spark">Spark</span><span class="sw-logo-wright">wright</span></span>
     </a>
     <div id="sw-divider"></div>
-    <span id="sw-game-label" onclick="showScreen('title-screen')" style="cursor:pointer;" title="Back to title screen">Math Flash</span>
+    <span id="sw-game-label" onclick="showScreen('title-screen')" style="cursor:pointer;" title="Back to title screen">Starlight Math</span>
   </div>
   <div id="sw-profile-chip" class="guest" onclick="onChipClick()" style="cursor:pointer;" title="Switch user">
     <span class="sw-avatar">👤</span>
@@ -2548,7 +2548,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <!-- ══ TITLE ══ -->
 <div id="title-screen" class="screen active">
   <div class="title-inner">
-    <div class="title-logo">⚡ Math Flash</div>
+    <div class="title-logo">⚡ Starlight Math</div>
     <div class="title-tagline">A learner-first math fact mastery tool built for targeted practice.</div>
     <div class="title-btn-row">
       <button class="btn-primary" onclick="goSetup()">Practice</button>
@@ -2575,11 +2575,11 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     </div>
     <div class="howto-item">
       <div class="howto-icon" style="background:rgba(107,203,119,0.15);color:var(--a3)">⌨️</div>
-      <div class="howto-text"><strong>Type your answer and hit Enter.</strong> A wrong answer launches a Practice Quest to help you learn the fact.</div>
+      <div class="howto-text"><strong>Type your answer and hit Enter.</strong> A wrong answer launches a Star Quest to help you learn the fact.</div>
     </div>
     <div class="howto-item">
       <div class="howto-icon" style="background:rgba(255,217,61,0.15);color:var(--a2)">🎯</div>
-      <div class="howto-text"><strong>Miss 3 times?</strong> A short Practice Quest drills that exact fact — pick it, judge it, match it, prove it. Skip anytime.</div>
+      <div class="howto-text"><strong>Miss 3 times?</strong> A short Star Quest drills that exact fact — pick it, judge it, match it, prove it. Skip anytime.</div>
     </div>
     <div class="howto-item">
       <div class="howto-icon" style="background:rgba(255,107,107,0.15);color:var(--a1)">🔁</div>
@@ -2596,26 +2596,26 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <div id="about-overlay" class="overlay" onclick="if(event.target===this)hideOverlay('about-overlay')">
   <div class="overlay-card">
     <button class="overlay-close" onclick="hideOverlay('about-overlay')">✕</button>
-    <div class="overlay-title">About Math Flash</div>
-    <div class="about-prose" style="margin-bottom:18px;font-size:0.95rem;">Math Flash is a math fact practice game for grades 2–8, designed for 1:1 and small-group use with a teacher or parent in the room.</div>
+    <div class="overlay-title">About Starlight Math</div>
+    <div class="about-prose" style="margin-bottom:18px;font-size:0.95rem;">Starlight Math is a math fact practice game for grades 2–8, designed for 1:1 and small-group use with a teacher or parent in the room.</div>
 
     <div class="about-section">
       <div class="about-section-heading">The idea behind it</div>
       <div class="about-prose">
-        <p>Most math fact tools handle a missed answer the same way: show the right answer, log the miss, and keep going. The algorithm will show that fact again sometime. The moment a student misses something is exactly when they're ready to work on it. Math Flash stops at that moment and does something about it.</p>
+        <p>Most math fact tools handle a missed answer the same way: show the right answer, log the miss, and keep going. The algorithm will show that fact again sometime. The moment a student misses something is exactly when they're ready to work on it. Starlight Math stops at that moment and does something about it.</p>
       </div>
     </div>
 
     <hr class="about-divider">
 
     <div class="about-section">
-      <div class="about-section-heading">Practice Quest</div>
-      <div class="about-prose" style="margin-bottom:12px;"><p>When a student misses a fact after two attempts, the round stops and Practice Quest begins:</p></div>
+      <div class="about-section-heading">Star Quest</div>
+      <div class="about-prose" style="margin-bottom:12px;"><p>When a student misses a fact after two attempts, the round stops and Star Quest begins:</p></div>
       <div class="about-step"><span class="about-step-label">Find It —</span><span>Locate the correct answer. No timer, no pressure.</span></div>
       <div class="about-step"><span class="about-step-label">Practice —</span><span>A short activity with the fact in a different mode, outside the timed context where it just failed.</span></div>
       <div class="about-step"><span class="about-step-label">Prove It —</span><span>Answer the fact correctly before returning to the round.</span></div>
       <div class="about-prose" style="margin-top:10px;">
-        <p>The round timer pauses for the full sequence and resumes where it left off. There's no score penalty for a miss — Practice Quest is a learning moment, not a punishment. Research on error correction consistently shows that structured practice at the moment of failure produces better long-term retention than errorless approaches, where mistakes are minimized and the student moves on. No major math fact platform handles a wrong answer this way.</p>
+        <p>The round timer pauses for the full sequence and resumes where it left off. There's no score penalty for a miss — Star Quest is a learning moment, not a punishment. Research on error correction consistently shows that structured practice at the moment of failure produces better long-term retention than errorless approaches, where mistakes are minimized and the student moves on. No major math fact platform handles a wrong answer this way.</p>
       </div>
     </div>
 
@@ -2623,7 +2623,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
     <div class="about-section">
       <div class="about-section-heading">Fluency grading</div>
-      <div class="about-prose" style="margin-bottom:12px;"><p>Math Flash measures response time, not just accuracy.</p></div>
+      <div class="about-prose" style="margin-bottom:12px;"><p>Starlight Math measures response time, not just accuracy.</p></div>
       <div class="about-tier-row"><span class="about-tier-label">⚡ Fluent —</span><span>Correct in 3 seconds or under. At this speed the fact is coming from memory, not calculation.</span></div>
       <div class="about-tier-row"><span class="about-tier-label">🔄 Almost —</span><span>Correct in 4–6 seconds. The student knows it — it just isn't automatic yet.</span></div>
       <div class="about-tier-row"><span class="about-tier-label">📚 Needs Practice —</span><span>Wrong answer, or no answer within the time limit.</span></div>
@@ -2637,8 +2637,8 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="about-section">
       <div class="about-section-heading">Mastery</div>
       <div class="about-prose">
-        <p>A fact isn't marked as mastered from one good session. Math Flash calls a fact mastered when a student answers correctly within the fluency threshold on 4 of their last 5 attempts, across at least 2 separate sessions, with consistent response times.</p>
-        <p>The two-session requirement is there because one good day isn't mastery. The consistency check matters because a student whose response times swing widely between attempts isn't retrieving automatically — they're somewhere in between.</p>
+        <p>A fact isn't marked as mastered from one good session. Starlight Math calls a fact mastered when a student answers correctly within the fluency threshold on 4 of their last 5 attempts, across at least 3 separate qualifying sessions, with consistent response times.</p>
+        <p>The three-session requirement is there because one good day isn't mastery. Each session needs at least 3 timed attempts to count. The consistency check matters because a student whose response times swing widely between attempts isn't retrieving automatically — they're somewhere in between.</p>
       </div>
     </div>
 
@@ -2647,7 +2647,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="about-section">
       <div class="about-section-heading">Results</div>
       <div class="about-prose">
-        <p>After the round, the results screen shows what happened: fluent facts, developing facts, anything that went to Practice Quest. It's readable without a manual and printable if you want a record. No login, no dashboard, no waiting for a report.</p>
+        <p>After the round, the results screen shows what happened: fluent facts, developing facts, anything that went to Star Quest. It's readable without a manual and printable if you want a record. No login, no dashboard, no waiting for a report.</p>
       </div>
     </div>
 
@@ -2656,7 +2656,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="about-section">
       <div class="about-section-heading">Settings</div>
       <div class="about-prose">
-        <p>You choose the facts, the timer mode, the fluency threshold, and whether Practice Quest is on. Math Flash covers addition, subtraction, multiplication, and division, including tables up to ×12 (or up to ×20 with extended tables enabled in My Constellation).</p>
+        <p>You choose the facts, the timer mode, the fluency threshold, and whether Star Quest is on. Starlight Math covers addition, subtraction, multiplication, and division, including tables up to ×12 (or up to ×20 with extended tables enabled in My Constellation).</p>
       </div>
     </div>
 
@@ -2708,7 +2708,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <h2>What is a Star Scan?</h2>
     <p>A Star Scan is a timed snapshot of where your facts are right now — before practice, after a lot of practice, or any time you want a clear picture. It's not a test and it doesn't affect your constellation. It's just a reading.</p>
     <h3>How it works</h3>
-    <p>Facts appear one at a time in random order. You get one attempt per fact at your fluency threshold — answer before time runs out, or the answer is shown and you move on. No Practice Quest, no retries. Just you and the fact.</p>
+    <p>Facts appear one at a time in random order. You get one attempt per fact at your fluency threshold — answer before time runs out, or the answer is shown and you move on. No Star Quest, no retries. Just you and the fact.</p>
     <h3>Your answers don't change your constellation</h3>
     <p>Your constellation is built through practice. A Star Scan records a separate snapshot — it lives in your Star Scan Records, not in your stars. You can't scan your way to gold. That's earned through practice.</p>
     <h3>When to use it</h3>
@@ -2744,12 +2744,12 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   </div>
 </div>
 
-<!-- ══ MATH FLASH ORIENTATION (existing user, first visit to Math Flash) ══ -->
+<!-- ══ MATH FLASH ORIENTATION (existing user, first visit to Starlight Math) ══ -->
 <div id="mf-welcome-overlay" class="overlay">
   <div class="overlay-card" style="max-width:420px;">
     <!-- Step 1: Greeting -->
     <div id="mf-welcome-step1">
-      <div class="overlay-title" style="font-size:1.5rem;margin-bottom:10px;">Welcome to Math Flash ⚡</div>
+      <div class="overlay-title" style="font-size:1.5rem;margin-bottom:10px;">Welcome to Starlight Math ⚡</div>
       <p id="mf-welcome-greeting" style="color:var(--text);font-size:1rem;font-weight:700;margin-bottom:10px;"></p>
       <p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:20px;">Practice math facts, light up your constellation, and build fluency one star at a time.</p>
       <button class="btn-primary" style="width:100%;font-size:1rem;padding:13px;" onclick="mfWelcomeNext()">Next →</button>
@@ -2882,7 +2882,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <!-- ══ SETUP ══ -->
 <div id="setup-screen" class="screen">
   <div class="setup-inner">
-    <div class="setup-logo">⚡ Math Flash</div>
+    <div class="setup-logo">⚡ Starlight Math</div>
     <div class="back-link" onclick="showScreen('title-screen')">← Back to title</div>
 
     <div class="card">
@@ -3010,7 +3010,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       <div class="card-title">Practice Features</div>
       <div class="toggle-row" style="margin-top:0">
         <label class="switch"><input type="checkbox" id="tog-remed" checked><div class="switch-track"></div></label>
-        <span class="toggle-label"><strong>Enable Practice Quest</strong> — after 2 wrong answers a short drill runs.</span>
+        <span class="toggle-label"><strong>Enable Star Quest</strong> — after 2 wrong answers a short drill runs.</span>
       </div>
       <div class="toggle-row">
         <label class="switch"><input type="checkbox" id="tog-repeat" checked><div class="switch-track"></div></label>
@@ -3032,7 +3032,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
         <div class="mode-btn on" data-mode="type">
           <div class="mode-icon">⌨️</div>
           <div class="mode-name">Type Answer</div>
-          <div class="mode-desc" id="type-answer-desc">2 attempts, then Practice Quest</div>
+          <div class="mode-desc" id="type-answer-desc">2 attempts, then Star Quest</div>
         </div>
         <div class="mode-btn" data-mode="reveal">
           <div class="mode-icon">👁️</div>
@@ -3099,7 +3099,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <!-- ══ REMEDIATION ══ -->
 <div id="remediation-screen" class="screen">
   <div class="quest-badge-wrap">
-    <div class="remed-badge">⚡ Practice Quest</div>
+    <div class="remed-badge">⚡ Star Quest</div>
     <div class="remed-dots">
       <div class="rdot now" id="rdot-0"></div>
       <div class="rdot"     id="rdot-1"></div>
@@ -3303,7 +3303,7 @@ const G = {
   fluent: 0, working: 0, notFluent: 0,
   fluentFacts: [], workingFacts: [], notFluentFacts: [],
   // Round stats
-  questCount: 0,   // Practice Quests triggered this round
+  questCount: 0,   // Star Quests triggered this round
   wrongFacts: [],  // wrong-answer fact strings for non-pertimer print
   qStartTime: 0,       // ms timestamp when current question was shown
   perQTimer: null,     // interval for per-question countdown
@@ -3792,7 +3792,7 @@ function goSetup() {
     return;
   }
   if (!localStorage.getItem('mathflash_onboarded_' + username)) {
-    showMFWelcome('practice');          // has a profile but hasn't seen Math Flash welcome
+    showMFWelcome('practice');          // has a profile but hasn't seen Starlight Math welcome
     return;
   }
   buildSetupUI();
@@ -3800,7 +3800,7 @@ function goSetup() {
   showScreen('setup-screen');
 }
 
-// ── Math Flash orientation (existing user, first visit) ──
+// ── Starlight Math orientation (existing user, first visit) ──
 var _mfWelcomeDest = 'none';
 function showMFWelcome(dest) {
   _mfWelcomeDest = dest || 'none';
@@ -4266,9 +4266,11 @@ const FLUENCY_MS_F        = 3000; // ≤3s  → fluent
 const WORKING_MS_F        = 6000; // 4–6s → almost
 const VARIANCE_MIN_TIMES  = 5;    // minimum entries before variance is meaningful
 const VARIANCE_STABLE_MS  = 1000; // SD threshold for "low variance" — tune with real use
-const RECENT_ATTEMPTS_MAX = 10;   // rolling window size for mastery check
-const MASTERY_WINDOW      = 5;    // number of recent attempts to evaluate for mastery
-const MASTERY_FLUENT_MIN  = 4;    // fluent correct answers needed within MASTERY_WINDOW
+const RECENT_ATTEMPTS_MAX      = 10;  // rolling window size for mastery check
+const MASTERY_WINDOW           = 5;   // number of recent attempts to evaluate for mastery
+const MASTERY_FLUENT_MIN       = 4;   // fluent correct answers needed within MASTERY_WINDOW
+const MASTERY_SESSION_MIN      = 3;   // distinct qualifying sessions required for mastery
+const MASTERY_SESSION_ATTEMPTS = 3;   // minimum timed attempts per date to count as qualifying
 
 // Derive a stable storage key from a fact object
 // Examples: "mul_6x7", "div_42d7", "add_3p4", "sub_9m3"
@@ -4337,21 +4339,27 @@ function isStableVariance(rec) {
 
 // Returns true if rec meets all three mastery criteria:
 //   1. 4 of the last 5 attempts are correct and fluent (≤3s)
-//   2. Those 5 attempts span at least 2 distinct session dates
+//   2. At least MASTERY_SESSION_MIN qualifying sessions (≥MASTERY_SESSION_ATTEMPTS timed attempts per date)
+//      checked across the full recentAttempts window
 //   3. Response time variance is low (isStableVariance)
 function checkMastery(rec) {
   if (!rec.recentAttempts || rec.recentAttempts.length < MASTERY_WINDOW) return false;
   var last5 = rec.recentAttempts.slice(-MASTERY_WINDOW);
-  // Criterion 1: fluent correct count
+  // Criterion 1: fluent correct count in last 5
   var fluentCount = 0;
   for (var i = 0; i < last5.length; i++) {
     if (last5[i].correct && last5[i].ms !== null && last5[i].ms <= FLUENCY_MS_F) fluentCount++;
   }
   if (fluentCount < MASTERY_FLUENT_MIN) return false;
-  // Criterion 2: spans at least 2 distinct dates
-  var seen = {};
-  for (var j = 0; j < last5.length; j++) { seen[last5[j].date] = true; }
-  if (Object.keys(seen).length < 2) return false;
+  // Criterion 2: qualifying sessions across full window
+  var sessionCounts = {};
+  rec.recentAttempts.forEach(function(a) {
+    if (a.date && a.ms !== null) { sessionCounts[a.date] = (sessionCounts[a.date] || 0) + 1; }
+  });
+  var qualifyingSessions = Object.keys(sessionCounts).filter(function(d) {
+    return sessionCounts[d] >= MASTERY_SESSION_ATTEMPTS;
+  }).length;
+  if (qualifyingSessions < MASTERY_SESSION_MIN) return false;
   // Criterion 3: low variance
   if (!isStableVariance(rec)) return false;
   return true;
@@ -4623,7 +4631,7 @@ function updateAnswerModeDesc() {
   var el = document.getElementById('type-answer-desc');
   if (!el) return;
   el.textContent = S.remed
-    ? '2 attempts, then Practice Quest'
+    ? '2 attempts, then Star Quest'
     : '2 attempts, then answer revealed';
 }
 
@@ -5284,7 +5292,7 @@ function showTableHelper(q) {
 function setNextBtn(missed) {
   const btn = document.getElementById('next-btn');
   if (missed && S.remed && G.missedFact && G.missedFact.hint) {
-    btn.textContent = 'Practice Quest →';
+    btn.textContent = 'Star Quest →';
     btn.onclick = startRemed;
   } else {
     btn.textContent = 'Next →';
@@ -6602,7 +6610,7 @@ function printResults() {
   // ── Assemble HTML ──
   const html =
     '<div class="header-row">' +
-      '<div class="title">Math Flash — Round Results</div>' +
+      '<div class="title">Starlight Math — Round Results</div>' +
       '<div class="date-student"><span class="date">' + dateStr + '</span><span class="student">' + studentLine + '</span></div>' +
     '</div>' +
     '<div class="settings-block">' +
@@ -6616,7 +6624,7 @@ function printResults() {
       '<span><strong>Score:</strong> ' + G.correct + ' / ' + total + ' (' + pct + '%)</span>' +
       (timeStr ? '<span><strong>Time:</strong> ' + timeStr + '</span>' : '') +
       '<span><strong>Best Streak:</strong> ' + G.best + '</span>' +
-      '<span><strong>Practice Quests:</strong> ' + G.questCount + '</span>' +
+      '<span><strong>Star Quests:</strong> ' + G.questCount + '</span>' +
     '</div>' +
     (S.format === 'pertimer' ?
       '<div class="fluency-counts">' +
@@ -6650,7 +6658,7 @@ function printResults() {
     '.notes-label{font-size:9pt;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#666;margin-bottom:8px}',
     '.notes-line{border-bottom:1px solid #bbb;margin-bottom:20px}'
   ].join('');
-  win.document.write('<html><head><title>Math Flash Results</title><style>' + css + '</style></head><body>');
+  win.document.write('<html><head><title>Starlight Math Results</title><style>' + css + '</style></head><body>');
   win.document.write(html);
   win.document.write('</body></html>');
   win.document.close();
@@ -6923,7 +6931,7 @@ function buildStatsScreen() {
           '<div style="font-weight:800;color:rgba(240,240,255,0.9);font-size:0.75rem;margin-bottom:10px;">How to light up your constellation</div>' +
           '<div style="margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.07);">⚡ <strong>Use Per-Question Timer mode.</strong> This is how the constellation learns your speed — each answer is timed and graded automatically.</div>' +
           '<div style="margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.07);">🔄 <strong>Practice across multiple sessions.</strong> Mastery requires showing up more than once. A great single round won\'t earn a star.</div>' +
-          '<div style="margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.07);">📚 <strong>Use Practice Quest, don\'t click through it.</strong> When a fact triggers the quest, slow down — that\'s the learning moment.</div>' +
+          '<div style="margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.07);">📚 <strong>Use Star Quest, don\'t click through it.</strong> When a fact triggers the quest, slow down — that\'s the learning moment.</div>' +
           '<div>★ <strong>Watch the amber (Fluent) facts.</strong> You\'re almost there — a few more consistent sessions and they earn their star.</div>' +
           '<div style="margin-top:10px;font-size:0.62rem;color:rgba(240,240,255,0.35);">Color key is shown below the grid. Click any dot for details.</div>' +
         '</div>' +
@@ -7020,10 +7028,18 @@ function buildStatsScreen() {
           // Count distinct session dates
           var dates = (rec.recentAttempts || []).map(function(a){ return a.date ? a.date.slice(0,10) : ''; });
           var uniqueDates = dates.filter(function(d,i){ return d && dates.indexOf(d) === i; });
-          var sessionsMet = uniqueDates.length >= 2;
+          // Count qualifying sessions (≥3 timed attempts per date) across full recentAttempts
+          var sessionCountsCard = {};
+          (rec.recentAttempts || []).forEach(function(a) {
+            if (a.date && a.ms !== null) { sessionCountsCard[a.date] = (sessionCountsCard[a.date] || 0) + 1; }
+          });
+          var qualifyingCount = Object.keys(sessionCountsCard).filter(function(d) {
+            return sessionCountsCard[d] >= MASTERY_SESSION_ATTEMPTS;
+          }).length;
+          var sessionsMet = qualifyingCount >= MASTERY_SESSION_MIN;
           masteryHTML = '<div style="color:rgba(240,240,255,0.5);margin-bottom:2px">To reach Mastered:</div>';
           masteryHTML += '<div>' + fluentIn5 + '/4 recent fluent answers' + (fluentIn5 >= 4 ? ' ✓' : '') + '</div>';
-          masteryHTML += '<div>' + uniqueDates.length + '/2 practice sessions' + (sessionsMet ? ' ✓' : '') + '</div>';
+          masteryHTML += '<div>' + qualifyingCount + '/3 qualifying sessions' + (sessionsMet ? ' ✓' : '') + '</div>';
         }
       }
 
@@ -8054,7 +8070,7 @@ function buildAssessArea() {
 }
 
 // ── Leave-round warning (item 160) ──────────────────────
-// Any navigation away from the page while a round or Practice Quest is active
+// Any navigation away from the page while a round or Star Quest is active
 // prompts the student to confirm. Applies to logo, footer links, browser back/refresh.
 
 function isGameActive() {
