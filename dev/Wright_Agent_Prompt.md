@@ -76,25 +76,35 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Flash v83a** — live at `games/mathflash/index.html` (no backup file — all changes committed directly)
+**Math Fact Galaxy v83p** — live at `games/mathflash/index.html` — pushed to GitHub/Netlify 2026-04-15
 Landing page: `sparkwright/index.html` (updated Session AE)
 
-## Session AL Build Summary (v83a) — 2026-04-14
+## Session AN Build Summary (v83m–v83p) — 2026-04-15
 
-**Beta testing fixes:**
-- **Falling Facts** (renamed from "Fact Catcher"): avatar bug fixed (was looking up `p.name`, correct is `p.username`), card jumping fixed (freeze now offsets card startTimes so no teleporting on unfreeze), text jiggling fixed (RAF loop at 60fps + GPU `transform: translateY` instead of `setInterval` + `style.top`), instruction text clarified
-- **Per-question timer bar**: interval reduced from 100ms → 50ms; bar and autokick fire with ≤50ms of visual sliver
-- **Find All spam-click exploit**: `faScrambleLocked` flag blocks clicks during scramble + 600ms cooldown after cards settle
-- **Reload exploit**: `beforeunload` hides `.fact-card` so user can't read fact during browser dialog; `showQuestion()` restores visibility on next question
-- **Constellation stat cards**: now close on `mouseleave` (no longer linger until click)
-- **"How this works" panel**: duplicate color key removed (the one below the grid is sufficient), content restructured with dividers
-- **Button copy**: "Yes, go to main menu" → "Main Menu"
+**Four-area nav + BMC + constellation theming:**
+- Title page: 2×2 nav grid with Build My Constellations, My Constellations, Star Scan, Star Forge — all four live
+- BMC two-phase flow: select op (+ − × ÷ in learning order) → table picker + question count (All/10/20/30) + Smart Practice placeholder + Start
+- BMC: `selectBMCOp(op)`, `launchBMCStart()`, `setBMCQCount()` — All Facts sets qCount = pool size; fixed counts capped at pool
+- Star Forge: full settings, no constellation writes (`_starForgeSession` flag gates `recordFactAttempt`)
+- My Constellations: dynamic title "[Op] Constellation" in operation color; op pills colored by op; constellation-wrap border tints to op color; fluent/almost cell glows use op color
+- Galaxy View overlay: "✦ View My Galaxy" → 4-op progress summary with mastered count + progress bar per op
+- Results → My Constellations now opens on the op just practiced (uses `S.ops[0]`)
+- Op order standardized to +, −, ×, ÷ (learning order) everywhere
+- Area page descriptions added to all 4 screens; BMC/Forge share header that swaps text via `applySetupMode()`
+- Rename: Math Flash → Math Fact Galaxy (final), My Constellation → My Constellations (plural), Build My Constellation → Build My Constellations (plural)
 
-**Needs design discussion with Kimberly before building:**
-- Per-session printout area (what exactly is needed? where is it accessible?)
-- Change avatar for existing users (where does this live — user menu? profile screen?)
-- Find All hint button (what copy? when does it appear?)
-- Settings page restructure (see Handoff → Spark)
+**Key architectural notes:**
+- `_setupMode = 'bmc' | 'full'` controls setup screen layout; `applySetupMode()` shows/hides all relevant cards and resets BMC state
+- `OP_NAMES`, `OP_COLORS`, `OP_FLUENT`, `OP_ALMOST`, `OP_SYMBOLS` — global constants for op display
+- `updateConstellationTitle(op)` — updates #stats-title with colored op name
+- `openGalaxyView()` — builds galaxy overlay from scratch on each open, uses `getRec()` + `cellTier()` per cell
+- BMC op selector + settings row are siblings of `op-panels-wrap` in DOM; `selectBMCOp` shows the correct panel without DOM manipulation
+
+**Still needs testing:**
+- BMC full flow: select op → table picker → question count → start
+- Star Forge settings still visible after clicking from nav
+- My Constellations: title updates correctly when switching op tabs
+- Galaxy View: progress bars show correct data
 
 ## ⚠️ CRITICAL BUGS — Fix Before Any New Features
 
