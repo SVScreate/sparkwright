@@ -348,6 +348,13 @@ body {
   text-align: center;
   margin-bottom: 4px;
 }
+.bmc-screen-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
 .bmc-start-btn {
   font-family: var(--font-display);
   font-size: 1.1rem;
@@ -466,6 +473,12 @@ body {
   font-size: 1.6rem;
   font-weight: 800;
   color: var(--text);
+}
+.stats-desc {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 4px;
+  line-height: 1.5;
 }
 .stats-body {
   flex: 1;
@@ -3124,21 +3137,14 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   <div class="setup-inner">
     <div class="setup-logo" id="setup-full-logo">Math Fact Galaxy</div>
     <div id="bmc-setup-header" style="display:none">
-      <div class="bmc-screen-title">Build My Constellations</div>
+      <div class="bmc-screen-title" id="bmc-screen-title-text">Build My Constellations</div>
+      <div class="bmc-screen-desc" id="bmc-screen-desc-text">Choose an operation to start building your constellation — one timed fact at a time.</div>
     </div>
     <div class="back-link" onclick="showScreen('title-screen')">← Back to title</div>
 
     <!-- BMC: operation constellation selector (shown in bmc mode only) -->
     <div id="bmc-op-selector" style="display:none;">
       <div class="bmc-op-grid" id="bmc-op-grid">
-        <button class="bmc-op-card" data-op="x" style="--nc:rgba(255,217,61,1)" onclick="selectBMCOp('x')">
-          <div class="bmc-op-symbol">×</div>
-          <div class="bmc-op-name">Multiplication</div>
-        </button>
-        <button class="bmc-op-card" data-op="/" style="--nc:rgba(199,125,255,1)" onclick="selectBMCOp('/')">
-          <div class="bmc-op-symbol">÷</div>
-          <div class="bmc-op-name">Division</div>
-        </button>
         <button class="bmc-op-card" data-op="+" style="--nc:rgba(107,203,119,1)" onclick="selectBMCOp('+')">
           <div class="bmc-op-symbol">+</div>
           <div class="bmc-op-name">Addition</div>
@@ -3146,6 +3152,14 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
         <button class="bmc-op-card" data-op="-" style="--nc:rgba(77,150,255,1)" onclick="selectBMCOp('-')">
           <div class="bmc-op-symbol">−</div>
           <div class="bmc-op-name">Subtraction</div>
+        </button>
+        <button class="bmc-op-card" data-op="x" style="--nc:rgba(255,217,61,1)" onclick="selectBMCOp('x')">
+          <div class="bmc-op-symbol">×</div>
+          <div class="bmc-op-name">Multiplication</div>
+        </button>
+        <button class="bmc-op-card" data-op="/" style="--nc:rgba(199,125,255,1)" onclick="selectBMCOp('/')">
+          <div class="bmc-op-symbol">÷</div>
+          <div class="bmc-op-name">Division</div>
         </button>
       </div>
 
@@ -3455,6 +3469,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   <div class="stats-header">
     <div class="stats-profile" id="stats-profile"></div>
     <div class="stats-title" id="stats-title">Math Fact Constellation</div>
+    <div class="stats-desc">Your fact-by-fact progress map. Switch operations with the tabs below.</div>
   </div>
   <div class="stats-body" id="stats-body"></div>
   <div class="stats-footer">
@@ -3479,7 +3494,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   <div class="assess-area-header">
     <div class="stats-profile" id="assess-area-profile"></div>
     <div class="assess-area-title">⭐ Star Scan</div>
-    <div class="assess-area-subtitle">A timed snapshot of where your facts are right now</div>
+    <div class="assess-area-subtitle">A timed snapshot of where your facts stand right now. Results go straight to your constellation.</div>
     <div style="margin-top:6px;"><button onclick="showOverlay('starscan-info-overlay')" style="background:none;border:none;color:var(--a4);font-size:0.85rem;font-weight:700;cursor:pointer;padding:0;font-family:var(--font-body);">What is a Star Scan? →</button></div>
   </div>
   <div class="assess-area-body" id="assess-area-body"></div>
@@ -3619,12 +3634,15 @@ function applySetupMode() {
   if (fullLogo)   fullLogo.style.display   = 'none';
   if (modeHeader) modeHeader.style.display = 'block';
   if (modeTitle) {
+    var modeDesc = document.getElementById('bmc-screen-desc-text');
     if (isBMC) {
       modeTitle.textContent = 'Build My Constellations';
       modeTitle.style.color = 'var(--a2)';
+      if (modeDesc) modeDesc.textContent = 'Choose an operation to start building your constellation — one timed fact at a time.';
     } else {
       modeTitle.textContent = '⚙ Star Forge';
       modeTitle.style.color = 'var(--a6)';
+      if (modeDesc) modeDesc.textContent = 'Build any custom practice session. All operations, all settings. Sessions here do not affect your constellation.';
     }
   }
   // BMC: show op selector, hide settings cards; Full: hide op selector, show all settings
@@ -3775,10 +3793,10 @@ function openGalaxyView() {
   var gridEl = document.getElementById('galaxy-view-grid');
   if (!gridEl) return;
 
-  var ops = [ { op: 'x', sym: '×', name: 'Multiplication', color: 'rgba(255,217,61,1)' },
-              { op: '/', sym: '÷', name: 'Division',       color: 'rgba(199,125,255,1)' },
-              { op: '+', sym: '+', name: 'Addition',       color: 'rgba(107,203,119,1)' },
-              { op: '-', sym: '−', name: 'Subtraction',    color: 'rgba(77,150,255,1)'  } ];
+  var ops = [ { op: '+', sym: '+', name: 'Addition',       color: 'rgba(107,203,119,1)' },
+              { op: '-', sym: '−', name: 'Subtraction',    color: 'rgba(77,150,255,1)'  },
+              { op: 'x', sym: '×', name: 'Multiplication', color: 'rgba(255,217,61,1)' },
+              { op: '/', sym: '÷', name: 'Division',       color: 'rgba(199,125,255,1)' } ];
 
   var html = '';
   ops.forEach(function(o) {
@@ -7469,10 +7487,10 @@ function buildStatsScreen() {
     '<div class="mp-section">' +
       '<div class="mp-section-title">Fact Constellation</div>' +
       '<div class="mp-op-filter" id="mp-op-filter">' +
-        '<button class="mp-op-pill' + (activeOp==='x'?' active':'') + '" data-op="x" style="--nc:rgba(255,217,61,1)">×</button>' +
-        '<button class="mp-op-pill' + (activeOp==='/'?' active':'') + '" data-op="/" style="--nc:rgba(199,125,255,1)">÷</button>' +
         '<button class="mp-op-pill' + (activeOp==='+'?' active':'') + '" data-op="+" style="--nc:rgba(107,203,119,1)">+</button>' +
         '<button class="mp-op-pill' + (activeOp==='-'?' active':'') + '" data-op="-" style="--nc:rgba(77,150,255,1)">−</button>' +
+        '<button class="mp-op-pill' + (activeOp==='x'?' active':'') + '" data-op="x" style="--nc:rgba(255,217,61,1)">×</button>' +
+        '<button class="mp-op-pill' + (activeOp==='/'?' active':'') + '" data-op="/" style="--nc:rgba(199,125,255,1)">÷</button>' +
       '</div>' +
       '<div class="mp-ctrl-row">' +
         '<button class="mp-ctrl-pill info-pill" id="mp-how-btn" onclick="document.getElementById(\'mp-how-panel\').classList.toggle(\'open\')">How this works ↓</button>' +
