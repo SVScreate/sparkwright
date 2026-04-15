@@ -5693,8 +5693,9 @@ function buildFactCatcher(body, f) {
     if (now - lastActivityTime >= INACTIVITY_MS) { fcEndGame(false); return; }
 
     fallingCards = fallingCards.filter(function(card) {
-      // Collision position calculated from elapsed time (same math as animation)
-      var y = -56 + ((now - card.startTime) / card.fallMs) * (fh + 80);
+      // Use animation's own currentTime — stays perfectly in sync with visual position
+      var animTime = (card.anim && card.anim.currentTime != null) ? card.anim.currentTime : (now - card.startTime);
+      var y = -56 + (animTime / card.fallMs) * (fh + 80);
 
       if (!card.caught && !card.missed && card.lane === catcherLane) {
         if (y >= catchTop - 16 && y < fh) {
