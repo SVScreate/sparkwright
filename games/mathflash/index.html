@@ -236,6 +236,59 @@ body {
   flex-wrap: wrap;
   justify-content: center;
 }
+/* ── TITLE NAV GRID ── */
+.title-nav-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 520px;
+}
+.title-nav-card {
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid rgba(255,255,255,0.11);
+  border-radius: 16px;
+  padding: 20px 18px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, transform 0.12s;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--text);
+}
+.title-nav-card:hover {
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(255,255,255,0.22);
+  transform: translateY(-2px);
+}
+.title-nav-card:active { transform: translateY(0); }
+.title-nav-card.nav-primary {
+  background: rgba(255,217,61,0.08);
+  border-color: rgba(255,217,61,0.35);
+  box-shadow: 0 0 20px rgba(255,217,61,0.1);
+}
+.title-nav-card.nav-primary:hover {
+  background: rgba(255,217,61,0.14);
+  border-color: rgba(255,217,61,0.55);
+  box-shadow: 0 0 28px rgba(255,217,61,0.18);
+}
+.title-nav-card.nav-coming-soon { opacity: 0.38; cursor: default; pointer-events: none; }
+.nav-card-icon { font-size: 1.2rem; margin-bottom: 4px; color: rgba(255,255,255,0.45); }
+.title-nav-card.nav-primary .nav-card-icon { color: var(--a2); }
+.nav-card-label {
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  line-height: 1.2;
+}
+.nav-card-desc {
+  font-size: 0.75rem;
+  color: var(--muted);
+  line-height: 1.4;
+  margin-top: 1px;
+}
 .btn-primary {
   font-family: var(--font-display);
   font-size: 1.4rem;
@@ -2549,17 +2602,31 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <div id="title-screen" class="screen active">
   <div class="title-inner">
     <div class="title-logo">⚡ Starlight Math</div>
-    <div class="title-tagline">A learner-first math fact mastery tool built for targeted practice.</div>
-    <div class="title-btn-row">
-      <button class="btn-primary" onclick="goSetup()">Practice</button>
-    </div>
-    <div class="title-btn-secondary">
-      <button class="btn-ghost btn-ghost-blue" onclick="showOverlay('howto-overlay')">How to Play</button>
-      <button class="btn-ghost btn-ghost-purple" onclick="showScreen('stats-screen')">My Constellation</button>
-      <button class="btn-ghost btn-ghost-gold" onclick="showScreen('assess-area-screen')">⭐ Star Scan</button>
+    <div class="title-nav-grid">
+      <button class="title-nav-card nav-primary" onclick="goSetup()">
+        <div class="nav-card-icon">✦</div>
+        <div class="nav-card-label">Build My Constellation</div>
+        <div class="nav-card-desc">Practice your facts. Builds your constellation.</div>
+      </button>
+      <button class="title-nav-card" onclick="showScreen('stats-screen')">
+        <div class="nav-card-icon">◈</div>
+        <div class="nav-card-label">My Constellation</div>
+        <div class="nav-card-desc">Track your facts. Records. Print.</div>
+      </button>
+      <button class="title-nav-card" onclick="showScreen('assess-area-screen')">
+        <div class="nav-card-icon">◉</div>
+        <div class="nav-card-label">Star Scan</div>
+        <div class="nav-card-desc">Assess where you are.</div>
+      </button>
+      <button class="title-nav-card nav-coming-soon" disabled>
+        <div class="nav-card-icon">⚙</div>
+        <div class="nav-card-label">Star Forge</div>
+        <div class="nav-card-desc">Build any custom session.</div>
+      </button>
     </div>
     <div class="title-link-row">
-      <button class="title-about-link" onclick="showOverlay('about-overlay')">About this game</button>
+      <button class="title-about-link" onclick="showOverlay('howto-overlay')">How to Play</button>
+      <button class="title-about-link" onclick="showOverlay('about-overlay')">About</button>
     </div>
   </div>
 </div>

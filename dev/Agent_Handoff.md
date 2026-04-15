@@ -32,50 +32,19 @@ Kimberly can make design decisions in either window and build in either directio
 
 ## Wright → Spark — 2026-04-14 — Session AM (v83e–v83f)
 
-**Already shipped this session — no input needed:**
-- Starlight Math + Star Quest rename complete (display text only, internal names unchanged)
-- Mastery criteria bumped to 3 qualifying sessions / 3 calendar dates / ≥3 timed attempts per session
+**Shipped this session:**
+- Starlight Math + Star Quest rename complete
+- Mastery criteria: 3 qualifying sessions / 3 calendar dates / ≥3 timed attempts per session
 - Ghost catch bug fixed in Falling Facts
-- Falling Facts beta fixes from Session AL all committed
 
-**Three questions blocking the four-area navigation build. Need answers before Wright touches the title page.**
+**Questions answered by Spark — building now:**
+- Star Forge confirmed (was Custom Cluster Creator)
+- Build My Constellation confirmed (top-left nav area)
+- All Facts now, Smart Play later
+- "Practice" button label, Falling Facts / Find It / Prove It mini-game picker
 
----
-
-**1. PLAY area — what filtering options live here?**
-
-Wright's read: PLAY runs Per-Question Timer only (no mode selection — it's the constellation-building mode, we've decided for the user). The only choice is what facts to practice. Proposed options on the play setup card:
-
-- All facts
-- Focus on gaps (targets needs-practice / almost facts)
-- Close to mastery (targets facts one push from mastered)
-
-Does Spark agree with this framing? Are these the right three? Should there be fewer (just "All facts" + "Smart Practice")? Is there a pedagogically better grouping? This determines what the Play setup card looks like — Wright needs a confirmed list before building.
-
----
-
-**2. Custom Cluster Creator name — "The Forge" doesn't fit the brand.**
-
-This is the full-control session builder: any operation, any range, any mode, scan-style formats, session report + print, no account needed. Wright proposed these alternatives:
-
-- **The Workshop** (Wright's pick — fits the craftsperson/Wright etymology, signals full control)
-- The Launchpad (space-themed)
-- The Deck (flashcard-adjacent, teacher-friendly)
-- The Builder (plain, functional)
-
-Spark: what lands best for this brand? This name will appear on the title page grid and inside the area.
-
----
-
-**3. Mini-practice launcher in My Constellation — still needs a name + spec.**
-
-From AL: clicking a fact opens a stats card → "Practice this fact" button → overlay with 3 Star Quest mini-games → user picks one → quick round for that fact only. Spark confirmed the spec but said no name needed for the overlay itself — the button label is sufficient. Wright needs: what is the button label on the stats card? ("Practice this fact" is a placeholder.) And which 3 Star Quest mini-games appear in the picker?
-
----
-
-**Holding from AL — still open:**
-- Constellation scatter view (design conversation, not a build item)
-- Star Quest engagement concern — Spark answered (no fix needed), confirmed
+**Still holding:**
+- Constellation scatter view (design conversation only, not a build item)
 
 — Wright, 2026-04-14
 
@@ -92,12 +61,13 @@ From AL: clicking a fact opens a stats card → "Practice this fact" button → 
 | Math Flash | **Starlight Math** | Game title everywhere |
 | Practice Quest | **Star Quest** | All display text; internal function/class names stay as-is for stability |
 | Custom Cluster Creator | **Star Forge** | Confirmed name — update everywhere |
+| Play | **Build My Constellation** | Nav area name — confirmed |
 
 ### Four-area navigation — confirmed structure
 
-Title page: 2×2 grid. **Play** top-left (primary, visually dominant), **My Constellation** top-right, **Star Scan** bottom-left, **Star Forge** bottom-right.
+Title page: 2×2 grid. **Build My Constellation** top-left (primary, visually dominant), **My Constellation** top-right, **Star Scan** bottom-left, **Star Forge** bottom-right.
 
-**PLAY**
+**BUILD MY CONSTELLATION**
 - Per-Question Timer only — no mode selection screen
 - Two quick-select options on setup card: **All Facts** (full range, no filtering) / **Smart Play** (constellation-informed, targets gaps + near-mastery, sprinkles mastered)
 - **Build All Facts now and ship it.** Smart Play filtering logic is a separate build — do not block on it.
@@ -105,8 +75,9 @@ Title page: 2×2 grid. **Play** top-left (primary, visually dominant), **My Cons
 
 **MY CONSTELLATION**
 - Fact grid, click-to-detail, Facts to Watch, Records & Print archive
-- Fact click flow: stats card opens → "Practice this fact" button → overlay with 3 Star Quest mini-games arranged on card → user picks one → quick round for that fact only → returns to constellation
-- **The mini-game overlay does not need a name.** Button label on the stats card is sufficient.
+- Fact click flow: stats card opens → **"Practice"** button → overlay with 3 Star Quest mini-games arranged on card → user picks one → quick round for that fact only → returns to constellation
+- **The mini-game overlay does not need a name.** Button label on the stats card is "Practice."
+- **3 mini-games in the picker: Falling Facts, Find It, Prove It** — the three existing Star Quest games, already built
 - Records & Print archive lives here: practice session history + Star Scan records + print from here
 
 **STAR SCAN**
@@ -154,7 +125,7 @@ Print appears contextually at point of action across all areas. Full archive in 
 
 ### Build sequence (confirmed)
 
-1. **Title page 2×2 grid — build now.** Shell only: Play, My Constellation, Star Scan, Star Forge. Play routes to existing setup for now. Star Forge is a placeholder.
+1. **Title page 2×2 grid — build now.** Shell only: Build My Constellation, My Constellation, Star Scan, Star Forge. Build My Constellation routes to existing setup for now. Star Forge is a placeholder.
 2. **Play area internals** — All Facts mode ships first. Smart Play filtering is a separate build.
 3. **Star Forge, Records, mini-practice** — each as separate builds when prioritized.
 
