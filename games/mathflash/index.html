@@ -2715,13 +2715,13 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
         <div class="nav-card-label">Star Scan</div>
         <div class="nav-card-desc">Assess where you are.</div>
       </button>
-      <button class="title-nav-card nav-coming-soon" style="--nc:rgba(255,159,67,1)" onclick="showNavSoonToast('Star Forge is coming soon.')">
+      <button class="title-nav-card" style="--nc:rgba(255,159,67,1)" onclick="goStarForge()">
         <div class="nav-card-top">
           <div class="nav-card-icon">⚙</div>
+          <div class="nav-card-arrow">›</div>
         </div>
         <div class="nav-card-label">Star Forge</div>
         <div class="nav-card-desc">Build any custom session.</div>
-        <div class="nav-soon-label">Coming soon</div>
       </button>
     </div>
     <div id="nav-soon-toast"></div>
@@ -3317,7 +3317,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   <div class="res-btns">
     <button class="res-btn primary"   onclick="startGame()">Play Again</button>
     <button class="res-btn secondary" onclick="showScreen('setup-screen')">Settings</button>
-    <button class="res-btn secondary" onclick="showScreen('stats-screen')">My Constellation</button>
+    <button class="res-btn secondary" id="r-constellation-btn" onclick="showScreen('stats-screen')">My Constellation</button>
     <button class="res-btn secondary" onclick="showScreen('title-screen')">Home</button>
     <button class="res-btn print-btn" onclick="printResults()" title="Print results">🖨 Print</button>
   </div>
@@ -3451,23 +3451,46 @@ const FLUENCY_TIERS = {
 
 // ── Setup mode: 'bmc' (Build My Constellation — simplified) | 'full' (Star Forge — all options)
 var _setupMode = 'bmc';
+// ── Star Forge flag: true when session should NOT write to the constellation
+var _starForgeSession = false;
 
 function applySetupMode() {
-  var isBMC = _setupMode === 'bmc';
+  var isBMC  = _setupMode === 'bmc';
+  var isForge = _setupMode === 'full';
   var fullLogo  = document.getElementById('setup-full-logo');
-  var bmcHeader = document.getElementById('bmc-setup-header');
+  var modeHeader = document.getElementById('bmc-setup-header');
+  var modeTitle  = modeHeader ? modeHeader.querySelector('.bmc-screen-title') : null;
   var modeCard  = document.getElementById('setup-mode-card');
   var featCard  = document.getElementById('setup-features-card');
   var ansCard   = document.getElementById('setup-answer-mode-card');
   var startBtn  = document.getElementById('setup-start-btn');
   var bmcRow    = document.getElementById('bmc-start-row');
-  if (fullLogo)  fullLogo.style.display  = isBMC ? 'none' : '';
-  if (bmcHeader) bmcHeader.style.display = isBMC ? 'block' : 'none';
+  // Always use the mode header, never the plain logo
+  if (fullLogo)   fullLogo.style.display   = 'none';
+  if (modeHeader) modeHeader.style.display = 'block';
+  if (modeTitle) {
+    if (isBMC) {
+      modeTitle.textContent = 'Build My Constellation';
+      modeTitle.style.color = 'var(--a2)';
+    } else {
+      modeTitle.textContent = '⚙ Star Forge';
+      modeTitle.style.color = 'var(--a6)';
+    }
+  }
   if (modeCard)  modeCard.style.display  = isBMC ? 'none' : '';
   if (featCard)  featCard.style.display  = isBMC ? 'none' : '';
   if (ansCard)   ansCard.style.display   = isBMC ? 'none' : '';
   if (startBtn)  startBtn.style.display  = isBMC ? 'none' : '';
   if (bmcRow)    bmcRow.style.display    = isBMC ? 'flex' : 'none';
+}
+
+function goStarForge() {
+  _setupMode = 'full';
+  _starForgeSession = true;
+  buildSetupUI();
+  loadAndApplySettings();
+  applySetupMode();
+  showScreen('setup-screen');
 }
 
 function startAllFacts() {
@@ -3549,6 +3572,7 @@ function showScreen(id) {
   if (id === 'stats-screen') buildStatsScreen();
   if (id === 'assess-area-screen') buildAssessArea();
   if (id === 'title-screen') {
+    _starForgeSession = false;
     // Bug #2: re-check onboarding when landing on title (handles user switches)
     var _cu = localStorage.getItem('sparkwright_active');
     if (_cu && !localStorage.getItem('mathflash_onboarded_' + _cu)) showMFWelcome('none');
@@ -4596,6 +4620,8 @@ function checkMastery(rec) {
 // outcome: 'correct' | 'miss' | 'autokick'
 // elapsedMs: time from question display to answer (0 for autokick/miss if no timer)
 function recordFactAttempt(q, outcome, elapsedMs) {
+  // Skip Star Forge sessions — no constellation writes
+  if (_starForgeSession) return;
   // Skip guests
   var username = localStorage.getItem('sparkwright_active');
   if (!username) return;
@@ -7388,6 +7414,10 @@ function endGame() {
   } else {
     factsWrap.style.display = 'none';
   }
+
+  // Star Forge sessions don't write to constellation — hide that button
+  var cBtn = document.getElementById('r-constellation-btn');
+  if (cBtn) cBtn.style.display = _starForgeSession ? 'none' : '';
 
   showScreen('results-screen');
 }
