@@ -592,11 +592,40 @@ body {
   transform: translateY(-2px);
 }
 .bmc-op-card:active { transform: translateY(0); }
+.bmc-op-card.selected {
+  background: color-mix(in srgb, var(--nc) 18%, transparent);
+  border-color: color-mix(in srgb, var(--nc) 72%, transparent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--nc) 18%, transparent);
+}
+.bmc-op-grid.has-selection .bmc-op-card:not(.selected) { opacity: 0.45; transform: none; }
 .bmc-op-symbol {
   font-size: 2.2rem; font-weight: 900; color: var(--nc); line-height: 1;
   filter: drop-shadow(0 0 8px color-mix(in srgb, var(--nc) 55%, transparent));
 }
 .bmc-op-name { font-size: 0.85rem; font-weight: 700; color: rgba(240,240,255,0.82); letter-spacing: 0.01em; }
+/* BMC practice mode options */
+.bmc-mode-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px; border-radius: 8px; cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: background 0.12s, border-color 0.12s;
+}
+.bmc-mode-row.selected { background: rgba(255,217,61,0.07); border-color: rgba(255,217,61,0.3); }
+.bmc-mode-row.disabled { opacity: 0.38; cursor: not-allowed; }
+.bmc-mode-row + .bmc-mode-row { margin-top: 4px; }
+.bmc-mode-radio {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.2); flex-shrink: 0; margin-top: 2px;
+  background: transparent; transition: border-color 0.12s;
+  display: flex; align-items: center; justify-content: center;
+}
+.bmc-mode-row.selected .bmc-mode-radio {
+  border-color: rgba(255,217,61,0.8);
+  background: radial-gradient(circle, rgba(255,217,61,0.9) 40%, transparent 40%);
+}
+.bmc-mode-title { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+.bmc-mode-desc  { font-size: 0.74rem; color: var(--muted); margin-top: 1px; line-height: 1.4; }
 
 /* Galaxy view overlay */
 .galaxy-view-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
@@ -3101,24 +3130,25 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
     <!-- BMC: operation constellation selector (shown in bmc mode only) -->
     <div id="bmc-op-selector" style="display:none;">
-      <div class="bmc-op-grid">
-        <button class="bmc-op-card" style="--nc:rgba(255,217,61,1)" onclick="launchBMCOp('x')">
+      <div class="bmc-op-grid" id="bmc-op-grid">
+        <button class="bmc-op-card" data-op="x" style="--nc:rgba(255,217,61,1)" onclick="selectBMCOp('x')">
           <div class="bmc-op-symbol">×</div>
           <div class="bmc-op-name">Multiplication</div>
         </button>
-        <button class="bmc-op-card" style="--nc:rgba(199,125,255,1)" onclick="launchBMCOp('/')">
+        <button class="bmc-op-card" data-op="/" style="--nc:rgba(199,125,255,1)" onclick="selectBMCOp('/')">
           <div class="bmc-op-symbol">÷</div>
           <div class="bmc-op-name">Division</div>
         </button>
-        <button class="bmc-op-card" style="--nc:rgba(107,203,119,1)" onclick="launchBMCOp('+')">
+        <button class="bmc-op-card" data-op="+" style="--nc:rgba(107,203,119,1)" onclick="selectBMCOp('+')">
           <div class="bmc-op-symbol">+</div>
           <div class="bmc-op-name">Addition</div>
         </button>
-        <button class="bmc-op-card" style="--nc:rgba(77,150,255,1)" onclick="launchBMCOp('-')">
+        <button class="bmc-op-card" data-op="-" style="--nc:rgba(77,150,255,1)" onclick="selectBMCOp('-')">
           <div class="bmc-op-symbol">−</div>
           <div class="bmc-op-name">Subtraction</div>
         </button>
       </div>
+
     </div>
 
     <div class="card" id="setup-ops-card">
@@ -3197,6 +3227,38 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       </div>
     </div>
     </div><!-- /op-panels-wrap -->
+
+    <!-- BMC: question count + practice mode + start (shown after op selected) -->
+    <div id="bmc-settings-row" style="display:none;">
+      <div class="card">
+        <div class="card-title">Questions</div>
+        <div class="chip-row" id="bmc-q-chips">
+          <div class="chip on" data-val="all" onclick="setBMCQCount('all',this)">All Facts</div>
+          <div class="chip"    data-val="10"  onclick="setBMCQCount(10,this)">10</div>
+          <div class="chip"    data-val="20"  onclick="setBMCQCount(20,this)">20</div>
+          <div class="chip"    data-val="30"  onclick="setBMCQCount(30,this)">30</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Practice Mode</div>
+        <div class="bmc-mode-row selected" id="bmc-mode-all" onclick="selectBMCMode('all')">
+          <div class="bmc-mode-radio"></div>
+          <div>
+            <div class="bmc-mode-title">All Facts</div>
+            <div class="bmc-mode-desc">Practice every fact in your selection — good for building fluency across the full table.</div>
+          </div>
+        </div>
+        <div class="bmc-mode-row disabled" title="Smart Practice uses your constellation data to focus on the facts that need it most. Coming soon.">
+          <div class="bmc-mode-radio"></div>
+          <div>
+            <div class="bmc-mode-title">Smart Practice <span class="bmc-soon-badge">Coming Soon</span></div>
+            <div class="bmc-mode-desc">Focuses your session on the facts your constellation says need the most work.</div>
+          </div>
+        </div>
+      </div>
+      <div class="error-box" id="bmc-start-error" style="display:none;margin-bottom:8px;"></div>
+      <button class="start-btn" id="bmc-final-start" onclick="launchBMCStart()">Start ▶</button>
+    </div>
 
     <div class="card" id="setup-mode-card">
       <div class="options-grid">
@@ -3529,6 +3591,9 @@ const FLUENCY_TIERS = {
 var _setupMode = 'bmc';
 // ── Star Forge flag: true when session should NOT write to the constellation
 var _starForgeSession = false;
+// ── BMC state
+var _bmcSelectedOp = null;
+var _bmcQCount     = 'all'; // 'all' | number
 
 // ── Operation display constants ─────────────────────────────
 var OP_NAMES   = { 'x': 'Multiplication', '/': 'Division', '+': 'Addition', '-': 'Subtraction' };
@@ -3562,7 +3627,7 @@ function applySetupMode() {
       modeTitle.style.color = 'var(--a6)';
     }
   }
-  // BMC: show op selector, hide settings cards; Full: hide op selector, show settings
+  // BMC: show op selector, hide settings cards; Full: hide op selector, show all settings
   if (bmcOpSel) bmcOpSel.style.display = isBMC ? 'block' : 'none';
   if (opsCard)  opsCard.style.display  = isBMC ? 'none'  : '';
   if (opPanels) opPanels.style.display = isBMC ? 'none'  : '';
@@ -3571,6 +3636,25 @@ function applySetupMode() {
   if (ansCard)  ansCard.style.display  = isBMC ? 'none'  : '';
   if (startBtn) startBtn.style.display = isBMC ? 'none'  : '';
   if (bmcRow)   bmcRow.style.display   = 'none'; // replaced by bmc-op-selector
+
+  // BMC: reset op selection state each time setup screen is entered
+  if (isBMC) {
+    _bmcSelectedOp = null;
+    _bmcQCount = 'all';
+    var opGrid = document.getElementById('bmc-op-grid');
+    if (opGrid) {
+      opGrid.classList.remove('has-selection');
+      opGrid.querySelectorAll('.bmc-op-card').forEach(function(c) { c.classList.remove('selected'); });
+    }
+    var settingsRow = document.getElementById('bmc-settings-row');
+    if (settingsRow) settingsRow.style.display = 'none';
+    // Reset q chips
+    var qChips = document.querySelectorAll('#bmc-q-chips .chip');
+    qChips.forEach(function(c) { c.classList.toggle('on', c.dataset.val === 'all'); });
+    // Reset mode selection
+    var modeAll = document.getElementById('bmc-mode-all');
+    if (modeAll) modeAll.classList.add('selected');
+  }
 }
 
 function goStarForge() {
@@ -3599,16 +3683,79 @@ function startAllFacts() {
   startGame();
 }
 
-function launchBMCOp(op) {
+// ── BMC two-phase flow ───────────────────────────────────
+function selectBMCOp(op) {
+  _bmcSelectedOp = op;
   S.ops = [op];
-  // Select all tables (1–12) for multiplication/division
-  if (op === 'x' || op === '/') {
-    var all = [];
-    for (var i = 1; i <= 12; i++) all.push(i);
-    S.tables[op] = all;
+
+  // Visual: mark selected card, dim others
+  var grid = document.getElementById('bmc-op-grid');
+  if (grid) {
+    grid.classList.add('has-selection');
+    grid.querySelectorAll('.bmc-op-card').forEach(function(card) {
+      card.classList.toggle('selected', card.dataset.op === op);
+    });
   }
-  // addition/subtraction use max range from S (defaults are already set)
-  startAllFacts();
+
+  // Show the op's table/range panel from op-panels-wrap (stays in original DOM position)
+  var opPanels = document.getElementById('op-panels-wrap');
+  if (opPanels) {
+    opPanels.style.display = '';
+    opPanels.querySelectorAll('.op-panel').forEach(function(p) {
+      p.classList.toggle('visible', p.id === 'panel-' + op);
+    });
+  }
+
+  // Show settings row (question count + practice mode + start button)
+  var settingsRow = document.getElementById('bmc-settings-row');
+  if (settingsRow) settingsRow.style.display = 'block';
+
+  // Reset question count to All Facts
+  setBMCQCount('all', document.querySelector('#bmc-q-chips .chip[data-val="all"]'));
+}
+
+function setBMCQCount(val, el) {
+  _bmcQCount = val;
+  if (!el) return;
+  el.closest('.chip-row').querySelectorAll('.chip').forEach(function(c) { c.classList.remove('on'); });
+  el.classList.add('on');
+}
+
+function selectBMCMode(mode) {
+  // Only 'all' is active for now; 'smart' is disabled
+  var allRow = document.getElementById('bmc-mode-all');
+  if (allRow) allRow.classList.toggle('selected', mode === 'all');
+}
+
+function launchBMCStart() {
+  if (!_bmcSelectedOp) return;
+  var op = _bmcSelectedOp;
+
+  // Ensure all tables selected for ×/÷ if nothing selected
+  if (op === 'x' || op === '/') {
+    if (!S.tables[op] || S.tables[op].length === 0) {
+      var all = []; for (var i = 1; i <= 12; i++) all.push(i);
+      S.tables[op] = all;
+    }
+  }
+
+  S.format = 'pertimer';
+  S.mode   = 'type';
+  S.remed  = true;
+
+  var ps = getPoolSize();
+  if (ps < 2) {
+    var errEl = document.getElementById('bmc-start-error');
+    if (errEl) { errEl.textContent = 'Select at least two facts to practice.'; errEl.style.display = 'block'; }
+    return;
+  }
+
+  if (_bmcQCount === 'all') {
+    S.qCount = ps;
+  } else {
+    S.qCount = Math.min(_bmcQCount, ps);
+  }
+  startGame();
 }
 
 // ── updateConstellationTitle: set "[User]'s [Op] Constellation" ──
@@ -7317,15 +7464,15 @@ function buildStatsScreen() {
   }
 
   // ── Render all three sections ─────────────────────────────────
-  var activeOp = 'x';
+  var activeOp = (S.ops && S.ops[0]) || 'x';
   body.innerHTML =
     '<div class="mp-section">' +
       '<div class="mp-section-title">Fact Constellation</div>' +
       '<div class="mp-op-filter" id="mp-op-filter">' +
-        '<button class="mp-op-pill active" data-op="x" style="--nc:rgba(255,217,61,1)">×</button>' +
-        '<button class="mp-op-pill" data-op="/" style="--nc:rgba(199,125,255,1)">÷</button>' +
-        '<button class="mp-op-pill" data-op="+" style="--nc:rgba(107,203,119,1)">+</button>' +
-        '<button class="mp-op-pill" data-op="-" style="--nc:rgba(77,150,255,1)">−</button>' +
+        '<button class="mp-op-pill' + (activeOp==='x'?' active':'') + '" data-op="x" style="--nc:rgba(255,217,61,1)">×</button>' +
+        '<button class="mp-op-pill' + (activeOp==='/'?' active':'') + '" data-op="/" style="--nc:rgba(199,125,255,1)">÷</button>' +
+        '<button class="mp-op-pill' + (activeOp==='+'?' active':'') + '" data-op="+" style="--nc:rgba(107,203,119,1)">+</button>' +
+        '<button class="mp-op-pill' + (activeOp==='-'?' active':'') + '" data-op="-" style="--nc:rgba(77,150,255,1)">−</button>' +
       '</div>' +
       '<div class="mp-ctrl-row">' +
         '<button class="mp-ctrl-pill info-pill" id="mp-how-btn" onclick="document.getElementById(\'mp-how-panel\').classList.toggle(\'open\')">How this works ↓</button>' +
