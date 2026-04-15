@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Starlight Math</title>
+<title>Math Fact Galaxy</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2678,7 +2678,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       <span class="sw-logo-wordmark"><span class="sw-logo-spark">Spark</span><span class="sw-logo-wright">wright</span></span>
     </a>
     <div id="sw-divider"></div>
-    <span id="sw-game-label" onclick="showScreen('title-screen')" style="cursor:pointer;" title="Back to title screen">Starlight Math</span>
+    <span id="sw-game-label" onclick="showScreen('title-screen')" style="cursor:pointer;" title="Back to title screen">Math Fact Galaxy</span>
   </div>
   <div id="sw-profile-chip" class="guest" onclick="onChipClick()" style="cursor:pointer;" title="Switch user">
     <span class="sw-avatar">👤</span>
@@ -2689,7 +2689,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <!-- ══ TITLE ══ -->
 <div id="title-screen" class="screen active">
   <div class="title-inner">
-    <div class="title-logo">⚡ Starlight Math</div>
+    <div class="title-logo">⚡ Math Fact Galaxy</div>
     <div class="title-nav-grid">
       <button class="title-nav-card" style="--nc:rgba(255,217,61,1)" onclick="goSetup()">
         <div class="nav-card-top">
@@ -2764,13 +2764,13 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <div id="about-overlay" class="overlay" onclick="if(event.target===this)hideOverlay('about-overlay')">
   <div class="overlay-card">
     <button class="overlay-close" onclick="hideOverlay('about-overlay')">✕</button>
-    <div class="overlay-title">About Starlight Math</div>
-    <div class="about-prose" style="margin-bottom:18px;font-size:0.95rem;">Starlight Math is a math fact practice game for grades 2–8, designed for 1:1 and small-group use with a teacher or parent in the room.</div>
+    <div class="overlay-title">About Math Fact Galaxy</div>
+    <div class="about-prose" style="margin-bottom:18px;font-size:0.95rem;">Math Fact Galaxy is a math fact practice game for grades 2–8, designed for 1:1 and small-group use with a teacher or parent in the room.</div>
 
     <div class="about-section">
       <div class="about-section-heading">The idea behind it</div>
       <div class="about-prose">
-        <p>Most math fact tools handle a missed answer the same way: show the right answer, log the miss, and keep going. The algorithm will show that fact again sometime. The moment a student misses something is exactly when they're ready to work on it. Starlight Math stops at that moment and does something about it.</p>
+        <p>Most math fact tools handle a missed answer the same way: show the right answer, log the miss, and keep going. The algorithm will show that fact again sometime. The moment a student misses something is exactly when they're ready to work on it. Math Fact Galaxy stops at that moment and does something about it.</p>
       </div>
     </div>
 
@@ -2791,7 +2791,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
     <div class="about-section">
       <div class="about-section-heading">Fluency grading</div>
-      <div class="about-prose" style="margin-bottom:12px;"><p>Starlight Math measures response time, not just accuracy.</p></div>
+      <div class="about-prose" style="margin-bottom:12px;"><p>Math Fact Galaxy measures response time, not just accuracy.</p></div>
       <div class="about-tier-row"><span class="about-tier-label">⚡ Fluent —</span><span>Correct in 3 seconds or under. At this speed the fact is coming from memory, not calculation.</span></div>
       <div class="about-tier-row"><span class="about-tier-label">🔄 Almost —</span><span>Correct in 4–6 seconds. The student knows it — it just isn't automatic yet.</span></div>
       <div class="about-tier-row"><span class="about-tier-label">📚 Needs Practice —</span><span>Wrong answer, or no answer within the time limit.</span></div>
@@ -2805,7 +2805,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="about-section">
       <div class="about-section-heading">Mastery</div>
       <div class="about-prose">
-        <p>A fact isn't marked as mastered from one good session. Starlight Math calls a fact mastered when a student answers correctly within the fluency threshold on 4 of their last 5 attempts, across at least 3 separate qualifying sessions, with consistent response times.</p>
+        <p>A fact isn't marked as mastered from one good session. Math Fact Galaxy calls a fact mastered when a student answers correctly within the fluency threshold on 4 of their last 5 attempts, across at least 3 separate qualifying sessions, with consistent response times.</p>
         <p>The three-session requirement is there because one good day isn't mastery. Each session needs at least 3 timed attempts to count. The consistency check matters because a student whose response times swing widely between attempts isn't retrieving automatically — they're somewhere in between.</p>
       </div>
     </div>
@@ -2824,7 +2824,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="about-section">
       <div class="about-section-heading">Settings</div>
       <div class="about-prose">
-        <p>You choose the facts, the timer mode, the fluency threshold, and whether Star Quest is on. Starlight Math covers addition, subtraction, multiplication, and division, including tables up to ×12 (or up to ×20 with extended tables enabled in My Constellation).</p>
+        <p>You choose the facts, the timer mode, the fluency threshold, and whether Star Quest is on. Math Fact Galaxy covers addition, subtraction, multiplication, and division, including tables up to ×12 (or up to ×20 with extended tables enabled in My Constellation).</p>
       </div>
     </div>
 
@@ -2912,12 +2912,12 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   </div>
 </div>
 
-<!-- ══ MATH FLASH ORIENTATION (existing user, first visit to Starlight Math) ══ -->
+<!-- ══ MATH FLASH ORIENTATION (existing user, first visit to Math Fact Galaxy) ══ -->
 <div id="mf-welcome-overlay" class="overlay">
   <div class="overlay-card" style="max-width:420px;">
     <!-- Step 1: Greeting -->
     <div id="mf-welcome-step1">
-      <div class="overlay-title" style="font-size:1.5rem;margin-bottom:10px;">Welcome to Starlight Math ⚡</div>
+      <div class="overlay-title" style="font-size:1.5rem;margin-bottom:10px;">Welcome to Math Fact Galaxy ⚡</div>
       <p id="mf-welcome-greeting" style="color:var(--text);font-size:1rem;font-weight:700;margin-bottom:10px;"></p>
       <p style="color:var(--muted);font-size:0.9rem;line-height:1.6;margin-bottom:20px;">Practice math facts, light up your constellation, and build fluency one star at a time.</p>
       <button class="btn-primary" style="width:100%;font-size:1rem;padding:13px;" onclick="mfWelcomeNext()">Next →</button>
@@ -3050,7 +3050,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <!-- ══ SETUP ══ -->
 <div id="setup-screen" class="screen">
   <div class="setup-inner">
-    <div class="setup-logo" id="setup-full-logo">⚡ Starlight Math</div>
+    <div class="setup-logo" id="setup-full-logo">⚡ Math Fact Galaxy</div>
     <div id="bmc-setup-header" style="display:none">
       <div class="bmc-screen-title">Build My Constellation</div>
     </div>
@@ -4041,7 +4041,7 @@ function goSetup() {
     return;
   }
   if (!localStorage.getItem('mathflash_onboarded_' + username)) {
-    showMFWelcome('practice');          // has a profile but hasn't seen Starlight Math welcome
+    showMFWelcome('practice');          // has a profile but hasn't seen Math Fact Galaxy welcome
     return;
   }
   _setupMode = 'bmc';
@@ -4051,7 +4051,7 @@ function goSetup() {
   showScreen('setup-screen');
 }
 
-// ── Starlight Math orientation (existing user, first visit) ──
+// ── Math Fact Galaxy orientation (existing user, first visit) ──
 var _mfWelcomeDest = 'none';
 function showMFWelcome(dest) {
   _mfWelcomeDest = dest || 'none';
@@ -6863,7 +6863,7 @@ function printResults() {
   // ── Assemble HTML ──
   const html =
     '<div class="header-row">' +
-      '<div class="title">Starlight Math — Round Results</div>' +
+      '<div class="title">Math Fact Galaxy — Round Results</div>' +
       '<div class="date-student"><span class="date">' + dateStr + '</span><span class="student">' + studentLine + '</span></div>' +
     '</div>' +
     '<div class="settings-block">' +
@@ -6911,7 +6911,7 @@ function printResults() {
     '.notes-label{font-size:9pt;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#666;margin-bottom:8px}',
     '.notes-line{border-bottom:1px solid #bbb;margin-bottom:20px}'
   ].join('');
-  win.document.write('<html><head><title>Starlight Math Results</title><style>' + css + '</style></head><body>');
+  win.document.write('<html><head><title>Math Fact Galaxy Results</title><style>' + css + '</style></head><body>');
   win.document.write(html);
   win.document.write('</body></html>');
   win.document.close();
