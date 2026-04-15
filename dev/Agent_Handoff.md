@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-04-14 — Session AL (Spark)*
+*Last updated: 2026-04-15 — Session AM (Spark)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -50,93 +50,146 @@ Kimberly can make design decisions in either window and build in either directio
 
 ---
 
-## Spark → Wright — 2026-04-14 — Session AL (Navigation restructure + naming) — UPDATED
+## Spark → Wright — 2026-04-15 — Session AM (Full restructure — read everything)
 
-**Read this before touching navigation, naming, print, or mode hierarchy.**
+**This replaces and supersedes all prior Spark → Wright entries. Read in full before building anything.**
 
-### Naming changes — update all display text
+---
+
+### Naming — update all display text
 
 | Old name | New name | Notes |
 |---|---|---|
-| Math Flash | **Starlight Math** | Game title everywhere |
-| Practice Quest | **Star Quest** | All display text; internal function/class names stay as-is for stability |
-| Custom Cluster Creator | **Star Forge** | Confirmed name — update everywhere |
+| Math Flash | **Math Fact Galaxy** | Game title everywhere — third rename this session, this one is final |
+| Practice Quest | **Star Quest** | All display text; internal function/class names stay as-is |
+| Custom Cluster Creator / Starlight Math area | **Star Forge** | Confirmed |
 | Play | **Build My Constellation** | Nav area name — confirmed |
+
+---
+
+### The Product Concept — read this first
+
+**Math Fact Galaxy** is built on a four-operation architecture:
+- Each operation (×, ÷, +, −) is its own **constellation**
+- All four constellations together form the student's **galaxy**
+- As facts are mastered, stars light up in each constellation
+- The galaxy fills in as all four operations are learned
+
+This is not just a name — it is the product's visual and structural logic. Build toward it from the start.
+
+---
 
 ### Four-area navigation — confirmed structure
 
-Title page: 2×2 grid. **Build My Constellation** top-left (primary, visually dominant), **My Constellation** top-right, **Star Scan** bottom-left, **Star Forge** bottom-right.
+Title page: 2×2 grid.
+
+| Position | Area |
+|---|---|
+| Top-left (primary) | **Build My Constellation** |
+| Top-right | **My Constellation** |
+| Bottom-left | **Star Scan** |
+| Bottom-right | **Star Forge** |
+
+---
 
 **BUILD MY CONSTELLATION**
 - Per-Question Timer only — no mode selection screen
-- Two quick-select options on setup card: **All Facts** (full range, no filtering) / **Smart Play** (constellation-informed, targets gaps + near-mastery, sprinkles mastered)
-- **Build All Facts now and ship it.** Smart Play filtering logic is a separate build — do not block on it.
-- Feeds constellation automatically
+- Two quick-select options on setup card: **All Facts** / **Smart Play** (constellation-informed; build Smart Play filtering logic separately — do not block on it)
+- Operation selector on setup card — student chooses which constellation to build (×, ÷, +, −)
+- Feeds the selected operation's constellation automatically
+- **Build All Facts mode now and ship it**
 
 **MY CONSTELLATION**
-- Fact grid, click-to-detail, Facts to Watch, Records & Print archive
-- Fact click flow: stats card opens → **"Practice"** button → overlay with 3 Star Quest mini-games arranged on card → user picks one → quick round for that fact only → returns to constellation
-- **The mini-game overlay does not need a name.** Button label on the stats card is "Practice."
-- **3 mini-games in the picker: Falling Facts, Find It, Prove It** — the three existing Star Quest games, already built
-- Records & Print archive lives here: practice session history + Star Scan records + print from here
+- Operation-aware — shows one constellation at a time; student can switch between all four (×, ÷, +, −) via selector/tabs
+- Multiplication: 12×12 grid (already built) — no change
+- Addition/Subtraction/Division: same grid-style layout; visual design pass later; empty state until student has data
+- **Galaxy View** — button inside My Constellation: "View My Galaxy." Opens full-screen aggregate view showing all four constellations together. For beta: simple progress display per operation (% mastered or stars lit). Visual polish later.
+- Fact click flow: stats card opens → **"Practice"** button → overlay with 3 Star Quest mini-games (Falling Facts / Find It / Prove It) → user picks one → quick round for that fact → returns. No name needed for overlay.
+- Records & Print archive: practice session history + Star Scan records + print from here
 
 **STAR SCAN**
 - No structural change to existing build
-- Add: **"Print Targeted Deck" button in Star Scan results** — prints gap deck of needs-practice facts only (see print spec below). Direct output from results, does not route through Star Forge.
-- Full Star Scan: **both orientations by design** (exhaustive = exhaustive) ← answers your open question from AJ
-- Star Scan accessed from within Star Forge = report only, no constellation writes
+- Add: **"Print Targeted Deck"** button in Star Scan results — prints gap deck of needs-practice facts only (see print spec). Direct output, does not route through Star Forge.
+- Full Star Scan: **both orientations by design** (exhaustive = exhaustive)
+- Star Scan accessed from Star Forge = report only, no constellation writes
+- Star Scan should work across all four operations
 
 **STAR FORGE**
 - Full session builder: all settings (operation, range, timer, mode) + Star Scan-style question formats
+- Supports all four operations and both ranges (standard + advanced)
 - Results go to session report only — no constellation writes
-- Run session → session report → printable
-- Has its own lightweight session-level records (may be used without a user account)
-- Free vs. paid: **still open — do not build a payment gate yet**
+- Lightweight session-level records; may be used without a user account
+- Free vs. paid: **still open — do not gate yet**
 
-### Print system — new feature, confirmed
+---
 
-**Two paths — both confirmed:**
+### Four-operation fact ranges — confirmed
+
+| Operation | Standard | Advanced |
+|---|---|---|
+| Multiplication | ×1–×12 | ×13–×20 |
+| Division | ÷1–÷12 | ÷13–÷20 |
+| Addition | addends 1–10 (sums ≤ 20) | addends 11–20 |
+| Subtraction | derived from addition standard | derived from addition advanced |
+
+**Note on Advanced Addition:** Addends 11–20 involve regrouping strategies, not pure recall. Label this tier **"Advanced"** (not "Extended") in the UI to signal a different kind of challenge. Copy note for later.
+
+**Grid design for addition/subtraction advanced range** (11–20 addends = large grid): data structure and range selector first; visual grid design pass later. Do not block beta on this.
+
+Division and subtraction derive from their paired operations — same constellation grid, inverse presentation.
+
+---
+
+### Print system — confirmed, two paths
 
 **Path 1: Custom Deck Print** (from Star Forge)
 - Teacher builds settings → runs digital session OR clicks Print
-- Generates printable flashcard sheet matching exact specs
-- Offer both 8-per-page (2 cols × 4 rows) and 10-per-page (2 cols × 5 rows) as a print setting
-- Card front: problem (7 × 8 = ?)
-- Card back: answer with full equation (7 × 8 = 56)
-- Tier color border + small text label (e.g. "Needs Practice") — text label ensures B&W printing loses no information
-- Ordered by table
-- Sparkwright mark in corner
+- Printable flashcard sheet matching exact specs
+- Offer 8-per-page (2×4) and 10-per-page (2×5) as a print setting
+- Card front: problem (7 × 8 = ?), back: full equation (7 × 8 = 56)
+- Tier color border + text label (e.g. "Needs Practice") for B&W compatibility
+- Ordered by table; Sparkwright mark in corner
 
 **Path 2: Gap Deck Print** (from Star Scan results)
-- "Print Targeted Deck" button in Star Scan results screen
-- Auto-generates cards for needs-practice facts only
-- Same format as Path 1
-- Direct output from Star Scan results — does not route through Star Forge
+- "Print Targeted Deck" button in Star Scan results
+- Needs-practice facts only; same format as Path 1
+- Direct output from results — does not route through Star Forge
 
-Print appears contextually at point of action across all areas. Full archive in My Constellation → Records. Star Forge has its own session-level records for accountless use.
+Print available contextually at point of action everywhere. Full archive in My Constellation → Records. Star Forge has its own session-level records.
 
-### Answers to your open pedagogy questions
+---
 
-**Full Star Scan orientations:** Both orientations by design. Exhaustive = exhaustive. Confirmed. No user toggle needed.
+### Pedagogy answers — confirmed
 
-**Practice session definition / 2-session mastery gate:** Bump to 3 sessions minimum, across 3 different calendar dates. Add a minimum attempt count per session (~3 timed attempts to qualify as a session). Flag for tuning during beta — the right threshold will emerge from real use.
+**Full Star Scan orientations:** Both by design. Exhaustive = exhaustive.
 
-**Star Quest engagement concern (kids intentionally wrong to play mini-games):** No design fix needed now. A student exploiting Star Quest is still practicing the target fact through the remediation sequence — the pedagogy is working. The multi-step structure makes exploitation more work than just answering correctly. Monitor in beta. Signal to watch: students consistently spending more time in Star Quest than timed practice for the same fact.
+**Practice session definition:** 3 sessions minimum, 3 different calendar dates, ~3 timed attempts per session to qualify. Tune during beta.
 
-### Build sequence (confirmed)
+**Star Quest engagement concern:** No design fix needed. Monitor in beta.
 
-1. **Title page 2×2 grid — build now.** Shell only: Build My Constellation, My Constellation, Star Scan, Star Forge. Build My Constellation routes to existing setup for now. Star Forge is a placeholder.
-2. **Play area internals** — All Facts mode ships first. Smart Play filtering is a separate build.
-3. **Star Forge, Records, mini-practice** — each as separate builds when prioritized.
+---
+
+### Build sequence
+
+1. **Rename throughout: Math Fact Galaxy, Star Quest, Star Forge, Build My Constellation** — do this first
+2. **Title page 2×2 grid** — shell: Build My Constellation, My Constellation, Star Scan, Star Forge
+3. **Build My Constellation** — All Facts mode, operation selector, feeds correct operation's constellation
+4. **My Constellation** — operation switcher (×, ÷, +, −); Galaxy View button (simple progress display for beta)
+5. **Four-operation data model** — ensure fact data stored per-operation across all four; multiplication already done
+6. **Star Forge, Records, mini-practice** — each as separate builds when prioritized
+
+---
 
 ### Still open
 
-- [ ] Empty state graduation check — "Nothing to see here. Nice work!" needs graduation proximity signal (>80% mastered). Simpler implementation path still needed.
-- [ ] Star Forge free vs. paid — open, do not gate yet.
-- [ ] Smart Play filtering logic — design before build. Ships after All Facts.
-- [ ] Mini-game overlay in My Constellation — spec confirmed above. No name needed. Build when prioritized.
+- [ ] Smart Play filtering logic — design before build; ships after All Facts
+- [ ] Galaxy View visual polish — simple progress display for beta; full visual design later
+- [ ] Addition/Subtraction grid visual for advanced range — data structure first, grid design later
+- [ ] Empty state graduation check — needs >80% mastery proximity signal
+- [ ] Star Forge free vs. paid — open, do not gate yet
+- [ ] Mini-game overlay — spec confirmed above; build when prioritized
 
-— Spark, 2026-04-14
+— Spark, 2026-04-15
 
 ---
 

@@ -46,7 +46,7 @@ You are the research and pedagogy partner for this project. Your role is distinc
 
 You are not a cheerleader. You are not a skeptic. You are a mentor and a colleague who has read everything — the seed conversations, the literature review, the Reddit threads, the competitor audits, the pedagogy — and who wants this product to succeed. Which means: you tell the truth, including the uncomfortable parts.
 
-The developer has done real work and has real knowledge. She doesn't need the basics explained from the top. She knows why Practice Quest is differentiated. She knows the research. She's done her journaling. Your job is to move forward with her, not to brief her.
+The developer has done real work and has real knowledge. She doesn't need the basics explained from the top. She knows why Star Quest is differentiated. She knows the research. She's done her journaling. Your job is to move forward with her, not to brief her.
 
 What she needs from you:
 - Honest challenge, not reassurance
@@ -100,15 +100,17 @@ Never use "Educational Therapist" as a title — it implies active licensed clin
 
 ## What This Product Is
 
-**Math Flash** is a math fact flashcard game for elementary and middle school students. It is the first product under the **Sparkwright** brand.
+**Math Fact Galaxy** is a math fact flashcard game for elementary and middle school students. It is the first product under the **Sparkwright** brand.
 
-**Current version:** v60 (`games/mathflash/index.html`).
+**Current version:** v83a (`games/mathflash/index.html`). *(File path uses legacy name — rename pending Wright.)*
 
-**The core differentiator:** Every major platform handles the wrong answer the same way — show the correct answer, log the miss, move on. Math Flash handles it *now*, in the moment, before the student moves on. That is a fundamentally different pedagogical stance. No competitor does what Practice Quest does.
+**The product concept:** Four operations (×, ÷, +, −) = four constellations = one galaxy. As facts are mastered, stars light up. The student's galaxy fills in as all four operations are learned. This is the structural and visual logic of the product, not just aesthetic.
 
-**Practice Quest:** Triggered after 2 wrong attempts on a fact. Round stops. Student exits the pressure environment and enters a structured multi-step sequence: Find It → mini-game → Prove It. Returns to round. Timer pauses during quest. This is the research-correct response to a miss — not punishment, but structured in-moment remediation.
+**The core differentiator:** Every major platform handles the wrong answer the same way — show the correct answer, log the miss, move on. Math Fact Galaxy handles it *now*, in the moment, before the student moves on. That is a fundamentally different pedagogical stance. No competitor does what Star Quest does.
 
-**Brand:** Sparkwright — "Handcrafted learning, built to spark." Domain: sparkwright.org. Aesthetic: alchemy, cosmos, wonder, maker energy.
+**Star Quest:** Triggered after 2 wrong attempts on a fact. Round stops. Student exits the pressure environment and enters a structured multi-step sequence: Find It → mini-game → Prove It. Returns to round. Timer pauses during quest. This is the research-correct response to a miss — not punishment, but structured in-moment remediation.
+
+**Brand:** Sparkwright — "Handcrafted learning, built to spark." Domain: sparkwright.org. Aesthetic: night sky/stars, alchemy, wonder, maker energy.
 
 **The developer's own positioning language** (from RP Section 6 — the phrase bank):
 - *"This is a tool more than a program."* — A program has its own agenda. A tool serves yours.
@@ -124,9 +126,9 @@ These are raw material, not finished copy. When drafting marketing language, dra
 ## The Intellectual Framework
 
 ### Core Philosophy
-- **Rigorous, not punishing.** This is the word that separates Math Flash from platforms that have optimized for conflict-avoidance dressed up as engagement.
-- **Error + immediate feedback is the research standard.** For typically-developing students, error correction outperforms errorless learning. Practice Quest is pedagogically correct, not punishing.
-- **Designed for the moment of failure.** Every major platform is optimized for what happens when the student succeeds. Math Flash is optimized for what happens when the student fails.
+- **Rigorous, not punishing.** This is the word that separates Math Fact Galaxy from platforms that have optimized for conflict-avoidance dressed up as engagement.
+- **Error + immediate feedback is the research standard.** For typically-developing students, error correction outperforms errorless learning. Star Quest is pedagogically correct, not punishing.
+- **Designed for the moment of failure.** Every major platform is optimized for what happens when the student succeeds. Math Fact Galaxy is optimized for what happens when the student fails.
 - **Student and teacher are in control.** Settings, timer options, and accommodation toggles serve the learner. This philosophy must be explicit in FAQ, onboarding, and About page copy.
 - **Data belongs to the user.** localStorage is a deliberate philosophical choice, not a technical limitation.
 
@@ -157,7 +159,7 @@ These are raw material, not finished copy. When drafting marketing language, dra
 
 ## The Market Position
 
-### The Gap Math Flash Fills
+### The Gap Math Fact Galaxy Fills
 A tool that is:
 - **Frictionless** like spellingtraining.com (no account required, works locally, localStorage)
 - **Tracks** like TTRS (per-fact history, progress over time, variance-based mastery)
@@ -184,7 +186,7 @@ One-time purchase per game, a la carte. No account required for core experience.
 - **Rocket Math** — worksheet-adjacent, 12 consecutive correct, no variance check.
 - **TTRS** — subscription, server-based, monthly summaries only. Widely disliked by students.
 - **IXL / iReady / Zearn / Khan** — institutional tools, compliance reporting, not designed for the moment of failure.
-- **Imagine Math Facts (BigBrainz)** — the product parents miss. Acquired by Imagine Learning 2016, now school-only. Math Flash is operating in the space it left.
+- **Imagine Math Facts (BigBrainz)** — the product parents miss. Acquired by Imagine Learning 2016, now school-only. Math Fact Galaxy is operating in the space it left.
 - **Master competitive chart** — built Session S in ConsumerData Section I. Covers primary competitors + institutional tools + 6 tools flagged for personal investigation.
 
 ---
@@ -192,28 +194,38 @@ One-time purchase per game, a la carte. No account required for core experience.
 ## Current State of Open Work
 *(Replace this section at each session end — do not append)*
 
-### As of Session AI — April 11, 2026
+### As of Session AM — April 15, 2026
 
-**What Wright built since Session AB (v63–v78):**
-- ✅ Student Dashboard / Fact Constellation — built (items 147/66/140)
-- ✅ Star Scan (formerly Assessment Mode) — built, all three scope variants (Full / Per-Table / Family Groups), moved to dedicated screen with title page button (v72/v73)
-- ✅ Assessment data confirmed clean — `saveAssessmentRecord()` writes only to `mathflash_assessments`, constellation reads only from `mathflash_facts`. No cross-contamination.
-- ✅ v75–v78 — username picker, 2-step welcome overlay, profile chip context-awareness, mid-game nav overlay, delete user fix, print per Star Scan record, avatar grid fix, Star Scan two-bucket model, Facts to Watch redesign, fluency threshold one-liner, Star Scan pop-out card copy. Full list in handoff Wright → Spark 2026-04-11.
+**What Wright built since Session AI (v79–v83a):**
+- ✅ v79–v81 — Star Scan "Fluent" rename, print from live results, settings persistence, Facts to Watch rebuild, profile chip fix, user delete modal, nav consistency pass. Full list in handoff Wright → Spark 2026-04-11.
+- ✅ v82a–v82k — Falling Facts mini-game (renamed from Fact Catcher) shipped. 5-star win condition, inactivity timer, 3 lanes, exploit guard (MAX_WRONG=8), CSS dot progress, mini-game speed setting, PQ step pips below badge.
+- ✅ v83a — beta testing session. 6 critical bugs from v82j identified; see Wright prompt bug queue.
 
-**What happened Sessions AG–AI (Spark — April 10–11, 2026):**
-- **Star Scan two-bucket model confirmed** — binary: mastered / needs practice, neutral color. Shipped.
-- **Smart fact prioritization model** — unpracticed trumps recency; 2–3 cap in standard modes. Shipped.
-- **Beginning Star Scan two-tier architecture confirmed and locked under revenue model:**
-  - *Quick Start Scan* — free, once at onboarding. ~20 facts, table-level, single orientation per table. Seeds ghost constellation.
-  - *Full Star Scan* — paid tier only. Per-fact, exhaustive. Confirmed.
-  - **Revenue model framing (Session AI):** Paid tier = records/tracking layer, not user type. Homeschool parents and professionals both want records — no copy should distinguish them by tier. IEP documentation language dropped entirely.
-- **Multi-session Full Star Scan — fully designed and shipped (Session AH). Confirmed build-ready (Session AI).** Full spec in handoff + Game_Logic.md Section 9. 3 sessions (multiplication), per-session constellation update, resume flow, 4-week soft advisory, seal mechanic. Print layout pending Pip.
-- **`completeMFWelcome('scan')` routing spec** — Quick Start Scan. Note: "Full Star Scan available with upgrade — unlocks per-fact tracking and printable records." Logged in handoff.
-- **Free/paid tier chart — approved for product copy** (About page, FAQ, upgrade prompt):
+**What happened Sessions AL–AM (Spark — April 14–15, 2026):**
+- **Game renamed: Math Fact Galaxy** (final — was Math Flash, briefly Starlight Math)
+- **Practice Quest → Star Quest.** Internal function names unchanged.
+- **Product concept locked: 4 operations = 4 constellations = 1 galaxy.** Structural and visual logic of the product.
+- **Four-area navigation confirmed:**
+  - **Build My Constellation** (top-left, primary) — Per-Question Timer, All Facts now, Smart Play later; operation selector on setup card
+  - **My Constellation** (top-right) — operation-aware, switcher for all 4 ops; Galaxy View button opens aggregate view; multiplication grid stays; other op grids follow same pattern
+  - **Star Scan** (bottom-left) — add Print Targeted Deck button in results; works across all 4 operations
+  - **Star Forge** (bottom-right) — full session builder, all settings + scan-style formats; free vs. paid still open
+- **Four-operation fact ranges confirmed:**
+  - ×: standard ×1–×12, advanced ×13–×20
+  - ÷: standard ÷1–÷12, advanced ÷13–÷20
+  - +: standard addends 1–10, advanced addends 11–20 (label "Advanced" — involves regrouping)
+  - −: derived from paired addition ranges
+- **Galaxy View:** inside My Constellation, "View My Galaxy" button. Shows all 4 constellation progress. Simple display for beta; visual polish later.
+- **Mini-game overlay:** stats card → "Practice" button → Falling Facts / Find It / Prove It overlay → quick round. No overlay name.
+- **Print system — two paths confirmed:**
+  - *Custom Deck Print* (from Star Forge): 8 or 10 per page; front = problem, back = answer; tier color border + text label; by table; Sparkwright mark
+  - *Gap Deck Print* (from Star Scan results): needs-practice facts only; same format; direct output
+- **Pedagogy answers shipped:** Full Star Scan = both orientations by design. Practice session gate = 3 sessions / 3 calendar dates / ~3 attempts. Star Quest exploit = not a design problem; monitor in beta.
+- **Free/paid tier chart (Session AI) — still current:**
 
   | | Free | Paid |
   |---|---|---|
-  | Full game, Practice Quest, all settings | ✓ | ✓ |
+  | Full game, Star Quest, all settings | ✓ | ✓ |
   | Quick Start Scan (onboarding, once) | ✓ | ✓ |
   | 10 calendar-day constellation tracking | ✓ (ghost) | — |
   | Live constellation (unlimited) | — | ✓ |
@@ -221,26 +233,28 @@ One-time purchase per game, a la carte. No account required for core experience.
   | All Star Scan records, printable | — | ✓ |
   | Print reports | — | ✓ |
 
-- **Orientation design principle** — flagged for all operations. Shipped.
-- **Fluency threshold UI confirmed** — one Settings panel from chip/header; read-only contextual note in My Constellation + Star Scan setup. Shipped.
-- **"Facts to Watch" copy** — finalized and shipped (Session AH).
-- **"How to Play" card copy** — fully revised and shipped (Session AH). 5 items rewritten to middle-school voice; "reveal" replaces "flip/reveal"; Practice Quest trigger = 2 wrong answers; mini-games described generically; trophy icon flagged for Pip.
-- **Data backup + Competitive Mode** — recommendations approved and shipped.
-- **Lemon Squeezy** — Kimberly initiated account creation. Payment flow design session still needed before Wright builds.
-- **`dev/Math_Flash_Game_Logic.md`** — created Session AG. Living design reference for all systems.
-- **iReady deep dive** — completed Session AH. Section K added to ConsumerData. Key findings: federal lawsuit (Dec 2025, data harvesting allegations), 13–14M students, $750M revenue, 89% one-star Trustpilot, failure-loop diagnostic, EdReports nuance documented (curriculum only ≠ diagnostic). Positioning implications logged.
-- **Journaling deferred** — Kimberly confirmed: not useful until site is more fleshed out.
-
 **Note on required reading (token efficiency):**
 Not every session needs the full RP + ConsumerData. Bootstrap + Handoff only unless session involves research, citations, consumer data, or positioning copy.
 
 ### Open Items
 
-**Design spec'd and confirmed — Wright: read handoff before building:**
-- [x] **Quick Start Scan + Full Star Scan two-tier architecture** — confirmed Session AI. Quick Start = free/onboarding. Full Star Scan = paid. Orientation design principle factored in. Spec in handoff.
-- [x] **Multi-session Full Star Scan** — fully designed Session AH, confirmed Session AI. Build-ready for beta. Full spec in handoff + Game_Logic.md Section 9. Printable record layout pending Pip.
+**Navigation restructure + four-operation expansion — confirmed Session AM, Wright: read handoff Spark → Wright 2026-04-15:**
+- [x] **Four-area navigation** — Build My Constellation / My Constellation / Star Scan / Star Forge
+- [x] **Four-operation architecture** — build all four now; multiplication constellation already built; others follow
+- [x] **Fact ranges** — all four operations, standard + advanced. Full table in handoff.
+- [ ] **Build My Constellation** — All Facts mode + operation selector. Smart Play filtering later.
+- [ ] **My Constellation operation switcher** — switch between all 4 constellations
+- [ ] **Galaxy View** — inside My Constellation; simple progress display for beta; visual polish later
+- [ ] **Mini-game overlay** — "Practice" button → Falling Facts / Find It / Prove It. Build when prioritized.
+- [ ] **Star Forge build** — free vs. paid still open; do not gate yet
+- [ ] **Print system** — Custom Deck Print (Star Forge) + Gap Deck Print (Star Scan results). Full spec in handoff.
+
+**Star Scan items:**
+- [x] **Quick Start Scan + Full Star Scan two-tier architecture** — confirmed Session AI.
+- [x] **Multi-session Full Star Scan** — build-ready for beta. Full spec in handoff + Game_Logic.md Section 9.
 - [ ] **Beginning Star Scan data routing** — Quick Start seeds table-level tiers; Full Star Scan seeds per-fact tiers. Design before wiring.
-- [ ] **`completeMFWelcome('scan')` routing** — spec in handoff Session AI. Route to Quick Start Scan + upgrade note for Full Star Scan.
+- [ ] **`completeMFWelcome('scan')` routing** — Route to Quick Start Scan + upgrade note for Full Star Scan.
+- [ ] **Star Scan UX pass** — visual appeal, neutral timer bar, no gold flash on unanswered facts, pause between facts, dynamic problem count.
 
 **Fluency threshold UI — CONFIRMED (Session AH):** One Settings panel from chip/header. Read-only contextual note in My Constellation + Star Scan setup with link to Settings. Shipped to Wright.
 
@@ -249,15 +263,15 @@ Not every session needs the full RP + ConsumerData. Bootstrap + Handoff only unl
 - [ ] Smart Practice (game-designed round) — reads constellation, prioritizes fluent→almost→needs practice, sprinkles mastered; mode card description approved
 - [ ] Durability check — teacher-initiated via Star Scan Records; no game-prompted check
 - [ ] Full constellation mastered ceremony — celebration screen + profile badge + printable certificate
-- [ ] Mode placement redesign — mode selection (Smart Practice + per-question timer foregrounded) before settings in setup flow
 - [ ] User reset option — full reset vs. per-operation reset; destructive, confirmation step required; design before building
 - [ ] New user onboarding/setup series — username → operations → fluency threshold → option to take Quick Start Scan or skip; full design session on its own
-- [ ] Star Scan UX pass — visual appeal, neutral timer bar, no gold flash on unanswered facts, pause between facts, dynamic problem count; all spec'd in handoff
+- [ ] Empty state graduation check — "Nothing to see here. Nice work!" needs >80% mastery proximity check. Simpler implementation path needed before full cell-count approach.
 - [ ] Data backup/download — JSON per user, My Constellation settings, quiet 10-session nudge. Shipped to Wright. Kimberly reviews during testing. Lex to review Privacy Policy language.
 - [ ] Competitive Mode — turn-based, display-only scoring, no constellation writes, existing Practice scope. Shipped to Wright. Build after beta.
 
 **Revenue/payment (design before build):**
 - [ ] **Payment/licensing flow design session** — Lemon Squeezy account initiated by Kimberly (April 11). 3-device activation. Design unlock flow + license key UI + upgrade prompt before Wright builds. Processor choice confirmed; flow design still needed.
+- [ ] **Star Forge free vs. paid** — open. Do not gate yet.
 
 **Lex items (flagged Session AA):**
 - [ ] **COPPA pre-assessment**
@@ -266,13 +280,13 @@ Not every session needs the full RP + ConsumerData. Bootstrap + Handoff only unl
 
 **Research/copy still not done:**
 - [ ] **"Why memorize math facts" content** — Two deliverables: (1) FAQ/About copy: evidence-based case for math fact fluency for parents/teachers. (2) Title page interactive/visual element (alchemy/ember aesthetic, button opens content). Design brief to Pip when copy is ready.
-- [x] **iReady competitive research** — deep dive completed Session AH. Section K added to ConsumerData. Pointer added to RP Section 5. See ConsumerData Section K for full findings, sources, and positioning implications.
-- [ ] **iReady → About page / FAQ copy pass** — positioning implications are documented; copy applying them has not been drafted. When FAQ and About page work resumes, draw from ConsumerData K: local-first as values statement (not just technical note), Practice Quest as the designed answer to iReady's failure loop. Keep iReady diagnostic vs. curriculum distinction sharp.
+- [x] **iReady competitive research** — deep dive completed Session AH. Section K added to ConsumerData.
+- [ ] **iReady → About page / FAQ copy pass** — draw from ConsumerData K: local-first as values statement, Star Quest as the designed answer to iReady's failure loop. Keep diagnostic vs. curriculum distinction sharp.
 - [ ] Play the competition for one hour. XtraMath heat map format still unverified.
 - [ ] Verify spacing effect citations: Cepeda et al. (2006), Rohrer & Taylor (2006) — flagged *(needs verification)* in RP
-- [ ] Draft — target user profile final version (deferred; revisit when site is more flushed out)
-- [ ] Draft — marketing copy sentence ("Math Flash is for families who...")
-- [ ] Draft — FAQ outline (after constellation/assessment design settles; FAQ items from Session AB logged in RP)
+- [ ] Draft — target user profile final version (deferred; revisit when site is more fleshed out)
+- [ ] Draft — marketing copy sentence (update: "Math Fact Galaxy is for families who...")
+- [ ] Draft — FAQ outline (after navigation restructure settles; FAQ items from Session AB logged in RP)
 - [ ] Copy pass — home page game cards + value list (developer doing; update Spark when done)
 - [ ] r/specialeducation + r/ADHD_parents — Reddit blocked Session N. High value, token-rich session.
 - [ ] Well-Trained Mind forums — developer opens manually, pastes. URLs in ConsumerData Section J.
@@ -284,11 +298,11 @@ Not every session needs the full RP + ConsumerData. Bootstrap + Handoff only unl
 - [ ] Session count per operation TBD pending beta testing. Multiplication = 3 confirmed. Flag as Spark design discussion after beta testing.
 
 ### Key Files (current)
-- `dev/Sparkwright_Website_Copy_Draft_v1.md` — landing page, About page (Tier 2), Math Flash About panel (Tier 3) — updated Session T, pending developer voice edit
+- `dev/Sparkwright_Website_Copy_Draft_v1.md` — landing page, About page (Tier 2), game About panel (Tier 3) — updated Session T, pending developer voice edit; note: game name now Math Fact Galaxy throughout — full copy pass needed
 - `dev/Sparkwright_Legal_Draft_v1.md` — Terms, Privacy, Cookie Policy, footer copy
 - `dev/Sparkwright_Costs_and_Accounting_v1.md` — ~$21/month from May onward
 - `dev/Market_Agent_Prompt.md` — Marketing, Launch & Revenue Strategy agent (created Session AF)
-- `dev/Math_Flash_Game_Logic.md` — PLANNED: game design reference, not yet created
+- `dev/Math_Flash_Game_Logic.md` — living design reference for all game systems
 
 ---
 
