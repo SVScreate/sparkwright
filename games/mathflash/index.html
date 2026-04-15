@@ -566,8 +566,51 @@ body {
   cursor: pointer;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
-.mp-op-pill:hover { border-color: rgba(255,159,67,0.5); color: var(--text); }
-.mp-op-pill.active { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.45); color: rgba(240,240,255,0.92); }
+.mp-op-pill:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
+.mp-op-pill.active { background: color-mix(in srgb, var(--nc) 14%, transparent); border-color: color-mix(in srgb, var(--nc) 65%, transparent); color: var(--text); }
+
+/* BMC Operation selector */
+.bmc-op-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.bmc-op-card {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 5px; padding: 22px 12px;
+  border-radius: var(--radius);
+  border: 1.5px solid color-mix(in srgb, var(--nc) 30%, transparent);
+  background: color-mix(in srgb, var(--nc) 7%, transparent);
+  cursor: pointer; font-family: var(--font);
+  transition: background 0.15s, border-color 0.15s, transform 0.12s;
+  position: relative; overflow: hidden;
+}
+.bmc-op-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--nc) 22%, transparent) 0%, transparent 65%);
+  pointer-events: none;
+}
+.bmc-op-card:hover {
+  background: color-mix(in srgb, var(--nc) 15%, transparent);
+  border-color: color-mix(in srgb, var(--nc) 65%, transparent);
+  transform: translateY(-2px);
+}
+.bmc-op-card:active { transform: translateY(0); }
+.bmc-op-symbol {
+  font-size: 2.2rem; font-weight: 900; color: var(--nc); line-height: 1;
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--nc) 55%, transparent));
+}
+.bmc-op-name { font-size: 0.85rem; font-weight: 700; color: rgba(240,240,255,0.82); letter-spacing: 0.01em; }
+
+/* Galaxy view overlay */
+.galaxy-view-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.galaxy-op-card {
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--nc) 30%, transparent);
+  background: color-mix(in srgb, var(--nc) 8%, transparent);
+  padding: 14px 12px;
+}
+.galaxy-op-symbol { font-size: 1.5rem; font-weight: 900; color: var(--nc); }
+.galaxy-op-label { font-size: 0.8rem; font-weight: 700; color: rgba(240,240,255,0.75); margin: 2px 0 8px; }
+.galaxy-op-bar-bg { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.08); overflow: hidden; }
+.galaxy-op-bar-fill { height: 100%; border-radius: 3px; background: var(--nc); transition: width 0.4s; }
+.galaxy-op-count { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
 
 .mp-ctrl-row {
   display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
@@ -3056,7 +3099,29 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     </div>
     <div class="back-link" onclick="showScreen('title-screen')">← Back to title</div>
 
-    <div class="card">
+    <!-- BMC: operation constellation selector (shown in bmc mode only) -->
+    <div id="bmc-op-selector" style="display:none;">
+      <div class="bmc-op-grid">
+        <button class="bmc-op-card" style="--nc:rgba(255,217,61,1)" onclick="launchBMCOp('x')">
+          <div class="bmc-op-symbol">×</div>
+          <div class="bmc-op-name">Multiplication</div>
+        </button>
+        <button class="bmc-op-card" style="--nc:rgba(199,125,255,1)" onclick="launchBMCOp('/')">
+          <div class="bmc-op-symbol">÷</div>
+          <div class="bmc-op-name">Division</div>
+        </button>
+        <button class="bmc-op-card" style="--nc:rgba(107,203,119,1)" onclick="launchBMCOp('+')">
+          <div class="bmc-op-symbol">+</div>
+          <div class="bmc-op-name">Addition</div>
+        </button>
+        <button class="bmc-op-card" style="--nc:rgba(77,150,255,1)" onclick="launchBMCOp('-')">
+          <div class="bmc-op-symbol">−</div>
+          <div class="bmc-op-name">Subtraction</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="card" id="setup-ops-card">
       <div class="card-title">Operations</div>
       <div class="op-grid">
         <div class="op-btn"    data-op="+"><span class="op-symbol">+</span><span class="op-label">Addition</span></div>
@@ -3327,12 +3392,23 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <div id="stats-screen" class="screen">
   <div class="stats-header">
     <div class="stats-profile" id="stats-profile"></div>
-    <div class="stats-title">Math Fact Constellation</div>
+    <div class="stats-title" id="stats-title">Math Fact Constellation</div>
   </div>
   <div class="stats-body" id="stats-body"></div>
   <div class="stats-footer">
     <button class="btn-ghost" onclick="showScreen('title-screen')">← Back</button>
+    <button class="btn-ghost" onclick="openGalaxyView()">✦ View My Galaxy</button>
     <button class="btn-ghost" onclick="printConstellation()">🖨 Print / Save as PDF</button>
+  </div>
+</div>
+
+<!-- ══ GALAXY VIEW OVERLAY ══ -->
+<div id="galaxy-view-overlay" class="overlay" onclick="if(event.target===this)hideOverlay('galaxy-view-overlay')">
+  <div class="overlay-card" style="max-width:380px;">
+    <button class="overlay-close" onclick="hideOverlay('galaxy-view-overlay')">✕</button>
+    <div class="overlay-title" style="font-size:1.2rem;margin-bottom:4px;">My Galaxy</div>
+    <div id="galaxy-view-profile" style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;"></div>
+    <div class="galaxy-view-grid" id="galaxy-view-grid"></div>
   </div>
 </div>
 
@@ -3454,17 +3530,26 @@ var _setupMode = 'bmc';
 // ── Star Forge flag: true when session should NOT write to the constellation
 var _starForgeSession = false;
 
+// ── Operation display constants ─────────────────────────────
+var OP_NAMES   = { 'x': 'Multiplication', '/': 'Division', '+': 'Addition', '-': 'Subtraction' };
+var OP_SYMBOLS = { 'x': '×', '/': '÷', '+': '+', '-': '−' };
+var OP_COLORS  = { 'x': 'rgba(255,217,61,1)', '/': 'rgba(199,125,255,1)', '+': 'rgba(107,203,119,1)', '-': 'rgba(77,150,255,1)' };
+var OP_FLUENT  = { 'x': 'rgba(255,217,61,', '/': 'rgba(199,125,255,', '+': 'rgba(107,203,119,', '-': 'rgba(77,150,255,' };
+var OP_ALMOST  = { 'x': 'rgba(255,217,61,', '/': 'rgba(199,125,255,', '+': 'rgba(107,203,119,', '-': 'rgba(77,150,255,' };
+
 function applySetupMode() {
   var isBMC  = _setupMode === 'bmc';
-  var isForge = _setupMode === 'full';
-  var fullLogo  = document.getElementById('setup-full-logo');
-  var modeHeader = document.getElementById('bmc-setup-header');
-  var modeTitle  = modeHeader ? modeHeader.querySelector('.bmc-screen-title') : null;
-  var modeCard  = document.getElementById('setup-mode-card');
-  var featCard  = document.getElementById('setup-features-card');
-  var ansCard   = document.getElementById('setup-answer-mode-card');
-  var startBtn  = document.getElementById('setup-start-btn');
-  var bmcRow    = document.getElementById('bmc-start-row');
+  var fullLogo    = document.getElementById('setup-full-logo');
+  var modeHeader  = document.getElementById('bmc-setup-header');
+  var modeTitle   = modeHeader ? modeHeader.querySelector('.bmc-screen-title') : null;
+  var modeCard    = document.getElementById('setup-mode-card');
+  var featCard    = document.getElementById('setup-features-card');
+  var ansCard     = document.getElementById('setup-answer-mode-card');
+  var startBtn    = document.getElementById('setup-start-btn');
+  var bmcRow      = document.getElementById('bmc-start-row');
+  var bmcOpSel    = document.getElementById('bmc-op-selector');
+  var opsCard     = document.getElementById('setup-ops-card');
+  var opPanels    = document.getElementById('op-panels-wrap');
   // Always use the mode header, never the plain logo
   if (fullLogo)   fullLogo.style.display   = 'none';
   if (modeHeader) modeHeader.style.display = 'block';
@@ -3477,11 +3562,15 @@ function applySetupMode() {
       modeTitle.style.color = 'var(--a6)';
     }
   }
-  if (modeCard)  modeCard.style.display  = isBMC ? 'none' : '';
-  if (featCard)  featCard.style.display  = isBMC ? 'none' : '';
-  if (ansCard)   ansCard.style.display   = isBMC ? 'none' : '';
-  if (startBtn)  startBtn.style.display  = isBMC ? 'none' : '';
-  if (bmcRow)    bmcRow.style.display    = isBMC ? 'flex' : 'none';
+  // BMC: show op selector, hide settings cards; Full: hide op selector, show settings
+  if (bmcOpSel) bmcOpSel.style.display = isBMC ? 'block' : 'none';
+  if (opsCard)  opsCard.style.display  = isBMC ? 'none'  : '';
+  if (opPanels) opPanels.style.display = isBMC ? 'none'  : '';
+  if (modeCard) modeCard.style.display = isBMC ? 'none'  : '';
+  if (featCard) featCard.style.display = isBMC ? 'none'  : '';
+  if (ansCard)  ansCard.style.display  = isBMC ? 'none'  : '';
+  if (startBtn) startBtn.style.display = isBMC ? 'none'  : '';
+  if (bmcRow)   bmcRow.style.display   = 'none'; // replaced by bmc-op-selector
 }
 
 function goStarForge() {
@@ -3508,6 +3597,65 @@ function startAllFacts() {
   var qFieldPt = document.getElementById('q-count-pt');
   if (qFieldPt) qFieldPt.value = ps;
   startGame();
+}
+
+function launchBMCOp(op) {
+  S.ops = [op];
+  // Select all tables (1–12) for multiplication/division
+  if (op === 'x' || op === '/') {
+    var all = [];
+    for (var i = 1; i <= 12; i++) all.push(i);
+    S.tables[op] = all;
+  }
+  // addition/subtraction use max range from S (defaults are already set)
+  startAllFacts();
+}
+
+// ── updateConstellationTitle: set "[User]'s [Op] Constellation" ──
+function updateConstellationTitle(op) {
+  var titleEl = document.getElementById('stats-title');
+  if (!titleEl) return;
+  var username = localStorage.getItem('sparkwright_active');
+  var opName = OP_NAMES[op] || 'Fact';
+  var opColor = OP_COLORS[op] || 'var(--text)';
+  var prefix = username ? username + '\u2019s ' : '';
+  titleEl.innerHTML = prefix + '<span style="color:' + opColor + '">' + opName + '</span> Constellation';
+}
+
+// ── openGalaxyView: show 4-op progress summary ──────────
+function openGalaxyView() {
+  var username = localStorage.getItem('sparkwright_active');
+  var profileEl = document.getElementById('galaxy-view-profile');
+  if (profileEl) profileEl.textContent = username ? username + "'s Galaxy" : '';
+  var gridEl = document.getElementById('galaxy-view-grid');
+  if (!gridEl) return;
+
+  var ops = [ { op: 'x', sym: '×', name: 'Multiplication', color: 'rgba(255,217,61,1)' },
+              { op: '/', sym: '÷', name: 'Division',       color: 'rgba(199,125,255,1)' },
+              { op: '+', sym: '+', name: 'Addition',       color: 'rgba(107,203,119,1)' },
+              { op: '-', sym: '−', name: 'Subtraction',    color: 'rgba(77,150,255,1)'  } ];
+
+  var html = '';
+  ops.forEach(function(o) {
+    var total = 0, mastered = 0;
+    var maxN = S.extendedTables ? 20 : 12;
+    for (var r = 1; r <= maxN; r++) {
+      for (var c = 1; c <= maxN; c++) {
+        total++;
+        var rec = getRec(o.op, r, c);
+        if (cellTier(rec) === 'mastered') mastered++;
+      }
+    }
+    var pct = total > 0 ? Math.round(mastered / total * 100) : 0;
+    html += '<div class="galaxy-op-card" style="--nc:' + o.color + '">' +
+      '<div class="galaxy-op-symbol">' + o.sym + '</div>' +
+      '<div class="galaxy-op-label">' + o.name + '</div>' +
+      '<div class="galaxy-op-bar-bg"><div class="galaxy-op-bar-fill" style="width:' + pct + '%"></div></div>' +
+      '<div class="galaxy-op-count">' + mastered + ' / ' + total + ' mastered</div>' +
+    '</div>';
+  });
+  gridEl.innerHTML = html;
+  showOverlay('galaxy-view-overlay');
 }
 
 // ══ STATE ══════════════════════════════════════════════
@@ -7010,6 +7158,11 @@ function buildStatsScreen() {
   function buildConstellation(op) {
     var grid = document.getElementById('constellation-grid');
     if (!grid) return;
+    // Tint the wrap border with the operation color
+    var wrap = grid.closest('.constellation-wrap');
+    if (wrap && OP_COLORS[op]) {
+      wrap.style.borderColor = 'color-mix(in srgb, ' + OP_COLORS[op] + ' 22%, rgba(255,255,255,0.08))';
+    }
 
     // Read phase: gather all cell data before touching DOM
     var maxN = S.extendedTables ? 20 : 12;
@@ -7056,14 +7209,16 @@ function buildStatsScreen() {
           el.appendChild(txtSpan);
         }
 
-        // Dynamic glow intensity (scaled by how established the fact is)
+        // Dynamic glow intensity — uses operation color
+        var opGlow = OP_FLUENT[op] || 'rgba(255,159,67,';
+        var opAlmost = OP_ALMOST[op] || 'rgba(199,125,255,';
         if (d.tier === 'fluent') {
           var ga = (0.28 + d.strength * 0.38).toFixed(2);
           var gsz = Math.round(8 + d.strength * 14);
-          el.style.boxShadow = '0 0 ' + gsz + 'px ' + Math.round(gsz * 0.3) + 'px rgba(255,159,67,' + ga + '), 0 0 ' + Math.round(gsz * 2) + 'px 4px rgba(255,159,67,' + (parseFloat(ga) * 0.35).toFixed(2) + ')';
+          el.style.boxShadow = '0 0 ' + gsz + 'px ' + Math.round(gsz * 0.3) + 'px ' + opGlow + ga + '), 0 0 ' + Math.round(gsz * 2) + 'px 4px ' + opGlow + (parseFloat(ga) * 0.35).toFixed(2) + ')';
         } else if (d.tier === 'almost') {
           var ga = (0.2 + d.strength * 0.25).toFixed(2);
-          el.style.boxShadow = '0 0 ' + Math.round(6 + d.strength * 8) + 'px 2px rgba(199,125,255,' + ga + ')';
+          el.style.boxShadow = '0 0 ' + Math.round(6 + d.strength * 8) + 'px 2px ' + opAlmost + ga + ')';
         }
         // mastered glow is handled by CSS animation; star goes inside
 
@@ -7169,10 +7324,10 @@ function buildStatsScreen() {
     '<div class="mp-section">' +
       '<div class="mp-section-title">Fact Constellation</div>' +
       '<div class="mp-op-filter" id="mp-op-filter">' +
-        '<button class="mp-op-pill active" data-op="x">×</button>' +
-        '<button class="mp-op-pill" data-op="/">÷</button>' +
-        '<button class="mp-op-pill" data-op="+">+</button>' +
-        '<button class="mp-op-pill" data-op="-">−</button>' +
+        '<button class="mp-op-pill active" data-op="x" style="--nc:rgba(255,217,61,1)">×</button>' +
+        '<button class="mp-op-pill" data-op="/" style="--nc:rgba(199,125,255,1)">÷</button>' +
+        '<button class="mp-op-pill" data-op="+" style="--nc:rgba(107,203,119,1)">+</button>' +
+        '<button class="mp-op-pill" data-op="-" style="--nc:rgba(77,150,255,1)">−</button>' +
       '</div>' +
       '<div class="mp-ctrl-row">' +
         '<button class="mp-ctrl-pill info-pill" id="mp-how-btn" onclick="document.getElementById(\'mp-how-panel\').classList.toggle(\'open\')">How this works ↓</button>' +
@@ -7208,6 +7363,7 @@ function buildStatsScreen() {
     '<div class="mp-section" id="mp-assess-section"></div>';
 
   buildConstellation(activeOp);
+  updateConstellationTitle(activeOp);
 
   // Op filter interaction
   var filterEl = document.getElementById('mp-op-filter');
@@ -7220,6 +7376,7 @@ function buildStatsScreen() {
       pill.classList.add('active');
       closeStatCard();
       buildConstellation(activeOp);
+      updateConstellationTitle(activeOp);
     });
   }
 
