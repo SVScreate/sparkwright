@@ -2739,16 +2739,16 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
           <div class="nav-card-icon">✦</div>
           <div class="nav-card-arrow">›</div>
         </div>
-        <div class="nav-card-label">Build My Constellation</div>
-        <div class="nav-card-desc">Practice your facts. Builds your constellation.</div>
+        <div class="nav-card-label">Build My Constellations</div>
+        <div class="nav-card-desc">Pick an operation and practice — every correct answer lights up a star.</div>
       </button>
       <button class="title-nav-card" style="--nc:rgba(199,125,255,1)" onclick="showScreen('stats-screen')">
         <div class="nav-card-top">
           <div class="nav-card-icon">◈</div>
           <div class="nav-card-arrow">›</div>
         </div>
-        <div class="nav-card-label">My Constellation</div>
-        <div class="nav-card-desc">Track your facts. Records. Print.</div>
+        <div class="nav-card-label">My Constellations</div>
+        <div class="nav-card-desc">See your progress across all four operations.</div>
       </button>
       <button class="title-nav-card" style="--nc:rgba(77,150,255,1)" onclick="showScreen('assess-area-screen')">
         <div class="nav-card-top">
@@ -3095,7 +3095,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   <div class="setup-inner">
     <div class="setup-logo" id="setup-full-logo">Math Fact Galaxy</div>
     <div id="bmc-setup-header" style="display:none">
-      <div class="bmc-screen-title">Build My Constellation</div>
+      <div class="bmc-screen-title">Build My Constellations</div>
     </div>
     <div class="back-link" onclick="showScreen('title-screen')">← Back to title</div>
 
@@ -3555,7 +3555,7 @@ function applySetupMode() {
   if (modeHeader) modeHeader.style.display = 'block';
   if (modeTitle) {
     if (isBMC) {
-      modeTitle.textContent = 'Build My Constellation';
+      modeTitle.textContent = 'Build My Constellations';
       modeTitle.style.color = 'var(--a2)';
     } else {
       modeTitle.textContent = '⚙ Star Forge';
@@ -3615,11 +3615,9 @@ function launchBMCOp(op) {
 function updateConstellationTitle(op) {
   var titleEl = document.getElementById('stats-title');
   if (!titleEl) return;
-  var username = localStorage.getItem('sparkwright_active');
   var opName = OP_NAMES[op] || 'Fact';
   var opColor = OP_COLORS[op] || 'var(--text)';
-  var prefix = username ? username + '\u2019s ' : '';
-  titleEl.innerHTML = prefix + '<span style="color:' + opColor + '">' + opName + '</span> Constellation';
+  titleEl.innerHTML = '<span style="color:' + opColor + '">' + opName + '</span> Constellation';
 }
 
 // ── openGalaxyView: show 4-op progress summary ──────────
