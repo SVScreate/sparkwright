@@ -245,39 +245,62 @@ body {
   max-width: 520px;
 }
 .title-nav-card {
+  --nc: rgba(255,255,255,0.5);
   background: rgba(255,255,255,0.05);
   border: 1.5px solid rgba(255,255,255,0.11);
   border-radius: 16px;
-  padding: 20px 18px;
+  padding: 22px 18px 18px;
   text-align: left;
   cursor: pointer;
-  transition: background 0.18s, border-color 0.18s, transform 0.12s;
+  transition: background 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.12s;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   color: var(--text);
+  position: relative;
+  overflow: hidden;
 }
+.title-nav-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 0% 0%, color-mix(in srgb, var(--nc) 18%, transparent) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.title-nav-card:hover::before { opacity: 1; }
 .title-nav-card:hover {
-  background: rgba(255,255,255,0.09);
-  border-color: rgba(255,255,255,0.22);
+  border-color: color-mix(in srgb, var(--nc) 60%, transparent);
   transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
 }
 .title-nav-card:active { transform: translateY(0); }
-.title-nav-card.nav-primary {
-  background: rgba(255,217,61,0.08);
-  border-color: rgba(255,217,61,0.35);
-  box-shadow: 0 0 20px rgba(255,217,61,0.1);
+.title-nav-card.nav-coming-soon { opacity: 0.5; }
+.title-nav-card.nav-coming-soon:hover { transform: none; box-shadow: none; }
+.nav-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 6px;
 }
-.title-nav-card.nav-primary:hover {
-  background: rgba(255,217,61,0.14);
-  border-color: rgba(255,217,61,0.55);
-  box-shadow: 0 0 28px rgba(255,217,61,0.18);
+.nav-card-icon {
+  font-size: 1.6rem;
+  color: var(--nc);
+  line-height: 1;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--nc) 60%, transparent));
 }
-.title-nav-card.nav-coming-soon { opacity: 0.38; cursor: default; pointer-events: none; }
-.nav-card-icon { font-size: 1.2rem; margin-bottom: 4px; color: rgba(255,255,255,0.45); }
-.title-nav-card.nav-primary .nav-card-icon { color: var(--a2); }
+.nav-card-arrow {
+  font-size: 1rem;
+  color: var(--nc);
+  opacity: 0.5;
+  transition: opacity 0.15s, transform 0.15s;
+  align-self: center;
+}
+.title-nav-card:hover .nav-card-arrow { opacity: 1; transform: translateX(2px); }
+.title-nav-card.nav-coming-soon .nav-card-arrow { display: none; }
 .nav-card-label {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 800;
   letter-spacing: 0.02em;
   color: var(--text);
@@ -287,8 +310,35 @@ body {
   font-size: 0.75rem;
   color: var(--muted);
   line-height: 1.4;
-  margin-top: 1px;
 }
+.nav-soon-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--nc);
+  opacity: 0.7;
+  margin-top: 4px;
+}
+/* Coming soon toast */
+#nav-soon-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: rgba(30,30,50,0.96);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 9999;
+}
+#nav-soon-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
 /* ── BMC SETUP MODE ── */
 .bmc-screen-title {
   font-family: var(--font-display);
@@ -2641,27 +2691,40 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   <div class="title-inner">
     <div class="title-logo">⚡ Starlight Math</div>
     <div class="title-nav-grid">
-      <button class="title-nav-card nav-primary" onclick="goSetup()">
-        <div class="nav-card-icon">✦</div>
+      <button class="title-nav-card" style="--nc:rgba(255,217,61,1)" onclick="goSetup()">
+        <div class="nav-card-top">
+          <div class="nav-card-icon">✦</div>
+          <div class="nav-card-arrow">›</div>
+        </div>
         <div class="nav-card-label">Build My Constellation</div>
         <div class="nav-card-desc">Practice your facts. Builds your constellation.</div>
       </button>
-      <button class="title-nav-card" onclick="showScreen('stats-screen')">
-        <div class="nav-card-icon">◈</div>
+      <button class="title-nav-card" style="--nc:rgba(199,125,255,1)" onclick="showScreen('stats-screen')">
+        <div class="nav-card-top">
+          <div class="nav-card-icon">◈</div>
+          <div class="nav-card-arrow">›</div>
+        </div>
         <div class="nav-card-label">My Constellation</div>
         <div class="nav-card-desc">Track your facts. Records. Print.</div>
       </button>
-      <button class="title-nav-card" onclick="showScreen('assess-area-screen')">
-        <div class="nav-card-icon">◉</div>
+      <button class="title-nav-card" style="--nc:rgba(77,150,255,1)" onclick="showScreen('assess-area-screen')">
+        <div class="nav-card-top">
+          <div class="nav-card-icon">◉</div>
+          <div class="nav-card-arrow">›</div>
+        </div>
         <div class="nav-card-label">Star Scan</div>
         <div class="nav-card-desc">Assess where you are.</div>
       </button>
-      <button class="title-nav-card nav-coming-soon" disabled>
-        <div class="nav-card-icon">⚙</div>
+      <button class="title-nav-card nav-coming-soon" style="--nc:rgba(255,159,67,1)" onclick="showNavSoonToast('Star Forge is coming soon.')">
+        <div class="nav-card-top">
+          <div class="nav-card-icon">⚙</div>
+        </div>
         <div class="nav-card-label">Star Forge</div>
         <div class="nav-card-desc">Build any custom session.</div>
+        <div class="nav-soon-label">Coming soon</div>
       </button>
     </div>
+    <div id="nav-soon-toast"></div>
     <div class="title-link-row">
       <button class="title-about-link" onclick="showOverlay('howto-overlay')">How to Play</button>
       <button class="title-about-link" onclick="showOverlay('about-overlay')">About</button>
@@ -3929,6 +3992,16 @@ function confirmDeleteAssessRecord() {
     buildStatsScreen();
   }
   _deleteRecordFrom = null;
+}
+
+var _navSoonTimer = null;
+function showNavSoonToast(msg) {
+  var t = document.getElementById('nav-soon-toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('visible');
+  if (_navSoonTimer) clearTimeout(_navSoonTimer);
+  _navSoonTimer = setTimeout(function() { t.classList.remove('visible'); }, 2000);
 }
 
 function goSetup() {
