@@ -76,12 +76,12 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Fact Galaxy v83p** — live at `games/mathflash/index.html` — pushed to GitHub/Netlify 2026-04-15
+**Math Fact Galaxy v83r** — local at `games/mathflash/index.html` — not yet pushed (Session AN fixes in progress)
 Landing page: `sparkwright/index.html` (updated Session AE)
 
-## Session AN Build Summary (v83m–v83p) — 2026-04-15
+## Session AN Build Summary (v83m–v83r) — 2026-04-15/16
 
-**Four-area nav + BMC + constellation theming:**
+**Four-area nav + BMC + constellation theming (v83m–v83p):**
 - Title page: 2×2 nav grid with Build My Constellations, My Constellations, Star Scan, Star Forge — all four live
 - BMC two-phase flow: select op (+ − × ÷ in learning order) → table picker + question count (All/10/20/30) + Smart Practice placeholder + Start
 - BMC: `selectBMCOp(op)`, `launchBMCStart()`, `setBMCQCount()` — All Facts sets qCount = pool size; fixed counts capped at pool
@@ -90,41 +90,47 @@ Landing page: `sparkwright/index.html` (updated Session AE)
 - Galaxy View overlay: "✦ View My Galaxy" → 4-op progress summary with mastered count + progress bar per op
 - Results → My Constellations now opens on the op just practiced (uses `S.ops[0]`)
 - Op order standardized to +, −, ×, ÷ (learning order) everywhere
-- Area page descriptions added to all 4 screens; BMC/Forge share header that swaps text via `applySetupMode()`
 - Rename: Math Flash → Math Fact Galaxy (final), My Constellation → My Constellations (plural), Build My Constellation → Build My Constellations (plural)
+
+**Bug fixes Session AN (v83q–v83r):**
+- **v83q**: Replaced native `confirm()` in `midgameNav()` with `#leave-game-modal` (styled). Root cause of beta kick-out: Enter key dismissed confirm() as OK while student was typing, navigating to title with no results shown.
+- **v83q**: Fixed `bmc-settings-row` staying visible when switching to Star Forge after selecting a BMC op
+- **v83r**: Fixed Galaxy View ReferenceError — `openGalaxyView()` was calling `getRec()`/`cellTier()` which are local to `buildStatsScreen()`; rewrote with inline `_getRec()`. Also fixed subtraction cell count (skip r≤c cells).
 
 **Key architectural notes:**
 - `_setupMode = 'bmc' | 'full'` controls setup screen layout; `applySetupMode()` shows/hides all relevant cards and resets BMC state
 - `OP_NAMES`, `OP_COLORS`, `OP_FLUENT`, `OP_ALMOST`, `OP_SYMBOLS` — global constants for op display
 - `updateConstellationTitle(op)` — updates #stats-title with colored op name
-- `openGalaxyView()` — builds galaxy overlay from scratch on each open, uses `getRec()` + `cellTier()` per cell
+- `openGalaxyView()` — self-contained, loads userFacts directly, inline `_getRec()` helper
 - BMC op selector + settings row are siblings of `op-panels-wrap` in DOM; `selectBMCOp` shows the correct panel without DOM manipulation
+- `_leaveGameDest` — stores pending navigation destination while leave-game modal is shown
+- Facts to Watch empty state: graduation check live — shows "Nice work!" only if ≥20 facts practiced and ≥80% mastered; otherwise progressive messages
 
-**Still needs testing:**
-- BMC full flow: select op → table picker → question count → start
-- Star Forge settings still visible after clicking from nav
+**Confirmed already fixed (were listed as open, verified in code):**
+- Bug #3: Profile chip during Star Scan — timer IS paused by `onChipClick()` for assessment-screen; shows scan-chip-overlay not midgame-nav ✓
+- Bug #5: Star Scan record delete — 🗑 button + `openDeleteAssessRecord()` / `confirmDeleteAssessRecord()` both built ✓
+- Bug #6: Empty state graduation check — `nearGraduation` check with keys.length≥20 and 80% mastered threshold built ✓
+- Bug #1: User context reset — `switchUser()` navigates to title-screen in all non-practice paths; `deleteUser()` navigates to title if was active ✓
+- Bug #2: Welcome re-trigger — `showScreen('title-screen')` handler re-checks onboarding AFTER setting new active user ✓
+
+**Still needs testing (v83r):**
+- BMC full flow: select op → table picker → question count → start (all 4 ops)
 - My Constellations: title updates correctly when switching op tabs
-- Galaxy View: progress bars show correct data
+- Galaxy View: now fixed — test mastered counts after some practice
+- Leave-game modal (was: native confirm) — test chip → Navigate → Leave Round
 
-## ⚠️ CRITICAL BUGS — Fix Before Any New Features
-
-**1. User context does not reset on switch/create/delete (HIGH PRIORITY)**
-When switching, creating, or deleting a user from any screen except the title screen, the current screen continues showing the old user's data. New user's practice can bleed into wrong account. Fix plan: all user switch/create/delete paths must (a) set localStorage active user, (b) reload all data-dependent UI, (c) navigate to title screen. Needs a single `switchActiveUser(username)` helper called from all three code paths.
-
-**2. Welcome flow triggers on existing onboarded users after switch**
-`checkMFOnboarding` fires on the wrong timing or checks the flag before `sparkwright_active` is fully updated. Investigate and fix flag check ordering.
-
-**3. Profile chip during active Star Scan (assessment-screen) shows mid-game nav but timer doesn't pause**
-The chip opens midgame-nav-overlay but the scan timer keeps running. Need a decision: pause the scan timer while the overlay is open, OR change chip-click during scan to show user menu only (no nav during active scan). Lean: pause the timer if nav overlay is open.
+## ⚠️ OPEN BUGS
 
 **4. Nav consistency redesign (design discussion with Kimberly first)**
-Profile chip behavior is still inconsistent across screens. Proposed clean model: chip click always opens user menu. Mid-game navigation (leave round / go to constellation) lives on a dedicated button in the round header, not on the chip. This eliminates all the context-switching logic.
+Profile chip behavior across screens needs a single coherent model. Proposed: chip click always opens user menu; mid-game nav (leave round / go to constellation) lives on a dedicated button in the round header. This eliminates the chip/nav context-switching logic entirely. Not building until design discussion.
 
-**5. Star Scan record delete button**
-Need 🗑 on each Star Scan record in both Star Scan Area and My Constellation, with the same checkbox-gate modal as user delete.
+**7. Mid-round kick-out (beta, HIGH PRIORITY) — FIXED in v83q**
+Root cause was confirm() intercepting Enter key; replaced with leave-game modal. Confirm with beta tester.
 
-**6. "Nothing to see here. Nice work!" empty state needs graduation check**
-Currently shows whenever watchItems is empty and user has data. Should only show when student is close to mastery (e.g. >80% of facts mastered). The check requires iterating constellation cells — not yet implemented. Spark flagged for simpler signal — no answer yet.
+**Beta items needing Spark input before build:**
+- BMC timer calibration (too slow per beta tester — currently 7s autokick, not 3s fluency threshold)
+- Cognitive load / Smart Practice spec (3–5 challenge facts per round?)
+- BMC print report: round time including PQ breakdown (logged as future build item)
 
 ---
 
