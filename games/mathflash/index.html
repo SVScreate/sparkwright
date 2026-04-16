@@ -3806,9 +3806,22 @@ function updateConstellationTitle(op) {
 function openGalaxyView() {
   var username = localStorage.getItem('sparkwright_active');
   var profileEl = document.getElementById('galaxy-view-profile');
-  if (profileEl) profileEl.textContent = username ? username + "'s Galaxy" : '';
+  if (profileEl) profileEl.textContent = username ? username + "\u2019s Galaxy" : '';
   var gridEl = document.getElementById('galaxy-view-grid');
   if (!gridEl) return;
+
+  // Load user facts directly — getRec/cellTier are local to buildStatsScreen
+  var allData;
+  try { allData = JSON.parse(localStorage.getItem('mathflash_facts') || '{}'); } catch(e) { allData = {}; }
+  var uf = (username && allData[username]) ? allData[username] : {};
+
+  function _getRec(op, r, c) {
+    if (op === 'x')  return uf['mul_' + r + 'x' + c] || uf['mul_' + c + 'x' + r] || null;
+    if (op === '/')  return uf['div_' + (r * c) + 'd' + r] || null;
+    if (op === '+')  return uf['add_' + r + 'p' + c] || uf['add_' + c + 'p' + r] || null;
+    if (op === '-')  return r > c ? (uf['sub_' + r + 'm' + c] || null) : null;
+    return null;
+  }
 
   var ops = [ { op: '+', sym: '+', name: 'Addition',       color: 'rgba(107,203,119,1)' },
               { op: '-', sym: '−', name: 'Subtraction',    color: 'rgba(77,150,255,1)'  },
@@ -3821,9 +3834,11 @@ function openGalaxyView() {
     var maxN = S.extendedTables ? 20 : 12;
     for (var r = 1; r <= maxN; r++) {
       for (var c = 1; c <= maxN; c++) {
+        var rec = _getRec(o.op, r, c);
+        // For subtraction only count valid cells (r > c); skip the rest
+        if (o.op === '-' && r <= c) continue;
         total++;
-        var rec = getRec(o.op, r, c);
-        if (cellTier(rec) === 'mastered') mastered++;
+        if (rec && rec.mastered) mastered++;
       }
     }
     var pct = total > 0 ? Math.round(mastered / total * 100) : 0;
