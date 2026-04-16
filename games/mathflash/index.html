@@ -3078,6 +3078,18 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   </div>
 </div>
 
+<!-- ══ LEAVE GAME CONFIRM MODAL ══ -->
+<div id="leave-game-modal" class="overlay">
+  <div class="overlay-card" style="max-width:340px;">
+    <div style="font-family:var(--font-display);font-size:1.1rem;color:var(--text);margin-bottom:8px;">Leave this round?</div>
+    <div style="font-size:0.85rem;color:var(--muted);margin-bottom:20px;line-height:1.5;">Your progress in this round will be lost.</div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn-ghost" style="flex:1;" onclick="cancelLeaveGame()">Stay</button>
+      <button class="btn-primary" style="flex:1;background:rgba(255,107,107,0.2);border-color:rgba(255,107,107,0.5);color:#ff9999;" onclick="confirmLeaveGame()">Leave Round</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ DELETE USER CONFIRM MODAL ══ -->
 <div id="delete-user-modal" class="overlay">
   <div class="overlay-card" style="max-width:360px;">
@@ -3654,6 +3666,11 @@ function applySetupMode() {
   if (ansCard)  ansCard.style.display  = isBMC ? 'none'  : '';
   if (startBtn) startBtn.style.display = isBMC ? 'none'  : '';
   if (bmcRow)   bmcRow.style.display   = 'none'; // replaced by bmc-op-selector
+  // Always hide BMC settings row in Forge mode (it may have been shown by a prior BMC op selection)
+  if (!isBMC) {
+    var settingsRow = document.getElementById('bmc-settings-row');
+    if (settingsRow) settingsRow.style.display = 'none';
+  }
 
   // BMC: reset op selection state each time setup screen is entered
   if (isBMC) {
@@ -4455,10 +4472,14 @@ function quitScan() {
 }
 
 // ── Mid-game navigation menu ──────────────────────────────
+var _leaveGameDest = null; // destination pending leave-game confirmation
+
 function midgameNav(dest) {
   var gameRunning = isGameActive();
-  if (gameRunning && !confirm('You\'ll lose your current progress. Continue?')) {
+  if (gameRunning) {
+    _leaveGameDest = dest;
     hideOverlay('midgame-nav-overlay');
+    showOverlay('leave-game-modal');
     return;
   }
   hideOverlay('midgame-nav-overlay');
@@ -4467,6 +4488,22 @@ function midgameNav(dest) {
   } else if (dest === 'constellation') {
     showScreen('stats-screen');
   }
+}
+
+function confirmLeaveGame() {
+  hideOverlay('leave-game-modal');
+  var dest = _leaveGameDest;
+  _leaveGameDest = null;
+  if (dest === 'title') {
+    showScreen('title-screen');
+  } else if (dest === 'constellation') {
+    showScreen('stats-screen');
+  }
+}
+
+function cancelLeaveGame() {
+  hideOverlay('leave-game-modal');
+  _leaveGameDest = null;
 }
 
 // ══ SETUP UI ══════════════════════════════════════════

@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-04-15 — Session AM (Spark)*
+*Last updated: 2026-04-16 — Session AN (Wright)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -27,6 +27,56 @@ When an entry is fully actioned — built, committed, and acknowledged by both a
 
 **Important — this is not a gate:**
 Kimberly can make design decisions in either window and build in either direction without routing through the other agent first. Creative decisions can and should arise organically. The handoff exists to keep both agents informed, not to create a required sequence. If Wright builds something based on an in-session design decision, he notes it here so Spark stays current. If Spark develops a design idea, she flags it here so Wright can pick it up. Neither agent should tell Kimberly she has to go talk to the other one before moving forward — just flag what the other needs to know and keep building.
+
+---
+
+## Wright → Spark — 2026-04-16 — Session AN (Beta testing feedback — Spark input needed)
+
+**Context:** Kimberly ran beta testing on v83p. These notes were shared with both agents. Spark input needed on pedagogy/design questions before Wright builds. Wright's technical read is in the notes below each item.
+
+---
+
+**1. BMC timer — calibration question**
+
+The current BMC timer runs the full autokick window (7s for standard tier) as the visible countdown bar. Kimberly's note: one beta tester found it "too slow." She also notes there may be students who want urgency vs. students who do better with more time, and that there's usable time regardless of what it's measuring.
+
+Wright's technical read: BMC hardcodes `S.format = 'pertimer'`, which uses `S.fluencyTier.autokickMs` (7s for standard). The fluency GRADE threshold is still 3s — so grading is correct, but the visible timer runs 7 seconds. The "too slow" complaint makes sense — the bar drains for 7 seconds when students know fluency is graded at 3s. Options:
+- Kick at the fluency threshold (3s for standard) — creates urgency, enforces automaticity, but harsh for struggling students
+- Keep 7s autokick, no change
+- Add a BMC-specific timer speed setting
+- Use `fluencyMs` (3s) as autokick in BMC but honor the user's fluency tier setting
+
+**Spark: Is there a pedagogical reason to kick at the fluency threshold rather than the autokick in a building-fluency context? Should BMC honor the user's threshold setting for both grading AND kicking? Should this be a student-selectable option?**
+
+---
+
+**2. BMC print report — round time breakdown**
+
+New feature request: BMC print report should show (a) total round time including PQ, and (b) time spent in each PQ for which facts vs. main round time.
+
+Wright: this is buildable. The data is all available — `G.startTime`, PQ entry/exit timestamps. Currently the results screen shows total elapsed but doesn't break out PQ time per fact. Will need to add per-PQ timing to the game state object. Logging as a new build item, not blocking.
+
+---
+
+**3. BMC mid-round kick-out bug — CRITICAL**
+
+Beta tester was at the end of a 20-question BMC round (near fact 20/20), was answering a fact, and got kicked back to the title screen with no results shown.
+
+Wright: This is a data-loss / trust bug — highest priority to fix. My leading theory: the `midgameNav()` function uses a native browser `confirm()` dialog. If the user accidentally tapped the profile chip while typing an answer, the confirm dialog fires. Pressing Enter to submit the answer would also dismiss the confirm dialog as "OK" — navigating to title with no results. Second theory: a JS error in `endGame()` or `nextQ()` near the end of a full pool that silently prevents reaching `showScreen('results-screen')`. Need to add error handling and also replace the confirm() in midgameNav with a styled modal. Logging as CRITICAL Bug #7.
+
+---
+
+**4. Smart Practice / cognitive load — pedagogical question**
+
+Beta tester felt too many challenging facts appeared repeatedly, causing high cognitive load and making rounds feel too long. Kimberly asks: should there be 3–5 challenge facts to focus on per round? And we need to flesh out Smart Practice and available BMC settings.
+
+Wright: this is directly the Smart Practice design problem. Currently BMC uses All Facts, which shuffles all facts randomly. The fix is the Smart Practice filtering logic Spark flagged as "design before build." Without Smart Practice, the only lever is limiting re-queuing of wrong facts.
+
+**Spark: Is 3–5 challenge facts per round the right target? What's the pedagogical basis for that number? This is the core Smart Practice spec question that was deferred.**
+
+---
+
+— Wright, 2026-04-16
 
 ---
 
