@@ -3190,6 +3190,26 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
     </div>
 
+    <div id="bmc-settings-top" style="display:none;">
+      <div class="card">
+        <div class="card-title">Practice Mode</div>
+        <div class="bmc-mode-row selected" id="bmc-mode-smart" onclick="selectBMCMode('smart')">
+          <div class="bmc-mode-radio"></div>
+          <div>
+            <div class="bmc-mode-title">Smart Practice</div>
+            <div class="bmc-mode-desc">Focuses your session on the facts your constellation says need the most work.</div>
+          </div>
+        </div>
+        <div class="bmc-mode-row" id="bmc-mode-all" onclick="selectBMCMode('all')">
+          <div class="bmc-mode-radio"></div>
+          <div>
+            <div class="bmc-mode-title">All Facts</div>
+            <div class="bmc-mode-desc">Practice every fact in your selection — good for building fluency across the full table.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="card" id="setup-ops-card">
       <div class="card-title">Operations</div>
       <div class="op-grid">
@@ -3269,23 +3289,6 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
     <!-- BMC: question count + practice mode + start (shown after op selected) -->
     <div id="bmc-settings-row" style="display:none;">
-      <div class="card">
-        <div class="card-title">Practice Mode</div>
-        <div class="bmc-mode-row selected" id="bmc-mode-all" onclick="selectBMCMode('all')">
-          <div class="bmc-mode-radio"></div>
-          <div>
-            <div class="bmc-mode-title">All Facts</div>
-            <div class="bmc-mode-desc">Practice every fact in your selection — good for building fluency across the full table.</div>
-          </div>
-        </div>
-        <div class="bmc-mode-row" id="bmc-mode-smart" onclick="selectBMCMode('smart')">
-          <div class="bmc-mode-radio"></div>
-          <div>
-            <div class="bmc-mode-title">Smart Practice</div>
-            <div class="bmc-mode-desc">Focuses your session on the facts your constellation says need the most work.</div>
-          </div>
-        </div>
-      </div>
       <div class="card">
         <div class="card-title">Questions</div>
         <div class="chip-row" id="bmc-q-chips">
@@ -3655,7 +3658,7 @@ var _bmcSession = false;
 var _bmcSelectedOp  = null;
 var _bmcQCount      = 'all';        // 'all' | number
 var _bmcMix         = 'balanced';   // 'gentle' | 'balanced' | 'intensive'
-var _bmcMode        = 'all';        // 'all' | 'smart'
+var _bmcMode        = 'smart';      // 'all' | 'smart'
 var _bmcStarQuest   = true;         // Star Quest toggle (true = on)
 var _bmcPrebuiltPool = null;        // injected pool for Today's Mix — consumed by startGame()
 
@@ -3707,6 +3710,8 @@ function applySetupMode() {
   if (!isBMC) {
     var settingsRow = document.getElementById('bmc-settings-row');
     if (settingsRow) settingsRow.style.display = 'none';
+    var settingsTop = document.getElementById('bmc-settings-top');
+    if (settingsTop) settingsTop.style.display = 'none';
   }
 
   // BMC: reset op selection state each time setup screen is entered
@@ -3720,15 +3725,17 @@ function applySetupMode() {
     }
     var settingsRow = document.getElementById('bmc-settings-row');
     if (settingsRow) settingsRow.style.display = 'none';
+    var settingsTop = document.getElementById('bmc-settings-top');
+    if (settingsTop) settingsTop.style.display = 'none';
     // Reset q chips
     var qChips = document.querySelectorAll('#bmc-q-chips .chip');
     qChips.forEach(function(c) { c.classList.toggle('on', c.dataset.val === 'all'); });
-    // Reset mode selection to All Facts
-    _bmcMode = 'all';
+    // Reset mode selection to Smart Practice (default)
+    _bmcMode = 'smart';
     var modeAll   = document.getElementById('bmc-mode-all');
     var modeSmart = document.getElementById('bmc-mode-smart');
-    if (modeAll)   modeAll.classList.add('selected');
-    if (modeSmart) modeSmart.classList.remove('selected');
+    if (modeSmart) modeSmart.classList.add('selected');
+    if (modeAll)   modeAll.classList.remove('selected');
     // Reset Challenge Level to Balanced
     _bmcMix = 'balanced';
     var mixChips = document.querySelectorAll('#bmc-mix-chips .chip');
@@ -3783,21 +3790,25 @@ function selectBMCOp(op) {
     });
   }
 
-  // Show the op's table/range panel from op-panels-wrap (stays in original DOM position)
+  // Set the correct op panel visible (but don't show the wrap yet — mode controls that)
   var opPanels = document.getElementById('op-panels-wrap');
   if (opPanels) {
-    opPanels.style.display = '';
     opPanels.querySelectorAll('.op-panel').forEach(function(p) {
       p.classList.toggle('visible', p.id === 'panel-' + op);
     });
+    // Only show table picker if All Facts is selected
+    opPanels.style.display = _bmcMode === 'all' ? '' : 'none';
   }
 
-  // Show settings row (question count + practice mode + start button)
+  // Show Practice Mode card + settings row
+  var settingsTop = document.getElementById('bmc-settings-top');
+  if (settingsTop) settingsTop.style.display = 'block';
   var settingsRow = document.getElementById('bmc-settings-row');
   if (settingsRow) settingsRow.style.display = 'block';
 
   // Reset question count to All Facts
   setBMCQCount('all', document.querySelector('#bmc-q-chips .chip[data-val="all"]'));
+  updateBMCQAllLabel();
 }
 
 function setBMCQCount(val, el) {
@@ -3816,6 +3827,7 @@ function selectBMCMode(mode) {
   // Table picker: hidden for Smart (game reads full constellation), shown for All
   var opPanels = document.getElementById('op-panels-wrap');
   if (opPanels) opPanels.style.display = mode === 'smart' ? 'none' : '';
+  updateBMCQAllLabel();
 }
 
 var BMC_MIX_DESCS = {
@@ -4072,6 +4084,21 @@ function launchBMCStart() {
 
   _bmcSession = true;
   startGame();
+}
+
+// ── updateBMCQAllLabel: show real fact count on the "All Facts" question chip ──
+function updateBMCQAllLabel() {
+  var chip = document.querySelector('#bmc-q-chips .chip[data-val="all"]');
+  if (!chip) return;
+  if (!_bmcSelectedOp) { chip.textContent = 'All Facts'; return; }
+  var count = 0;
+  if (_bmcMode === 'smart') {
+    var pool = buildBMCSmartPool(_bmcSelectedOp, _bmcMix, 'all');
+    count = pool ? pool.length : 0;
+  } else {
+    count = getPoolSize();
+  }
+  chip.textContent = count > 0 ? 'All (' + count + ')' : 'All Facts';
 }
 
 // ── updateConstellationTitle: set "[User]'s [Op] Constellation" ──
@@ -5376,6 +5403,7 @@ function buildTableGrid(op) {
       updateSelAllLabel(op);
       updateTableMsg(op);
       updatePoolNotice();
+      updateBMCQAllLabel();
     });
   });
 

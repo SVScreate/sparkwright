@@ -194,12 +194,34 @@ One-time purchase per game, a la carte. No account required for core experience.
 ## Current State of Open Work
 *(Replace this section at each session end — do not append)*
 
-### As of Session AM — April 15, 2026
+### As of Session AO — April 17, 2026
 
 **What Wright built since Session AI (v79–v83a):**
 - ✅ v79–v81 — Star Scan "Fluent" rename, print from live results, settings persistence, Facts to Watch rebuild, profile chip fix, user delete modal, nav consistency pass. Full list in handoff Wright → Spark 2026-04-11.
 - ✅ v82a–v82k — Falling Facts mini-game (renamed from Fact Catcher) shipped. 5-star win condition, inactivity timer, 3 lanes, exploit guard (MAX_WRONG=8), CSS dot progress, mini-game speed setting, PQ step pips below badge.
 - ✅ v83a — beta testing session. 6 critical bugs from v82j identified; see Wright prompt bug queue.
+
+**What happened Session AO (Spark — April 17, 2026):**
+- **Galaxy View star state finalized:** Two states only — unlit and gold (all facts in table mastered). No amber in-progress state. Star only lights when fully earned. Spec updated in both reference files and handoff.
+- **Quick Start Scan redesigned:** 36 facts (3 per table, up from 2). Full fact selection table designed and specced — all 36 unique cross-products, easy/mid/upper picks per table, ×11 table corrected (pattern-easy through ×10; only 11×11 and 11×12 are harder). 3-tier seeding from results: 3/3=fluent, 2/3=almost, 1/3 or 0/3=needs practice.
+- **Beginning Star Scan data routing:** Option B confirmed — Quick Start seeds table-level inferred tiers for untested facts with `source: quick-start-inferred` flag; real practice data overwrites fact by fact; inferred data never contributes to mastery.
+- **Pip's Galaxy View deliverable reviewed:** Operation pairings confirmed (Orion/×, Libra/÷, Cassiopeia/+, Gemini/−). Title screen Option A approved. Tagline confirmed. Passed to Wright.
+- **Lemon Squeezy account denied** — site looked like AI slop with too many placeholders. Payment flow blocked until site is more polished or alternate processor chosen.
+- **Reference files updated:** Both Methodology Reference and Screen Reference updated to Session AO.
+
+**What happened Session AN (Spark + Wright — April 16–17, 2026):**
+- **Critical bug #7 identified and shipped (v83q, v83t–v83u):** Mid-round kick-out fixed; full confirm() audit done; zero native dialogs remain
+- **BMC timer shipped (v83s):** Kicks at `fluencyMs`, honors user threshold setting
+- **Challenge Level shipped (v83s):** Gentle / Balanced / Intensive on BMC setup card; `buildBMCMixPool()` built
+- **Star Quest toggle shipped (v83s):** Checkbox on setup card, checked by default
+- **Thin fact pool behavior:** Deferred — noted in Wright prompt for next session
+- **BMC print report:** Logged, not blocking — total round time + per-fact PQ time breakdown
+- **Star Lab named and specced:** Targeted practice overlay from My Constellation fact click; ~6 attempts, both orientations, no nested Star Quest; build queued next session
+- **Galaxy View specced:** Four constellation-inspired shapes (Orion/Libra/Cassiopeia/Gemini), table-level stars (12/12/10/10), three visual states, night sky background, no copy — operation symbol glyphs only; build queued next session
+- **Star Bloom (V2) logged for Pip:** Zoom concept — IRL star counts zoomed out, facts at the heart of each star zoomed in; full design brief in handoff Spark → Pip 2026-04-17
+- **Smart Practice specced:** Priority stack (Fluent → Almost → Needs Practice → Unpracticed → Mastered sprinkle); Challenge Level governs challenge count; fallback = grey out button if <10 practiced facts; ready to build next session
+- **Methodology Reference created:** `dev/Math_Fact_Galaxy_Methodology_Reference.md`
+- **Screen Reference created:** `dev/Math_Fact_Galaxy_Screen_Reference.md`
 
 **What happened Sessions AL–AM (Spark — April 14–15, 2026):**
 - **Game renamed: Math Fact Galaxy** (final — was Math Flash, briefly Starlight Math)
@@ -238,14 +260,17 @@ Not every session needs the full RP + ConsumerData. Bootstrap + Handoff only unl
 
 ### Open Items
 
-**Navigation restructure + four-operation expansion — confirmed Session AM, Wright: read handoff Spark → Wright 2026-04-15:**
+**Navigation restructure + four-operation expansion:**
 - [x] **Four-area navigation** — Build My Constellation / My Constellation / Star Scan / Star Forge
 - [x] **Four-operation architecture** — build all four now; multiplication constellation already built; others follow
 - [x] **Fact ranges** — all four operations, standard + advanced. Full table in handoff.
-- [ ] **Build My Constellation** — All Facts mode + operation selector. Smart Play filtering later.
+- [x] **Build My Constellation** — All Facts mode + operation selector + Challenge Level + Star Quest toggle — shipped v83s
+- [ ] **Smart Practice** — specced Session AN; priority stack in handoff; build next session
+- [ ] **Thin fact pool behavior** — both orientations before repeat, then shorten; deferred from v83s
 - [ ] **My Constellation operation switcher** — switch between all 4 constellations
-- [ ] **Galaxy View** — inside My Constellation; simple progress display for beta; visual polish later
-- [ ] **Mini-game overlay** — "Practice" button → Falling Facts / Find It / Prove It. Build when prioritized.
+- [ ] **Galaxy View** — four constellation shapes, night sky, table-level stars; specced Session AN; build next session
+- [ ] **Star Lab** — mini-game overlay from fact click in My Constellation; specced Session AN; build next session
+- [ ] **Star Bloom (V2)** — zoom layer for Galaxy View; Pip design brief written; design before build
 - [ ] **Star Forge build** — free vs. paid still open; do not gate yet
 - [ ] **Print system** — Custom Deck Print (Star Forge) + Gap Deck Print (Star Scan results). Full spec in handoff.
 
@@ -298,6 +323,8 @@ Not every session needs the full RP + ConsumerData. Bootstrap + Handoff only unl
 - [ ] Session count per operation TBD pending beta testing. Multiplication = 3 confirmed. Flag as Spark design discussion after beta testing.
 
 ### Key Files (current)
+- `dev/Math_Fact_Galaxy_Methodology_Reference.md` — methodology cheat sheet: how the game makes decisions and why; FAQ source material; beta testing reference. Created Session AN.
+- `dev/Math_Fact_Galaxy_Screen_Reference.md` — screen-by-screen map: what's on each screen, navigation flow, all settings with rationale (research / professional judgment / design principle), full measurement chain. Created Session AN.
 - `dev/Sparkwright_Website_Copy_Draft_v1.md` — landing page, About page (Tier 2), game About panel (Tier 3) — updated Session T, pending developer voice edit; note: game name now Math Fact Galaxy throughout — full copy pass needed
 - `dev/Sparkwright_Legal_Draft_v1.md` — Terms, Privacy, Cookie Policy, footer copy
 - `dev/Sparkwright_Costs_and_Accounting_v1.md` — ~$21/month from May onward
