@@ -3270,6 +3270,23 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <!-- BMC: question count + practice mode + start (shown after op selected) -->
     <div id="bmc-settings-row" style="display:none;">
       <div class="card">
+        <div class="card-title">Practice Mode</div>
+        <div class="bmc-mode-row selected" id="bmc-mode-all" onclick="selectBMCMode('all')">
+          <div class="bmc-mode-radio"></div>
+          <div>
+            <div class="bmc-mode-title">All Facts</div>
+            <div class="bmc-mode-desc">Practice every fact in your selection — good for building fluency across the full table.</div>
+          </div>
+        </div>
+        <div class="bmc-mode-row" id="bmc-mode-smart" onclick="selectBMCMode('smart')">
+          <div class="bmc-mode-radio"></div>
+          <div>
+            <div class="bmc-mode-title">Smart Practice</div>
+            <div class="bmc-mode-desc">Focuses your session on the facts your constellation says need the most work.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
         <div class="card-title">Questions</div>
         <div class="chip-row" id="bmc-q-chips">
           <div class="chip on" data-val="all" onclick="setBMCQCount('all',this)">All Facts</div>
@@ -3286,23 +3303,6 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
           <div class="chip"    data-val="intensive" onclick="setBMCMix('intensive',this)">Intensive</div>
         </div>
         <div class="bmc-mix-desc" id="bmc-mix-desc">A mix of challenging and familiar facts — interspersal keeps confidence up while targeting what needs work.</div>
-      </div>
-      <div class="card">
-        <div class="card-title">Practice Mode</div>
-        <div class="bmc-mode-row selected" id="bmc-mode-all" onclick="selectBMCMode('all')">
-          <div class="bmc-mode-radio"></div>
-          <div>
-            <div class="bmc-mode-title">All Facts</div>
-            <div class="bmc-mode-desc">Practice every fact in your selection — good for building fluency across the full table.</div>
-          </div>
-        </div>
-        <div class="bmc-mode-row" id="bmc-mode-smart" onclick="selectBMCMode('smart')">
-          <div class="bmc-mode-radio"></div>
-          <div>
-            <div class="bmc-mode-title">Smart Practice</div>
-            <div class="bmc-mode-desc">Focuses your session on the facts your constellation says need the most work.</div>
-          </div>
-        </div>
       </div>
       <div class="card">
         <label class="bmc-toggle-row" id="bmc-star-quest-row">
