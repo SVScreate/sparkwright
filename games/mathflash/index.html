@@ -4649,7 +4649,8 @@ function quitScan() {
 }
 
 // ── Mid-game navigation menu ──────────────────────────────
-var _leaveGameDest = null; // destination pending leave-game confirmation
+var _leaveGameDest = null; // destination pending leave-game confirmation ('title'|'constellation')
+var _leaveGameHref = null; // external URL pending leave-game confirmation (page navigation)
 
 function midgameNav(dest) {
   var gameRunning = isGameActive();
@@ -4670,8 +4671,12 @@ function midgameNav(dest) {
 function confirmLeaveGame() {
   hideOverlay('leave-game-modal');
   var dest = _leaveGameDest;
+  var href = _leaveGameHref;
   _leaveGameDest = null;
-  if (dest === 'title') {
+  _leaveGameHref = null;
+  if (href) {
+    window.location.href = href;
+  } else if (dest === 'title') {
     showScreen('title-screen');
   } else if (dest === 'constellation') {
     showScreen('stats-screen');
@@ -4681,6 +4686,7 @@ function confirmLeaveGame() {
 function cancelLeaveGame() {
   hideOverlay('leave-game-modal');
   _leaveGameDest = null;
+  _leaveGameHref = null;
 }
 
 // ══ SETUP UI ══════════════════════════════════════════
@@ -8907,9 +8913,8 @@ document.addEventListener('click', function(e) {
   // Only intercept links that navigate away from this page
   if (!href || href.startsWith('#')) return;
   e.preventDefault();
-  if (window.confirm('Leave this round? Your progress will be lost.')) {
-    window.location.href = link.href;
-  }
+  _leaveGameHref = link.href;
+  showOverlay('leave-game-modal');
 });
 
 // Catch browser-level navigation (back button, refresh, close tab)
