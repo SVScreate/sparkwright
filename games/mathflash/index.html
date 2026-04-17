@@ -3296,10 +3296,10 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
             <div class="bmc-mode-desc">Practice every fact in your selection — good for building fluency across the full table.</div>
           </div>
         </div>
-        <div class="bmc-mode-row disabled" title="Smart Practice uses your constellation data to focus on the facts that need it most. Coming soon.">
+        <div class="bmc-mode-row" id="bmc-mode-smart" onclick="selectBMCMode('smart')">
           <div class="bmc-mode-radio"></div>
           <div>
-            <div class="bmc-mode-title">Smart Practice <span class="bmc-soon-badge">Coming Soon</span></div>
+            <div class="bmc-mode-title">Smart Practice</div>
             <div class="bmc-mode-desc">Focuses your session on the facts your constellation says need the most work.</div>
           </div>
         </div>
@@ -3655,6 +3655,7 @@ var _bmcSession = false;
 var _bmcSelectedOp  = null;
 var _bmcQCount      = 'all';        // 'all' | number
 var _bmcMix         = 'balanced';   // 'gentle' | 'balanced' | 'intensive'
+var _bmcMode        = 'all';        // 'all' | 'smart'
 var _bmcStarQuest   = true;         // Star Quest toggle (true = on)
 var _bmcPrebuiltPool = null;        // injected pool for Today's Mix — consumed by startGame()
 
@@ -3722,9 +3723,12 @@ function applySetupMode() {
     // Reset q chips
     var qChips = document.querySelectorAll('#bmc-q-chips .chip');
     qChips.forEach(function(c) { c.classList.toggle('on', c.dataset.val === 'all'); });
-    // Reset mode selection
-    var modeAll = document.getElementById('bmc-mode-all');
-    if (modeAll) modeAll.classList.add('selected');
+    // Reset mode selection to All Facts
+    _bmcMode = 'all';
+    var modeAll   = document.getElementById('bmc-mode-all');
+    var modeSmart = document.getElementById('bmc-mode-smart');
+    if (modeAll)   modeAll.classList.add('selected');
+    if (modeSmart) modeSmart.classList.remove('selected');
     // Reset Challenge Level to Balanced
     _bmcMix = 'balanced';
     var mixChips = document.querySelectorAll('#bmc-mix-chips .chip');
@@ -3804,9 +3808,14 @@ function setBMCQCount(val, el) {
 }
 
 function selectBMCMode(mode) {
-  // Only 'all' is active for now; 'smart' is disabled
-  var allRow = document.getElementById('bmc-mode-all');
-  if (allRow) allRow.classList.toggle('selected', mode === 'all');
+  _bmcMode = mode;
+  var allRow   = document.getElementById('bmc-mode-all');
+  var smartRow = document.getElementById('bmc-mode-smart');
+  if (allRow)   allRow.classList.toggle('selected', mode === 'all');
+  if (smartRow) smartRow.classList.toggle('selected', mode === 'smart');
+  // Table picker: hidden for Smart (game reads full constellation), shown for All
+  var opPanels = document.getElementById('op-panels-wrap');
+  if (opPanels) opPanels.style.display = mode === 'smart' ? 'none' : '';
 }
 
 var BMC_MIX_DESCS = {
@@ -3912,6 +3921,97 @@ function buildBMCMixPool(op, mix, targetCount) {
   return combined;
 }
 
+// Smart Practice pool — reads full op constellation (all tables), prioritizes by tier
+// Checks both orientations for commutative ops (× and +) so tier reads are accurate
+function buildBMCSmartPool(op, mix, targetCount) {
+  var allData;
+  try { allData = JSON.parse(localStorage.getItem('mathflash_facts') || '{}'); }
+  catch(e) { allData = {}; }
+  var uname = localStorage.getItem('sparkwright_active');
+  var uf = (uname && allData[uname]) ? allData[uname] : {};
+  var threshMs = (S.fluencyTier && S.fluencyTier.fluencyMs) ? S.fluencyTier.fluencyMs : 3000;
+
+  // Temporarily expand tables to full op range so buildPool() returns all facts
+  var savedOps = S.ops.slice();
+  var savedTabX = S.tables.x, savedTabD = S.tables['/'];
+  S.ops = [op];
+  if (op === 'x')  S.tables.x    = [1,2,3,4,5,6,7,8,9,10,11,12];
+  if (op === '/')  S.tables['/'] = [1,2,3,4,5,6,7,8,9,10,11,12];
+  var fullPool = buildPool();
+  S.ops = savedOps; S.tables.x = savedTabX; S.tables['/'] = savedTabD;
+
+  if (!fullPool || !fullPool.length) return null;
+
+  function _shuf(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  // Lookup that checks both orientations for commutative ops (× and +)
+  function _rec(fact) {
+    var k1 = factKey(fact);
+    var rec = k1 ? (uf[k1] || null) : null;
+    if (!rec) {
+      if (fact.hint && fact.hint.op === 'x') {
+        rec = uf['mul_' + fact.fb + 'x' + fact.fa] || null;
+      } else if (fact.q && fact.q.indexOf('+') !== -1) {
+        var pts = fact.q.replace(' = ?', '').split(' + ');
+        if (pts.length === 2) rec = uf['add_' + pts[1].trim() + 'p' + pts[0].trim()] || null;
+      }
+    }
+    return rec;
+  }
+
+  // Categorize by tier — Smart Practice priority order (Spark spec)
+  var challenge = [], fluent = [], almost = [], mastered = [];
+  fullPool.forEach(function(fact) {
+    var tier = _bmcTier(_rec(fact), threshMs);
+    if (tier === 'needs-practice' || tier === 'unpracticed') challenge.push(fact);
+    else if (tier === 'fluent')   fluent.push(fact);
+    else if (tier === 'almost')   almost.push(fact);
+    else if (tier === 'mastered') mastered.push(fact);
+  });
+
+  // Require at least some non-mastered facts — otherwise nothing to practice smartly
+  if (!challenge.length && !fluent.length && !almost.length) return null;
+
+  _shuf(challenge); _shuf(fluent); _shuf(almost); _shuf(mastered);
+
+  // For 'all': all priority facts (challenge + fluent + almost), capped at 30
+  if (targetCount === 'all' || !targetCount) {
+    targetCount = Math.min(challenge.length + fluent.length + almost.length, 30);
+    if (!targetCount) targetCount = 10;
+  }
+
+  // Same mix ratios as All Facts (Challenge Level still applies)
+  var challengeMax, masteredCap;
+  if (mix === 'gentle')         { challengeMax = 3;  masteredCap = Math.max(1, Math.round(targetCount * 0.1)); }
+  else if (mix === 'intensive') { challengeMax = 10; masteredCap = targetCount; }
+  else                          { challengeMax = 6;  masteredCap = Math.max(1, Math.round(targetCount * 0.1)); }
+
+  var challengeCount = Math.min(challenge.length, challengeMax, targetCount);
+  var challengeSlice = challenge.slice(0, challengeCount);
+
+  var fillSlots = targetCount - challengeCount;
+  var fill = [];
+  var fromFluent   = Math.min(fluent.length, fillSlots);
+  fill = fill.concat(fluent.slice(0, fromFluent));
+  var rem = fillSlots - fromFluent;
+  var fromAlmost   = Math.min(almost.length, rem);
+  fill = fill.concat(almost.slice(0, fromAlmost));
+  rem -= fromAlmost;
+  var fromMastered = Math.min(mastered.length, rem, masteredCap);
+  fill = fill.concat(mastered.slice(0, fromMastered));
+
+  var combined = challengeSlice.concat(fill);
+  if (!combined.length) return null;
+  _shuf(combined);
+  return combined;
+}
+
 function launchBMCStart() {
   if (!_bmcSelectedOp) return;
   var op = _bmcSelectedOp;
@@ -3928,27 +4028,47 @@ function launchBMCStart() {
   S.mode   = 'type';
   S.remed  = _bmcStarQuest; // honor Star Quest toggle
 
-  var ps = getPoolSize();
-  if (ps < 2) {
-    var errEl = document.getElementById('bmc-start-error');
-    if (errEl) { errEl.textContent = 'Select at least two facts to practice.'; errEl.style.display = 'block'; }
-    return;
-  }
-
-  // Build the Challenge Level pool — categorizes facts by constellation tier
-  var mixPool = buildBMCMixPool(op, _bmcMix, _bmcQCount === 'all' ? ps : Math.min(_bmcQCount, ps));
-  if (!mixPool || !mixPool.length) {
-    // Fallback: use standard pool if mix fails (e.g. no user data yet)
-    mixPool = null;
-    S.qCount = _bmcQCount === 'all' ? ps : Math.min(_bmcQCount, ps);
-  } else {
-    S.qCount = mixPool.length;
-    _bmcPrebuiltPool = mixPool;
-  }
-
-  // Sync qFieldPt so startGame() doesn't override S.qCount with the UI field value
+  var errEl    = document.getElementById('bmc-start-error');
   var qFieldPt = document.getElementById('q-count-pt');
-  if (qFieldPt) qFieldPt.value = S.qCount;
+  if (errEl) errEl.style.display = 'none';
+
+  if (_bmcMode === 'smart') {
+    // Smart Practice: reads full op constellation, ignores table picker
+    var smartPool = buildBMCSmartPool(op, _bmcMix, _bmcQCount);
+    if (!smartPool || !smartPool.length) {
+      if (errEl) {
+        errEl.textContent = 'Smart Practice needs at least one practice session to get started. Try All Facts first.';
+        errEl.style.display = 'block';
+      }
+      return;
+    }
+    S.qCount = smartPool.length;
+    _bmcPrebuiltPool = smartPool;
+    if (qFieldPt) qFieldPt.value = S.qCount;
+  } else {
+    // All Facts: uses table picker selection + Challenge Level mix
+    // Ensure tables set if nothing selected
+    if (op === 'x' || op === '/') {
+      if (!S.tables[op] || S.tables[op].length === 0) {
+        var all = []; for (var i = 1; i <= 12; i++) all.push(i);
+        S.tables[op] = all;
+      }
+    }
+    var ps = getPoolSize();
+    if (ps < 2) {
+      if (errEl) { errEl.textContent = 'Select at least two facts to practice.'; errEl.style.display = 'block'; }
+      return;
+    }
+    var mixPool = buildBMCMixPool(op, _bmcMix, _bmcQCount === 'all' ? ps : Math.min(_bmcQCount, ps));
+    if (!mixPool || !mixPool.length) {
+      // Fallback: standard pool if mix fails (new user, no data yet)
+      S.qCount = _bmcQCount === 'all' ? ps : Math.min(_bmcQCount, ps);
+    } else {
+      S.qCount = mixPool.length;
+      _bmcPrebuiltPool = mixPool;
+    }
+    if (qFieldPt) qFieldPt.value = S.qCount;
+  }
 
   _bmcSession = true;
   startGame();
