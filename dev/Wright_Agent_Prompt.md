@@ -76,10 +76,10 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Fact Galaxy v83s** — local at `games/mathflash/index.html` — not yet pushed
+**Math Fact Galaxy v83u** — pushed to GitHub/Netlify — 2026-04-17
 Landing page: `sparkwright/index.html` (updated Session AE)
 
-## Session AN Build Summary (v83m–v83s) — 2026-04-15/16
+## Session AN Build Summary (v83m–v83u) — 2026-04-15/17
 
 **Four-area nav + BMC + constellation theming (v83m–v83p):**
 - Title page: 2×2 nav grid with Build My Constellations, My Constellations, Star Scan, Star Forge — all four live
@@ -99,7 +99,7 @@ Landing page: `sparkwright/index.html` (updated Session AE)
 
 **BMC settings build Session AN (v83s):**
 - **BMC timer fix**: `_bmcSession = true` during BMC rounds; `startPerQTimer()`, `resumeTimers()`, `autoKick()` all use `S.fluencyTier.fluencyMs` (not autokickMs) when `_bmcSession` — kicks at the fluency threshold for honest automaticity pressure
-- **Today's Mix**: 3-chip selector (Gentle/Balanced/Intensive, default Balanced) on BMC setup card; `buildBMCMixPool(op, mix, targetCount)` categorizes facts by tier and assembles mix per ratios; `_bmcTier(rec, threshMs)` global tier helper; Gentle shortens round if fill is thin, Intensive tries to hold length
+- **Challenge Level** (renamed from Today's Mix): 3-chip selector (Gentle/Balanced/Intensive, default Balanced) on BMC setup card; `buildBMCMixPool(op, mix, targetCount)` categorizes facts by tier and assembles mix per ratios; `_bmcTier(rec, threshMs)` global tier helper; Gentle shortens round if fill is thin, Intensive tries to hold length
 - **Star Quest toggle**: checkbox on BMC setup card, checked by default; `setBMCStarQuest()` wires to `_bmcStarQuest`; `S.remed = _bmcStarQuest` in `launchBMCStart()`
 - **Pool injection**: `_bmcPrebuiltPool` array consumed by `startGame()`; padding loop skipped in BMC; `qFieldPt.value` synced before `startGame()` to prevent override of S.qCount
 - **endGame() error guard**: try/catch wraps full results-building block; catch shows minimal score and navigates to results-screen so student never loses round silently
@@ -108,7 +108,7 @@ Landing page: `sparkwright/index.html` (updated Session AE)
 **Key architectural notes:**
 - `_setupMode = 'bmc' | 'full'` controls setup screen layout; `applySetupMode()` shows/hides all relevant cards and resets BMC state
 - `_bmcSession = true` during BMC rounds (set in `launchBMCStart`, cleared on title/Forge)
-- `_bmcMix = 'gentle'|'balanced'|'intensive'` — Today's Mix setting, default 'balanced'
+- `_bmcMix = 'gentle'|'balanced'|'intensive'` — Challenge Level setting, default 'balanced'
 - `_bmcStarQuest = true` — Star Quest toggle, default true
 - `_bmcPrebuiltPool` — pre-built pool from `buildBMCMixPool()`, consumed by `startGame()`
 - `_bmcTier(rec, threshMs)` — global tier helper for pool builder
@@ -117,7 +117,8 @@ Landing page: `sparkwright/index.html` (updated Session AE)
 - `updateConstellationTitle(op)` — updates #stats-title with colored op name
 - `openGalaxyView()` — self-contained, loads userFacts directly, inline `_getRec()` helper
 - BMC op selector + settings row are siblings of `op-panels-wrap` in DOM; `selectBMCOp` shows the correct panel without DOM manipulation
-- `_leaveGameDest` — stores pending navigation destination while leave-game modal is shown
+- `_leaveGameDest` — stores pending in-SPA destination while leave-game modal is shown ('title'|'constellation')
+- `_leaveGameHref` — stores pending external URL for leave-game modal (logo/link clicks mid-round)
 - Facts to Watch empty state: graduation check live — shows "Nice work!" only if ≥20 facts practiced and ≥80% mastered; otherwise progressive messages
 
 **Confirmed already fixed (were listed as open, verified in code):**
@@ -127,26 +128,58 @@ Landing page: `sparkwright/index.html` (updated Session AE)
 - Bug #1: User context reset — `switchUser()` navigates to title-screen in all non-practice paths; `deleteUser()` navigates to title if was active ✓
 - Bug #2: Welcome re-trigger — `showScreen('title-screen')` handler re-checks onboarding AFTER setting new active user ✓
 
-**Still needs testing (v83s):**
-- BMC full flow: select op → table picker → question count → Today's Mix → Star Quest toggle → start (all 4 ops)
-- Today's Mix: verify Gentle shortens with new user (no data), Balanced/Intensive behave differently with mixed constellation data
+**Kick-out audit complete (v83t–v83u):**
+- `sw-game-label` header text now routes through `midgameNav('title')` when game is active — was a silent unguarded kick-out path ✓
+- Enter key handler bails if any `.overlay.active` — was firing game-screen logic while leave-game modal was showing ✓
+- `pauseEndRound()` native confirm() removed — two deliberate steps already, no dialog needed ✓
+- Link click intercept confirm() replaced with leave-game modal; `_leaveGameHref` state var handles post-confirm navigation ✓
+- Zero native confirm() dialogs remain in codebase ✓
+
+**Still needs testing (v83u):**
+- BMC full flow: select op → table picker → question count → Challenge Level → Star Quest toggle → start (all 4 ops)
+- Challenge Level: verify Gentle shortens with new user (no data), Balanced/Intensive behave differently with mixed constellation data
 - Star Quest toggle: verify unchecking disables Practice Quest during BMC round
 - BMC timer: confirm bar runs to fluencyMs (3s for standard tier) not autokick (7s)
 - My Constellations: title updates correctly when switching op tabs
 - Galaxy View: test mastered counts after some practice
-- Leave-game modal: test chip → Navigate → Leave Round
+- Leave-game modal: test chip → Navigate → Leave Round; test logo click mid-round
 
 ## ⚠️ OPEN BUGS
 
 **4. Nav consistency redesign (design discussion with Kimberly first)**
-Profile chip behavior across screens needs a single coherent model. Proposed: chip click always opens user menu; mid-game nav (leave round / go to constellation) lives on a dedicated button in the round header. This eliminates the chip/nav context-switching logic entirely. Not building until design discussion.
+Profile chip behavior across screens needs a single coherent model. Proposed: chip click always opens user menu; mid-game nav (leave round / go to constellation) lives on a dedicated button in the round header. Not building until design discussion.
 
-**7. Mid-round kick-out (beta, HIGH PRIORITY) — FIXED in v83q**
-Root cause was confirm() intercepting Enter key; replaced with leave-game modal. Confirm with beta tester.
+**7. Mid-round kick-out (beta, HIGH PRIORITY) — FIXED in v83q + v83t/u**
+confirm() replaced with modal; all remaining kick-out paths audited and closed. Confirm with beta tester.
 
-**Beta items — deferred per Spark spec:**
-- BMC print report: round time including PQ breakdown (logged, batch with other print work)
-- Thin pool two-orientation behavior: both 3×4 and 4×3 before shortening — requires round-level orientation tracking, deferred
+**Deferred items:**
+- BMC print report: round time including PQ breakdown (log, batch with other print work)
+- Thin pool two-orientation behavior: round-level orientation tracking, deferred
+
+---
+
+## Next Build Queue (Spark specs received 2026-04-17)
+
+**1. Star Lab** — targeted practice overlay from My Constellation (Spark spec in Handoff)
+- Fact cell click → stats card → "Practice" button → Star Lab overlay
+- Overlay shows 3 mini-game options (Falling Facts / Find It / Prove It) with icon + one-liner
+- Quick round: one fact only, both orientations, ~6 attempts (3 reps each, interleaved)
+- No Star Quest within Star Lab
+- Brief results screen → return to My Constellation, cell updates
+- Source tag: 'targeted-practice' in fact records
+- Round-level orientation tracking (don't repeat orientation until both shown)
+
+**2. Galaxy View** — four constellation SVGs replacing current progress cards (Spark spec in Handoff)
+- Table-level stars: × = 12 stars (Orion-inspired), ÷ = 12 (Libra), + = 10 (Cassiopeia), − = 10 (Gemini)
+- Three star states: unlit (dim dot), in-progress (amber glow), fully lit (bright gold + halo)
+- Connecting lines: thin white, low opacity, always visible
+- Background: near-black with blue undertone, sparse CSS star field
+- Layout: 2×2 grid matching title screen; each tile tappable → opens that op's My Constellation
+- Operation symbol glyph per quadrant (×, ÷, +, −), subtle corner placement
+- No text labels on tiles — visual only
+- V2 (Star Bloom zoom layer): design session with Pip needed, do not build yet
+
+**Build order:** Star Lab first, then Galaxy View.
 
 ---
 

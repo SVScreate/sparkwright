@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-04-16 — Session AN (Wright)*
+*Last updated: 2026-04-17 — Session AN (Spark)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -27,6 +27,207 @@ When an entry is fully actioned — built, committed, and acknowledged by both a
 
 **Important — this is not a gate:**
 Kimberly can make design decisions in either window and build in either direction without routing through the other agent first. Creative decisions can and should arise organically. The handoff exists to keep both agents informed, not to create a required sequence. If Wright builds something based on an in-session design decision, he notes it here so Spark stays current. If Spark develops a design idea, she flags it here so Wright can pick it up. Neither agent should tell Kimberly she has to go talk to the other one before moving forward — just flag what the other needs to know and keep building.
+
+---
+
+## Spark → Wright — 2026-04-17 — Session AN (Star Lab + Galaxy View — build-ready)
+
+---
+
+### Star Lab — mini-game overlay from My Constellation
+
+**Name confirmed: Star Lab.**
+
+This is the targeted practice overlay accessed from inside My Constellation. It is student-initiated (not triggered automatically like Star Quest). No name appears in external copy — it is the experience behind the "Practice" button on the fact stats card.
+
+**Full flow:**
+
+1. Student is in My Constellation, clicks any fact cell (e.g., 7×8)
+2. Stats card opens — shows response time history, current tier, trend
+3. Student clicks **"Practice"** button
+4. Star Lab overlay opens — shows three mini-game options (Falling Facts / Find It / Prove It) with brief icon + one-line description each
+5. Student picks one
+6. Quick round launches: **that fact only, both orientations, ~6 attempts total** (3 reps of 7×8, 3 reps of 8×7, interleaved — not sequential)
+7. **No Star Quest within Star Lab** — student is already in a targeted remediation context; repeated misses are noted in results but do not trigger a nested quest
+8. Brief results screen showing performance on this fact in this session
+9. Returns to My Constellation — constellation updated, that fact's cell reflects new attempts
+
+**Data:**
+- Writes to constellation (legitimate practice data)
+- Tag source as "targeted-practice" for separability in future analysis
+- Round-level tracking var needed: has each orientation been shown in this Star Lab session? Do not repeat an orientation until both have been used.
+
+**What Star Lab is not:**
+- Not a full round — scoped to one fact only
+- Not Star Quest — Star Quest is automatic and triggered by the game; Star Lab is student-initiated
+- Not a replacement for BMC — it is targeted remediation between full rounds
+
+---
+
+### Galaxy View — constellation visual, build-ready for beta
+
+**Beta approach — Option A (table-level stars):**
+Shapes are inspired by real constellations but adapted to match fact table count. They carry the visual spirit of the real shape without claiming astronomical accuracy. Star Bloom (V2, see below) is where full IRL accuracy lands.
+
+**Data mapping — each star = one fact table:**
+- Multiplication: 12 stars (×1–×12) — Orion-inspired, adapted to 12 stars
+- Division: 12 stars (÷1–÷12) — Libra-inspired, adapted to 12 stars
+- Addition: 10 stars (addend groups 1–10) — Cassiopeia-inspired, adapted to 10 stars
+- Subtraction: 10 stars (derived from paired addition groups) — Gemini-inspired, adapted to 10 stars
+
+**Star visual states:**
+- **Unlit** — tiny dim white dot, very low opacity (an ember not yet burning)
+- **In progress** — soft amber glow, slightly larger (some facts in that table are fluent, not all mastered)
+- **Fully lit** — bright gold star with halo glow, full size; matches mastered tier gold throughout the product
+
+**Connecting lines:**
+Thin white lines between stars, very low opacity — show the constellation shape even when stars are unlit. Always present.
+
+**Background:**
+- Deep space: near-black with subtle blue undertone
+- Sparse CSS-generated star field (small random dots, low opacity — atmosphere only, not interactive)
+- Four constellations in foreground, larger and more defined than background field
+
+**Layout:**
+- Full-screen view triggered by "View My Galaxy" button inside My Constellation
+- 2×2 fixed grid matching title screen:
+  - × top-left, ÷ top-right, + bottom-left, − bottom-right
+- Each constellation centered in its quadrant with breathing room
+- Each tile tappable — navigates to My Constellation for that operation
+- Close / Back returns to My Constellation for the operation the student was viewing
+
+**No copy on the tiles — visual data only.**
+The scene reads as art. No labels, no progress text, no numbers. A mostly-lit shape next to a dim one tells the story without words.
+
+Only orientation marker: a small operation symbol (×, ÷, +, −) at the outer corner of each quadrant — subtle, like a map glyph. From a distance: pure art. Up close: findable.
+
+---
+
+**V2 concept — Star Bloom (design session needed with Pip, do not build yet):**
+
+When the core Galaxy View is stable, Pip to design and Wright to build a zoom layer:
+- **Zoomed out:** True IRL constellation shape and star count (Orion's 7, Cassiopeia's 5, etc.) — astronomically accurate, glowing as a whole shape
+- **Tap to zoom:** Constellation expands; each star "blooms" open to reveal individual facts clustered around it; the math fact (e.g., 7×8) or operation symbol lives at the heart of each star
+- Resolves the IRL star count vs. 144 facts tension: macro view = accurate art; micro view = granular data
+- **Flag for Pip:** Needs a full design brief — two rendering states, zoom transition feel, how facts arrange around each star node, whether operation symbol or fact label lives at the center
+
+---
+
+### Build sequence for this session (Star Lab + Galaxy View)
+
+1. **Star Lab overlay** — overlay shell, mini-game picker, 6-attempt single-fact round, brief results, return to My Constellation with updated cell
+2. **Galaxy View** — four constellation SVG shapes (table-level stars), three star states, connecting lines, background star field, 2×2 layout, tile navigation, operation symbol glyph per quadrant
+
+— Spark, 2026-04-17
+
+---
+
+## Wright → Spark — 2026-04-17 — Session AN close (v83s–v83u, pushed)
+
+**All four of your 2026-04-16 build items are shipped.**
+
+1. ✅ Bug #7 (confirm() kick-out) — replaced with leave-game modal (v83q). Full kick-out audit also done in v83t–v83u: `sw-game-label` header, Enter key handler overlay guard, `pauseEndRound()`, link intercept — zero native confirm() dialogs remain.
+2. ✅ BMC timer — kicks at `fluencyMs`, honors user's tier setting.
+3. ✅ Challenge Level (Kimberly renamed from "Today's Mix") — Gentle/Balanced/Intensive on BMC setup card; `buildBMCMixPool()` built.
+4. ✅ Star Quest toggle — checkbox on BMC setup card, checked by default.
+5. ⏸ Thin pool two-orientation behavior — deferred, noted in Wright prompt.
+
+**Star Lab + Galaxy View spec received and read.** Both are queued for the next session. Kimberly is beta testing v83u today — will report results before the next build session.
+
+— Wright, 2026-04-17
+
+---
+
+## Spark → Wright — 2026-04-16 — Session AN (Beta testing decisions — build-ready)
+
+**All four of Wright's questions answered below. New design items follow. Read everything before building BMC settings.**
+
+---
+
+### 1. BMC timer — ANSWER
+
+**Kick at the fluency threshold (`fluencyMs`), not the autokick window.**
+
+Rationale: BMC is a fluency-building context. The visible countdown bar should represent the standard being measured — if fluency is graded at 3s, the bar should run 3s. A 7s bar that grades at 3s sends a mixed signal: the student thinks they have more time than they're actually being evaluated on. The autokick window (7s) was appropriate in practice contexts where you want to allow retrieval attempts. In BMC, the purpose is automaticity — the bar running to the threshold is the honest experience.
+
+**Honor the user's fluency threshold setting** for both grading AND kicking in BMC. If the teacher has set 5s for an accommodation, the bar runs 5s. This is correct — the accommodation applies to both the grade and the time pressure.
+
+---
+
+### 2. BMC print report — confirmed, log and batch
+
+Confirmed: add to BMC print output — total round time (including time in Star Quest), and per-fact breakdown of time in main round vs. time in each Star Quest entry (which fact, how long). Not blocking. Batch with other print work.
+
+---
+
+### 3. Crash bug — CRITICAL #1 priority
+
+Wright's confirm() theory is the leading candidate. Fix: replace midgameNav confirm() with a styled modal (consistent with user delete pattern already shipped). Also add error handling around endGame()/nextQ() near pool exhaustion. This is #1 before any new builds.
+
+---
+
+### 4. Smart Practice / cognitive load — ANSWER + new settings spec
+
+**3–5 challenge facts per round is pedagogically correct.** The principle is interspersal — interleaving known facts among challenge facts produces better retention of the challenge facts and maintains engagement. This is supported by the research framework (specific math-facts interspersal citations to be verified by Spark before use in copy). A round that is overwhelmingly weighted toward unknown facts exceeds cognitive load thresholds and is less effective than a mixed round, even for the challenge facts themselves.
+
+**This unlocks a new BMC setting — build this:**
+
+---
+
+#### Challenge Intensity selector — "Challenge Level"
+
+Add to BMC setup card. Student-facing daily choice. Default: Balanced.
+
+| Option | Challenge facts per round | Fill behavior | Round length behavior |
+|---|---|---|---|
+| **Gentle** | 2–3 (Needs Practice + Unpracticed) | Fill with Fluent (amber) → Almost (blue) → Mastered sprinkle | Shortens round if fill content is thin — do not pad with extra challenge facts |
+| **Balanced** | 4–6 | Fill with Fluent → Almost → Mastered sprinkle | Minor shortening if needed |
+| **Intensive** | Up to 8–10 | Still ~30% Fluent/Almost interleaved — interspersal holds even here | Holds to round length setting |
+
+**Label:** "Challenge Level" — not "Difficulty." Difficulty implies the math problems are harder. This controls the ratio of challenging-for-this-student facts. That's a different thing and should be communicated as such.
+
+**Applies to:** Both All Facts mode and Smart Practice mode. Smart Practice still handles fact prioritization automatically — Challenge Intensity governs the ratio within that prioritization.
+
+**Priority fill order within the fill slots:**
+1. Fluent (amber) — highest leverage: already meets speed threshold, needs more sessions for mastery
+2. Almost (blue) — needs speed improvement, still rewarding
+3. Mastered (gold) — small maintenance sprinkle (keeps timestamps fresh, maintains fluency)
+
+---
+
+#### Star Quest toggle — add to BMC setup card
+
+Checkbox on setup card, **checked by default.**
+Label: "Include Star Quest (recommended)"
+
+Rationale: A fatigued or resistant student forced into Star Quest produces worse data and less learning than a student who opts out for a session. The constellation data is identical either way. A teacher can see chronic opt-out as its own signal worth a conversation. "Quiet respect baked in."
+
+Note: Once Star Quest kicks in mid-round, it still completes — the toggle only applies at session start.
+
+---
+
+#### New user / thin fact pool behavior
+
+When a student's available fact pool is smaller than the requested round length:
+
+1. **Use both orientations first.** 3×4 and 4×3 are distinct retrieval demands — not padding. Exhaust one orientation across all available facts, then offer the reverse orientation. This is pedagogically valid new practice.
+2. **After both orientations are covered, shorten the round.** Do not cycle the same fact a third time. A 6-question round for a student with 3 facts (both orientations) is the correct outcome.
+3. **If the round runs out of unique content:** show a brief end note — *"You've practiced all your current facts. Nice work!"* — and close the round cleanly with results showing.
+
+Implementation note: Round-level tracking var needed — for each fact, has each orientation been shown this round? Separate from constellation data.
+
+---
+
+### Build sequence for this session
+
+1. **Critical bug #7 first** — crash/data loss fix (midgameNav confirm() → modal + endGame error handling)
+2. **Timer fix** — BMC kicks at `fluencyMs`, honors user threshold setting
+3. **"Challenge Level" selector** on BMC setup card — Gentle / Balanced / Intensive
+4. **Star Quest toggle** on BMC setup card — checked by default
+5. **Thin fact pool behavior** — both orientations before shortening
+6. **Print report timing** — log and batch, not blocking
+
+— Spark, 2026-04-16
 
 ---
 
@@ -966,6 +1167,54 @@ Pip's trademark brief received and actioned. Full analysis + to-do list in my lo
 Wright — no immediate build tasks from me. Terms of Use and Privacy Policy pages (from Spark's draft) are still in the queue whenever you get there.
 
 — Lex
+
+---
+
+## Spark → Pip — 2026-04-17 — Session AN (Galaxy View V2 design brief)
+
+Two items for Pip when the core Galaxy View is stable and ready for a visual pass.
+
+---
+
+**Item 1 — Galaxy View beta refinement**
+
+Wright is building the beta Galaxy View now: four constellation-inspired shapes in a night sky, table-level stars (12 for ×, 12 for ÷, 10 for +, 10 for −), three star states (unlit / amber in-progress / gold mastered), connecting lines, dark background with CSS star field.
+
+When the beta is running, Pip's pass should add:
+- Refined star shapes (not plain circles — something with character)
+- Nebula or soft cloud effects behind bright star clusters
+- Glow animation (pulse, twinkle — subtle; not distracting)
+- A more painterly star field background
+- Review of connecting line weight and opacity
+
+The operation symbols (×, ÷, +, −) appear as small glyphs in the outer corner of each quadrant — Pip to review placement and style. These are the only text/symbol elements in the scene.
+
+---
+
+**Item 2 — Star Bloom (V2 design brief — the zoom layer)**
+
+This is the design session Pip needs to own before Wright builds it.
+
+**The concept:**
+The Galaxy View has two states connected by a zoom interaction.
+
+**Zoomed out:** The constellation appears as it actually looks in the real sky — true IRL star count and shape. Orion with 7 stars. Cassiopeia with 5. Libra with ~6. Gemini with ~8. Astronomically accurate. The whole shape glows as a unit; aggregate brightness reflects overall mastery for that operation. This is pure art — no text, no data labels, just the night sky.
+
+**Tap to zoom in:** The constellation expands to fill the screen (or a large portion of it). Each star "blooms" — opens outward — to reveal the individual facts or table cluster living inside it. The math (e.g., 7×8, or the full ×7 table) lives at the heart of each star. The operation symbol could pulse at the center of the constellation as the heart of the whole shape.
+
+**What Pip needs to design:**
+1. The zoom transition feel — how does the constellation expand? Does it drift toward the viewer? Do stars spread apart? Is it smooth or does it feel like entering a new space?
+2. The bloom animation on each star — how does a star "open" to reveal its contents?
+3. How are facts or table labels arranged around each star node when bloomed?
+4. What lives at the heart of each star — the fact (7×8) or the operation symbol (×7)?
+5. What lives at the center of the whole constellation when zoomed in — the operation symbol, a title, nothing?
+6. How do you zoom back out?
+
+This resolves the IRL star count vs. 144 facts tension: macro view = astronomically accurate art; micro view = full data granularity, beautifully rendered.
+
+**No build until Pip has delivered a design brief for Wright.**
+
+— Spark, 2026-04-17
 
 ---
 
