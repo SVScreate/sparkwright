@@ -639,7 +639,7 @@ body {
 }
 .bmc-mode-title { font-size: 0.88rem; font-weight: 700; color: var(--text); }
 .bmc-mode-desc  { font-size: 0.74rem; color: var(--muted); margin-top: 1px; line-height: 1.4; }
-/* BMC Today's Mix description */
+/* BMC Challenge Level description */
 .bmc-mix-desc { font-size: 0.74rem; color: var(--muted); margin-top: 6px; line-height: 1.4; }
 /* BMC Star Quest toggle */
 .bmc-toggle-row {
@@ -2776,7 +2776,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       <span class="sw-logo-wordmark"><span class="sw-logo-spark">Spark</span><span class="sw-logo-wright">wright</span></span>
     </a>
     <div id="sw-divider"></div>
-    <span id="sw-game-label" onclick="showScreen('title-screen')" style="cursor:pointer;" title="Back to title screen">Math Fact Galaxy</span>
+    <span id="sw-game-label" onclick="isGameActive() ? midgameNav('title') : showScreen('title-screen')" style="cursor:pointer;" title="Back to title screen">Math Fact Galaxy</span>
   </div>
   <div id="sw-profile-chip" class="guest" onclick="onChipClick()" style="cursor:pointer;" title="Switch user">
     <span class="sw-avatar">👤</span>
@@ -3279,7 +3279,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Today's Mix</div>
+        <div class="card-title">Challenge Level</div>
         <div class="chip-row" id="bmc-mix-chips">
           <div class="chip"    data-val="gentle"    onclick="setBMCMix('gentle',this)">Gentle</div>
           <div class="chip on" data-val="balanced"  onclick="setBMCMix('balanced',this)">Balanced</div>
@@ -3725,7 +3725,7 @@ function applySetupMode() {
     // Reset mode selection
     var modeAll = document.getElementById('bmc-mode-all');
     if (modeAll) modeAll.classList.add('selected');
-    // Reset Today's Mix to Balanced
+    // Reset Challenge Level to Balanced
     _bmcMix = 'balanced';
     var mixChips = document.querySelectorAll('#bmc-mix-chips .chip');
     mixChips.forEach(function(c) { c.classList.toggle('on', c.dataset.val === 'balanced'); });
@@ -3847,7 +3847,7 @@ function _bmcTier(rec, threshMs) {
   return 'almost';
 }
 
-// ── Build Today's Mix pool for BMC ──────────────────────────────────────
+// ── Build Challenge Level pool for BMC ──────────────────────────────────
 // Categorizes facts by constellation tier and assembles a mix per the
 // Gentle/Balanced/Intensive ratios (Spark spec 2026-04-16).
 // Returns shuffled array of fact objects, or null if pool is empty/unusable.
@@ -3935,7 +3935,7 @@ function launchBMCStart() {
     return;
   }
 
-  // Build the Today's Mix pool — categorizes facts by constellation tier
+  // Build the Challenge Level pool — categorizes facts by constellation tier
   var mixPool = buildBMCMixPool(op, _bmcMix, _bmcQCount === 'all' ? ps : Math.min(_bmcQCount, ps));
   if (!mixPool || !mixPool.length) {
     // Fallback: use standard pool if mix fails (e.g. no user data yet)
@@ -5610,7 +5610,7 @@ function startGame() {
 
   saveSettings(); // save after all S values are final
 
-  // Use pre-built BMC pool if available (Today's Mix), otherwise build normally
+  // Use pre-built BMC pool if available (Challenge Level), otherwise build normally
   var pool;
   if (_bmcPrebuiltPool && _bmcPrebuiltPool.length) {
     pool = _bmcPrebuiltPool;
@@ -6139,7 +6139,6 @@ function pauseRestart() {
   setTimeout(function() { restartGame(); }, 0);
 }
 function pauseEndRound() {
-  if (!window.confirm('End this round? Your progress will be lost.')) return;
   document.getElementById('pause-overlay').classList.remove('active');
   if (G.remTimeout)   { clearTimeout(G.remTimeout);   G.remTimeout   = null; }
   if (G.focusTimeout) { clearTimeout(G.focusTimeout); G.focusTimeout = null; }
@@ -6163,6 +6162,9 @@ function advanceRemed() {
 // Global Enter key handler
 document.addEventListener('keydown', function(e) {
   if (e.key !== 'Enter') return;
+  // Don't fire when any modal overlay is open — prevents Enter from advancing game state
+  // while a leave-game, user-menu, or other overlay is showing above the screen
+  if (document.querySelector('.overlay.active')) return;
   // Setup screen — start game
   if (document.getElementById('setup-screen').classList.contains('active')) {
     e.preventDefault();
