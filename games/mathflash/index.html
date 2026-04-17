@@ -639,6 +639,19 @@ body {
 }
 .bmc-mode-title { font-size: 0.88rem; font-weight: 700; color: var(--text); }
 .bmc-mode-desc  { font-size: 0.74rem; color: var(--muted); margin-top: 1px; line-height: 1.4; }
+/* BMC Today's Mix description */
+.bmc-mix-desc { font-size: 0.74rem; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+/* BMC Star Quest toggle */
+.bmc-toggle-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  cursor: pointer; padding: 2px 0;
+}
+.bmc-toggle-row input[type="checkbox"] {
+  width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px;
+  accent-color: var(--a3); cursor: pointer;
+}
+.bmc-toggle-title { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+.bmc-toggle-desc  { font-size: 0.74rem; color: var(--muted); margin-top: 1px; line-height: 1.4; }
 
 /* Galaxy view overlay */
 .galaxy-view-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
@@ -3266,6 +3279,15 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
         </div>
       </div>
       <div class="card">
+        <div class="card-title">Today's Mix</div>
+        <div class="chip-row" id="bmc-mix-chips">
+          <div class="chip"    data-val="gentle"    onclick="setBMCMix('gentle',this)">Gentle</div>
+          <div class="chip on" data-val="balanced"  onclick="setBMCMix('balanced',this)">Balanced</div>
+          <div class="chip"    data-val="intensive" onclick="setBMCMix('intensive',this)">Intensive</div>
+        </div>
+        <div class="bmc-mix-desc" id="bmc-mix-desc">A mix of challenging and familiar facts — interspersal keeps confidence up while targeting what needs work.</div>
+      </div>
+      <div class="card">
         <div class="card-title">Practice Mode</div>
         <div class="bmc-mode-row selected" id="bmc-mode-all" onclick="selectBMCMode('all')">
           <div class="bmc-mode-radio"></div>
@@ -3281,6 +3303,15 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
             <div class="bmc-mode-desc">Focuses your session on the facts your constellation says need the most work.</div>
           </div>
         </div>
+      </div>
+      <div class="card">
+        <label class="bmc-toggle-row" id="bmc-star-quest-row">
+          <input type="checkbox" id="bmc-star-quest-check" checked onchange="setBMCStarQuest(this.checked)">
+          <div class="bmc-toggle-text">
+            <div class="bmc-toggle-title">Include Star Quest</div>
+            <div class="bmc-toggle-desc">Recommended — pauses the round for a quick practice game on missed facts.</div>
+          </div>
+        </label>
       </div>
       <div class="error-box" id="bmc-start-error" style="display:none;margin-bottom:8px;"></div>
       <button class="start-btn" id="bmc-final-start" onclick="launchBMCStart()">Start ▶</button>
@@ -3618,9 +3649,14 @@ const FLUENCY_TIERS = {
 var _setupMode = 'bmc';
 // ── Star Forge flag: true when session should NOT write to the constellation
 var _starForgeSession = false;
+// ── BMC session flag: true when in a BMC round — kicks at fluencyMs (not autokickMs)
+var _bmcSession = false;
 // ── BMC state
-var _bmcSelectedOp = null;
-var _bmcQCount     = 'all'; // 'all' | number
+var _bmcSelectedOp  = null;
+var _bmcQCount      = 'all';        // 'all' | number
+var _bmcMix         = 'balanced';   // 'gentle' | 'balanced' | 'intensive'
+var _bmcStarQuest   = true;         // Star Quest toggle (true = on)
+var _bmcPrebuiltPool = null;        // injected pool for Today's Mix — consumed by startGame()
 
 // ── Operation display constants ─────────────────────────────
 var OP_NAMES   = { 'x': 'Multiplication', '/': 'Division', '+': 'Addition', '-': 'Subtraction' };
@@ -3689,12 +3725,23 @@ function applySetupMode() {
     // Reset mode selection
     var modeAll = document.getElementById('bmc-mode-all');
     if (modeAll) modeAll.classList.add('selected');
+    // Reset Today's Mix to Balanced
+    _bmcMix = 'balanced';
+    var mixChips = document.querySelectorAll('#bmc-mix-chips .chip');
+    mixChips.forEach(function(c) { c.classList.toggle('on', c.dataset.val === 'balanced'); });
+    var mixDesc = document.getElementById('bmc-mix-desc');
+    if (mixDesc) mixDesc.textContent = BMC_MIX_DESCS['balanced'];
+    // Reset Star Quest toggle to on
+    _bmcStarQuest = true;
+    var sqCheck = document.getElementById('bmc-star-quest-check');
+    if (sqCheck) sqCheck.checked = true;
   }
 }
 
 function goStarForge() {
   _setupMode = 'full';
   _starForgeSession = true;
+  _bmcSession = false;
   buildSetupUI();
   loadAndApplySettings();
   applySetupMode();
@@ -3762,6 +3809,109 @@ function selectBMCMode(mode) {
   if (allRow) allRow.classList.toggle('selected', mode === 'all');
 }
 
+var BMC_MIX_DESCS = {
+  gentle:    'Mostly familiar facts with a few challenge facts mixed in — lower pressure, builds confidence.',
+  balanced:  'A mix of challenging and familiar facts — interspersal keeps confidence up while targeting what needs work.',
+  intensive: 'More challenge facts per round — still interspersed with familiar facts so the round stays productive.'
+};
+
+function setBMCMix(val, el) {
+  _bmcMix = val;
+  if (el) {
+    el.closest('.chip-row').querySelectorAll('.chip').forEach(function(c) { c.classList.remove('on'); });
+    el.classList.add('on');
+  }
+  var desc = document.getElementById('bmc-mix-desc');
+  if (desc) desc.textContent = BMC_MIX_DESCS[val] || '';
+}
+
+function setBMCStarQuest(val) {
+  _bmcStarQuest = val;
+}
+
+// ── BMC tier helper — same logic as buildStatsScreen's cellTier() but callable globally ──
+function _bmcTier(rec, threshMs) {
+  if (!rec) return 'unpracticed';
+  var total = (rec.correct || 0) + (rec.incorrect || 0);
+  if (total === 0) return 'unpracticed';
+  if (rec.mastered) return 'mastered';
+  var recent = rec.recentAttempts || [];
+  if (recent.length === 0) return 'needs-practice';
+  var misses = recent.filter(function(a) { return !a.correct; }).length;
+  if (misses / recent.length > 0.5) return 'needs-practice';
+  var correctMs = recent.filter(function(a) { return a.correct && a.ms && a.ms > 0; });
+  if (correctMs.length >= 2) {
+    var avg = correctMs.reduce(function(s, a) { return s + a.ms; }, 0) / correctMs.length;
+    if (avg <= threshMs) return 'fluent';
+  }
+  return 'almost';
+}
+
+// ── Build Today's Mix pool for BMC ──────────────────────────────────────
+// Categorizes facts by constellation tier and assembles a mix per the
+// Gentle/Balanced/Intensive ratios (Spark spec 2026-04-16).
+// Returns shuffled array of fact objects, or null if pool is empty/unusable.
+function buildBMCMixPool(op, mix, targetCount) {
+  var allData;
+  try { allData = JSON.parse(localStorage.getItem('mathflash_facts') || '{}'); }
+  catch(e) { allData = {}; }
+  var uname = localStorage.getItem('sparkwright_active');
+  var uf = (uname && allData[uname]) ? allData[uname] : {};
+  var threshMs = (S.fluencyTier && S.fluencyTier.fluencyMs) ? S.fluencyTier.fluencyMs : 3000;
+
+  // Full candidate pool (S.ops already set to [op] by selectBMCOp)
+  var fullPool = buildPool();
+  if (!fullPool.length) return null;
+
+  // Helper shuffle
+  function _shuf(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  // Categorize each fact
+  var challenge = [], fluent = [], almost = [], mastered = [];
+  fullPool.forEach(function(fact) {
+    var key = factKey(fact);
+    var rec = key ? (uf[key] || null) : null;
+    var tier = _bmcTier(rec, threshMs);
+    if (tier === 'needs-practice' || tier === 'unpracticed') challenge.push(fact);
+    else if (tier === 'fluent')   fluent.push(fact);
+    else if (tier === 'almost')   almost.push(fact);
+    else if (tier === 'mastered') mastered.push(fact);
+  });
+  _shuf(challenge); _shuf(fluent); _shuf(almost); _shuf(mastered);
+
+  // Mix targets: challenge cap and mastered sprinkle cap
+  var challengeMax, masteredCap;
+  if (mix === 'gentle')     { challengeMax = 3;  masteredCap = Math.max(1, Math.round(targetCount * 0.1)); }
+  else if (mix === 'intensive') { challengeMax = 10; masteredCap = targetCount; } // holds to length; generous mastered fill
+  else                          { challengeMax = 6;  masteredCap = Math.max(1, Math.round(targetCount * 0.1)); } // balanced
+
+  var challengeCount = Math.min(challenge.length, challengeMax, targetCount);
+  var challengeSlice = challenge.slice(0, challengeCount);
+
+  // Fill remaining slots: fluent → almost → mastered sprinkle
+  var fillSlots = targetCount - challengeCount;
+  var fill = [];
+  var fromFluent   = Math.min(fluent.length, fillSlots);
+  fill = fill.concat(fluent.slice(0, fromFluent));
+  var rem = fillSlots - fromFluent;
+  var fromAlmost   = Math.min(almost.length, rem);
+  fill = fill.concat(almost.slice(0, fromAlmost));
+  rem -= fromAlmost;
+  var fromMastered = Math.min(mastered.length, rem, masteredCap);
+  fill = fill.concat(mastered.slice(0, fromMastered));
+
+  var combined = challengeSlice.concat(fill);
+  if (!combined.length) return null;
+  _shuf(combined);
+  return combined;
+}
+
 function launchBMCStart() {
   if (!_bmcSelectedOp) return;
   var op = _bmcSelectedOp;
@@ -3776,7 +3926,7 @@ function launchBMCStart() {
 
   S.format = 'pertimer';
   S.mode   = 'type';
-  S.remed  = true;
+  S.remed  = _bmcStarQuest; // honor Star Quest toggle
 
   var ps = getPoolSize();
   if (ps < 2) {
@@ -3785,11 +3935,22 @@ function launchBMCStart() {
     return;
   }
 
-  if (_bmcQCount === 'all') {
-    S.qCount = ps;
+  // Build the Today's Mix pool — categorizes facts by constellation tier
+  var mixPool = buildBMCMixPool(op, _bmcMix, _bmcQCount === 'all' ? ps : Math.min(_bmcQCount, ps));
+  if (!mixPool || !mixPool.length) {
+    // Fallback: use standard pool if mix fails (e.g. no user data yet)
+    mixPool = null;
+    S.qCount = _bmcQCount === 'all' ? ps : Math.min(_bmcQCount, ps);
   } else {
-    S.qCount = Math.min(_bmcQCount, ps);
+    S.qCount = mixPool.length;
+    _bmcPrebuiltPool = mixPool;
   }
+
+  // Sync qFieldPt so startGame() doesn't override S.qCount with the UI field value
+  var qFieldPt = document.getElementById('q-count-pt');
+  if (qFieldPt) qFieldPt.value = S.qCount;
+
+  _bmcSession = true;
   startGame();
 }
 
@@ -3916,6 +4077,7 @@ function showScreen(id) {
   if (id === 'assess-area-screen') buildAssessArea();
   if (id === 'title-screen') {
     _starForgeSession = false;
+    _bmcSession = false;
     // Bug #2: re-check onboarding when landing on title (handles user switches)
     var _cu = localStorage.getItem('sparkwright_active');
     if (_cu && !localStorage.getItem('mathflash_onboarded_' + _cu)) showMFWelcome('none');
@@ -5448,7 +5610,14 @@ function startGame() {
 
   saveSettings(); // save after all S values are final
 
-  const pool = buildPool();
+  // Use pre-built BMC pool if available (Today's Mix), otherwise build normally
+  var pool;
+  if (_bmcPrebuiltPool && _bmcPrebuiltPool.length) {
+    pool = _bmcPrebuiltPool;
+    _bmcPrebuiltPool = null; // consume it
+  } else {
+    pool = buildPool();
+  }
   if (!pool.length) { showErr('Could not generate questions with these settings.'); return; }
 
   G.pool = pool;
@@ -5473,8 +5642,8 @@ function startGame() {
 
   // Pre-fill question sequence — keep drawing until we have exactly qCount questions
   const n = S.format === 'count' ? S.qCount : 9999;
-  // If pool is smaller than qCount, pad with shuffled cycles so the round fills completely
-  if (S.format !== 'timed' && G.pool.length > 0 && G.pool.length < n) {
+  // If pool is smaller than qCount, pad with shuffled cycles — but not in BMC (round shortens instead)
+  if (!_bmcSession && S.format !== 'timed' && G.pool.length > 0 && G.pool.length < n) {
     const base = G.pool.slice();
     while (G.pool.length < n) {
       const cycle = base.slice();
@@ -5571,7 +5740,8 @@ function startPerQTimer() {
   if (S.format !== 'pertimer') return;
   if (G.perQTimer) { clearInterval(G.perQTimer); G.perQTimer = null; }
 
-  const akSecs = S.fluencyTier.autokickMs / 1000;
+  // BMC: kick at fluency threshold for honest automaticity pressure; Forge/practice: full autokick window
+  const akSecs = (_bmcSession ? S.fluencyTier.fluencyMs : S.fluencyTier.autokickMs) / 1000;
   G.qStartTime = Date.now();
   G.perQSecsLeft = akSecs;
   updateFluencyBar(akSecs, akSecs);
@@ -5607,12 +5777,13 @@ function updateFluencyBar(left, total) {
 }
 
 function autoKick() {
-  // 7 seconds elapsed with no answer — count as not fluent, trigger miss
   if (G.answered) return;
   G.notFluent++;
   const factFull = G.qs[G.cur] ? G.qs[G.cur].q.replace('= ?', '= ' + G.qs[G.cur].a) : '';
   if (factFull) G.notFluentFacts.push(factFull);
-  recordFactAttempt(G.qs[G.cur], 'autokick', S.fluencyTier.autokickMs); // per-fact: timed out
+  // BMC kicks at fluencyMs; practice/Forge use full autokick window
+  const kickMs = _bmcSession ? S.fluencyTier.fluencyMs : S.fluencyTier.autokickMs;
+  recordFactAttempt(G.qs[G.cur], 'autokick', kickMs);
   G._autoKicking = true;
   handleMiss();
 }
@@ -5663,7 +5834,7 @@ function resumeTimers() {
   }
 
   if (S.format === 'pertimer' && !G.answered && !G.perQTimer) {
-    const akSecs = S.fluencyTier.autokickMs / 1000;
+    const akSecs = (_bmcSession ? S.fluencyTier.fluencyMs : S.fluencyTier.autokickMs) / 1000;
     G.qStartTime = Date.now() - ((akSecs - G.perQSecsLeft) * 1000);
     G.perQTimer = setInterval(function() {
       const elapsed = (Date.now() - G.qStartTime) / 1000;
@@ -7712,6 +7883,8 @@ function endGame() {
   if (G.swTimer)   { clearInterval(G.swTimer);   G.swTimer   = null; }
   if (G.perQTimer) { clearInterval(G.perQTimer); G.perQTimer = null; }
 
+  try {
+
   // Elapsed: stopwatch uses accumulated ms; others use wall clock minus quest/pause time
   let elapsed;
   if (S.format === 'stopwatch') {
@@ -7792,6 +7965,18 @@ function endGame() {
   if (cBtn) cBtn.style.display = _starForgeSession ? 'none' : '';
 
   showScreen('results-screen');
+
+  } catch(e) {
+    // Fallback: show minimal results so student doesn't lose the round silently
+    console.error('endGame error:', e);
+    var safeTitle = document.getElementById('r-title');
+    var safeScore = document.getElementById('r-score');
+    var safeSub   = document.getElementById('r-sub');
+    if (safeTitle) safeTitle.textContent = 'Round Complete';
+    if (safeScore) safeScore.textContent = (G.correct || 0) + '/' + ((G.correct || 0) + (G.wrong || 0));
+    if (safeSub)   safeSub.textContent   = 'Something went wrong displaying full results.';
+    showScreen('results-screen');
+  }
 }
 
 // ══ ASSESSMENT MODE ════════════════════════════════════
