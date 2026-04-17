@@ -76,10 +76,10 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Fact Galaxy v83r** — local at `games/mathflash/index.html` — not yet pushed (Session AN fixes in progress)
+**Math Fact Galaxy v83s** — local at `games/mathflash/index.html` — not yet pushed
 Landing page: `sparkwright/index.html` (updated Session AE)
 
-## Session AN Build Summary (v83m–v83r) — 2026-04-15/16
+## Session AN Build Summary (v83m–v83s) — 2026-04-15/16
 
 **Four-area nav + BMC + constellation theming (v83m–v83p):**
 - Title page: 2×2 nav grid with Build My Constellations, My Constellations, Star Scan, Star Forge — all four live
@@ -97,8 +97,22 @@ Landing page: `sparkwright/index.html` (updated Session AE)
 - **v83q**: Fixed `bmc-settings-row` staying visible when switching to Star Forge after selecting a BMC op
 - **v83r**: Fixed Galaxy View ReferenceError — `openGalaxyView()` was calling `getRec()`/`cellTier()` which are local to `buildStatsScreen()`; rewrote with inline `_getRec()`. Also fixed subtraction cell count (skip r≤c cells).
 
+**BMC settings build Session AN (v83s):**
+- **BMC timer fix**: `_bmcSession = true` during BMC rounds; `startPerQTimer()`, `resumeTimers()`, `autoKick()` all use `S.fluencyTier.fluencyMs` (not autokickMs) when `_bmcSession` — kicks at the fluency threshold for honest automaticity pressure
+- **Today's Mix**: 3-chip selector (Gentle/Balanced/Intensive, default Balanced) on BMC setup card; `buildBMCMixPool(op, mix, targetCount)` categorizes facts by tier and assembles mix per ratios; `_bmcTier(rec, threshMs)` global tier helper; Gentle shortens round if fill is thin, Intensive tries to hold length
+- **Star Quest toggle**: checkbox on BMC setup card, checked by default; `setBMCStarQuest()` wires to `_bmcStarQuest`; `S.remed = _bmcStarQuest` in `launchBMCStart()`
+- **Pool injection**: `_bmcPrebuiltPool` array consumed by `startGame()`; padding loop skipped in BMC; `qFieldPt.value` synced before `startGame()` to prevent override of S.qCount
+- **endGame() error guard**: try/catch wraps full results-building block; catch shows minimal score and navigates to results-screen so student never loses round silently
+- **applySetupMode() reset**: Today's Mix resets to Balanced and Star Quest resets to checked on each BMC setup entry
+
 **Key architectural notes:**
 - `_setupMode = 'bmc' | 'full'` controls setup screen layout; `applySetupMode()` shows/hides all relevant cards and resets BMC state
+- `_bmcSession = true` during BMC rounds (set in `launchBMCStart`, cleared on title/Forge)
+- `_bmcMix = 'gentle'|'balanced'|'intensive'` — Today's Mix setting, default 'balanced'
+- `_bmcStarQuest = true` — Star Quest toggle, default true
+- `_bmcPrebuiltPool` — pre-built pool from `buildBMCMixPool()`, consumed by `startGame()`
+- `_bmcTier(rec, threshMs)` — global tier helper for pool builder
+- `buildBMCMixPool(op, mix, targetCount)` — loads userFacts, categorizes, applies mix ratios
 - `OP_NAMES`, `OP_COLORS`, `OP_FLUENT`, `OP_ALMOST`, `OP_SYMBOLS` — global constants for op display
 - `updateConstellationTitle(op)` — updates #stats-title with colored op name
 - `openGalaxyView()` — self-contained, loads userFacts directly, inline `_getRec()` helper
@@ -113,11 +127,14 @@ Landing page: `sparkwright/index.html` (updated Session AE)
 - Bug #1: User context reset — `switchUser()` navigates to title-screen in all non-practice paths; `deleteUser()` navigates to title if was active ✓
 - Bug #2: Welcome re-trigger — `showScreen('title-screen')` handler re-checks onboarding AFTER setting new active user ✓
 
-**Still needs testing (v83r):**
-- BMC full flow: select op → table picker → question count → start (all 4 ops)
+**Still needs testing (v83s):**
+- BMC full flow: select op → table picker → question count → Today's Mix → Star Quest toggle → start (all 4 ops)
+- Today's Mix: verify Gentle shortens with new user (no data), Balanced/Intensive behave differently with mixed constellation data
+- Star Quest toggle: verify unchecking disables Practice Quest during BMC round
+- BMC timer: confirm bar runs to fluencyMs (3s for standard tier) not autokick (7s)
 - My Constellations: title updates correctly when switching op tabs
-- Galaxy View: now fixed — test mastered counts after some practice
-- Leave-game modal (was: native confirm) — test chip → Navigate → Leave Round
+- Galaxy View: test mastered counts after some practice
+- Leave-game modal: test chip → Navigate → Leave Round
 
 ## ⚠️ OPEN BUGS
 
@@ -127,10 +144,9 @@ Profile chip behavior across screens needs a single coherent model. Proposed: ch
 **7. Mid-round kick-out (beta, HIGH PRIORITY) — FIXED in v83q**
 Root cause was confirm() intercepting Enter key; replaced with leave-game modal. Confirm with beta tester.
 
-**Beta items needing Spark input before build:**
-- BMC timer calibration (too slow per beta tester — currently 7s autokick, not 3s fluency threshold)
-- Cognitive load / Smart Practice spec (3–5 challenge facts per round?)
-- BMC print report: round time including PQ breakdown (logged as future build item)
+**Beta items — deferred per Spark spec:**
+- BMC print report: round time including PQ breakdown (logged, batch with other print work)
+- Thin pool two-orientation behavior: both 3×4 and 4×3 before shortening — requires round-level orientation tracking, deferred
 
 ---
 
