@@ -3636,19 +3636,34 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   }
 })();
 
-// ── Back button: intercept browser navigation, keep user in SPA ──────────────
+// ── Back button: proper SPA navigation stack ─────────────────────────────────
+var _skipHistoryPush = false;
+
 function initBackButton() {
-  history.pushState(null, '', window.location.href);
-  window.addEventListener('popstate', function() {
-    history.pushState(null, '', window.location.href); // keep future back presses working
+  // Tag the initial entry so popstate can identify MFG states
+  history.replaceState({ screen: 'title-screen' }, '', window.location.href);
+
+  window.addEventListener('popstate', function(e) {
+    var screenId = (e.state && e.state.screen) ? e.state.screen : null;
+
+    if (!screenId) {
+      // Back pressed past all MFG history (would leave to another site) — stay here
+      history.pushState({ screen: 'title-screen' }, '', window.location.href);
+      screenId = 'title-screen';
+    }
+
     var gameActive = document.getElementById('game-screen') &&
                      document.getElementById('game-screen').classList.contains('active');
     var remedActive = document.getElementById('remediation-screen') &&
                       document.getElementById('remediation-screen').classList.contains('active');
     if (gameActive || remedActive) {
-      midgameNav('title'); // routes through leave-game modal if needed
+      // Re-add the game entry so future back stays within MFG
+      history.pushState({ screen: 'game-screen' }, '', window.location.href);
+      midgameNav('title');
     } else {
-      showScreen('title-screen');
+      _skipHistoryPush = true;
+      showScreen(screenId);
+      _skipHistoryPush = false;
     }
   });
 }
@@ -4238,6 +4253,7 @@ function showScreen(id) {
   const rh = document.getElementById('round-header');
   const inRound = (id === 'game-screen' || id === 'remediation-screen');
   rh.style.display = inRound ? 'flex' : 'none';
+  if (!_skipHistoryPush) history.pushState({ screen: id }, '', window.location.href);
   if (id === 'stats-screen') buildStatsScreen();
   if (id === 'assess-area-screen') buildAssessArea();
   if (id === 'title-screen') {
@@ -7032,6 +7048,7 @@ function buildStep2(body, f, tbl) {
           safeTimeout(function() { showRemedCont('Next →'); }, 500 + foundCards.length * 70);
         }
       } else {
+        faScrambleLocked = true; // lock grid immediately — prevents spam on other cards
         penalties++;
         const penEl = document.getElementById('fa-penalty');
         if (penEl) penEl.textContent = '⚠ ' + penalties;
