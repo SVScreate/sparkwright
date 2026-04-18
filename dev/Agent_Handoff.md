@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-04-17 — Session AN (Pip)*
+*Last updated: 2026-04-18 — Session AP (Pip)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -27,6 +27,183 @@ When an entry is fully actioned — built, committed, and acknowledged by both a
 
 **Important — this is not a gate:**
 Kimberly can make design decisions in either window and build in either direction without routing through the other agent first. Creative decisions can and should arise organically. The handoff exists to keep both agents informed, not to create a required sequence. If Wright builds something based on an in-session design decision, he notes it here so Spark stays current. If Spark develops a design idea, she flags it here so Wright can pick it up. Neither agent should tell Kimberly she has to go talk to the other one before moving forward — just flag what the other needs to know and keep building.
+
+---
+
+## Wright → Spark — 2026-04-18 — Session AQ close (v83w–v83x)
+
+**Shipped:**
+1. ✅ Font audit (v83w) — Comfortaa 700 on `.bmc-screen-title`, `.overlay-title`, `.setup-logo`, `.results-title`, `.assess-results-title`, `.starscan-info-card h2`
+2. ✅ Title screen punch-up (v83w) — new B4 star lockup (108px, breathing), "Galaxy" in #ffd280, ambient brand-color starfield, 35 JS twinkling stars, 5 shooting sparks, 3 radial pulse rings
+3. ✅ Extended timer dual-zone (v83x) — amber progress bar with pulsing halo (0s → threshold), flat purple→blue extended zone (threshold → autokick), threshold tick. Autokick now unified to `autokickMs` in all modes; grading at `fluencyMs` unchanged.
+
+**Design decision to flag — Star Quest mode card:**
+Kimberly made an executive call this session: the Relaxed/Challenge mode selector is **a BMC setup setting**, not an overlay that fires on the first SQ trigger. It appears conditionally in the BMC setup card when Star Quest is enabled. Questions (1) pre-highlight, (2) teacher lock, (3) per-trigger or per-round are resolved: no pre-highlight, no teacher lock for now, choice applies for the full round (set at round start, not per trigger). Flag if you have a pedagogical concern with moving it to setup.
+
+**Not yet pushed to Netlify.**
+
+— Wright, 2026-04-18
+
+---
+
+## Pip → Wright — 2026-04-18 — Galaxy View star state correction
+
+**galaxy_view_mockup.html updated.** Star states corrected from THREE to TWO.
+
+**What changed:**
+- Removed amber in-progress state entirely — no amber stars at any stage
+- Stars are unlit (dim dot) or gold-with-halo (ALL facts in table mastered) only
+- Added `.star-halo` ring (gold stroke, 3.2s breathe animation) to gold stars
+- JS `applyStarState()` now dynamically inserts/removes halo circle per star
+- Demo states updated: all `'a'` entries converted to `'u'`
+- Removed `glow-amber` SVG filter, amber CSS block, `star-pulse-amber` keyframe
+- `updateLineOpacity()` now keys on mastered-only ratio (was mastered+amber)
+
+**Build spec for Wright:** Implement exactly as shown. No amber state in production code. Binary: unlit until the full table is mastered, then gold with halo ring.
+
+— Pip, 2026-04-18
+
+---
+
+## Pip → Wright — 2026-04-18 — Star Quest mode card + Extended timer dual-zone
+
+**Extended timer: ✅ BUILT v83x (2026-04-18)**
+
+**Star Quest mode card: design changed — see Wright → Spark below.**
+
+Visual spec for SQ mode card (Relaxed 🌙 / Challenge ⚡) still valid per mockup.
+Build location changed: now a BMC setup setting, not a per-trigger overlay.
+
+— Pip, 2026-04-18
+
+---
+
+## Spark → Wright — 2026-04-18 — Session AP (Star Quest mode card + extended timer + scan lifecycle + Star Forge updates)
+
+**Design decisions from Session AP. Read before building the affected areas.**
+
+---
+
+### 1. Star Quest — mode card (per-session, not a settings item)
+
+Remove the Star Quest timer toggle from any settings consideration. Instead: when Star Quest triggers (second wrong answer on a fact), immediately before the first quest content loads, show a brief overlay card:
+
+**Two modes:**
+- **Relaxed** 🌙 — no time pressure during the quest
+- **Challenge** ⚡ — time pressure during the quest
+
+Student taps one choice; quest begins. The card is not a gate — it's a quick, in-context choice. Emoji does the visual work; minimal copy.
+
+**Data note:** Log which mode was used in session metadata. Neither mode changes tier grading. Mode is a session experience flag only.
+
+**Pip brief:** See Spark → Pip entry for visual direction.
+
+---
+
+### 2. Extended timer — amber glow visual spec
+
+Timer bar in BMC now has two visual zones. Do not stop the bar at the fluency threshold — run it to the autokick window (up to 6s):
+
+- **0s → fluency threshold (e.g., 0–3s):** Amber glow — warm, visually impactful, special. Looks like an achievement state.
+- **Threshold → autokick (e.g., 3–6s):** Flat color — purple transitioning to blue. Matches the tier colors. No glow.
+
+**Grading is unchanged:** fluency threshold is still the grading cutoff. The dual-zone bar honestly shows the student which zone their response landed in without changing the standard.
+
+**Why this matters:** A student who can't hit 3s on hard facts but doesn't want to lower their threshold now has a visual path — they see exactly where they landed, get credit for the answer, and understand the signal without the standard changing.
+
+---
+
+### 3. Monthly Star Scan — 30-day date lock
+
+When a student completes a Monthly Star Scan, the next Monthly Scan becomes available 30 days from that date (date only, no timestamp precision). The scan does not auto-expire while locked — it simply isn't available until day 30.
+
+---
+
+### 4. Beginning Scan — window closes based on activity
+
+The Beginning Star Scan window closes when the student has:
+- 3+ completed practice sessions, **OR**
+- Practiced facts across 4+ tables
+
+When the window closes, the first Monthly Scan opens immediately — no additional wait. From that point the 30-day Monthly Scan cadence applies.
+
+A student who skips the Beginning Scan and hits the threshold goes directly to the Monthly Scan track with no seeded inferred data (constellation builds from practice only — valid path, slower visual start).
+
+---
+
+### 5. Star Forge — architecture updates
+
+**Top-level choice:** Entry into Star Forge now presents a Round Practice vs. Scan choice before any session settings appear. Both modes on the same page; settings branch from the selection.
+
+**Scan mode in Star Forge** (does NOT write to constellation):
+- Runs a structured diagnostic scan
+- All data recorded: response times, per-fact results, session summary
+- Stored in Star Forge session records only — no constellation writes
+- Teacher use case: run a diagnostic on a student's account without affecting their constellation; or run as your own account to test without contaminating your own data
+
+**Session naming field:**
+- Each Star Forge session has a name/ID field
+- Default auto-fill: date + time (e.g., "April 18, 2026 · 3:42 PM")
+- User can override with any custom text (student username, initials, session label)
+- **Profanity filter required** — basic blocklist on the name field; check on submit (not live). Teachers know what students will type.
+
+---
+
+### 6. Settings — persistence principle
+
+All user-selected settings persist until the user changes them. No silent resets on session start. Whatever was set last is what appears next time. Applies to: fluency threshold, mini-game speed, round length defaults, Star Quest on/off preference, Challenge Level, and all future settings.
+
+— Spark, 2026-04-18
+
+---
+
+## Spark → Pip — 2026-04-18 — Session AP (Star Quest mode card + extended timer + recently played toggle)
+
+**✓ ACTIONED 2026-04-18 by Pip** — all three items built. See `dev/star_quest_and_timer_mockup.html` and `dev/constellation_session_compare_mockup.html`.
+
+Three visual design items from Session AP decisions.
+
+---
+
+### 1. Star Quest mode card
+
+Appears as an overlay card immediately when Star Quest triggers, before the first quest content loads. Student makes one tap; quest begins.
+
+**Two modes:**
+- Relaxed — no time pressure
+- Challenge — time pressure
+
+**Direction:** Emoji does the visual work — one strong emoji per mode. Copy is 1–2 words max. The card should feel light and in-game, not like a settings screen. Not alarming. Suggest emoji pairings (🌙 / ⚡ or similar) — Pip's call on final icons and copy. Card disappears immediately after selection.
+
+Deliverable: card design, emoji/copy pairing suggestions, and overall feel.
+
+---
+
+### 2. Extended timer — amber glow vs. flat zone
+
+The BMC timer bar has two visual zones:
+
+**Fluency zone (0s → threshold, e.g., 0–3s):** Amber glow — desirable, warm, alive. Reference the amber/gold aesthetic used for Fluent tier and mastered stars throughout the product. Answering here should feel like the ideal. Should be visually impactful — not just a different hue, but a different presence. Consider: does the bar get thicker in the amber zone? Does it pulse slightly? Does it have a warm halo?
+
+**Extended zone (threshold → autokick, e.g., 3–6s):** Flat, plain. Purple transitioning to blue matching the tier colors. No glow, no urgency. Neutral — the student answered, just outside the fluency window. Not alarming, not red.
+
+The contrast between the glowing amber zone and the flat extended zone is the key design challenge. The goal is that answering in the amber zone looks like an achievement without the extended zone looking like failure.
+
+Deliverable: timer bar visual spec for both zones.
+
+---
+
+### 3. Recently played toggle
+
+On the My Constellation screen: a user-controlled button or toggle that lets the student compare their constellation before and after the most recent session.
+
+**What it does:** Student taps → overlay shows constellation as it was before the last session (pre-session state). Current constellation (post-session) is always the default view. Student toggles back and forth to see what changed — which facts moved tiers, what's new.
+
+**Direction:** Should feel celebratory — a "look how far I came" moment, not a diagnostic. The before-state is dimmer/older than the current bright live state. Student controls when they see the comparison. Consider: how is the before-state visually distinguished? How is the toggle/button labeled? How does the student dismiss the comparison view?
+
+Deliverable: toggle/button design, before-state visual treatment, and dismissal behavior.
+
+— Spark, 2026-04-18
 
 ---
 
@@ -75,10 +252,11 @@ Shapes are inspired by real constellations but adapted to match fact table count
 - Addition: 10 stars (addend groups 1–10) — Cassiopeia-inspired, adapted to 10 stars
 - Subtraction: 10 stars (derived from paired addition groups) — Gemini-inspired, adapted to 10 stars
 
-**Star visual states:**
+**Star visual states — TWO STATES ONLY (corrected 2026-04-18):**
 - **Unlit** — tiny dim white dot, very low opacity (an ember not yet burning)
-- **In progress** — soft amber glow, slightly larger (some facts in that table are fluent, not all mastered)
-- **Fully lit** — bright gold star with halo glow, full size; matches mastered tier gold throughout the product
+- **Fully lit** — bright gold star with halo ring + glow, full size; star only lights when ALL facts in that table are mastered. No amber in-progress state — a table is either unlit or fully earned.
+
+*Note: original spec included an amber in-progress state. This was removed. See Spark_Agent_Prompt.md line ~206 for correction rationale.*
 
 **Connecting lines:**
 Thin white lines between stars, very low opacity — show the constellation shape even when stars are unlit. Always present.
@@ -1186,6 +1364,109 @@ Pip's trademark brief received and actioned. Full analysis + to-do list in my lo
 Wright — no immediate build tasks from me. Terms of Use and Privacy Policy pages (from Spark's draft) are still in the queue whenever you get there.
 
 — Lex
+
+---
+
+## Pip → Spark — 2026-04-18 — Extended timer setting: design question (flag for when you're next on)
+
+Wright has an open item: an "extended timer" setting where the visible countdown bar runs longer (e.g. 6s) while fluency is still graded at the short threshold (3s). Before Wright builds any UI for this, Spark should confirm whether this is pedagogically sound:
+
+**The question:** Does showing a 6s bar while grading at 3s produce useful data, or does it confuse the signal? A student who answers in 4s sees a bar that hasn't expired but gets marked as not-fluent — is that honest or misleading? Is there a legitimate use case (e.g. extended time accommodations) where this makes sense, or does the BMC timer decision (kick at the fluency threshold, honor user's setting) already handle this correctly?
+
+**Pip note:** If Spark confirms a new timer mode exists, flag me — the timer bar may need a visual design pass to make the two thresholds legible.
+
+— Pip, 2026-04-18
+
+---
+
+## Pip → Wright — 2026-04-18 — Title screen spark punch-up (build-ready)
+
+Enhanced visual treatment for the Math Fact Galaxy title screen. See `dev/math_fact_galaxy_title_v2.html` in Safari. Builds on the v1 title screen design (B4 star mark, Comfortaa 700, breathing animation) — those elements unchanged. Three new layers added:
+
+**1. Twinkling live stars** — replace the existing `#title-screen::after` pseudo-element starfield with a `<div id="twinkle-layer">` populated by ~35 JS-generated star elements, each with unique twinkle timing via CSS custom properties (`--dur`, `--delay`, `--lo`, `--hi`, `--peak`). Stars distributed toward edges, cleared around center mark. Brand colors only — remove `#ff6b6b` and `#6bcb77` from the current starfield. Full JS in mockup (~30 lines), copy directly.
+
+```css
+.t-star { position:absolute; border-radius:50%; animation: star-twinkle var(--dur,3s) var(--delay,0s) ease-in-out infinite; }
+@keyframes star-twinkle {
+  0%,100% { opacity: var(--lo,0.15); transform: scale(1); }
+  50%     { opacity: var(--hi,0.9);  transform: scale(var(--peak,1.5)); }
+}
+```
+
+**2. Shooting sparks** — 5 `<div class="s-spark">` elements in a `#spark-layer` div. Each is a short glowing line that streaks diagonally, firing for ~2% of a long cycle (19–31s). Sparse, like a meteor shower. Not rising (that's the homepage's motion). Brand colors: electric, arc, ember, flash, white-blue. Copy `#spark-layer` div and `spark-shoot` keyframe directly from mockup.
+
+**3. Radial pulse rings** — `<div id="mark-pulse">` with 3 `.pulse-ring` children, positioned at mark center. Rings expand and fade on a 5s period, staggered by 1.8s. The mark quietly radiates energy. Copy `#mark-pulse` div and `pulse-expand` keyframe from mockup.
+
+Note: `#ambient-stars` div in the mockup replaces `#title-screen::after`. Keep `#title-screen::before` (deep space gradient) unchanged.
+
+— Pip, 2026-04-18
+
+---
+
+## Pip → Wright — 2026-04-18 — Constellation last session view (design-ready, data model note)
+
+New feature: "Last Session" toggle on My Constellation. Full interactive mockup at `dev/constellation_session_compare_mockup.html` — opens with session mode on by default. All states interactive.
+
+---
+
+### What it is
+
+Toggle button in the My Constellation controls row. Off = normal. On = session comparison mode.
+
+**Session mode ON:**
+- White radiance glow on cells practiced this session (distinct from all tier colors — no data confusion)
+- Delta badge (`↑`) on cells that advanced a tier, colored in the new tier
+- Session summary badge in controls row: "12 practiced · 4 ↑ tier"
+- Before/After sub-toggle appears
+
+**Before / After sub-toggle:**
+- **After** (default): current state + white glow + delta badges
+- **Before**: session-start state, desaturated + dimmed, white glow still marks active cells, delta badges hidden, tier-changed cells show their pre-session tier color
+- Transition animated 0.3s — the before→after flip makes progress visceral
+
+**Fact stat card in session mode:**
+Clicking any glowing cell shows the stat card with a **"This Session"** section:
+- Attempts this session
+- Best response time this session
+- Tier change: before chip → after chip (only if tier advanced)
+- Response time dots (colored by tier at time of attempt, L→R)
+
+---
+
+### ⚠ Data model pre-build check
+
+Two pieces of data not currently stored:
+
+1. **`sessionSnapshot`** — copy of constellation tier state for the active operation at round start. Needed for "Before" view. Overwrite each new round.
+2. **`sessionAttempts`** — per-fact: `{ attempts, responseTimes[], tierAtStart, tierAtEnd }`. Check whether current round data survives navigation to My Constellation. If not, persist it to localStorage when round completes.
+
+Neither needs to persist beyond the current session — clear on next round start.
+
+---
+
+### Toggle button CSS
+
+```css
+/* Off */ border: 1.5px solid rgba(154,147,181,0.22); background: rgba(154,147,181,0.06); color: var(--mist);
+/* On  */ border-color: rgba(255,255,255,0.7); color: rgba(255,255,255,0.95); background: rgba(255,255,255,0.07);
+          box-shadow: 0 0 0 1.5px rgba(255,255,255,0.55), 0 0 12px 4px rgba(255,255,255,0.10);
+```
+
+White button glow intentionally echoes the white cell glow — same visual language.
+
+### Session cell glow CSS
+
+```css
+.c-grid.session-mode .cell.session-cell {
+  box-shadow: 0 0 0 1.5px rgba(255,255,255,0.65), 0 0 10px 3px rgba(255,255,255,0.20), 0 0 18px 5px rgba(255,255,255,0.08) !important;
+}
+```
+
+`!important` overrides tier-specific shadows. For mastered session cells, use separate `session-mastered-pulse` animation combining white + gold — see mockup.
+
+Full CSS, JS, and all interaction states in the mockup file.
+
+— Pip, 2026-04-18
 
 ---
 

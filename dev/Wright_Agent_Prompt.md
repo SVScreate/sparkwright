@@ -84,8 +84,34 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Fact Galaxy v83v** — committed 2026-04-18, not yet pushed to Netlify
+**Math Fact Galaxy v83x** — committed 2026-04-18, not yet pushed to Netlify
 Landing page: `sparkwright/index.html` (updated Session AE)
+
+## Session AQ Build Summary (v83w–v83x) — 2026-04-18
+
+**Font audit — Pip spec (v83w):**
+- Comfortaa 700 applied surgically to: `.bmc-screen-title`, `.overlay-title`, `.setup-logo`, `.results-title`, `.assess-results-title`, `.starscan-info-card h2`
+- Math content elements untouched; `--font-display` (Trebuchet MS) unchanged
+- `dev/font-mockup.html` deleted (decision finalized)
+
+**Title screen punch-up — Pip spec (v83w):**
+- New lockup: B4 star SVG at 108px with `title-star-breathe` animation, Comfortaa h1, "Galaxy" in #ffd280
+- SVG filter defs: `title-grad`, `title-glow`, `title-dot-glow`
+- Replaced `::before`/`::after` CSS starfield with `#ambient-stars` (brand colors only: gold, ember, arc, electric, white — no red, no green) + deep space `::before` depth gradient
+- `#twinkle-layer`: 35 JS-generated twinkling stars, center-exclusion zone, individual timing
+- `#spark-layer`: 5 CSS shooting sparks, long cycles (19–31s), diagonal trajectories
+- `#mark-pulse`: 3 radial pulse rings, 5s period, staggered 1.8s each
+
+**Extended timer dual-zone — Spark + Pip spec (v83x):**
+- Fluency bar redesigned as progress bar (fills left→right), replacing countdown bar
+- Amber zone (0s → `fluencyMs`): `#ffb830→#ff9f43`, +4px height, triple-layer pulsing halo; pulse stops at threshold
+- Extended zone (`fluencyMs` → `autokickMs`): `#c77dff→#4d96ff`, 70% opacity, no shadow/animation
+- Threshold tick: static vertical marker with time label at `fluencyMs/autokickMs` ratio
+- Autokick unified to `autokickMs` in all modes; grading still at `fluencyMs`
+- HTML: `.fluency-bar-track` > `.fluency-threshold-tick` + `.fluency-bar-amber` + `.fluency-bar-extended`
+
+**Design decision (Session AQ):**
+- SQ Relaxed/Challenge mode selector is a **BMC setup setting** (conditional on SQ toggle), NOT a per-trigger overlay. No pre-highlight, no teacher lock. Choice applies for full round.
 
 ## Session AO/AP Build Summary (v83v) — 2026-04-18
 
@@ -157,29 +183,13 @@ Profile chip behavior across screens needs a single coherent model. Proposed: ch
 - Operation symbol glyph per quadrant, subtle corner placement — no text labels
 - Full visual mockup: `dev/galaxy_view_mockup.html`
 
-**3. Pip font audit** — surgical, no dependencies
-- Comfortaa 700 on: `.setup-logo`, `.bmc-screen-title`, `.results-title`, `.overlay-title`, `.assess-results-title`, `.starscan-info-card h2`
-- Leave math content elements alone
-- Title screen lockup: B4 star SVG at 108px + Comfortaa h1 + "Galaxy" in #ffd280 + breathing animation
-- Footer wordmark mini-lockup: B4 star at 16px + Spark/wright styled
-- Delete `dev/font-mockup.html`
-- Full spec: `dev/Agent_Handoff.md` → Pip → Wright 2026-04-17
+**3. ✅ Pip font audit** — DONE v83w
 
-**4. Title screen punch-up** — three new visual layers
-- ~35 JS twinkling stars (brand colors only, no red/green), replacing `::after` starfield
-- 5 shooting sparks (CSS diagonal streaks, sparse like meteor shower)
-- Radial pulse rings behind B4 mark
-- Full build-ready JS + CSS + HTML: `dev/math_fact_galaxy_title_v2.html` — copy directly
-- Full spec: `dev/Agent_Handoff.md` → Pip → Wright 2026-04-18
+**4. ✅ Title screen punch-up** — DONE v83w
 
-**5. Extended timer — amber glow** (Spark + Pip spec)
-- BMC timer bar runs to autokick window (full 6s)
-- 0s → fluency threshold: amber glow (warm, achievement-feeling)
-- Threshold → autokick: flat purple → blue (neutral)
-- Grading unchanged — still at fluency threshold
-- Full visual mockup: `dev/star_quest_and_timer_mockup.html`
+**5. ✅ Extended timer — amber glow** — DONE v83x
 
-**6. Star Quest mode card** (Spark + Pip spec)
+**6. Star Quest mode card** (Spark + Pip spec — design updated)
 - When SQ triggers: brief overlay card fires first
 - Two modes: Relaxed 🌙 (no time pressure) / Challenge ⚡ (time pressure)
 - Student taps one → quest begins. Log mode in session metadata. Neither mode changes tier grading.
