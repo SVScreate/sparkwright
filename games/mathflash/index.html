@@ -566,19 +566,20 @@ body {
 }
 
 /* Operation filter */
-.mp-op-filter { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+.mp-op-filter { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; justify-content: center; }
 .mp-op-pill {
-  padding: 5px 16px;
-  border-radius: 20px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; padding: 14px 22px; min-width: 72px;
+  border-radius: 12px;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--muted);
   font-family: var(--font);
-  font-size: 0.85rem;
-  font-weight: 700;
   cursor: pointer;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
+.mp-op-pill-symbol { font-size: 1.4rem; font-weight: 700; line-height: 1; }
+.mp-op-pill-name   { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.02em; opacity: 0.75; }
 .mp-op-pill:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
 .mp-op-pill.active { background: color-mix(in srgb, var(--nc) 14%, transparent); border-color: color-mix(in srgb, var(--nc) 65%, transparent); color: var(--text); }
 
@@ -3513,13 +3514,13 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <!-- ══ STATS SCREEN ══ -->
 <div id="stats-screen" class="screen">
   <div class="stats-header">
+    <div class="back-link" onclick="showScreen('title-screen')" style="text-align:left;margin-bottom:12px;">← Back</div>
     <div class="stats-profile" id="stats-profile"></div>
     <div class="stats-title" id="stats-title">Math Fact Constellation</div>
     <div class="stats-desc">Your fact-by-fact progress map. Switch operations with the tabs below.</div>
   </div>
   <div class="stats-body" id="stats-body"></div>
   <div class="stats-footer">
-    <button class="btn-ghost" onclick="showScreen('title-screen')">← Back</button>
     <button class="btn-ghost" onclick="openGalaxyView()">✦ View My Galaxy</button>
     <button class="btn-ghost" onclick="printConstellation()">🖨 Print / Save as PDF</button>
   </div>
@@ -3538,15 +3539,13 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 <!-- ══ ASSESSMENT AREA SCREEN ══ -->
 <div id="assess-area-screen" class="screen">
   <div class="assess-area-header">
+    <div class="back-link" onclick="showScreen('title-screen')" style="text-align:left;margin-bottom:12px;">← Back</div>
     <div class="stats-profile" id="assess-area-profile"></div>
     <div class="assess-area-title">⭐ Star Scan</div>
     <div class="assess-area-subtitle">A timed snapshot of where your facts stand right now. Results go straight to your constellation.</div>
     <div style="margin-top:6px;"><button onclick="showOverlay('starscan-info-overlay')" style="background:none;border:none;color:var(--a4);font-size:0.85rem;font-weight:700;cursor:pointer;padding:0;font-family:var(--font-body);">What is a Star Scan? →</button></div>
   </div>
   <div class="assess-area-body" id="assess-area-body"></div>
-  <div class="stats-footer">
-    <button class="btn-ghost" onclick="showScreen('title-screen')">← Back</button>
-  </div>
 </div>
 
 <!-- ══ ASSESSMENT SCREEN ══ -->
@@ -7901,10 +7900,10 @@ function buildStatsScreen() {
     '<div class="mp-section">' +
       '<div class="mp-section-title">Fact Constellation</div>' +
       '<div class="mp-op-filter" id="mp-op-filter">' +
-        '<button class="mp-op-pill' + (activeOp==='+'?' active':'') + '" data-op="+" style="--nc:rgba(107,203,119,1)">+</button>' +
-        '<button class="mp-op-pill' + (activeOp==='-'?' active':'') + '" data-op="-" style="--nc:rgba(77,150,255,1)">−</button>' +
-        '<button class="mp-op-pill' + (activeOp==='x'?' active':'') + '" data-op="x" style="--nc:rgba(255,217,61,1)">×</button>' +
-        '<button class="mp-op-pill' + (activeOp==='/'?' active':'') + '" data-op="/" style="--nc:rgba(199,125,255,1)">÷</button>' +
+        '<button class="mp-op-pill' + (activeOp==='+'?' active':'') + '" data-op="+" style="--nc:rgba(107,203,119,1)"><span class="mp-op-pill-symbol">+</span><span class="mp-op-pill-name">Addition</span></button>' +
+        '<button class="mp-op-pill' + (activeOp==='-'?' active':'') + '" data-op="-" style="--nc:rgba(77,150,255,1)"><span class="mp-op-pill-symbol">−</span><span class="mp-op-pill-name">Subtraction</span></button>' +
+        '<button class="mp-op-pill' + (activeOp==='x'?' active':'') + '" data-op="x" style="--nc:rgba(255,217,61,1)"><span class="mp-op-pill-symbol">×</span><span class="mp-op-pill-name">Multiplication</span></button>' +
+        '<button class="mp-op-pill' + (activeOp==='/'?' active':'') + '" data-op="/" style="--nc:rgba(199,125,255,1)"><span class="mp-op-pill-symbol">÷</span><span class="mp-op-pill-name">Division</span></button>' +
       '</div>' +
       '<div class="mp-ctrl-row">' +
         '<button class="mp-ctrl-pill info-pill" id="mp-how-btn" onclick="document.getElementById(\'mp-how-panel\').classList.toggle(\'open\')">How this works ↓</button>' +
