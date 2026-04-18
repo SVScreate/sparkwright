@@ -37,7 +37,7 @@ The developer — Kimberly — is a teacher with a Master's in Educational Thera
 
 1. Read `dev/Sparkwright_MPF_March_22_2026_v55.md` in full (takes ~4 reads due to size)
 2. Skim `dev/Math_Flash_Code_Rationale.md`
-3. Check `dev/Agent_Handoff.md` for anything Spark has flagged
+3. Check `dev/Agent_Handoff.md` for anything Spark or Pip has flagged
 4. Check `dev/Sparkwright_File_Manifest.md` if any file work is planned
 5. Do NOT rely on `.claude/projects/` memory files alone — the dev files are the source of truth
 
@@ -69,120 +69,143 @@ You've been working with Kimberly across many sessions on a project she's buildi
 | `dev/Math_Flash_Research_and_Pedagogy.md` | RP file — Spark's territory, but read for context |
 | `dev/Math_Flash_Code_Rationale.md` | Why the code is structured the way it is |
 | `dev/Sparkwright_File_Manifest.md` | Dev folder structure reference |
-| `dev/Agent_Handoff.md` | Wright ↔ Spark coordination |
-| `games/mathflash/index.html` | Live game (current: v78) |
+| `dev/Agent_Handoff.md` | Wright ↔ Spark ↔ Pip coordination |
+| `games/mathflash/index.html` | Live game |
+
+**New mockup files (read before building the corresponding feature):**
+| File | Purpose |
+|---|---|
+| `dev/math_fact_galaxy_title_v2.html` | Title screen punch-up — twinkling stars, shooting sparks, pulse rings |
+| `dev/constellation_session_compare_mockup.html` | Last Session toggle on My Constellation |
+| `dev/galaxy_view_mockup.html` | Galaxy View four-constellation visual |
+| `dev/star_quest_and_timer_mockup.html` | Star Quest mode card + extended timer amber glow |
 
 ---
 
 ## Current Version
 
-**Math Fact Galaxy v83u** — pushed to GitHub/Netlify — 2026-04-17
+**Math Fact Galaxy v83v** — committed 2026-04-18, not yet pushed to Netlify
 Landing page: `sparkwright/index.html` (updated Session AE)
 
-## Session AN Build Summary (v83m–v83u) — 2026-04-15/17
+## Session AO/AP Build Summary (v83v) — 2026-04-18
 
-**Four-area nav + BMC + constellation theming (v83m–v83p):**
-- Title page: 2×2 nav grid with Build My Constellations, My Constellations, Star Scan, Star Forge — all four live
-- BMC two-phase flow: select op (+ − × ÷ in learning order) → table picker + question count (All/10/20/30) + Smart Practice placeholder + Start
-- BMC: `selectBMCOp(op)`, `launchBMCStart()`, `setBMCQCount()` — All Facts sets qCount = pool size; fixed counts capped at pool
-- Star Forge: full settings, no constellation writes (`_starForgeSession` flag gates `recordFactAttempt`)
-- My Constellations: dynamic title "[Op] Constellation" in operation color; op pills colored by op; constellation-wrap border tints to op color; fluent/almost cell glows use op color
-- Galaxy View overlay: "✦ View My Galaxy" → 4-op progress summary with mastered count + progress bar per op
-- Results → My Constellations now opens on the op just practiced (uses `S.ops[0]`)
-- Op order standardized to +, −, ×, ÷ (learning order) everywhere
-- Rename: Math Flash → Math Fact Galaxy (final), My Constellation → My Constellations (plural), Build My Constellation → Build My Constellations (plural)
+**Smart Practice — built (Sessions AO/AP):**
+- `_bmcMode = 'smart' | 'all'` state variable; Smart Practice is default
+- `buildBMCSmartPool(op, mix, targetCount)` — reads full op constellation (all 12 tables), both-orientation lookup for commutative ops (× and +), priority tiers: fluent → almost → challenge → mastered sprinkle
+- `selectBMCMode(mode)` — toggles mode, hides/shows `op-panels-wrap` (table picker only shown in All Facts mode)
+- `updateBMCQAllLabel()` — live fact count on "All Facts" chip; calls `buildBMCSmartPool` or `getPoolSize()` depending on mode
+- `launchBMCStart()` branches on `_bmcMode`: Smart builds `buildBMCSmartPool`, All Facts builds `buildBMCMixPool`
+- Smart Practice grays out if no constellation data (shows error message, does not fall back silently)
+- **isExplicit flag**: for explicit counts (10/20/30), masteredCap = targetCount (fills to requested length); for 'all', 10% mastered cap (maintenance sprinkle only)
+- Practice Mode card moved to top of BMC settings (`bmc-settings-top` div)
+- DOM structure: `bmc-settings-top` (Practice Mode) → `op-panels-wrap` (table picker, shown only in All Facts mode) → `bmc-settings-row` (Questions, Challenge Level, Star Quest, Start)
 
-**Bug fixes Session AN (v83q–v83r):**
-- **v83q**: Replaced native `confirm()` in `midgameNav()` with `#leave-game-modal` (styled). Root cause of beta kick-out: Enter key dismissed confirm() as OK while student was typing, navigating to title with no results shown.
-- **v83q**: Fixed `bmc-settings-row` staying visible when switching to Star Forge after selecting a BMC op
-- **v83r**: Fixed Galaxy View ReferenceError — `openGalaxyView()` was calling `getRec()`/`cellTier()` which are local to `buildStatsScreen()`; rewrote with inline `_getRec()`. Also fixed subtraction cell count (skip r≤c cells).
+**Other fixes (Sessions AO/AP):**
+- Default tables changed from x3-x12 to `[3,4,5]` only
+- Browser back button — proper SPA history stack: `showScreen()` pushes `{screen: id}`, `popstate` reads state; `_skipHistoryPush` flag prevents double-push; mid-round back triggers leave-game modal
+- Find All spam fix — `faScrambleLocked = true` set immediately on wrong click (not deferred to scrambleGrid)
+- Settings persist when switching ops in Smart Practice (removed `setBMCQCount('all')` reset from `selectBMCOp`)
+- Op buttons on My Constellations — larger pills with `.mp-op-pill-symbol` + `.mp-op-pill-name` (Addition / Subtraction / Multiplication / Division)
+- Back buttons — top of screen only: stats-screen and assess-area-screen now have `← Back` at top of header; footers cleaned up
 
-**BMC settings build Session AN (v83s):**
-- **BMC timer fix**: `_bmcSession = true` during BMC rounds; `startPerQTimer()`, `resumeTimers()`, `autoKick()` all use `S.fluencyTier.fluencyMs` (not autokickMs) when `_bmcSession` — kicks at the fluency threshold for honest automaticity pressure
-- **Challenge Level** (renamed from Today's Mix): 3-chip selector (Gentle/Balanced/Intensive, default Balanced) on BMC setup card; `buildBMCMixPool(op, mix, targetCount)` categorizes facts by tier and assembles mix per ratios; `_bmcTier(rec, threshMs)` global tier helper; Gentle shortens round if fill is thin, Intensive tries to hold length
-- **Star Quest toggle**: checkbox on BMC setup card, checked by default; `setBMCStarQuest()` wires to `_bmcStarQuest`; `S.remed = _bmcStarQuest` in `launchBMCStart()`
-- **Pool injection**: `_bmcPrebuiltPool` array consumed by `startGame()`; padding loop skipped in BMC; `qFieldPt.value` synced before `startGame()` to prevent override of S.qCount
-- **endGame() error guard**: try/catch wraps full results-building block; catch shows minimal score and navigates to results-screen so student never loses round silently
-- **applySetupMode() reset**: Today's Mix resets to Balanced and Star Quest resets to checked on each BMC setup entry
+**Key architectural notes (additions):**
+- `_bmcMode = 'smart'|'all'` — Practice Mode selection, default 'smart'
+- `_skipHistoryPush` — prevents re-pushing history during popstate handling
+- `buildBMCSmartPool(op, mix, targetCount)` — full constellation pool builder; temporarily expands S.tables/S.ops, restores after
+- `bmc-settings-top` — DOM wrapper for Practice Mode card (above op-panels-wrap, always shown when op selected)
 
-**Key architectural notes:**
-- `_setupMode = 'bmc' | 'full'` controls setup screen layout; `applySetupMode()` shows/hides all relevant cards and resets BMC state
-- `_bmcSession = true` during BMC rounds (set in `launchBMCStart`, cleared on title/Forge)
-- `_bmcMix = 'gentle'|'balanced'|'intensive'` — Challenge Level setting, default 'balanced'
-- `_bmcStarQuest = true` — Star Quest toggle, default true
-- `_bmcPrebuiltPool` — pre-built pool from `buildBMCMixPool()`, consumed by `startGame()`
-- `_bmcTier(rec, threshMs)` — global tier helper for pool builder
-- `buildBMCMixPool(op, mix, targetCount)` — loads userFacts, categorizes, applies mix ratios
-- `OP_NAMES`, `OP_COLORS`, `OP_FLUENT`, `OP_ALMOST`, `OP_SYMBOLS` — global constants for op display
-- `updateConstellationTitle(op)` — updates #stats-title with colored op name
-- `openGalaxyView()` — self-contained, loads userFacts directly, inline `_getRec()` helper
-- BMC op selector + settings row are siblings of `op-panels-wrap` in DOM; `selectBMCOp` shows the correct panel without DOM manipulation
-- `_leaveGameDest` — stores pending in-SPA destination while leave-game modal is shown ('title'|'constellation')
-- `_leaveGameHref` — stores pending external URL for leave-game modal (logo/link clicks mid-round)
-- Facts to Watch empty state: graduation check live — shows "Nice work!" only if ≥20 facts practiced and ≥80% mastered; otherwise progressive messages
-
-**Confirmed already fixed (were listed as open, verified in code):**
-- Bug #3: Profile chip during Star Scan — timer IS paused by `onChipClick()` for assessment-screen; shows scan-chip-overlay not midgame-nav ✓
-- Bug #5: Star Scan record delete — 🗑 button + `openDeleteAssessRecord()` / `confirmDeleteAssessRecord()` both built ✓
-- Bug #6: Empty state graduation check — `nearGraduation` check with keys.length≥20 and 80% mastered threshold built ✓
-- Bug #1: User context reset — `switchUser()` navigates to title-screen in all non-practice paths; `deleteUser()` navigates to title if was active ✓
-- Bug #2: Welcome re-trigger — `showScreen('title-screen')` handler re-checks onboarding AFTER setting new active user ✓
-
-**Kick-out audit complete (v83t–v83u):**
-- `sw-game-label` header text now routes through `midgameNav('title')` when game is active — was a silent unguarded kick-out path ✓
-- Enter key handler bails if any `.overlay.active` — was firing game-screen logic while leave-game modal was showing ✓
-- `pauseEndRound()` native confirm() removed — two deliberate steps already, no dialog needed ✓
-- Link click intercept confirm() replaced with leave-game modal; `_leaveGameHref` state var handles post-confirm navigation ✓
-- Zero native confirm() dialogs remain in codebase ✓
-
-**Still needs testing (v83u):**
-- BMC full flow: select op → table picker → question count → Challenge Level → Star Quest toggle → start (all 4 ops)
-- Challenge Level: verify Gentle shortens with new user (no data), Balanced/Intensive behave differently with mixed constellation data
-- Star Quest toggle: verify unchecking disables Practice Quest during BMC round
-- BMC timer: confirm bar runs to fluencyMs (3s for standard tier) not autokick (7s)
-- My Constellations: title updates correctly when switching op tabs
-- Galaxy View: test mastered counts after some practice
-- Leave-game modal: test chip → Navigate → Leave Round; test logo click mid-round
+---
 
 ## ⚠️ OPEN BUGS
 
 **4. Nav consistency redesign (design discussion with Kimberly first)**
 Profile chip behavior across screens needs a single coherent model. Proposed: chip click always opens user menu; mid-game nav (leave round / go to constellation) lives on a dedicated button in the round header. Not building until design discussion.
 
-**7. Mid-round kick-out (beta, HIGH PRIORITY) — FIXED in v83q + v83t/u**
-confirm() replaced with modal; all remaining kick-out paths audited and closed. Confirm with beta tester.
-
 **Deferred items:**
 - BMC print report: round time including PQ breakdown (log, batch with other print work)
 - Thin pool two-orientation behavior: round-level orientation tracking, deferred
+- Falling Facts pause: facts should freeze when paused, avatar can't move, fix below-avatar erroneous grab bug
+
+**Still needs beta testing (v83u/v83v):**
+- BMC full flow: select op → table picker (All Facts mode) → question count → Challenge Level → Star Quest toggle → start
+- Smart Practice: verify pool prioritizes fluent/almost over challenge correctly; verify "all" count is accurate
+- Challenge Level: Gentle shortens with new user (no data), Intensive holds length
+- BMC timer: confirm bar runs to fluencyMs not autokick
+- Browser back button: verify correct screen returned to from stats, assess-area, setup
+- Leave-game modal: chip mid-round, logo click mid-round
 
 ---
 
-## Next Build Queue (Spark specs received 2026-04-17)
+## Next Build Queue
 
-**1. Star Lab** — targeted practice overlay from My Constellation (Spark spec in Handoff)
+**1. Star Lab** — targeted practice overlay from My Constellation
 - Fact cell click → stats card → "Practice" button → Star Lab overlay
-- Overlay shows 3 mini-game options (Falling Facts / Find It / Prove It) with icon + one-liner
+- Overlay: 3 mini-game options (Falling Facts / Find It / Prove It) with icon + one-liner
 - Quick round: one fact only, both orientations, ~6 attempts (3 reps each, interleaved)
 - No Star Quest within Star Lab
 - Brief results screen → return to My Constellation, cell updates
 - Source tag: 'targeted-practice' in fact records
 - Round-level orientation tracking (don't repeat orientation until both shown)
+- Full spec: `dev/Agent_Handoff.md` → Spark → Wright 2026-04-17
 
-**2. Galaxy View** — four constellation SVGs replacing current progress cards (Spark spec in Handoff)
-- Table-level stars: × = 12 stars (Orion-inspired), ÷ = 12 (Libra), + = 10 (Cassiopeia), − = 10 (Gemini)
-- Three star states: unlit (dim dot), in-progress (amber glow), fully lit (bright gold + halo)
+**2. Galaxy View** — four constellation SVGs replacing current progress cards
+- **TWO star states only** (revised from three): dim ember (unlit) / gold with halo (all facts mastered)
+- Table-level stars: × = 12 (Orion-inspired), ÷ = 12 (Libra), + = 10 (Cassiopeia), − = 10 (Gemini)
 - Connecting lines: thin white, low opacity, always visible
 - Background: near-black with blue undertone, sparse CSS star field
-- Layout: 2×2 grid matching title screen; each tile tappable → opens that op's My Constellation
-- Operation symbol glyph per quadrant (×, ÷, +, −), subtle corner placement
-- No text labels on tiles — visual only
-- V2 (Star Bloom zoom layer): design session with Pip needed, do not build yet
+- Layout: 2×2 grid; each tile tappable → opens that op's My Constellation
+- Operation symbol glyph per quadrant, subtle corner placement — no text labels
+- Full visual mockup: `dev/galaxy_view_mockup.html`
 
-**Build order:** Star Lab first, then Galaxy View.
+**3. Pip font audit** — surgical, no dependencies
+- Comfortaa 700 on: `.setup-logo`, `.bmc-screen-title`, `.results-title`, `.overlay-title`, `.assess-results-title`, `.starscan-info-card h2`
+- Leave math content elements alone
+- Title screen lockup: B4 star SVG at 108px + Comfortaa h1 + "Galaxy" in #ffd280 + breathing animation
+- Footer wordmark mini-lockup: B4 star at 16px + Spark/wright styled
+- Delete `dev/font-mockup.html`
+- Full spec: `dev/Agent_Handoff.md` → Pip → Wright 2026-04-17
+
+**4. Title screen punch-up** — three new visual layers
+- ~35 JS twinkling stars (brand colors only, no red/green), replacing `::after` starfield
+- 5 shooting sparks (CSS diagonal streaks, sparse like meteor shower)
+- Radial pulse rings behind B4 mark
+- Full build-ready JS + CSS + HTML: `dev/math_fact_galaxy_title_v2.html` — copy directly
+- Full spec: `dev/Agent_Handoff.md` → Pip → Wright 2026-04-18
+
+**5. Extended timer — amber glow** (Spark + Pip spec)
+- BMC timer bar runs to autokick window (full 6s)
+- 0s → fluency threshold: amber glow (warm, achievement-feeling)
+- Threshold → autokick: flat purple → blue (neutral)
+- Grading unchanged — still at fluency threshold
+- Full visual mockup: `dev/star_quest_and_timer_mockup.html`
+
+**6. Star Quest mode card** (Spark + Pip spec)
+- When SQ triggers: brief overlay card fires first
+- Two modes: Relaxed 🌙 (no time pressure) / Challenge ⚡ (time pressure)
+- Student taps one → quest begins. Log mode in session metadata. Neither mode changes tier grading.
+- Full visual mockup: `dev/star_quest_and_timer_mockup.html`
+
+**7. Last Session toggle on My Constellation** (Pip spec — data model work first)
+- Toggle button in controls row; off = normal; on = session comparison mode
+- Session mode: white glow on practiced cells, delta badges (↑) on tier-advanced cells
+- Before/After sub-toggle: After (default) = current state; Before = desaturated pre-session state
+- **Data model needed first:**
+  - `sessionSnapshot` — constellation tier state at round start (for Before view); overwrite each new round
+  - `sessionAttempts` — per-fact: attempts, responseTimes[], tierAtStart, tierAtEnd; clear on next round start
+- Full interactive mockup: `dev/constellation_session_compare_mockup.html`
+
+**8. Beginning Scan wiring for beta testers** (spec complete, coordination pending)
+- Wire existing beta testers to Beginning Star Scan; explain what it is
+- ⚠️ TODO: Once beta testers complete Beginning Star Scan → migrate them to Monthly Scan track (30-day date lock). Do NOT leave them on Beginning Scan logic permanently.
+- Beginning Scan window closes when: 3+ completed practice sessions OR 4+ tables practiced → Monthly Scan opens immediately
+
+**Items spec'd but not yet building:**
+- Star Forge architecture update (Round Practice vs. Scan choice, session naming, profanity filter)
+- Monthly Star Scan 30-day date lock
+- Settings persistence (all settings persist, no silent resets — verify this is already true before building)
 
 ---
 
 ## Paste-In Prompt (for starting a new Wright session)
 
-> Starting a new session — you're Wright, who is picking up on an ongoing project. Read `dev/Wright_Agent_Prompt.md` first to orient, then the MPF, then the Handoff. Catch me up on where we are and what's in the build queue. Flag anything from Spark that needs a response before we decide what to work on today. Be efficient with tokens.
+> Starting a new session — you're Wright, who is picking up on an ongoing project. Read `dev/Wright_Agent_Prompt.md` first to orient, then the MPF, then the Handoff. Catch me up on where we are and what's in the build queue. Flag anything from Spark or Pip that needs a response before we decide what to work on today. Be efficient with tokens.
