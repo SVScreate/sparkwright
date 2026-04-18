@@ -1729,34 +1729,79 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   margin-top: 3px;
 }
 
-/* Per-question fluency bar */
+/* Per-question fluency bar — dual-zone (amber + extended) */
 .fluency-bar-wrap {
   display: none;
   width: 100%;
   max-width: 700px;
-  height: 6px;
-  background: var(--faint);
-  border-radius: 3px;
-  overflow: hidden;
   margin-top: -12px;
+  padding: 10px 0 4px; /* room for threshold label above + halo overflow */
 }
 .fluency-bar-wrap.show { display: block; }
-.fluency-bar-fill {
-  height: 100%;
-  width: 100%;
-  border-radius: 3px;
-  background: #ff9f43;
-  box-shadow: 0 0 8px 2px rgba(255,159,67,0.6);
-  transform-origin: left center;
-  transition: background 0.4s, box-shadow 0.4s;
+.fluency-bar-track {
+  position: relative;
+  height: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 6px;
+  overflow: visible;
 }
-.fluency-bar-fill.almost {
-  background: #c77dff;
-  box-shadow: 0 0 8px 2px rgba(199,125,255,0.6);
+/* Threshold marker tick */
+.fluency-threshold-tick {
+  position: absolute;
+  top: -10px; bottom: -10px;
+  width: 2px;
+  background: rgba(255,255,255,0.20);
+  border-radius: 1px;
+  z-index: 5;
 }
-.fluency-bar-fill.danger {
-  background: #4d96ff;
-  box-shadow: 0 0 8px 2px rgba(77,150,255,0.6);
+.fluency-threshold-tick::after {
+  content: attr(data-label);
+  position: absolute;
+  top: -20px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,0.38);
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+/* Amber zone bar */
+.fluency-bar-amber {
+  position: absolute;
+  left: 0; top: -2px;
+  height: calc(100% + 4px);
+  border-radius: 6px;
+  background: linear-gradient(90deg, #ffb830 0%, #ff9f43 100%);
+  transition: width 0.05s linear;
+  box-shadow:
+    0 0 0 2px rgba(255,170,50,0.18),
+    0 0 8px 3px rgba(255,140,30,0.40),
+    0 0 18px 6px rgba(255,120,0,0.18);
+}
+.fluency-bar-amber.pulsing {
+  animation: amber-pulse 1.4s ease-in-out infinite;
+}
+@keyframes amber-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 2px rgba(255,170,50,0.18),
+      0 0 8px 3px rgba(255,140,30,0.40),
+      0 0 18px 6px rgba(255,120,0,0.18);
+  }
+  50% {
+    box-shadow:
+      0 0 0 2px rgba(255,185,60,0.28),
+      0 0 12px 5px rgba(255,150,40,0.55),
+      0 0 28px 10px rgba(255,130,10,0.25);
+  }
+}
+/* Extended zone bar — flat, no shadow, no animation */
+.fluency-bar-extended {
+  position: absolute;
+  top: 0; height: 100%;
+  border-radius: 0 6px 6px 0;
+  background: linear-gradient(90deg, #c77dff 0%, #4d96ff 100%);
+  opacity: 0.70;
+  transition: width 0.05s linear;
 }
 
 /* ── REMEDIATION SCREEN ── */
@@ -3562,7 +3607,11 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       </div>
     </div>
     <div class="fluency-bar-wrap" id="fluency-bar-wrap">
-      <div class="fluency-bar-fill" id="fluency-bar-fill"></div>
+      <div class="fluency-bar-track" id="fluency-bar-track">
+        <div class="fluency-threshold-tick" id="fluency-threshold-tick" data-label="3s"></div>
+        <div class="fluency-bar-amber pulsing" id="fluency-bar-amber" style="width:0%"></div>
+        <div class="fluency-bar-extended" id="fluency-bar-extended" style="left:50%;width:0%"></div>
+      </div>
     </div>
     <div class="table-helper" id="table-helper">
       <div class="helper-title" id="helper-title">Table</div>
@@ -6038,17 +6087,17 @@ function startPerQTimer() {
   if (S.format !== 'pertimer') return;
   if (G.perQTimer) { clearInterval(G.perQTimer); G.perQTimer = null; }
 
-  // BMC: kick at fluency threshold for honest automaticity pressure; Forge/practice: full autokick window
-  const akSecs = (_bmcSession ? S.fluencyTier.fluencyMs : S.fluencyTier.autokickMs) / 1000;
+  // Always run to autokickMs — dual-zone bar shows fluency threshold within that window
+  const akSecs = S.fluencyTier.autokickMs / 1000;
   G.qStartTime = Date.now();
   G.perQSecsLeft = akSecs;
-  updateFluencyBar(akSecs, akSecs);
+  updateFluencyBar(0, akSecs);
 
   G.perQTimer = setInterval(function() {
     const elapsed = (Date.now() - G.qStartTime) / 1000;
     const left = Math.max(0, akSecs - elapsed);
     G.perQSecsLeft = left;
-    updateFluencyBar(left, akSecs);
+    updateFluencyBar(elapsed, akSecs);
     if (left <= 0) {
       clearInterval(G.perQTimer); G.perQTimer = null;
       if (!G.answered) autoKick();
@@ -6060,18 +6109,36 @@ function stopPerQTimer() {
   if (G.perQTimer) { clearInterval(G.perQTimer); G.perQTimer = null; }
 }
 
-function updateFluencyBar(left, total) {
-  const fill = document.getElementById('fluency-bar-fill');
-  if (!fill) return;
-  const pct = (left / total) * 100;
-  fill.style.width = pct + '%';
-  // 3-state bar matches tier spectrum: orange (fluent zone) → purple (almost) → blue (danger)
-  const fluentSecs   = S.fluencyTier ? S.fluencyTier.fluencyMs  / 1000 : 3;
-  const autokickSecs = S.fluencyTier ? S.fluencyTier.autokickMs / 1000 : 7;
-  const almostThreshold = autokickSecs - fluentSecs; // seconds remaining when almost zone begins
-  const dangerThreshold = Math.min(1.5, fluentSecs * 0.4); // last ~1.5s = needs-practice warning
-  fill.classList.toggle('danger', left <= dangerThreshold);
-  fill.classList.toggle('almost', left <= almostThreshold && left > dangerThreshold);
+// elapsed = seconds since question appeared; total = autokickMs / 1000
+function updateFluencyBar(elapsed, total) {
+  const amber = document.getElementById('fluency-bar-amber');
+  const ext   = document.getElementById('fluency-bar-extended');
+  const tick  = document.getElementById('fluency-threshold-tick');
+  if (!amber || !ext || !tick) return;
+
+  const fluentSecs = S.fluencyTier ? S.fluencyTier.fluencyMs / 1000 : 3;
+  const threshPct  = (fluentSecs / total) * 100;
+
+  // Threshold tick position and label
+  tick.style.left = threshPct + '%';
+  tick.dataset.label = fluentSecs + 's';
+
+  const progress = Math.min(elapsed / total, 1); // 0–1
+
+  if (progress <= fluentSecs / total) {
+    // In amber zone — bar grows from left, pulse active
+    amber.style.width = (progress * 100) + '%';
+    amber.classList.add('pulsing');
+    ext.style.left  = threshPct + '%';
+    ext.style.width = '0%';
+  } else {
+    // Past threshold — amber fills to threshold, pulse off; extended zone grows
+    amber.style.width = threshPct + '%';
+    amber.classList.remove('pulsing');
+    const extPct = ((progress - fluentSecs / total) / (1 - fluentSecs / total)) * (100 - threshPct);
+    ext.style.left  = threshPct + '%';
+    ext.style.width = extPct + '%';
+  }
 }
 
 function autoKick() {
@@ -6079,8 +6146,7 @@ function autoKick() {
   G.notFluent++;
   const factFull = G.qs[G.cur] ? G.qs[G.cur].q.replace('= ?', '= ' + G.qs[G.cur].a) : '';
   if (factFull) G.notFluentFacts.push(factFull);
-  // BMC kicks at fluencyMs; practice/Forge use full autokick window
-  const kickMs = _bmcSession ? S.fluencyTier.fluencyMs : S.fluencyTier.autokickMs;
+  const kickMs = S.fluencyTier.autokickMs;
   recordFactAttempt(G.qs[G.cur], 'autokick', kickMs);
   G._autoKicking = true;
   handleMiss();
@@ -6132,7 +6198,7 @@ function resumeTimers() {
   }
 
   if (S.format === 'pertimer' && !G.answered && !G.perQTimer) {
-    const akSecs = (_bmcSession ? S.fluencyTier.fluencyMs : S.fluencyTier.autokickMs) / 1000;
+    const akSecs = S.fluencyTier.autokickMs / 1000;
     G.qStartTime = Date.now() - ((akSecs - G.perQSecsLeft) * 1000);
     G.perQTimer = setInterval(function() {
       const elapsed = (Date.now() - G.qStartTime) / 1000;
