@@ -3628,12 +3628,30 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     }
   }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() { initSWHeader(); checkMFOnboarding(); });
+    document.addEventListener('DOMContentLoaded', function() { initSWHeader(); checkMFOnboarding(); initBackButton(); });
   } else {
     initSWHeader();
     checkMFOnboarding();
+    initBackButton();
   }
 })();
+
+// ── Back button: intercept browser navigation, keep user in SPA ──────────────
+function initBackButton() {
+  history.pushState(null, '', window.location.href);
+  window.addEventListener('popstate', function() {
+    history.pushState(null, '', window.location.href); // keep future back presses working
+    var gameActive = document.getElementById('game-screen') &&
+                     document.getElementById('game-screen').classList.contains('active');
+    var remedActive = document.getElementById('remediation-screen') &&
+                      document.getElementById('remediation-screen').classList.contains('active');
+    if (gameActive || remedActive) {
+      midgameNav('title'); // routes through leave-game modal if needed
+    } else {
+      showScreen('title-screen');
+    }
+  });
+}
 
 // Fluency threshold — 3 seconds (research-based automaticity standard)
 const FLUENCY_MS = 3000;
@@ -3806,8 +3824,6 @@ function selectBMCOp(op) {
   var settingsRow = document.getElementById('bmc-settings-row');
   if (settingsRow) settingsRow.style.display = 'block';
 
-  // Reset question count to All Facts
-  setBMCQCount('all', document.querySelector('#bmc-q-chips .chip[data-val="all"]'));
   updateBMCQAllLabel();
 }
 
@@ -3992,17 +4008,19 @@ function buildBMCSmartPool(op, mix, targetCount) {
 
   _shuf(challenge); _shuf(fluent); _shuf(almost); _shuf(mastered);
 
-  // For 'all': all priority facts (challenge + fluent + almost), capped at 30
-  if (targetCount === 'all' || !targetCount) {
+  // For 'all': priority facts only, capped at 30; for explicit count: pad with mastered to reach it
+  var isExplicit = (targetCount !== 'all' && targetCount > 0);
+  if (!isExplicit) {
     targetCount = Math.min(challenge.length + fluent.length + almost.length, 30);
     if (!targetCount) targetCount = 10;
   }
 
-  // Same mix ratios as All Facts (Challenge Level still applies)
+  // Challenge Level governs challenge max; mastered cap is a sprinkle for 'all', uncapped for explicit counts
   var challengeMax, masteredCap;
-  if (mix === 'gentle')         { challengeMax = 3;  masteredCap = Math.max(1, Math.round(targetCount * 0.1)); }
-  else if (mix === 'intensive') { challengeMax = 10; masteredCap = targetCount; }
-  else                          { challengeMax = 6;  masteredCap = Math.max(1, Math.round(targetCount * 0.1)); }
+  if (mix === 'gentle')         { challengeMax = 3; }
+  else if (mix === 'intensive') { challengeMax = 10; }
+  else                          { challengeMax = 6; }
+  masteredCap = isExplicit ? targetCount : Math.max(1, Math.round(targetCount * 0.1));
 
   var challengeCount = Math.min(challenge.length, challengeMax, targetCount);
   var challengeSlice = challenge.slice(0, challengeCount);
@@ -4164,7 +4182,7 @@ function openGalaxyView() {
 // ══ STATE ══════════════════════════════════════════════
 const S = {
   ops: ['x'],
-  tables: { x: [3,4,5,6,7,8,9,12], '/': [3,4,5,6,7,8,9,11,12] },
+  tables: { x: [3,4,5], '/': [3,4,5] },
   easy:   { x: true, '/': true },
   maxAdd: 20, maxSub: 20, allowNeg: false,
   format: 'count', qCount: 20, timeLimit: 120,
