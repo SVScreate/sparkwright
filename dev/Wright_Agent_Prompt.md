@@ -84,8 +84,33 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Fact Galaxy v83x** — committed 2026-04-18, not yet pushed to Netlify
+**Math Fact Galaxy v83ab** — committed 2026-04-19, not yet pushed to Netlify
 Landing page: `sparkwright/index.html` (updated Session AE)
+
+## Session AR Build Summary (v83y–v83ab) — 2026-04-19
+
+**Timer bar fixes (v83y):**
+- Direction corrected to countdown (starts full, drains left); `updateFluencyBar(remaining, total)` now uses remaining/total semantics
+- Threshold tick and label removed — visual zones only
+- Extended zone gradient corrected: blue (#4d96ff) left → purple (#c77dff) right (blue = further from fluency, purple = almost there)
+- `startPerQTimer` and `resumeTimers` both now pass `left` (remaining), not elapsed
+
+**Star Lab — full implementation (v83y–v83aa):**
+- Fact cell click → stat card → "Practice with Star Lab →" button → `sl-picker-overlay` (game picker)
+- Game picker: Find It / Falling Facts / Prove It cards with icon + one-liner
+- `.sl-game-card > * { pointer-events: none }` — click fires on card not children
+- `slBuildOrientations(fk)` — parses fact key → up to 2 commutative orientations
+- `slBuildQueue(oris)` — interleaves 3 reps each → 6-item queue
+- Falling Facts uses full `buildFactCatcher` (matches SQ version); completion patches `remed-cont-btn.onclick` → `slCompleteFalling()`
+- **Star Lab is isolated** — does NOT call `recordFactAttempt`; no constellation writes
+- Results screen shows correct/total + "← Back to My Constellation" button
+
+**buildFactCatcher ghost-catch fix (v83ab):**
+- Exit check (`y >= fh`) moved to TOP of `fcTick` loop — card marked `missed` and removed before any catch logic runs; eliminates same-frame race
+- Catch window tightened: `y < catchTop + 24` (was `y < fh`) — cards only catchable while at/near catcher level (~40px window); visually-gone cards cannot be caught
+
+**BMC question count — deferred to Spark:**
+- User wants typing field with min = pool size, then 10/20/30 with smart-mix repeat; flagged in Handoff for Spark review
 
 ## Session AQ Build Summary (v83w–v83x) — 2026-04-18
 
@@ -150,7 +175,7 @@ Profile chip behavior across screens needs a single coherent model. Proposed: ch
 **Deferred items:**
 - BMC print report: round time including PQ breakdown (log, batch with other print work)
 - Thin pool two-orientation behavior: round-level orientation tracking, deferred
-- Falling Facts pause: facts should freeze when paused, avatar can't move, fix below-avatar erroneous grab bug
+- Falling Facts pause: facts should freeze when paused, avatar can't move (below-avatar erroneous grab — may be resolved by v83ab catch-window fix; retest before building)
 
 **Still needs beta testing (v83u/v83v):**
 - BMC full flow: select op → table picker (All Facts mode) → question count → Challenge Level → Star Quest toggle → start
@@ -164,15 +189,10 @@ Profile chip behavior across screens needs a single coherent model. Proposed: ch
 
 ## Next Build Queue
 
-**1. Star Lab** — targeted practice overlay from My Constellation
-- Fact cell click → stats card → "Practice" button → Star Lab overlay
-- Overlay: 3 mini-game options (Falling Facts / Find It / Prove It) with icon + one-liner
-- Quick round: one fact only, both orientations, ~6 attempts (3 reps each, interleaved)
-- No Star Quest within Star Lab
-- Brief results screen → return to My Constellation, cell updates
-- Source tag: 'targeted-practice' in fact records
-- Round-level orientation tracking (don't repeat orientation until both shown)
-- Full spec: `dev/Agent_Handoff.md` → Spark → Wright 2026-04-17
+**1. ✅ Star Lab v1** — DONE v83y–v83aa; ghost-catch fix v83ab
+- Find It / Falling Facts (full buildFactCatcher) / Prove It — 6-attempt interleaved queue
+- Isolated from constellation — no recordFactAttempt
+- Polish pass deferred (results screen refinement, more mini-games)
 
 **2. Galaxy View** — four constellation SVGs replacing current progress cards
 - **TWO star states only** (revised from three): dim ember (unlit) / gold with halo (all facts mastered)

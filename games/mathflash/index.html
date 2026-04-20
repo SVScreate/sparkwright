@@ -6955,8 +6955,9 @@ function buildFactCatcher(body, f) {
       var animTime = (card.anim && card.anim.currentTime != null) ? card.anim.currentTime : (now - card.startTime);
       var y = -56 + (animTime / card.fallMs) * (fh + 80);
 
+      if (y >= fh) { card.missed = true; card.el.remove(); return false; }
       if (!card.caught && !card.missed && card.lane === catcherLane) {
-        if (y >= catchTop - 16 && y < fh) {
+        if (y >= catchTop - 16 && y < catchTop + 24) {
           card.caught = true;
           var cardText = card.el.textContent;
           card.el.remove();
@@ -7024,7 +7025,6 @@ function buildFactCatcher(body, f) {
           return false;
         }
       }
-      if (y >= fh) { card.missed = true; card.el.remove(); return false; }
       return true;
     });
   }
