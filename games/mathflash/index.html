@@ -757,6 +757,8 @@ body {
   transition: background 0.12s, border-color 0.12s;
 }
 .sl-game-card:hover { background: rgba(199,125,255,0.1); border-color: var(--a5); }
+/* Disable pointer events on children so clicks always fire on the card itself */
+.sl-game-card > * { pointer-events: none; }
 .sl-game-icon { font-size: 1.6rem; flex-shrink: 0; width: 32px; text-align: center; }
 .sl-game-name { font-size: 0.88rem; font-weight: 700; color: var(--text); }
 .sl-game-desc { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
@@ -8565,9 +8567,7 @@ function slSubmit(correct, ms) {
   _slAnswered = true;
   var f = _slQueue[_slIdx];
   _slResults.push({correct: correct, ms: ms, q: f.q});
-  // Write to constellation (tagged as targeted-practice via hint source)
-  var fForRecord = {q: f.q, a: f.a, hint: f.hint, fa: f.fa, fb: f.fb, source: 'targeted-practice'};
-  recordFactAttempt(fForRecord, correct ? 'correct' : 'miss', ms);
+  // Star Lab is isolated practice — intentionally does not write to the constellation
   setTimeout(function() {
     _slIdx++;
     if (_slIdx >= _slQueue.length) slShowResults();
