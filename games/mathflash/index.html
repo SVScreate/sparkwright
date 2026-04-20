@@ -809,25 +809,6 @@ body {
 .sl-choice.correct { background: rgba(107,203,119,0.15); border-color: var(--correct); color: var(--correct); pointer-events: none; }
 .sl-choice.wrong   { background: rgba(255,107,107,0.12); border-color: var(--wrong);   color: var(--wrong);   pointer-events: none; animation: shake 0.3s ease; }
 
-/* Falling Facts */
-@keyframes sl-fall-in {
-  0%   { transform: translateY(-50px); opacity: 0; }
-  100% { transform: translateY(0);     opacity: 1; }
-}
-.sl-falling-choices { display: flex; flex-direction: column; gap: 12px; }
-.sl-falling-card {
-  padding: 20px 16px; border: 2px solid rgba(255,255,255,0.1);
-  border-radius: 12px; background: rgba(255,255,255,0.04);
-  font-size: 1.2rem; font-weight: 700; font-family: var(--font-display);
-  text-align: center; cursor: pointer; user-select: none;
-  animation: sl-fall-in 0.32s ease-out both;
-}
-.sl-falling-card:nth-child(2) { animation-delay: 0.09s; }
-.sl-falling-card:nth-child(3) { animation-delay: 0.18s; }
-.sl-falling-card:hover  { background: rgba(199,125,255,0.1); border-color: rgba(199,125,255,0.4); }
-.sl-falling-card.correct { background: rgba(107,203,119,0.15); border-color: var(--correct); color: var(--correct); pointer-events: none; }
-.sl-falling-card.wrong   { background: rgba(255,107,107,0.12); border-color: var(--wrong);   color: var(--wrong);   pointer-events: none; animation: shake 0.3s ease; }
-
 /* Results */
 .sl-results-title { font-size: 1.4rem; font-weight: 700; color: var(--text); text-align: center; margin-bottom: 6px; }
 .sl-results-sub   { font-size: 0.85rem; color: var(--muted); text-align: center; margin-bottom: 20px; }
@@ -8446,12 +8427,26 @@ function launchStarLab(mode) {
 function slShowQuestion() {
   _slAnswered = false;
   var f = _slQueue[_slIdx];
+  var body = document.getElementById('sl-body');
+  if (!body) return;
+
+  if (_slMode === 'falling') {
+    // Falling Facts has its own HUD — suppress our question/dots chrome
+    var qEl = document.getElementById('sl-question');
+    if (qEl) qEl.textContent = '';
+    var dotsEl = document.getElementById('sl-progress-dots');
+    if (dotsEl) dotsEl.innerHTML = '';
+    slBuildFalling(body, f);
+    _slTs = Date.now();
+    return;
+  }
+
   // Progress dots
   var dotsEl = document.getElementById('sl-progress-dots');
   if (dotsEl) {
     dotsEl.innerHTML = _slQueue.map(function(_, i) {
       var cls = 'sl-dot';
-      if (i < _slIdx)      cls += _slResults[i].correct ? ' done-correct' : ' done-wrong';
+      if (i < _slIdx)        cls += _slResults[i].correct ? ' done-correct' : ' done-wrong';
       else if (i === _slIdx) cls += ' current';
       return '<div class="'+cls+'"></div>';
     }).join('');
@@ -8460,11 +8455,8 @@ function slShowQuestion() {
   var qEl = document.getElementById('sl-question');
   if (qEl) qEl.textContent = f.q.replace('= ?', '= __');
   // Game body
-  var body = document.getElementById('sl-body');
-  if (!body) return;
-  if (_slMode === 'proveit')  slBuildProveIt(body, f);
-  else if (_slMode === 'findit')   slBuildFindIt(body, f);
-  else                        slBuildFalling(body, f);
+  if (_slMode === 'proveit') slBuildProveIt(body, f);
+  else                       slBuildFindIt(body, f);
   _slTs = Date.now();
 }
 
@@ -8539,27 +8531,27 @@ function slChoiceClick(el, chosen) {
 }
 
 function slBuildFalling(body, f) {
-  var wrongs = slGetDistractors(f, 2);
-  var choices = [f.a].concat(wrongs).sort(function(){ return Math.random()-0.5; });
-  body.innerHTML = '<div class="sl-falling-choices">' +
-    choices.map(function(c) {
-      return '<div class="sl-falling-card" onclick="slFallingClick(this,'+c+')">' + c + '</div>';
-    }).join('') +
-  '</div>';
+  // Use the full Falling Facts mini-game from Star Quest
+  buildFactCatcher(body, f);
+  // Patch the continue button to complete Star Lab instead of advancing remediation
+  var btn = body.querySelector('[id="remed-cont-btn"]') || document.getElementById('remed-cont-btn');
+  if (btn) {
+    btn.onclick = function() {
+      if (window._fcCleanup) { window._fcCleanup(); window._fcCleanup = null; }
+      slCompleteFalling();
+    };
+  }
 }
 
-function slFallingClick(el, chosen) {
-  if (_slAnswered) return;
-  var ms = Date.now() - _slTs;
-  var f = _slQueue[_slIdx];
-  var correct = (chosen === f.a);
-  el.classList.add(correct ? 'correct' : 'wrong');
-  if (!correct) {
-    document.querySelectorAll('.sl-falling-card').forEach(function(c) {
-      if (+c.textContent === f.a) c.classList.add('correct');
-    });
-  }
-  slSubmit(correct, ms);
+function slCompleteFalling() {
+  var badge = document.getElementById('sl-mode-badge');
+  if (badge) badge.textContent = 'Done';
+  var body = document.getElementById('sl-body');
+  if (!body) return;
+  body.innerHTML =
+    '<div class="sl-results-title" style="text-align:center;padding-top:20px;">Falling Facts complete! 🌟</div>' +
+    '<div class="sl-results-sub" style="text-align:center;">Great practice!</div>' +
+    '<button class="sl-back-btn" onclick="slBackToConstellation()">← Back to Constellation</button>';
 }
 
 function slSubmit(correct, ms) {
