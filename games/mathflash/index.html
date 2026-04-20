@@ -732,6 +732,116 @@ body {
 .galaxy-op-bar-fill { height: 100%; border-radius: 3px; background: var(--nc); transition: width 0.4s; }
 .galaxy-op-count { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
 
+/* ── STAR LAB ── */
+/* Stat card — make interactive so Practice button is clickable */
+.c-stat-card.visible { pointer-events: auto; }
+.csc-practice-btn {
+  display: block; width: 100%; margin-top: 10px; padding: 8px 10px;
+  background: rgba(199,125,255,0.18); border: 1px solid rgba(199,125,255,0.45);
+  border-radius: 8px; color: #c77dff; font-family: var(--font); font-size: 0.72rem;
+  font-weight: 700; cursor: pointer; letter-spacing: 0.03em;
+  transition: background 0.12s;
+}
+.csc-practice-btn:hover { background: rgba(199,125,255,0.28); }
+
+/* Star Lab picker overlay */
+.sl-picker-fact {
+  text-align: center; font-size: 1.3rem; font-weight: 700; font-family: var(--font-display);
+  color: var(--text); margin: 8px 0 16px;
+}
+.sl-picker-grid { display: flex; flex-direction: column; gap: 10px; }
+.sl-game-card {
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 14px 16px; cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+.sl-game-card:hover { background: rgba(199,125,255,0.1); border-color: var(--a5); }
+.sl-game-icon { font-size: 1.6rem; flex-shrink: 0; width: 32px; text-align: center; }
+.sl-game-name { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+.sl-game-desc { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+
+/* Star Lab screen */
+#star-lab-screen { flex-direction: column; align-items: center; padding: 20px 16px; overflow-y: auto; }
+.sl-screen-inner { width: 100%; max-width: 480px; display: flex; flex-direction: column; align-items: center; }
+.sl-back-link { align-self: flex-start; background: none; border: none; color: var(--muted); font-family: var(--font); font-size: 0.82rem; cursor: pointer; padding: 0; margin-bottom: 16px; }
+.sl-mode-badge { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--a5); margin-bottom: 10px; }
+.sl-question {
+  font-size: 2rem; font-weight: 700; font-family: var(--font-display);
+  color: var(--text); text-align: center; margin-bottom: 10px;
+}
+.sl-progress-dots { display: flex; gap: 7px; justify-content: center; margin-bottom: 24px; }
+.sl-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.1); transition: background 0.2s; }
+.sl-dot.done-correct { background: var(--correct); }
+.sl-dot.done-wrong   { background: var(--wrong); }
+.sl-dot.current      { background: rgba(255,255,255,0.55); box-shadow: 0 0 6px rgba(255,255,255,0.35); }
+.sl-body { width: 100%; }
+
+/* Prove It */
+.sl-prove-input {
+  display: block; width: 100%; padding: 14px; font-size: 1.5rem; font-family: var(--font-display);
+  text-align: center; background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.14); border-radius: 12px;
+  color: var(--text); outline: none; box-sizing: border-box; margin-bottom: 12px;
+}
+.sl-prove-input:focus  { border-color: var(--a5); }
+.sl-prove-input.correct { border-color: var(--correct); background: rgba(107,203,119,0.1); }
+.sl-prove-input.wrong   { border-color: var(--wrong);   animation: shake 0.3s ease; }
+.sl-check-btn {
+  display: block; width: 100%; padding: 13px; border: none; border-radius: 10px;
+  background: var(--a5); color: var(--bg); font-family: var(--font); font-size: 0.9rem;
+  font-weight: 700; cursor: pointer;
+}
+.sl-fb { text-align: center; font-size: 0.9rem; font-weight: 700; margin-top: 10px; min-height: 1.4em; }
+
+/* Find It */
+.sl-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sl-choice {
+  padding: 20px 10px; border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 12px; background: rgba(255,255,255,0.04);
+  font-size: 1.2rem; font-weight: 700; font-family: var(--font-display);
+  text-align: center; cursor: pointer; user-select: none;
+  transition: background 0.1s, border-color 0.1s;
+}
+.sl-choice:hover  { background: rgba(199,125,255,0.1); border-color: rgba(199,125,255,0.4); }
+.sl-choice.correct { background: rgba(107,203,119,0.15); border-color: var(--correct); color: var(--correct); pointer-events: none; }
+.sl-choice.wrong   { background: rgba(255,107,107,0.12); border-color: var(--wrong);   color: var(--wrong);   pointer-events: none; animation: shake 0.3s ease; }
+
+/* Falling Facts */
+@keyframes sl-fall-in {
+  0%   { transform: translateY(-50px); opacity: 0; }
+  100% { transform: translateY(0);     opacity: 1; }
+}
+.sl-falling-choices { display: flex; flex-direction: column; gap: 12px; }
+.sl-falling-card {
+  padding: 20px 16px; border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 12px; background: rgba(255,255,255,0.04);
+  font-size: 1.2rem; font-weight: 700; font-family: var(--font-display);
+  text-align: center; cursor: pointer; user-select: none;
+  animation: sl-fall-in 0.32s ease-out both;
+}
+.sl-falling-card:nth-child(2) { animation-delay: 0.09s; }
+.sl-falling-card:nth-child(3) { animation-delay: 0.18s; }
+.sl-falling-card:hover  { background: rgba(199,125,255,0.1); border-color: rgba(199,125,255,0.4); }
+.sl-falling-card.correct { background: rgba(107,203,119,0.15); border-color: var(--correct); color: var(--correct); pointer-events: none; }
+.sl-falling-card.wrong   { background: rgba(255,107,107,0.12); border-color: var(--wrong);   color: var(--wrong);   pointer-events: none; animation: shake 0.3s ease; }
+
+/* Results */
+.sl-results-title { font-size: 1.4rem; font-weight: 700; color: var(--text); text-align: center; margin-bottom: 6px; }
+.sl-results-sub   { font-size: 0.85rem; color: var(--muted); text-align: center; margin-bottom: 20px; }
+.sl-results-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-bottom: 20px; }
+.sl-result-item   { background: rgba(255,255,255,0.04); border-radius: 10px; padding: 10px; text-align: center; }
+.sl-ri-eq   { font-weight: 700; color: var(--text); font-size: 0.85rem; font-family: var(--font-display); }
+.sl-ri-info { font-size: 0.7rem; margin-top: 3px; }
+.sl-ri-info.ok  { color: var(--correct); }
+.sl-ri-info.bad { color: var(--wrong); }
+.sl-back-btn {
+  display: block; width: 100%; padding: 13px; border: none; border-radius: 10px;
+  background: rgba(255,255,255,0.08); color: var(--text); font-family: var(--font);
+  font-size: 0.9rem; font-weight: 700; cursor: pointer;
+}
+.sl-back-btn:hover { background: rgba(255,255,255,0.14); }
+
 .mp-ctrl-row {
   display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
   margin-bottom: 12px;
@@ -1735,7 +1845,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   width: 100%;
   max-width: 700px;
   margin-top: -12px;
-  padding: 10px 0 4px; /* room for threshold label above + halo overflow */
+  padding: 4px 0 4px; /* halo overflow */
 }
 .fluency-bar-wrap.show { display: block; }
 .fluency-bar-track {
@@ -1745,29 +1855,11 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   border-radius: 6px;
   overflow: visible;
 }
-/* Threshold marker tick */
-.fluency-threshold-tick {
-  position: absolute;
-  top: -10px; bottom: -10px;
-  width: 2px;
-  background: rgba(255,255,255,0.20);
-  border-radius: 1px;
-  z-index: 5;
-}
-.fluency-threshold-tick::after {
-  content: attr(data-label);
-  position: absolute;
-  top: -20px; left: 50%;
-  transform: translateX(-50%);
-  font-size: 10px; font-weight: 700;
-  color: rgba(255,255,255,0.38);
-  white-space: nowrap;
-  letter-spacing: 0.04em;
-}
-/* Amber zone bar */
+/* Amber zone bar — countdown, starts full and drains */
 .fluency-bar-amber {
   position: absolute;
   left: 0; top: -2px;
+  width: 100%;
   height: calc(100% + 4px);
   border-radius: 6px;
   background: linear-gradient(90deg, #ffb830 0%, #ff9f43 100%);
@@ -1794,14 +1886,14 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
       0 0 28px 10px rgba(255,130,10,0.25);
   }
 }
-/* Extended zone bar — flat, no shadow, no animation */
-.fluency-bar-extended {
-  position: absolute;
-  top: 0; height: 100%;
-  border-radius: 0 6px 6px 0;
-  background: linear-gradient(90deg, #c77dff 0%, #4d96ff 100%);
+/* Extended zone — flat purple/blue, no glow */
+.fluency-bar-amber.extended {
+  background: linear-gradient(90deg, #4d96ff 0%, #c77dff 100%);
   opacity: 0.70;
-  transition: width 0.05s linear;
+  box-shadow: none;
+  top: 0;
+  height: 100%;
+  animation: none;
 }
 
 /* ── REMEDIATION SCREEN ── */
@@ -3608,9 +3700,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     </div>
     <div class="fluency-bar-wrap" id="fluency-bar-wrap">
       <div class="fluency-bar-track" id="fluency-bar-track">
-        <div class="fluency-threshold-tick" id="fluency-threshold-tick" data-label="3s"></div>
-        <div class="fluency-bar-amber pulsing" id="fluency-bar-amber" style="width:0%"></div>
-        <div class="fluency-bar-extended" id="fluency-bar-extended" style="left:50%;width:0%"></div>
+        <div class="fluency-bar-amber pulsing" id="fluency-bar-amber" style="width:100%"></div>
       </div>
     </div>
     <div class="table-helper" id="table-helper">
@@ -3693,6 +3783,40 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="overlay-title" style="font-size:1.2rem;margin-bottom:4px;">My Galaxy</div>
     <div id="galaxy-view-profile" style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;"></div>
     <div class="galaxy-view-grid" id="galaxy-view-grid"></div>
+  </div>
+</div>
+
+<!-- ══ STAR LAB PICKER OVERLAY ══ -->
+<div id="sl-picker-overlay" class="overlay" onclick="if(event.target===this)hideOverlay('sl-picker-overlay')">
+  <div class="overlay-card" style="max-width:360px;">
+    <button class="overlay-close" onclick="hideOverlay('sl-picker-overlay')">✕</button>
+    <div class="overlay-title" style="font-size:1.1rem;margin-bottom:0;">Choose your practice</div>
+    <div class="sl-picker-fact" id="sl-picker-fact"></div>
+    <div class="sl-picker-grid">
+      <div class="sl-game-card" onclick="launchStarLab('findit')">
+        <div class="sl-game-icon">🔍</div>
+        <div><div class="sl-game-name">Find It</div><div class="sl-game-desc">Spot your fact in the table</div></div>
+      </div>
+      <div class="sl-game-card" onclick="launchStarLab('falling')">
+        <div class="sl-game-icon">🌠</div>
+        <div><div class="sl-game-name">Falling Facts</div><div class="sl-game-desc">Catch the right answer</div></div>
+      </div>
+      <div class="sl-game-card" onclick="launchStarLab('proveit')">
+        <div class="sl-game-icon">✏️</div>
+        <div><div class="sl-game-name">Prove It</div><div class="sl-game-desc">Type it from memory</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STAR LAB SCREEN ══ -->
+<div id="star-lab-screen" class="screen">
+  <div class="sl-screen-inner">
+    <button class="sl-back-link" onclick="slBackToConstellation()">← My Constellation</button>
+    <div class="sl-mode-badge" id="sl-mode-badge"></div>
+    <div class="sl-question" id="sl-question"></div>
+    <div class="sl-progress-dots" id="sl-progress-dots"></div>
+    <div class="sl-body" id="sl-body"></div>
   </div>
 </div>
 
@@ -6091,13 +6215,13 @@ function startPerQTimer() {
   const akSecs = S.fluencyTier.autokickMs / 1000;
   G.qStartTime = Date.now();
   G.perQSecsLeft = akSecs;
-  updateFluencyBar(0, akSecs);
+  updateFluencyBar(akSecs, akSecs);
 
   G.perQTimer = setInterval(function() {
     const elapsed = (Date.now() - G.qStartTime) / 1000;
     const left = Math.max(0, akSecs - elapsed);
     G.perQSecsLeft = left;
-    updateFluencyBar(elapsed, akSecs);
+    updateFluencyBar(left, akSecs);
     if (left <= 0) {
       clearInterval(G.perQTimer); G.perQTimer = null;
       if (!G.answered) autoKick();
@@ -6109,35 +6233,25 @@ function stopPerQTimer() {
   if (G.perQTimer) { clearInterval(G.perQTimer); G.perQTimer = null; }
 }
 
-// elapsed = seconds since question appeared; total = autokickMs / 1000
-function updateFluencyBar(elapsed, total) {
-  const amber = document.getElementById('fluency-bar-amber');
-  const ext   = document.getElementById('fluency-bar-extended');
-  const tick  = document.getElementById('fluency-threshold-tick');
-  if (!amber || !ext || !tick) return;
+// remaining = seconds left; total = autokickMs / 1000
+function updateFluencyBar(remaining, total) {
+  const bar = document.getElementById('fluency-bar-amber');
+  if (!bar) return;
 
   const fluentSecs = S.fluencyTier ? S.fluencyTier.fluencyMs / 1000 : 3;
-  const threshPct  = (fluentSecs / total) * 100;
+  const elapsed    = total - remaining;
+  const remainPct  = Math.max(0, (remaining / total) * 100);
 
-  // Threshold tick position and label
-  tick.style.left = threshPct + '%';
-  tick.dataset.label = fluentSecs + 's';
+  bar.style.width = remainPct + '%';
 
-  const progress = Math.min(elapsed / total, 1); // 0–1
-
-  if (progress <= fluentSecs / total) {
-    // In amber zone — bar grows from left, pulse active
-    amber.style.width = (progress * 100) + '%';
-    amber.classList.add('pulsing');
-    ext.style.left  = threshPct + '%';
-    ext.style.width = '0%';
+  if (elapsed >= fluentSecs) {
+    // Past fluency threshold — flat purple/blue, no glow
+    bar.classList.remove('pulsing');
+    bar.classList.add('extended');
   } else {
-    // Past threshold — amber fills to threshold, pulse off; extended zone grows
-    amber.style.width = threshPct + '%';
-    amber.classList.remove('pulsing');
-    const extPct = ((progress - fluentSecs / total) / (1 - fluentSecs / total)) * (100 - threshPct);
-    ext.style.left  = threshPct + '%';
-    ext.style.width = extPct + '%';
+    // In amber zone — warm glow, pulsing
+    bar.classList.remove('extended');
+    bar.classList.add('pulsing');
   }
 }
 
@@ -8099,7 +8213,7 @@ function buildStatsScreen() {
       '</div>' +
       '<div class="constellation-wrap" style="position:relative">' +
         '<div class="constellation-grid" id="constellation-grid"></div>' +
-        '<div class="c-stat-card" id="c-stat-card"><div class="csc-fact" id="csc-fact"></div><div class="csc-tier" id="csc-tier"></div><div class="csc-row"><strong id="csc-avg"></strong> avg response</div><div class="csc-row"><strong id="csc-atts"></strong> attempts</div><div class="csc-row" id="csc-last"></div><div class="csc-mastery" id="csc-mastery"></div></div>' +
+        '<div class="c-stat-card" id="c-stat-card"><div class="csc-fact" id="csc-fact"></div><div class="csc-tier" id="csc-tier"></div><div class="csc-row"><strong id="csc-avg"></strong> avg response</div><div class="csc-row"><strong id="csc-atts"></strong> attempts</div><div class="csc-row" id="csc-last"></div><div class="csc-mastery" id="csc-mastery"></div><button class="csc-practice-btn" id="csc-practice-btn" onclick="openStarLabPicker()">Practice with Star Lab →</button></div>' +
         '<div class="mp-tier-legend">' +
           '<span class="mp-legend-item" data-tip="Correct in ≤' + threshSec + 's — 4 of last 5 attempts, 2+ sessions, consistent times"><span class="mp-legend-dot mastered"></span>Mastered ★</span>' +
           '<span class="mp-legend-item" data-tip="Correct in ≤' + threshSec + 's — automatic retrieval"><span class="mp-legend-dot fluent"></span>Fluent</span>' +
@@ -8144,7 +8258,9 @@ function buildStatsScreen() {
 
   var gridEl = document.getElementById('constellation-grid');
   if (gridEl && statCard) {
-    gridEl.addEventListener('mouseleave', closeStatCard);
+    // Mouseleave on wrap (not grid) so hovering to Practice button doesn't close the card
+    var wrapEl = gridEl.parentElement;
+    if (wrapEl) wrapEl.addEventListener('mouseleave', closeStatCard);
     gridEl.addEventListener('click', function(e) {
       var cell = e.target.closest('.c-cell[data-fact]');
       if (!cell) { closeStatCard(); return; }
@@ -8164,8 +8280,9 @@ function buildStatsScreen() {
       };
       var info = tierLabels[tier] || tierLabels['unpracticed'];
 
-      // Pull real record data
+      // Store for Star Lab
       var fk = cell.getAttribute('data-fk');
+      _slFk = fk; _slOp = activeOp;
       var rec = (fk && userFacts[fk]) ? userFacts[fk] : null;
       var total = 0, avgMs = null, lastDate = null, masteryHTML = '';
 
@@ -8242,6 +8359,257 @@ function buildStatsScreen() {
       if (!e.target.closest('#constellation-grid')) closeStatCard();
     });
   }
+}
+
+// ══ STAR LAB ══════════════════════════════════════════
+var _slFk       = null;  // fact key of cell clicked
+var _slOp       = null;  // operation
+var _slMode     = null;  // 'proveit' | 'findit' | 'falling'
+var _slQueue    = [];    // 6 fact objects (interleaved orientations)
+var _slIdx      = 0;     // current position in queue
+var _slResults  = [];    // {correct, ms, q} per attempt
+var _slTs       = 0;     // timestamp when question was shown
+var _slAnswered = false; // prevent double-submit
+
+// Build up to 2 orientations from a fact key
+function slBuildOrientations(fk) {
+  if (!fk) return [];
+  var m;
+  m = fk.match(/^mul_(\d+)x(\d+)$/);
+  if (m) {
+    var a = +m[1], b = +m[2], ans = a * b;
+    var f1 = {q: a+' × '+b+' = ?', a: ans, hint:{op:'x',table:a}, fa:a, fb:b};
+    if (a === b) return [f1];
+    return [f1, {q: b+' × '+a+' = ?', a: ans, hint:{op:'x',table:b}, fa:b, fb:a}];
+  }
+  m = fk.match(/^div_(\d+)d(\d+)$/);
+  if (m) {
+    var prod = +m[1], d1 = +m[2], d2 = prod / d1;
+    var f1 = {q: prod+' ÷ '+d1+' = ?', a: d2, hint:{op:'/',table:d1,prod:prod,other:d2}, fa:prod, fb:d1};
+    if (d1 === d2) return [f1];
+    return [f1, {q: prod+' ÷ '+d2+' = ?', a: d1, hint:{op:'/',table:d2,prod:prod,other:d1}, fa:prod, fb:d2}];
+  }
+  m = fk.match(/^add_(\d+)p(\d+)$/);
+  if (m) {
+    var a = +m[1], b = +m[2], ans = a + b;
+    var f1 = {q: a+' + '+b+' = ?', a: ans, hint:null};
+    if (a === b) return [f1];
+    return [f1, {q: b+' + '+a+' = ?', a: ans, hint:null}];
+  }
+  m = fk.match(/^sub_(\d+)m(\d+)$/);
+  if (m) {
+    var a = +m[1], b = +m[2], ans = a - b;
+    var f1 = {q: a+' − '+b+' = ?', a: ans, hint:null};
+    if (b === ans) return [f1]; // e.g. 8−4=4
+    return [f1, {q: a+' − '+ans+' = ?', a: b, hint:null}];
+  }
+  return [];
+}
+
+// Interleave 3 reps of each orientation → 6 attempts total
+function slBuildQueue(oris) {
+  if (!oris.length) return [];
+  if (oris.length === 1) {
+    return [oris[0],oris[0],oris[0],oris[0],oris[0],oris[0]];
+  }
+  return [oris[0],oris[1],oris[0],oris[1],oris[0],oris[1]];
+}
+
+function openStarLabPicker() {
+  var statCard = document.getElementById('c-stat-card');
+  if (statCard) statCard.classList.remove('visible');
+  var oris = slBuildOrientations(_slFk);
+  var factDisplay = oris.length ? oris[0].q.replace(' = ?', '') : '—';
+  var el = document.getElementById('sl-picker-fact');
+  if (el) el.textContent = factDisplay;
+  showOverlay('sl-picker-overlay');
+}
+
+function launchStarLab(mode) {
+  hideOverlay('sl-picker-overlay');
+  _slMode = mode;
+  var oris = slBuildOrientations(_slFk);
+  if (!oris.length) return;
+  _slQueue   = slBuildQueue(oris);
+  _slIdx     = 0;
+  _slResults = [];
+  _slAnswered = false;
+  var modeNames = {proveit:'Prove It ✏️', findit:'Find It 🔍', falling:'Falling Facts 🌠'};
+  var badge = document.getElementById('sl-mode-badge');
+  if (badge) badge.textContent = modeNames[mode] || mode;
+  showScreen('star-lab-screen');
+  slShowQuestion();
+}
+
+function slShowQuestion() {
+  _slAnswered = false;
+  var f = _slQueue[_slIdx];
+  // Progress dots
+  var dotsEl = document.getElementById('sl-progress-dots');
+  if (dotsEl) {
+    dotsEl.innerHTML = _slQueue.map(function(_, i) {
+      var cls = 'sl-dot';
+      if (i < _slIdx)      cls += _slResults[i].correct ? ' done-correct' : ' done-wrong';
+      else if (i === _slIdx) cls += ' current';
+      return '<div class="'+cls+'"></div>';
+    }).join('');
+  }
+  // Question display
+  var qEl = document.getElementById('sl-question');
+  if (qEl) qEl.textContent = f.q.replace('= ?', '= __');
+  // Game body
+  var body = document.getElementById('sl-body');
+  if (!body) return;
+  if (_slMode === 'proveit')  slBuildProveIt(body, f);
+  else if (_slMode === 'findit')   slBuildFindIt(body, f);
+  else                        slBuildFalling(body, f);
+  _slTs = Date.now();
+}
+
+function slBuildProveIt(body, f) {
+  body.innerHTML =
+    '<input type="text" inputmode="numeric" pattern="[0-9\\-]*" class="sl-prove-input" id="sl-inp" placeholder="?" autocomplete="off" maxlength="4">' +
+    '<button class="sl-check-btn" onclick="slCheckProveIt()">Check →</button>' +
+    '<div class="sl-fb" id="sl-fb"></div>';
+  var inp = document.getElementById('sl-inp');
+  setTimeout(function() { if (inp) inp.focus(); }, 80);
+  inp.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { slCheckProveIt(); return; }
+    var ok = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','-'];
+    if (ok.includes(e.key) || (e.key >= '0' && e.key <= '9')) return;
+    e.preventDefault();
+  });
+}
+
+function slCheckProveIt() {
+  if (_slAnswered) return;
+  var inp = document.getElementById('sl-inp');
+  var fb  = document.getElementById('sl-fb');
+  if (!inp) return;
+  var val = parseInt(inp.value, 10);
+  if (isNaN(val)) { inp.focus(); return; }
+  var ms = Date.now() - _slTs;
+  var f  = _slQueue[_slIdx];
+  var correct = (val === f.a);
+  inp.className = 'sl-prove-input ' + (correct ? 'correct' : 'wrong');
+  inp.disabled = true;
+  if (fb) { fb.textContent = correct ? '✓ Correct!' : 'Answer: ' + f.a; fb.style.color = correct ? 'var(--correct)' : 'var(--wrong)'; }
+  slSubmit(correct, ms);
+}
+
+function slGetDistractors(f, count) {
+  var correct = f.a;
+  var pool = new Set();
+  [-5,-4,-3,-2,-1,1,2,3,4,5,6,-6,7,-7].forEach(function(o) {
+    var v = correct + o; if (v > 0 && v !== correct) pool.add(v);
+  });
+  if (f.hint && f.hint.table) {
+    for (var i = 1; i <= 12; i++) {
+      var v = f.hint.op === '/' ? i : f.hint.table * i;
+      if (v !== correct && v > 0) pool.add(v);
+    }
+  }
+  return Array.from(pool).sort(function(){ return Math.random()-0.5; }).slice(0, count);
+}
+
+function slBuildFindIt(body, f) {
+  var wrongs = slGetDistractors(f, 3);
+  var choices = [f.a].concat(wrongs).sort(function(){ return Math.random()-0.5; });
+  body.innerHTML = '<div class="sl-choices">' +
+    choices.map(function(c) {
+      return '<div class="sl-choice" onclick="slChoiceClick(this,'+c+')">' + c + '</div>';
+    }).join('') +
+  '</div>';
+}
+
+function slChoiceClick(el, chosen) {
+  if (_slAnswered) return;
+  var ms = Date.now() - _slTs;
+  var f = _slQueue[_slIdx];
+  var correct = (chosen === f.a);
+  el.classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) {
+    document.querySelectorAll('.sl-choice').forEach(function(c) {
+      if (+c.textContent === f.a) c.classList.add('correct');
+    });
+  }
+  slSubmit(correct, ms);
+}
+
+function slBuildFalling(body, f) {
+  var wrongs = slGetDistractors(f, 2);
+  var choices = [f.a].concat(wrongs).sort(function(){ return Math.random()-0.5; });
+  body.innerHTML = '<div class="sl-falling-choices">' +
+    choices.map(function(c) {
+      return '<div class="sl-falling-card" onclick="slFallingClick(this,'+c+')">' + c + '</div>';
+    }).join('') +
+  '</div>';
+}
+
+function slFallingClick(el, chosen) {
+  if (_slAnswered) return;
+  var ms = Date.now() - _slTs;
+  var f = _slQueue[_slIdx];
+  var correct = (chosen === f.a);
+  el.classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) {
+    document.querySelectorAll('.sl-falling-card').forEach(function(c) {
+      if (+c.textContent === f.a) c.classList.add('correct');
+    });
+  }
+  slSubmit(correct, ms);
+}
+
+function slSubmit(correct, ms) {
+  if (_slAnswered) return;
+  _slAnswered = true;
+  var f = _slQueue[_slIdx];
+  _slResults.push({correct: correct, ms: ms, q: f.q});
+  // Write to constellation (tagged as targeted-practice via hint source)
+  var fForRecord = {q: f.q, a: f.a, hint: f.hint, fa: f.fa, fb: f.fb, source: 'targeted-practice'};
+  recordFactAttempt(fForRecord, correct ? 'correct' : 'miss', ms);
+  setTimeout(function() {
+    _slIdx++;
+    if (_slIdx >= _slQueue.length) slShowResults();
+    else slShowQuestion();
+  }, correct ? 700 : 1100);
+}
+
+function slShowResults() {
+  var correct = _slResults.filter(function(r){ return r.correct; }).length;
+  var total   = _slResults.length;
+  var pct     = Math.round(correct / total * 100);
+  var badge   = document.getElementById('sl-mode-badge');
+  if (badge) badge.textContent = 'Done';
+  var qEl = document.getElementById('sl-question');
+  if (qEl) qEl.textContent = _slQueue[0] ? _slQueue[0].q.replace(' = ?', '') : '';
+  var dotsEl = document.getElementById('sl-progress-dots');
+  if (dotsEl) {
+    dotsEl.innerHTML = _slResults.map(function(r) {
+      return '<div class="sl-dot '+(r.correct?'done-correct':'done-wrong')+'"></div>';
+    }).join('');
+  }
+  var body = document.getElementById('sl-body');
+  if (!body) return;
+  var msg = pct >= 67 ? 'Nice work! 🌟' : 'Keep at it — you\'ll get there.';
+  body.innerHTML =
+    '<div class="sl-results-title">'+correct+' / '+total+' correct</div>' +
+    '<div class="sl-results-sub">'+msg+'</div>' +
+    '<div class="sl-results-grid">' +
+    _slResults.map(function(r) {
+      var label = r.q.replace(' = ?', '');
+      var time  = r.ms ? (r.ms/1000).toFixed(1)+'s' : '—';
+      return '<div class="sl-result-item">' +
+        '<div class="sl-ri-eq">'+label+'</div>' +
+        '<div class="sl-ri-info '+(r.correct?'ok':'bad')+'">'+(r.correct?'✓ '+time:'✗')+'</div>' +
+      '</div>';
+    }).join('') +
+    '</div>' +
+    '<button class="sl-back-btn" onclick="slBackToConstellation()">← Back to Constellation</button>';
+}
+
+function slBackToConstellation() {
+  showScreen('stats-screen');
 }
 
 // ══ END GAME ═══════════════════════════════════════════
