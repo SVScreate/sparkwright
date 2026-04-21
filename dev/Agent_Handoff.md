@@ -1,6 +1,6 @@
 # Agent Handoff — Wright ↔ Spark ↔ Pip ↔ Pop ↔ Legal
 *Shared coordination file between the Sparkwright Claude agents.*
-*Last updated: 2026-04-18 — Session AP (Pip)*
+*Last updated: 2026-04-20 — Session AS (Wright)*
 
 **Wright** — Coding & Project Management *(the craft, the build, the how)*
 **Spark** — Research, Development & Pedagogy *(the ideas, the why, the research)*
@@ -30,6 +30,136 @@ Kimberly can make design decisions in either window and build in either directio
 
 ---
 
+## Spark → Wright — 2026-04-19 — Session AR (Star Scan specs — design-ready, not immediate build)
+
+**Read before building Star Scan screens.** These are not in the immediate build queue (Star Lab + Galaxy View + Smart Practice come first) but are fully specced so Wright has them when the time comes.
+
+---
+
+### Beginning Star Scan — three-path architecture (per operation, independent)
+
+Each operation is independent. At onboarding (and accessible from Star Scan before the window closes) the user picks one path per operation:
+
+**Path 1 — Skip:** No scan. Constellation builds from practice data only.
+
+**Path 2 — Quick Start Scan (free + paid):**
+- 36 facts, 3 per table (all 12 multiplication tables), both orientations
+- Accuracy-based seeding only — display-only timer; does not grade on speed
+- Tier seeding: 3/3 = fluent-inferred, 2/3 = almost-inferred, 0–1/3 = needs-practice-inferred
+- Untested facts tagged `source: quick-start-inferred`
+- One sitting. Results screen: constellation preview, one-line tier key, soft paid upgrade note, "Start practicing" CTA.
+
+**Path 3 — Full Beginning Scan (paid only):**
+- Comprehensive intake of all facts in the operation, both orientations, student's fluency threshold
+- **Table-picker model:** each sitting, user selects which tables to cover. Data writes to constellation immediately as each table completes.
+- Up to ~1 month to complete. Can be marked complete at any point (even if not all tables finished).
+- On completion or mark-complete: generates a full dated report (all tested facts, per-fact results, response times).
+- Data tagged `source: full-beginning-scan`
+- No window close logic — the Full Beginning Scan is a paid feature the user initiates intentionally
+
+**Window close (Quick Start only):** At 3+ practice sessions OR 4+ tables practiced, Quick Start window closes. First Monthly Scan opens immediately. A student who skipped the Beginning Scan also enters Monthly Scan track when threshold is met.
+
+---
+
+### Monthly Star Scan (paid)
+
+Begins after Beginning Scan window closes (any path). 30-day date lock per operation, independently.
+
+**Purpose:** Cold-recall recalibration. Checks whether what Smart Practice has been targeting has actually stuck outside a practice context. Not a second intake — a monthly check-in.
+
+**Fact selection — constellation-informed, fixed 30 facts:**
+Fill from highest priority down, stop at 30:
+1. Needs Practice facts (both orientations) — did the drilling stick in cold recall?
+2. Almost facts (both orientations) — are they solidifying?
+3. Fluent facts (both orientations) — any ready for mastery?
+4. Mastered facts — small rotation by oldest `lastSeen` (drift/durability check)
+5. Unpracticed facts — small sample (readiness check)
+
+Always 30 facts. Always constellation-informed. If priority pool exceeds 30, highest-need facts fill first. Both orientations count as separate presentations.
+
+**Timer:** Student's set fluency threshold.
+
+**Multi-session structure:** TBD — may not need table-picker model given constellation-informed selection. Flag for Spark before building.
+
+**Data:** Merge with existing constellation data. Tag `source: monthly-scan`. Do not overwrite practice history. Variance logic handles recalibration over time.
+
+**Results screen:** Delta from last scan. "Since your last scan: X facts moved to Mastered. Y facts are holding steady. Z facts drifted — worth revisiting." Recently-played-style comparison toggle (Pip already designed). Dated report generated on completion.
+
+**Research gap to resolve before Monthly Scan UX:** TTRS Garage assessment format — Spark to check next session. Does not block spec; may inform UX decisions.
+
+— Spark, 2026-04-19
+
+---
+
+## Spark → Wright — 2026-04-19 — Session AR (Smart Practice — full spec)
+
+**Read before building Smart Practice.** This replaces the earlier partial spec from Session AN.
+
+---
+
+### Smart Practice — design model
+
+Smart Practice thinks like a teacher who knows which facts need work. It is not a single pass through the priority pool — it is a dynamic queue that delivers rich, targeted, varied exposure on the student's hardest facts.
+
+---
+
+### Queue construction
+
+**Priority facts — both orientations**
+Every priority fact (Needs Practice, Unpracticed, Almost, Fluent) enters the queue in both orientations. 7×8 and 8×7 are separate cognitive tasks and both belong. Opposite orientation appears mid-to-late round — not back-to-back. Interleave other facts in between.
+
+**Mastered facts — rhythm and confidence**
+~20–25% of the queue. Pulled by oldest `lastSeen` to keep timestamps fresh. These are not filler — they give the student moments of success and establish rhythm between harder facts.
+
+**Missed facts — re-queued once per round**
+If a fact triggers Star Quest or is answered incorrectly, re-queue the same orientation 4–6 questions later. Each fact re-queues once per round maximum. Counts against the chosen length like any other question.
+
+**Priority order for queue fill:**
+Needs Practice → Unpracticed → Almost → Fluent. When the chosen length is shorter than the full queue, hardest facts get both orientations first. Highest-need facts always make it in.
+
+---
+
+### Round length — user-set on setup card
+
+Smart Practice has its own length selector on the setup card (not the round-length setting from All Facts). Four options:
+
+| Option | Questions |
+|---|---|
+| Quick | 10 |
+| Standard | 15 |
+| Deep | 20 |
+| Intensive | 30 |
+
+**Default: Standard (15).** This is the right anchor — a real session without being too long with Star Quest potentially running.
+
+The queue fills to the chosen length. If the queue is longer than the chosen length, prioritize highest-need facts and cap. If the queue is shorter, fill remaining slots with mastered sprinkle (oldest lastSeen) until the chosen length is reached.
+
+**Why a separate selector, not the Settings round-length?** Smart Practice is a different mode. A student might want 20 All Facts questions but only 10 targeted questions on a hard day. Day-to-day calibration belongs on the setup card, not in Settings.
+
+---
+
+### Data writes
+
+All exposures count — no suppression of second-pass data. The second time through a fact in a round is a teacher deliberately coming back to a hard fact. That data is real and should be recorded. The mastery-across-sessions variance logic already handles the distinction between within-session and cross-session performance.
+
+---
+
+### Thin pool fallback (unchanged from Session AN spec)
+
+If fewer than 10 facts have been practiced, grey out the Smart Practice button. Message: "Play a few rounds first to unlock Smart Practice." Do not silently fall back to All Facts.
+
+---
+
+### Setup card display
+
+Show priority fact count before the round starts: "Smart Practice — 6 priority facts." Student knows what they're working with. No queue mechanics shown.
+
+Challenge Level still applies — governs how many Needs Practice / Unpracticed facts pull in vs. support facts.
+
+— Spark, 2026-04-19
+
+---
+
 ## Wright → Spark — 2026-04-18 — Session AQ close (v83w–v83x)
 
 **Shipped:**
@@ -46,22 +176,69 @@ Kimberly made an executive call this session: the Relaxed/Challenge mode selecto
 
 ---
 
-## Pip → Wright — 2026-04-18 — Galaxy View star state correction
+## Wright → Spark — 2026-04-20 — Session AS close (v83ac–v83ae)
 
-**galaxy_view_mockup.html updated.** Star states corrected from THREE to TWO.
+**Shipped this session:**
 
-**What changed:**
-- Removed amber in-progress state entirely — no amber stars at any stage
-- Stars are unlit (dim dot) or gold-with-halo (ALL facts in table mastered) only
-- Added `.star-halo` ring (gold stroke, 3.2s breathe animation) to gold stars
-- JS `applyStarState()` now dynamically inserts/removes halo circle per star
-- Demo states updated: all `'a'` entries converted to `'u'`
-- Removed `glow-amber` SVG filter, amber CSS block, `star-pulse-amber` keyframe
-- `updateLineOpacity()` now keys on mastered-only ratio (was mastered+amber)
+1. ✅ **Galaxy View** (v83ac–v83ad) — full-screen night sky overlay with four constellation SVGs (Addition/Cassiopeia cross, Subtraction/wavy line, Division/bar+dots, Multiplication/X diagonals). Binary star states: unlit dim dot / gold+halo (ALL facts mastered). Background ports title screen system (28-dot ambient starfield, 40 JS twinkling stars, 5 shooting sparks). Nav buttons: `‹ My Constellation` (closes overlay) + `⌂ Title` (closes + goes to title). Tapping a constellation → `gvGoToOp(op)` → opens My Constellation filtered to that op.
 
-**Build spec for Wright:** Implement exactly as shown. No amber state in production code. Binary: unlit until the full table is mastered, then gold with halo ring.
+2. ✅ **Star Quest mode card** (v83ae) — Relaxed 🌙 / Challenge ⚡ chips appear below the SQ toggle in BMC setup (conditional on SQ enabled). `_bmcSQMode` state; `setSQMode()` updates chip active state + description text. `startRemed()` now sets `G.sqRelaxed = (_bmcSQMode === 'relaxed')`. **Deferred:** individual mini-game timers (findIt, findAll, factCatcher, proveIt) not yet wired to respect `G.sqRelaxed` — follow-on build.
 
-— Pip, 2026-04-18
+3. ✅ **Smart Practice length selector** (v83ae) — replaces single Q-count chip row with two conditional cards: `#bmc-smart-length-card` (Quick·10 / Standard·15 / Deep·20 / Intensive·30, default Standard) and `#bmc-allfacts-length-card` (All / 10 / 20 / 30). Smart mode shows smart card; All Facts mode shows all-facts card. `updateSmartCountLabel()` shows priority count. **Not yet implemented:** both-orientations queue construction, missed-fact re-queue (per Spark's April 19 full spec) — these are logic-layer changes for next session.
+
+4. ✅ **Last Session toggle** (v83ae) — toggle button in My Constellation controls row. Activates `session-mode` CSS class on `.c-grid`, shows Before/After sub-row. After view: highlights practiced cells (white glow border), adds ↑ badge on tier-advanced cells. Before view: swaps tier class to tier-at-start, dims + desaturates. Data model: `_sessionSnapshot` (tier state at round start), `_sessionAttempts` (per-fact count + tier before/after). `startGame()` captures snapshot; `recordFactAttempt()` updates tierAtEnd.
+
+**Pushed to GitHub:** Yes — all v83ac–v83ae commits pushed 2026-04-20. Ready for Netlify manual deploy.
+
+**Next session — first item:**
+⭐ **Star Bloom** — the V2 zoom layer for Galaxy View. Full spec in `dev/Star_Bloom_Design_Brief.md` (approved by Kimberly 2026-04-20). Drift-inward zoom transition, star bloom animation (radial petal + fact orbit), `‹ Galaxy` back button + swipe-down. No page navigation — all CSS transforms within Galaxy View. **Flag for Spark before building fact node layout:** table-to-star mapping for IRL constellations (Pip flagged in brief, §3).
+
+**Also deferred (not in immediate queue but flagged):**
+- `G.sqRelaxed` timer wiring to individual mini-games (findIt, findAll, factCatcher, proveIt)
+- Smart Practice both-orientations queue + missed-fact re-queue (Spark April 19 spec, §Queue construction)
+
+— Wright, 2026-04-20
+
+---
+
+## Pip → Wright — 2026-04-20 — Galaxy View mockup update (supersedes 2026-04-18 entry)
+
+**`dev/galaxy_view_mockup.html` updated 2026-04-20.** Open in Safari — this is source of truth for implementation.
+
+**What changed from the 2026-04-18 version:**
+- **Constellation positions changed** — + upper-left, − upper-right, ÷ lower-left, × lower-right (previous layout had × upper-left)
+- **SVG display size increased** — 300px → 420px per constellation
+- **Background ported from title screen** — ambient brand-color starfield (CSS radial-gradients), 40 JS-twinkling stars, 5 shooting sparks. Same system as the title screen. No separate static star-field SVG.
+
+**Star state spec (unchanged from 2026-04-18):**
+- Binary only: `u` = unlit dim dot / `g` = gold with halo ring
+- No amber. No in-progress state. Gold only when ALL facts in the table are mastered.
+- `applyStarState()` / `updateLineOpacity()` / `DEMO_STATES` — all in the mockup, copy directly.
+
+**Build spec for Wright:** Implement exactly as shown in the mockup. Galaxy View replaces the current progress cards / stats-screen constellation grid. Full JS + CSS is self-contained in the mockup file.
+
+— Pip, 2026-04-20
+
+---
+
+## Pip → Wright — 2026-04-20 — Star Bloom (Galaxy View V2 zoom layer) — approved, build after V1
+
+**`dev/Star_Bloom_Design_Brief.md` — approved by Kimberly 2026-04-20.** Read the full brief before building. Do not build until Galaxy View V1 is stable.
+
+**Summary of decisions:**
+
+- **Entry:** Tap constellation quadrant → others fade (opacity → 0.08, 350ms), selected drifts + scales (1→1.6, 400ms, cubic-bezier(0.22,1,0.36,1)), moves to vertical center
+- **Bloom:** Stars open sequentially (~80ms stagger per star): brightness flash 150ms → radial circle expands 300ms → fact label fades in 150ms. Gold stars bloom richer (warm fill + stronger glow). Unlit stars bloom quietly (cool gray).
+- **Fact nodes:** Orbit star center in loose radial cluster. Color-coded by tier (gold/amber/blue/dim). Min 24px touch target. Tapping a node → stats card overlay (same as My Constellation).
+- **Star heart:** Table identifier (`×7`, `+4`, etc.) in Comfortaa 700, Ghost, tier-matched glow.
+- **Constellation center:** Operation symbol (`×`, `÷`, `+`, `−`) large, ~12–18% opacity, Arc/Electric blend, feGaussianBlur ~4. Wayfinding as atmosphere.
+- **Exit:** `‹ Galaxy` button upper-left (always present). Swipe down on mobile. Reverse animation mirrors entry. Fact card dismiss → returns to bloomed state, not zoomed-out.
+
+**Open item for Spark (flag before building fact node layout):** Table-to-star mapping for IRL constellations — how do 12 multiplication tables distribute across Orion's 7 stars, Cassiopeia's 5, etc.? Pip proposed difficulty-tiered grouping. Spark to confirm.
+
+**Kimberly's call:** Visual QA after Wright builds — no mockup needed first.
+
+— Pip, 2026-04-20
 
 ---
 
@@ -69,12 +246,12 @@ Kimberly made an executive call this session: the Relaxed/Challenge mode selecto
 
 **Extended timer: ✅ BUILT v83x (2026-04-18)**
 
-**Star Quest mode card: design changed — see Wright → Spark below.**
+**Star Quest mode card: ✅ APPROVED by Kimberly 2026-04-19 — build-ready.**
 
-Visual spec for SQ mode card (Relaxed 🌙 / Challenge ⚡) still valid per mockup.
-Build location changed: now a BMC setup setting, not a per-trigger overlay.
+Visual spec for SQ mode card (Relaxed 🌙 / Challenge ⚡) still valid per `dev/star_quest_and_timer_mockup.html`.
+Build location: BMC setup setting (not a per-trigger overlay — see Wright → Spark entry).
 
-— Pip, 2026-04-18
+— Pip, 2026-04-18 / updated 2026-04-19
 
 ---
 
@@ -1379,27 +1556,22 @@ Wright has an open item: an "extended timer" setting where the visible countdown
 
 ---
 
-## Pip → Wright — 2026-04-18 — Title screen spark punch-up (build-ready)
+## Pip → Wright — 2026-04-20 — Title screen redesign ✅ SHIPPED DIRECTLY BY PIP
 
-Enhanced visual treatment for the Math Fact Galaxy title screen. See `dev/math_fact_galaxy_title_v2.html` in Safari. Builds on the v1 title screen design (B4 star mark, Comfortaa 700, breathing animation) — those elements unchanged. Three new layers added:
+**Implemented in `games/mathflash/index.html` on 2026-04-20.** No build action needed from Wright.
 
-**1. Twinkling live stars** — replace the existing `#title-screen::after` pseudo-element starfield with a `<div id="twinkle-layer">` populated by ~35 JS-generated star elements, each with unique twinkle timing via CSS custom properties (`--dur`, `--delay`, `--lo`, `--hi`, `--peak`). Stars distributed toward edges, cleared around center mark. Brand colors only — remove `#ff6b6b` and `#6bcb77` from the current starfield. Full JS in mockup (~30 lines), copy directly.
+**What was done:**
+- B4 star mark + radial pulse rings removed
+- 7-star Cassiopeia constellation hero added above title (breathing + independent halo pulses)
+- Tagline: "Light up a galaxy of math facts one star at a time."
+- Button hover ripple added to all 4 nav cards (+ JS)
+- New SVG filter defs: `star-dot-glow`, `peak-dot-glow`, `constel-line-grad`
+- `overflow: visible` on `.title-nav-card` (was `hidden` — needed for ripple)
+- Footer wordmark on `index.html` (landing page) updated: mini B4 star + "Spark" amber / "wright" dim
 
-```css
-.t-star { position:absolute; border-radius:50%; animation: star-twinkle var(--dur,3s) var(--delay,0s) ease-in-out infinite; }
-@keyframes star-twinkle {
-  0%,100% { opacity: var(--lo,0.15); transform: scale(1); }
-  50%     { opacity: var(--hi,0.9);  transform: scale(var(--peak,1.5)); }
-}
-```
+Reference mockup: `dev/math_fact_galaxy_title_v2.html`
 
-**2. Shooting sparks** — 5 `<div class="s-spark">` elements in a `#spark-layer` div. Each is a short glowing line that streaks diagonally, firing for ~2% of a long cycle (19–31s). Sparse, like a meteor shower. Not rising (that's the homepage's motion). Brand colors: electric, arc, ember, flash, white-blue. Copy `#spark-layer` div and `spark-shoot` keyframe directly from mockup.
-
-**3. Radial pulse rings** — `<div id="mark-pulse">` with 3 `.pulse-ring` children, positioned at mark center. Rings expand and fade on a 5s period, staggered by 1.8s. The mark quietly radiates energy. Copy `#mark-pulse` div and `pulse-expand` keyframe from mockup.
-
-Note: `#ambient-stars` div in the mockup replaces `#title-screen::after`. Keep `#title-screen::before` (deep space gradient) unchanged.
-
-— Pip, 2026-04-18
+— Pip, 2026-04-20
 
 ---
 
@@ -1470,77 +1642,6 @@ Full CSS, JS, and all interaction states in the mockup file.
 
 ---
 
-## Pip → Wright — 2026-04-17 — Brand font audit (no Spark review needed, build-ready)
-
-Three surgical fixes. None of these require a design conversation — they're brand consistency work I found during a full code read.
-
----
-
-### 1. In-game heading font — Comfortaa, not Trebuchet
-
-`var(--font-display)` resolves to Trebuchet MS. It's used for two different things in the game — headings (should be Comfortaa 700) and math content (should stay on the current system font for digit clarity).
-
-**Change ONLY these heading elements to `font-family: 'Comfortaa', sans-serif; font-weight: 700;`:**
-
-| Selector | Current use |
-|---|---|
-| `.setup-logo` | "Math Fact Galaxy" at top of setup screen |
-| `.bmc-screen-title` | "Build My Constellations" / "Build My Constellation" heading |
-| `.results-title` | "Round Complete!" |
-| `.overlay-title` | All overlay headings (How to Play, About, Switch User, Welcome, etc.) |
-| `.assess-results-title` | "Star Scan Complete!" |
-| `.starscan-info-card h2` | Star Scan info card heading |
-
-**Leave these ALONE** — they use `var(--font-display)` for math content where digit rendering matters:
-`.fact-q`, `.answer-input`, `.results-score`, `.rstat-num`, `.remed-fact`, `.tf-fact`, `.prove-input`, `.assess-question`, `.assess-answer-input`, `.game-stat .snum`, `.fa-counter span`, all mini-game fact/answer displays.
-
-Comfortaa 700 is already loaded on the game page — no new font load needed.
-
----
-
-### 2. Title screen — Righteous → Comfortaa + B4 star mark
-
-See `dev/math_fact_galaxy_title_mockup.html` (open in Safari) for the full visual. Short spec:
-
-- Remove `.title-logo` Righteous font; restructure as a lockup:
-  - B4 star SVG at 108px (same path/filters as nav mark, scale up `stdDeviation` values — see mockup for exact filter values)
-  - `<h1>` in Comfortaa 700, Ghost color, with "Galaxy" in `#ffd280` + warm ember glow
-- Add breathing animation: `@keyframes` on the SVG, `brightness(1)↔brightness(1.1)` + `scale(1)↔scale(1.025)`, 4s ease-in-out infinite
-- Update tagline: "Every fact you master lights up a star. Build your constellation."
-- Mockup file has the full CSS and SVG — copy directly from there
-
----
-
-### 3. Footer wordmark on landing page (`index.html`)
-
-The `.footer-wordmark` is plain dimmed text "Sparkwright" — no mark, no ember treatment. Replace with a mini lockup: the B4 star at 16px + "Spark" in `rgba(255,170,80,0.6)` + "wright" in current dim color. Keeps it subtle but consistent with the nav.
-
-```html
-<!-- Replace the existing <span class="footer-wordmark">Sparkwright</span> with: -->
-<a href="/" style="display:flex;align-items:center;gap:5px;text-decoration:none;">
-  <svg width="16" height="16" viewBox="0 0 100 100">
-    <!-- same defs as nav mark — use existing sw-logo-grad/sw-logo-glow/sw-dot-glow IDs already defined on the page -->
-    <path d="M50,8 L60.6,35.4 L89.9,37 L67.1,55.6 L74.7,84 L50,68 L25.3,84 L32.9,55.6 L10.1,37 L39.4,35.4 Z"
-      fill="none" stroke="url(#sw-logo-grad)" stroke-width="7" stroke-linejoin="round" filter="url(#sw-logo-glow)" opacity="0.55"/>
-    <circle cx="50" cy="50" r="8" fill="rgba(255,170,80,0.55)" filter="url(#sw-dot-glow)"/>
-  </svg>
-  <span style="font-family:'Comfortaa',sans-serif;font-weight:700;font-size:15px;">
-    <span style="color:rgba(255,170,80,0.6);">Spark</span><span style="color:var(--text-dim);">wright</span>
-  </span>
-</a>
-```
-
-Note: the SVG filter IDs (`sw-logo-grad`, `sw-logo-glow`, `sw-dot-glow`) are already defined in the nav SVG at the top of `index.html` — reuse them, don't duplicate.
-
----
-
-### 4. `dev/font-mockup.html` — delete
-
-Leftover from the Righteous font exploration. No longer needed. Safe to delete.
-
-— Pip, 2026-04-17
-
----
 
 ## Spark → Wright — 2026-04-17 — Session AO (Galaxy View star state correction + Quick Start spec)
 

@@ -84,8 +84,44 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Fact Galaxy v83ab** — committed 2026-04-19, not yet pushed to Netlify
+**Math Fact Galaxy v83ae** — committed 2026-04-20, pushed to GitHub (ready for Netlify manual deploy)
 Landing page: `sparkwright/index.html` (updated Session AE)
+
+## Session AS Build Summary (v83ac–v83ae) — 2026-04-20
+
+**Galaxy View full implementation (v83ac–v83ad):**
+- Full-screen overlay (`#galaxy-view-overlay`) replaces prior progress-card layout
+- Four constellation SVGs free-positioned: + upper-left, − upper-right, ÷ lower-left, × lower-right
+- `.gv-tile` absolute positioning: `gv-add` top:10vh left:10vw, `gv-subtract` top:10vh right:10vw, `gv-divide` bottom:12vh left:10vw, `gv-multiply` bottom:10vh right:10vw
+- Binary star states: `u` (unlit, r=2.8, dim) / `g` (gold+halo, r=4.5, `gv-halo-breathe` filter)
+- `gvApplyStarState(circle, state)` / `gvUpdateLines(svgId, mastered, total)` / per-op mastery checks
+- Background: ambient brand-color starfield + 40 JS twinkling stars + 5 shooting sparks (ports title screen system)
+- Nav: `gv-nav` row top-left — `‹ My Constellation` (hideOverlay) + `⌂ Title` (hideOverlay + showScreen title)
+- `gvGoToOp(op)` — hides overlay, shows stats-screen, then `setTimeout` clicks `.mp-op-pill[data-op]`
+- `openGalaxyView()` — computes star states from `mathflash_facts` localStorage, applies to SVGs, renders twinkling stars, calls `showOverlay`
+
+**Star Quest mode card (v83ae):**
+- `_bmcSQMode = 'challenge'` state variable (default Challenge)
+- `bmc-sq-mode-row` chips (Relaxed 🌙 / Challenge ⚡) visible when SQ toggle is on
+- `setSQMode(val, el)` — swaps chip active + updates description
+- `startRemed()` now sets `G.sqRelaxed = (_bmcSQMode === 'relaxed')`
+- **Deferred:** individual mini-game timers not yet wired to `G.sqRelaxed`
+
+**Smart Practice length selector (v83ae):**
+- `_bmcSmartQCount = 15` state variable (default Standard/15)
+- `#bmc-smart-length-card`: Quick·10 / Standard·15 / Deep·20 / Intensive·30 (shown in Smart mode)
+- `#bmc-allfacts-length-card`: All / 10 / 20 / 30 (shown in All Facts mode)
+- `setBMCSmartQCount(val, el)` / `updateSmartCountLabel()` (shows priority fact count)
+- `selectBMCMode` toggles which card is visible; `launchBMCStart` uses `_bmcSmartQCount` in Smart mode
+- **Deferred:** both-orientations queue + missed-fact re-queue (Spark April 19 full spec)
+
+**Last Session toggle (v83ae):**
+- `_sessionSnapshot = {}`, `_sessionAttempts = {}`, `_sessionOps = []` state variables
+- Session toggle button in My Constellation controls row; Before/After sub-row (hidden unless data exists)
+- `toggleSessionMode(btn)` — adds `session-mode` class to `.c-grid`, shows sub-row
+- `applySessionDecorations(view)` — After: `session-practiced` class + ↑ badges; Before: swaps tier class from snapshot + dims
+- `startGame()` captures `_sessionSnapshot` at round start; `recordFactAttempt()` updates `_sessionAttempts[key].tierAtEnd`
+- CSS: `session-mode` white-glow border, `session-before` desaturated, `.session-badge` gold chip
 
 ## Session AR Build Summary (v83y–v83ab) — 2026-04-19
 
@@ -190,18 +226,9 @@ Profile chip behavior across screens needs a single coherent model. Proposed: ch
 ## Next Build Queue
 
 **1. ✅ Star Lab v1** — DONE v83y–v83aa; ghost-catch fix v83ab
-- Find It / Falling Facts (full buildFactCatcher) / Prove It — 6-attempt interleaved queue
-- Isolated from constellation — no recordFactAttempt
-- Polish pass deferred (results screen refinement, more mini-games)
 
-**2. Galaxy View** — four constellation SVGs replacing current progress cards
-- **TWO star states only** (revised from three): dim ember (unlit) / gold with halo (all facts mastered)
-- Table-level stars: × = 12 (Orion-inspired), ÷ = 12 (Libra), + = 10 (Cassiopeia), − = 10 (Gemini)
-- Connecting lines: thin white, low opacity, always visible
-- Background: near-black with blue undertone, sparse CSS star field
-- Layout: 2×2 grid; each tile tappable → opens that op's My Constellation
-- Operation symbol glyph per quadrant, subtle corner placement — no text labels
-- Full visual mockup: `dev/galaxy_view_mockup.html`
+**2. ✅ Galaxy View V1** — DONE v83ac–v83ad
+- Four constellation SVGs, binary star states, full starfield background, nav buttons
 
 **3. ✅ Pip font audit** — DONE v83w
 
@@ -209,20 +236,20 @@ Profile chip behavior across screens needs a single coherent model. Proposed: ch
 
 **5. ✅ Extended timer — amber glow** — DONE v83x
 
-**6. Star Quest mode card** (Spark + Pip spec — design updated)
-- When SQ triggers: brief overlay card fires first
-- Two modes: Relaxed 🌙 (no time pressure) / Challenge ⚡ (time pressure)
-- Student taps one → quest begins. Log mode in session metadata. Neither mode changes tier grading.
-- Full visual mockup: `dev/star_quest_and_timer_mockup.html`
+**6. ✅ Star Quest mode card** — DONE v83ae (setup chip + G.sqRelaxed flag; mini-game timer wiring deferred)
 
-**7. Last Session toggle on My Constellation** (Pip spec — data model work first)
-- Toggle button in controls row; off = normal; on = session comparison mode
-- Session mode: white glow on practiced cells, delta badges (↑) on tier-advanced cells
-- Before/After sub-toggle: After (default) = current state; Before = desaturated pre-session state
-- **Data model needed first:**
-  - `sessionSnapshot` — constellation tier state at round start (for Before view); overwrite each new round
-  - `sessionAttempts` — per-fact: attempts, responseTimes[], tierAtStart, tierAtEnd; clear on next round start
-- Full interactive mockup: `dev/constellation_session_compare_mockup.html`
+**7. ✅ Last Session toggle** — DONE v83ae (toggle + Before/After + session snapshot data model)
+
+**⭐ NEXT: Star Bloom** — Galaxy View V2 zoom layer
+- Full spec: `dev/Star_Bloom_Design_Brief.md` (approved Kimberly 2026-04-20)
+- Drift-inward zoom: fade others (350ms) + scale+drift selected (400ms, cubic-bezier(0.22,1,0.36,1))
+- Star bloom: staggered 80ms — brightness flash 150ms → radial open 300ms → fact label fade 150ms
+- Fact nodes: orbit star in radial cluster, color by tier, 24px touch target, tap → stats card
+- Star heart: table identifier in Comfortaa 700, tier-matched glow
+- Constellation center: op symbol large/low-opacity watermark (feGaussianBlur ~4)
+- Exit: `‹ Galaxy` button upper-left + swipe down. Reverse animation. Card dismiss → returns to bloomed state.
+- **Flag for Spark first:** table-to-star mapping for IRL constellations (12 mul tables → Orion 7 stars, etc.)
+- All CSS transforms within Galaxy View — no page navigation
 
 **8. Beginning Scan wiring for beta testers** (spec complete, coordination pending)
 - Wire existing beta testers to Beginning Star Scan; explain what it is
