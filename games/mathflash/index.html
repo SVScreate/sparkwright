@@ -970,6 +970,43 @@ body {
   50%       { box-shadow: 0 0 16px 5px rgba(255,217,61,0.65), 0 0 32px 8px rgba(255,217,61,0.26); }
 }
 
+/* ── Last Session toggle ── */
+.session-toggle-btn {
+  font-family: var(--font); font-size: 0.72rem; font-weight: 700;
+  padding: 5px 10px; border-radius: 8px; cursor: pointer;
+  border: 1.5px solid rgba(154,147,181,0.22);
+  background: rgba(154,147,181,0.06); color: var(--muted);
+  transition: all 0.15s;
+}
+.session-toggle-btn.active {
+  border-color: rgba(255,255,255,0.7); color: rgba(255,255,255,0.95);
+  background: rgba(255,255,255,0.07);
+  box-shadow: 0 0 0 1.5px rgba(255,255,255,0.55), 0 0 12px 4px rgba(255,255,255,0.10);
+}
+.session-sub-row { display:none; gap:4px; align-items:center; }
+.session-sub-row.visible { display:flex; }
+.session-sub-btn {
+  font-family: var(--font); font-size: 0.68rem; font-weight: 700;
+  padding: 3px 8px; border-radius: 6px; cursor: pointer;
+  border: 1px solid rgba(154,147,181,0.22);
+  background: transparent; color: var(--muted);
+}
+.session-sub-btn.active { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); }
+.c-grid.session-mode .c-cell.session-practiced {
+  box-shadow: 0 0 0 1.5px rgba(255,255,255,0.65), 0 0 10px 3px rgba(255,255,255,0.20), 0 0 18px 5px rgba(255,255,255,0.08) !important;
+}
+.c-grid.session-mode .c-cell.mastered.session-practiced {
+  box-shadow: 0 0 0 1.5px rgba(255,255,255,0.65), 0 0 10px 3px rgba(255,255,255,0.20), 0 0 18px 5px rgba(255,255,255,0.08), 0 0 16px 5px rgba(255,217,61,0.65) !important;
+}
+/* Before view: dim practiced cells to show pre-session state */
+.c-grid.session-before .c-cell.session-practiced { opacity: 0.55; filter: saturate(0.4); }
+.session-badge {
+  position: absolute; top: -4px; right: -4px; z-index: 5;
+  background: #ffd93d; color: #07070f;
+  font-size: 7px; font-weight: 900; line-height: 1;
+  border-radius: 99px; padding: 2px 4px; pointer-events: none;
+}
+
 /* Sparkle ripple on mastered cell click */
 @keyframes spark-pop {
   0%   { transform: scale(1) translateZ(0); }
@@ -3599,7 +3636,19 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
 
     <!-- BMC: question count + practice mode + start (shown after op selected) -->
     <div id="bmc-settings-row" style="display:none;">
-      <div class="card">
+      <!-- Smart Practice length selector (shown in Smart mode) -->
+      <div class="card" id="bmc-smart-length-card">
+        <div class="card-title">Session Length</div>
+        <div class="chip-row" id="bmc-smart-q-chips">
+          <div class="chip"    data-val="10"  onclick="setBMCSmartQCount(10,this)">Quick · 10</div>
+          <div class="chip on" data-val="15"  onclick="setBMCSmartQCount(15,this)">Standard · 15</div>
+          <div class="chip"    data-val="20"  onclick="setBMCSmartQCount(20,this)">Deep · 20</div>
+          <div class="chip"    data-val="30"  onclick="setBMCSmartQCount(30,this)">Intensive · 30</div>
+        </div>
+        <div class="bmc-mix-desc" id="bmc-smart-count-label" style="margin-top:6px;"></div>
+      </div>
+      <!-- All Facts question count (shown in All Facts mode) -->
+      <div class="card" id="bmc-allfacts-length-card" style="display:none;">
         <div class="card-title">Questions</div>
         <div class="chip-row" id="bmc-q-chips">
           <div class="chip on" data-val="all" onclick="setBMCQCount('all',this)">All Facts</div>
@@ -3625,6 +3674,14 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
             <div class="bmc-toggle-desc">Recommended — pauses the round for a quick practice game on missed facts.</div>
           </div>
         </label>
+        <div id="bmc-sq-mode-row" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+          <div class="card-title" style="margin-bottom:8px;">Star Quest Mode</div>
+          <div class="chip-row">
+            <div class="chip" id="sq-chip-relaxed"   onclick="setSQMode('relaxed',this)">🌙 Relaxed</div>
+            <div class="chip on" id="sq-chip-challenge" onclick="setSQMode('challenge',this)">⚡ Challenge</div>
+          </div>
+          <div class="bmc-mix-desc" id="sq-mode-desc" style="margin-top:6px;">Timed pressure during Star Quest — the real challenge.</div>
+        </div>
       </div>
       <div class="error-box" id="bmc-start-error" style="display:none;margin-bottom:8px;"></div>
       <button class="start-btn" id="bmc-final-start" onclick="launchBMCStart()">Start ▶</button>
@@ -4151,8 +4208,14 @@ var _bmcSelectedOp  = null;
 var _bmcQCount      = 'all';        // 'all' | number
 var _bmcMix         = 'balanced';   // 'gentle' | 'balanced' | 'intensive'
 var _bmcMode        = 'smart';      // 'all' | 'smart'
+var _bmcSmartQCount = 15;           // Smart Practice length: 10|15|20|30 (Standard default)
 var _bmcStarQuest   = true;         // Star Quest toggle (true = on)
+var _bmcSQMode      = 'challenge';  // 'relaxed' | 'challenge' — Star Quest timer mode
 var _bmcPrebuiltPool = null;        // injected pool for Today's Mix — consumed by startGame()
+// ── Last Session toggle (constellation comparison)
+var _sessionSnapshot = {};  // { factKey: tierAtStart } captured at round start
+var _sessionAttempts = {};  // { factKey: { count, tierAtStart, tierAtEnd } } updated per attempt
+var _sessionOps      = [];  // ops practiced in last round
 
 // ── Operation display constants ─────────────────────────────
 var OP_NAMES   = { 'x': 'Multiplication', '/': 'Division', '+': 'Addition', '-': 'Subtraction' };
@@ -4317,7 +4380,40 @@ function selectBMCMode(mode) {
   // Table picker: hidden for Smart (game reads full constellation), shown for All
   var opPanels = document.getElementById('op-panels-wrap');
   if (opPanels) opPanels.style.display = mode === 'smart' ? 'none' : '';
+  // Swap length selector cards
+  var smartCard = document.getElementById('bmc-smart-length-card');
+  var allCard   = document.getElementById('bmc-allfacts-length-card');
+  if (smartCard) smartCard.style.display = mode === 'smart' ? '' : 'none';
+  if (allCard)   allCard.style.display   = mode === 'all'   ? '' : 'none';
   updateBMCQAllLabel();
+  if (mode === 'smart') updateSmartCountLabel();
+}
+
+function setBMCSmartQCount(val, el) {
+  _bmcSmartQCount = val;
+  if (!el) return;
+  el.closest('.chip-row').querySelectorAll('.chip').forEach(function(c) { c.classList.remove('on'); });
+  el.classList.add('on');
+  updateSmartCountLabel();
+}
+
+function updateSmartCountLabel() {
+  var label = document.getElementById('bmc-smart-count-label');
+  if (!label || !_bmcSelectedOp) { if (label) label.textContent = ''; return; }
+  var pool = buildBMCSmartPool(_bmcSelectedOp, _bmcMix, _bmcSmartQCount);
+  if (!pool) { label.textContent = ''; return; }
+  var allData; try { allData = JSON.parse(localStorage.getItem('mathflash_facts')||'{}'); } catch(e){allData={};}
+  var uname = localStorage.getItem('sparkwright_active');
+  var uf = (uname && allData[uname]) ? allData[uname] : {};
+  var threshMs = (S.fluencyTier && S.fluencyTier.fluencyMs) ? S.fluencyTier.fluencyMs : 3000;
+  var priorityCount = 0;
+  pool.forEach(function(f) {
+    var k = factKey(f); var rec = k ? (uf[k]||null) : null;
+    if (_bmcTier(rec, threshMs) !== 'mastered') priorityCount++;
+  });
+  var masteredCount = pool.length - priorityCount;
+  label.textContent = 'Smart Practice — ' + priorityCount + ' priority fact' + (priorityCount !== 1 ? 's' : '') +
+    (masteredCount > 0 ? ', ' + masteredCount + ' mastered' : '') + '.';
 }
 
 var BMC_MIX_DESCS = {
@@ -4334,10 +4430,25 @@ function setBMCMix(val, el) {
   }
   var desc = document.getElementById('bmc-mix-desc');
   if (desc) desc.textContent = BMC_MIX_DESCS[val] || '';
+  updateSmartCountLabel();
 }
 
 function setBMCStarQuest(val) {
   _bmcStarQuest = val;
+  var modeRow = document.getElementById('bmc-sq-mode-row');
+  if (modeRow) modeRow.style.display = val ? '' : 'none';
+}
+
+var SQ_MODE_DESCS = {
+  relaxed:   'No timer during Star Quest — focus on understanding, not speed.',
+  challenge: 'Timed pressure during Star Quest — the real challenge.'
+};
+function setSQMode(val, el) {
+  _bmcSQMode = val;
+  document.querySelectorAll('#bmc-sq-mode-row .chip').forEach(function(c) { c.classList.remove('on'); });
+  if (el) el.classList.add('on');
+  var desc = document.getElementById('sq-mode-desc');
+  if (desc) desc.textContent = SQ_MODE_DESCS[val] || '';
 }
 
 // ── BMC tier helper — same logic as buildStatsScreen's cellTier() but callable globally ──
@@ -4538,7 +4649,7 @@ function launchBMCStart() {
 
   if (_bmcMode === 'smart') {
     // Smart Practice: reads full op constellation, ignores table picker
-    var smartPool = buildBMCSmartPool(op, _bmcMix, _bmcQCount);
+    var smartPool = buildBMCSmartPool(op, _bmcMix, _bmcSmartQCount);
     if (!smartPool || !smartPool.length) {
       if (errEl) {
         errEl.textContent = 'Smart Practice needs at least one practice session to get started. Try All Facts first.';
@@ -4883,6 +4994,87 @@ function confirmThreshChange() {
     hideOverlay('thresh-modal');
     buildStatsScreen(); // re-render constellation with new threshold
   }
+}
+
+// ── Last Session toggle ──────────────────────────────────────────
+function toggleSessionMode(btn) {
+  var grid = document.getElementById('constellation-grid');
+  var subRow = document.getElementById('session-sub-row');
+  if (!grid || !btn) return;
+  var isOn = btn.classList.toggle('active');
+  if (subRow) subRow.classList.toggle('visible', isOn);
+  if (isOn) {
+    grid.classList.add('session-mode');
+    applySessionDecorations('after');
+  } else {
+    grid.classList.remove('session-mode', 'session-before');
+    // Remove badges
+    grid.querySelectorAll('.session-badge').forEach(function(b) { b.remove(); });
+    grid.querySelectorAll('.c-cell').forEach(function(c) { c.classList.remove('session-practiced'); });
+    // Reset Before/After buttons
+    var afterBtn = document.getElementById('sess-after-btn');
+    var beforeBtn = document.getElementById('sess-before-btn');
+    if (afterBtn)  afterBtn.classList.add('active');
+    if (beforeBtn) beforeBtn.classList.remove('active');
+  }
+}
+
+function setSessionView(view, el) {
+  var grid = document.getElementById('constellation-grid');
+  if (!grid) return;
+  document.querySelectorAll('.session-sub-btn').forEach(function(b) { b.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  applySessionDecorations(view);
+}
+
+// TIER_ORDER for advancement detection
+var SESSION_TIER_ORDER = { 'unpracticed': 0, 'needs-practice': 1, 'almost': 2, 'fluent': 3, 'mastered': 4 };
+
+function applySessionDecorations(view) {
+  var grid = document.getElementById('constellation-grid');
+  var toggleBtn = document.getElementById('session-toggle-btn');
+  if (!grid || !toggleBtn || !toggleBtn.classList.contains('active')) return;
+
+  // Remove existing session decorations
+  grid.querySelectorAll('.session-badge').forEach(function(b) { b.remove(); });
+  grid.querySelectorAll('.c-cell').forEach(function(c) {
+    c.classList.remove('session-practiced');
+    // Restore tier class if we've overridden it for before-view
+    var orig = c.getAttribute('data-orig-tier');
+    if (orig) {
+      c.className = 'c-cell ' + orig;
+      c.removeAttribute('data-orig-tier');
+    }
+  });
+
+  grid.classList.toggle('session-before', view === 'before');
+
+  // Apply session decorations to practiced cells
+  grid.querySelectorAll('.c-cell').forEach(function(cell) {
+    var fk = cell.getAttribute('data-fk');
+    if (!fk || !_sessionAttempts[fk]) return;
+    var att = _sessionAttempts[fk];
+
+    if (view === 'before') {
+      // Show pre-session tier
+      var origTier = att.tierAtStart;
+      cell.setAttribute('data-orig-tier', cell.className.replace('c-cell ', '').trim());
+      cell.className = 'c-cell ' + origTier + ' session-practiced';
+    } else {
+      // After: current tier + session glow
+      cell.classList.add('session-practiced');
+      // Delta badge if tier advanced
+      var startOrder = SESSION_TIER_ORDER[att.tierAtStart] || 0;
+      var endOrder   = SESSION_TIER_ORDER[att.tierAtEnd]   || 0;
+      if (endOrder > startOrder) {
+        cell.style.position = 'relative';
+        var badge = document.createElement('span');
+        badge.className = 'session-badge';
+        badge.textContent = '↑';
+        cell.appendChild(badge);
+      }
+    }
+  });
 }
 
 // ── ×13–×20 toggle from My Constellation ────────────────────────
@@ -5990,6 +6182,16 @@ function recordFactAttempt(q, outcome, elapsedMs) {
   profile[key]    = rec;
   data[username]  = profile;
   saveFactData(data);
+
+  // Session tracking — record attempt for Last Session toggle
+  if (_sessionSnapshot.hasOwnProperty(key)) {
+    var threshMs3 = (S.fluencyTier && S.fluencyTier.fluencyMs) ? S.fluencyTier.fluencyMs : 3000;
+    if (!_sessionAttempts[key]) {
+      _sessionAttempts[key] = { count: 0, tierAtStart: _sessionSnapshot[key], tierAtEnd: null };
+    }
+    _sessionAttempts[key].count++;
+    _sessionAttempts[key].tierAtEnd = _bmcTier(rec, threshMs3);
+  }
 }
 
 function buildTableGrid(op) {
@@ -6017,6 +6219,7 @@ function buildTableGrid(op) {
       updateTableMsg(op);
       updatePoolNotice();
       updateBMCQAllLabel();
+      updateSmartCountLabel();
     });
   });
 
@@ -6406,6 +6609,23 @@ function startGame() {
   if (G.shakeTimeout) { clearTimeout(G.shakeTimeout); G.shakeTimeout = null; }
   if (G.perQTimer) { clearInterval(G.perQTimer); G.perQTimer = null; }
   if (G.swTimer)   { clearInterval(G.swTimer);   G.swTimer   = null; }
+
+  // Capture session snapshot before this round's data writes
+  _sessionSnapshot = {};
+  _sessionAttempts = {};
+  _sessionOps = S.ops.slice();
+  (function() {
+    var allData; try { allData = JSON.parse(localStorage.getItem('mathflash_facts')||'{}'); } catch(e){allData={};}
+    var uname = localStorage.getItem('sparkwright_active');
+    var uf = (uname && allData[uname]) ? allData[uname] : {};
+    var threshMs = (S.fluencyTier && S.fluencyTier.fluencyMs) ? S.fluencyTier.fluencyMs : 3000;
+    pool.forEach(function(f) {
+      var k = factKey(f);
+      if (k && !_sessionSnapshot.hasOwnProperty(k)) {
+        _sessionSnapshot[k] = _bmcTier(uf[k] || null, threshMs);
+      }
+    });
+  })();
 
   // Pre-fill question sequence — keep drawing until we have exactly qCount questions
   const n = S.format === 'count' ? S.qCount : 9999;
@@ -6875,6 +7095,7 @@ function startRemed() {
   R.fact = G.missedFact;
   R.step = 0;
   G.missedFact = null;
+  G.sqRelaxed = (_bmcSQMode === 'relaxed'); // relaxed = no time pressure in mini-games
   // Build randomized sequence: 3 games in random order, always end with Prove It
   var _pool = ['findIt', 'findAll', 'factCatcher'];
   for (var _pi = _pool.length - 1; _pi > 0; _pi--) {
@@ -8496,6 +8717,7 @@ function buildStatsScreen() {
         '<button class="mp-ctrl-pill info-pill" id="mp-how-btn" onclick="document.getElementById(\'mp-how-panel\').classList.toggle(\'open\')">How this works ↓</button>' +
         '<span class="mp-ctrl-pill" style="cursor:default;">Fluency threshold: ' + threshSec + 's &nbsp;<button onclick="openThreshModal()" style="background:none;border:none;color:var(--a6);font-size:inherit;font-weight:700;cursor:pointer;padding:0;text-decoration:underline;">Change</button></span>' +
         '<button class="mp-ctrl-pill" onclick="toggleConstellationExt()">Facts ×1–' + (S.extendedTables ? '20' : '12') + ' &nbsp;<span class="mp-ctrl-action">' + (S.extendedTables ? 'Hide ×13–×20' : 'Show ×13–×20') + '</span></button>' +
+        (Object.keys(_sessionAttempts).length > 0 ? '<button class="session-toggle-btn" id="session-toggle-btn" onclick="toggleSessionMode(this)">Last Session</button><span class="session-sub-row" id="session-sub-row"><button class="session-sub-btn active" id="sess-after-btn" onclick="setSessionView(\'after\',this)">After</button><button class="session-sub-btn" id="sess-before-btn" onclick="setSessionView(\'before\',this)">Before</button></span>' : '') +
       '</div>' +
       '<div class="mp-how-panel" id="mp-how-panel">' +
         '<div style="font-size:0.7rem;color:rgba(240,240,255,0.75);line-height:1.6;">' +
@@ -8527,6 +8749,7 @@ function buildStatsScreen() {
 
   buildConstellation(activeOp);
   updateConstellationTitle(activeOp);
+  applySessionDecorations('after');
 
   // Op filter interaction
   var filterEl = document.getElementById('mp-op-filter');
@@ -8540,6 +8763,7 @@ function buildStatsScreen() {
       closeStatCard();
       buildConstellation(activeOp);
       updateConstellationTitle(activeOp);
+      applySessionDecorations('after');
     });
   }
 
