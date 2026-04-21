@@ -774,17 +774,20 @@ body {
 #gv-sky { position: absolute; inset: 0; z-index: 1; }
 .gv-tile { position: absolute; cursor: pointer; transition: filter 0.3s; }
 .gv-tile:hover { filter: brightness(1.2); }
-.gv-add      { top: 5vh;    left: 3vw;  }
-.gv-subtract { top: 8vh;    right: 4vw; }
-.gv-divide   { bottom: 8vh; left: 4vw;  }
-.gv-multiply { bottom: 6vh; right: 3vw; }
+.gv-add      { top: 10vh;   left: 10vw;  }
+.gv-subtract { top: 10vh;   right: 10vw; }
+.gv-divide   { bottom: 12vh; left: 10vw; }
+.gv-multiply { bottom: 10vh; right: 10vw; }
 .gv-svg { width: 420px; height: 420px; overflow: visible; display: block; }
 .gv-c-line { fill: none; stroke: rgba(200,195,230,0.10); stroke-linecap: round; stroke-linejoin: round; }
 .gv-star-group { cursor: pointer; }
 .gv-star-halo { animation: gv-halo-breathe 3.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
 @keyframes gv-halo-breathe { 0%,100% { opacity:0.38; } 50% { opacity:0.10; } }
-.gv-back {
+.gv-nav {
   position: absolute; top: 16px; left: 16px; z-index: 10;
+  display: flex; gap: 8px;
+}
+.gv-back {
   font-family: var(--font); font-size: 13px; font-weight: 700;
   color: rgba(154,147,181,0.7);
   background: rgba(13,13,26,0.7); border: 1px solid rgba(120,100,200,0.2);
@@ -3863,8 +3866,11 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
     <div class="s-spark" style="top:74%;left:78%;--len:46px;--color:#ffd93d;--angle:-25deg;--dx:88px;--dy:-7px;--cycle:31s;--start:0s;"></div>
   </div>
 
-  <!-- Back button -->
-  <button class="gv-back" onclick="hideOverlay('galaxy-view-overlay')">‹ My Constellation</button>
+  <!-- Nav buttons -->
+  <div class="gv-nav">
+    <button class="gv-back" onclick="hideOverlay('galaxy-view-overlay')">‹ My Constellation</button>
+    <button class="gv-back" onclick="hideOverlay('galaxy-view-overlay');showScreen('title-screen')">⌂ Title</button>
+  </div>
 
   <!-- Sky canvas -->
   <div id="gv-sky">
