@@ -3667,6 +3667,15 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
         <div class="bmc-mix-desc" id="bmc-mix-desc">A mix of challenging and familiar facts — interspersal keeps confidence up while targeting what needs work.</div>
       </div>
       <div class="card">
+        <label class="bmc-toggle-row" id="bmc-timer-row">
+          <input type="checkbox" id="bmc-timer-shorten-check" checked onchange="setBMCTimerShorten(this.checked)">
+          <div class="bmc-toggle-text">
+            <div class="bmc-toggle-title">Quick Timer</div>
+            <div class="bmc-toggle-desc" id="bmc-timer-shorten-desc">Timer stops at your fluency threshold — fast, clean, accurate.</div>
+          </div>
+        </label>
+      </div>
+      <div class="card">
         <label class="bmc-toggle-row" id="bmc-star-quest-row">
           <input type="checkbox" id="bmc-star-quest-check" checked onchange="setBMCStarQuest(this.checked)">
           <div class="bmc-toggle-text">
@@ -4201,7 +4210,7 @@ const FLUENCY_TIERS = {
 var _setupMode = 'bmc';
 // ── Star Forge flag: true when session should NOT write to the constellation
 var _starForgeSession = false;
-// ── BMC session flag: true when in a BMC round — kicks at fluencyMs (not autokickMs)
+/// ── BMC session flag: true when in a BMC round — timer behavior governed by _bmcTimerShorten
 var _bmcSession = false;
 // ── BMC state
 var _bmcSelectedOp  = null;
@@ -4211,6 +4220,7 @@ var _bmcMode        = 'smart';      // 'all' | 'smart'
 var _bmcSmartQCount = 15;           // Smart Practice length: 10|15|20|30 (Standard default)
 var _bmcStarQuest   = true;         // Star Quest toggle (true = on)
 var _bmcSQMode      = 'challenge';  // 'relaxed' | 'challenge' — Star Quest timer mode
+var _bmcTimerShorten = true;        // true = kick at fluencyMs (amber only); false = kick at autokickMs (full bar)
 var _bmcPrebuiltPool = null;        // injected pool for Today's Mix — consumed by startGame()
 // ── Last Session toggle (constellation comparison)
 var _sessionSnapshot = {};  // { factKey: tierAtStart } captured at round start
@@ -4301,6 +4311,10 @@ function applySetupMode() {
     _bmcStarQuest = true;
     var sqCheck = document.getElementById('bmc-star-quest-check');
     if (sqCheck) sqCheck.checked = true;
+    // Reset timer toggle to shorten (default)
+    _bmcTimerShorten = true;
+    var timerCheck = document.getElementById('bmc-timer-shorten-check');
+    if (timerCheck) timerCheck.checked = true;
   }
 }
 
@@ -4451,6 +4465,14 @@ function setSQMode(val, el) {
   if (desc) desc.textContent = SQ_MODE_DESCS[val] || '';
 }
 
+function setBMCTimerShorten(val) {
+  _bmcTimerShorten = val;
+  var desc = document.getElementById('bmc-timer-shorten-desc');
+  if (desc) desc.textContent = val
+    ? 'Timer stops at your fluency threshold — fast, clean, accurate.'
+    : 'Timer continues past the threshold — extra time shown in purple/blue.';
+}
+
 // ── BMC tier helper — same logic as buildStatsScreen's cellTier() but callable globally ──
 function _bmcTier(rec, threshMs) {
   if (!rec) return 'unpracticed';
@@ -4535,6 +4557,7 @@ function buildBMCMixPool(op, mix, targetCount) {
 }
 
 // Smart Practice pool — reads full op constellation (all tables), prioritizes by tier
+
 // Checks both orientations for commutative ops (× and +) so tier reads are accurate
 function buildBMCSmartPool(op, mix, targetCount) {
   var allData;
@@ -4623,6 +4646,18 @@ function buildBMCSmartPool(op, mix, targetCount) {
 
   var combined = challengeSlice.concat(fill);
   if (!combined.length) return null;
+
+  // Pad to targetCount with repeated priority facts if pool runs short
+  if (isExplicit && combined.length < targetCount) {
+    var priorityRepeat = _shuf(challenge.concat(fluent).concat(almost));
+    if (!priorityRepeat.length) priorityRepeat = combined.slice();
+    var pi = 0;
+    while (combined.length < targetCount) {
+      combined.push(priorityRepeat[pi % priorityRepeat.length]);
+      pi++;
+    }
+  }
+
   _shuf(combined);
   return combined;
 }
@@ -6727,8 +6762,10 @@ function startPerQTimer() {
   if (S.format !== 'pertimer') return;
   if (G.perQTimer) { clearInterval(G.perQTimer); G.perQTimer = null; }
 
-  // Always run to autokickMs — dual-zone bar shows fluency threshold within that window
-  const akSecs = S.fluencyTier.autokickMs / 1000;
+  // BMC Quick Timer: run to fluencyMs only. Otherwise run to autokickMs (full dual-zone bar).
+  const akSecs = (_bmcSession && _bmcTimerShorten)
+    ? S.fluencyTier.fluencyMs / 1000
+    : S.fluencyTier.autokickMs / 1000;
   G.qStartTime = Date.now();
   G.perQSecsLeft = akSecs;
   updateFluencyBar(akSecs, akSecs);
@@ -6828,7 +6865,9 @@ function resumeTimers() {
   }
 
   if (S.format === 'pertimer' && !G.answered && !G.perQTimer) {
-    const akSecs = S.fluencyTier.autokickMs / 1000;
+    const akSecs = (_bmcSession && _bmcTimerShorten)
+      ? S.fluencyTier.fluencyMs / 1000
+      : S.fluencyTier.autokickMs / 1000;
     G.qStartTime = Date.now() - ((akSecs - G.perQSecsLeft) * 1000);
     G.perQTimer = setInterval(function() {
       const elapsed = (Date.now() - G.qStartTime) / 1000;
@@ -7445,9 +7484,7 @@ function buildFactCatcher(body, f) {
     if (isCorrect) {
       text = correctPool[correctPoolIdx % correctPool.length];
       correctPoolIdx++;
-      var tries = 0;
-      do { lane = Math.floor(Math.random() * 3); tries++; } while (lane === lastCorrectLane && tries < 8);
-      lastCorrectLane = lane;
+      lane = Math.floor(Math.random() * 3);
     } else {
       text = distractorPool[distractorPoolIdx % distractorPool.length];
       distractorPoolIdx++;
@@ -7499,6 +7536,7 @@ function buildFactCatcher(body, f) {
 
           if (card.isCorrect) {
             lastCorrectCaughtTime = now;
+            lastCorrectLane = card.lane;
             var pop = document.createElement('div');
             pop.className = 'fc-correct-pop';
             pop.textContent = cardText;
