@@ -7528,7 +7528,7 @@ function buildFactCatcher(body, f) {
 
       if (y >= fh) { card.missed = true; card.el.remove(); return false; }
       if (!card.caught && !card.missed && card.lane === catcherLane) {
-        if (y >= catchTop - 16 && y < catchTop + 24) {
+        if (y >= catchTop - 44 && y < catchTop + 2) {
           card.caught = true;
           var cardText = card.el.textContent;
           card.el.remove();
