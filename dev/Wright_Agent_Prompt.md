@@ -84,8 +84,43 @@ You've been working with Kimberly across many sessions on a project she's buildi
 
 ## Current Version
 
-**Math Fact Galaxy v83ae** — committed 2026-04-20, pushed to GitHub (ready for Netlify manual deploy)
+**Math Fact Galaxy v83ak** — committed 2026-04-21, pushed to GitHub (ready for Netlify manual deploy)
 Landing page: `sparkwright/index.html` (updated Session AE)
+
+## Session AT Build Summary (v83af–v83ak) — 2026-04-21
+
+**Bug fixes:**
+- `buildBMCSmartPool`: pads pool to targetCount with repeated priority facts when pool runs short. Fixes 18-questions-when-20-selected bug.
+- Falling Facts dead zone: `lastCorrectLane` now updates on catch only (not spawn). Cards distribute randomly; avoidance only fires after successful catch.
+- Falling Facts catch window: top raised catchTop-16→catchTop-44 (first contact = card bottom touches avatar top). Bottom tightened catchTop+24→catchTop+2 (no catch after card has passed avatar). Fixes ghost-catch + late-feel.
+
+**BMC timer toggle (v83af):**
+- `_bmcTimerShorten = true` state variable (default ON)
+- Quick Timer card in BMC settings (new card between Challenge Level and Star Quest)
+- `setBMCTimerShorten(val)` — updates description text
+- `startPerQTimer` / `resumeTimers`: when `_bmcSession && _bmcTimerShorten`, uses `fluencyMs` as kick time (amber bar only). Toggle OFF → uses `autokickMs` (full dual-zone bar).
+- Fixes "timer feels slow" complaint — teacher set 3s but game was running 7s.
+
+**Falling Facts card colors (v83ah):**
+- Each spawned card gets a random brand color (gold/ember/electric/arc/purple). Neutral — no signal. Fixes "gray" feel.
+
+**G.sqRelaxed wiring (v83ai):**
+- `buildFactCatcher(body, f, relaxed)` — added `relaxed` param
+- `buildRemedStep` passes `G.sqRelaxed`; Star Lab passes nothing (defaults false)
+- Relaxed mode forces 'slow' speed (3600ms fall, 2200ms spawn)
+
+**Smart Practice queue — both orientations + missed-fact re-queue (v83aj):**
+- `_flipX(fact)` generates opposite × orientation (8×7 from 7×8). Squares (7×7) skipped.
+- `_addFlips(bucket)` applied to challenge/fluent/almost after tier assignment. Mastered = single orientation.
+- `_pairKey(f)` + spacing loop: same-pair facts moved ≥4 positions apart after final shuffle.
+- `launchBMCStart` sets `S.repeat = true` (always enabled in BMC).
+- `requeueFact`: in BMC, `budget = 1` (once per fact max per Spark spec). Already-requeued facts skipped.
+- `scheduleRequeue`: BMC uses 4-6 position delay (vs standard 3-5).
+
+**Match It added to Star Quest rotation (v83ak):**
+- `_pool` expanded to `['findIt', 'findAll', 'factCatcher', 'matchIt']`
+- `R.sequence = _pool.slice(0, 3).concat(['proveIt'])` — still 3 random + Prove It = 4 total steps
+- `buildRemedStep` routes `'matchIt'` to `buildStep3(body, f, tbl)`
 
 ## Session AS Build Summary (v83ac–v83ae) — 2026-04-20
 
@@ -211,15 +246,14 @@ Profile chip behavior across screens needs a single coherent model. Proposed: ch
 **Deferred items:**
 - BMC print report: round time including PQ breakdown (log, batch with other print work)
 - Thin pool two-orientation behavior: round-level orientation tracking, deferred
-- Falling Facts pause: facts should freeze when paused, avatar can't move (below-avatar erroneous grab — may be resolved by v83ab catch-window fix; retest before building)
+- Falling Facts pause: facts should freeze when paused, avatar can't move (v83ag catch window fix may have resolved ghost-catch component; retest before building pause feature)
 
-**Still needs beta testing (v83u/v83v):**
-- BMC full flow: select op → table picker (All Facts mode) → question count → Challenge Level → Star Quest toggle → start
-- Smart Practice: verify pool prioritizes fluent/almost over challenge correctly; verify "all" count is accurate
-- Challenge Level: Gentle shortens with new user (no data), Intensive holds length
-- BMC timer: confirm bar runs to fluencyMs not autokick
-- Browser back button: verify correct screen returned to from stats, assess-area, setup
-- Leave-game modal: chip mid-round, logo click mid-round
+**Beta testing watch items (v83af–v83ak):**
+- Falling Facts catch window: test that ghost-catch is resolved and first-contact feel is correct
+- BMC Quick Timer toggle: verify kick-at-threshold behavior is correct with student fluency settings
+- Smart Practice both-orientations: verify 7×8 and 8×7 both appear in rounds, not adjacent
+- Missed-fact re-queue: verify missed facts come back ~4-6 questions later, once per round
+- Match It in rotation: confirm it appears in Star Quest and works across all ÷ and × facts
 
 ---
 
@@ -228,7 +262,6 @@ Profile chip behavior across screens needs a single coherent model. Proposed: ch
 **1. ✅ Star Lab v1** — DONE v83y–v83aa; ghost-catch fix v83ab
 
 **2. ✅ Galaxy View V1** — DONE v83ac–v83ad
-- Four constellation SVGs, binary star states, full starfield background, nav buttons
 
 **3. ✅ Pip font audit** — DONE v83w
 
@@ -236,9 +269,15 @@ Profile chip behavior across screens needs a single coherent model. Proposed: ch
 
 **5. ✅ Extended timer — amber glow** — DONE v83x
 
-**6. ✅ Star Quest mode card** — DONE v83ae (setup chip + G.sqRelaxed flag; mini-game timer wiring deferred)
+**6. ✅ Star Quest mode card** — DONE v83ae
 
-**7. ✅ Last Session toggle** — DONE v83ae (toggle + Before/After + session snapshot data model)
+**7. ✅ Last Session toggle** — DONE v83ae
+
+**8. ✅ BMC timer toggle + bug fixes** — DONE v83af–v83ag
+
+**9. ✅ Falling Facts colors + Relaxed wiring + Smart Practice queue** — DONE v83ah–v83aj
+
+**10. ✅ Match It added to Star Quest rotation** — DONE v83ak
 
 **⭐ NEXT: Star Bloom** — Galaxy View V2 zoom layer
 - Full spec: `dev/Star_Bloom_Design_Brief.md` (approved Kimberly 2026-04-20)

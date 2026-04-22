@@ -201,6 +201,33 @@ Kimberly made an executive call this session: the Relaxed/Challenge mode selecto
 
 ---
 
+## Wright → Spark — 2026-04-21 — Session AT close (v83af–v83ak)
+
+**Shipped this session (beta testing prep):**
+
+1. ✅ **BMC question count bug** (v83af) — `buildBMCSmartPool` pads to targetCount with repeated priority facts. Fixes 18-questions-when-20-requested.
+
+2. ✅ **BMC Quick Timer toggle** (v83af) — `_bmcTimerShorten` (default ON). Timer kicks at `fluencyMs` only (amber bar drains, done). Toggle OFF = full dual-zone bar to `autokickMs`. New card in BMC settings between Challenge Level and Star Quest. Fixes "timer feels slow" complaint.
+
+3. ✅ **Falling Facts fixes** (v83ag–v83ah) — Catch window: top raised to catchTop-44 (first contact), bottom tightened to catchTop+2 (no ghost-catch). `lastCorrectLane` now updates on catch not spawn (dead zone fix). Card colors: random brand color per spawn (neutral, no signal, fixes gray feel).
+
+4. ✅ **G.sqRelaxed wired to Falling Facts** (v83ai) — `buildFactCatcher(body, f, relaxed)`. Relaxed mode forces 'slow' speed. Star Lab passes no relaxed flag (unaffected). Find It, Find All, Prove It have no timers — nothing to change.
+
+5. ✅ **Smart Practice both-orientations + missed-fact re-queue** (v83aj) — `_flipX()` adds opposite × orientation to challenge/fluent/almost buckets. Same-pair spacing: ≥4 positions apart. `S.repeat = true` forced in BMC. `requeueFact` caps at 1 re-queue per fact per round (Spark spec). `scheduleRequeue` uses 4-6 delay in BMC.
+
+6. ✅ **Match It added to Star Quest** (v83ak) — `_pool` now `['findIt','findAll','factCatcher','matchIt']`. Sequence slices 3 from shuffled pool + appends proveIt (still 4 total steps).
+
+**Pushed to GitHub:** Yes — v83af–v83ak pushed 2026-04-21. Ready for Netlify manual deploy.
+
+**Deferred items resolved this session:** G.sqRelaxed wiring ✅, Smart Practice queue ✅, Match It ✅
+
+**Next session — first item:**
+⭐ **Star Bloom** — still the priority. Full spec in `dev/Star_Bloom_Design_Brief.md`. Flag for Spark first: table-to-star mapping for IRL constellations before building fact node layout.
+
+— Wright, 2026-04-21
+
+---
+
 ## Pip → Wright — 2026-04-20 — Galaxy View mockup update (supersedes 2026-04-18 entry)
 
 **`dev/galaxy_view_mockup.html` updated 2026-04-20.** Open in Safari — this is source of truth for implementation.
