@@ -7283,7 +7283,7 @@ function showRemedStep() {
   const step = R.sequence[R.step];
   if      (step === 'findIt')      buildStep1(body, f, tbl);
   else if (step === 'findAll')     buildStep2(body, f, tbl);
-  else if (step === 'factCatcher') buildFactCatcher(body, f);
+  else if (step === 'factCatcher') buildFactCatcher(body, f, G.sqRelaxed);
   else                             buildStep4(body, f);
 }
 
@@ -7308,7 +7308,7 @@ function wrongAnswers(correct, tbl, op) {
 }
 
 // ── Falling Facts Mini-Game ───────────────────────────────
-function buildFactCatcher(body, f) {
+function buildFactCatcher(body, f, relaxed) {
   // --- Avatar ---
   var fcAvatar = '⭐';
   try {
@@ -7358,7 +7358,7 @@ function buildFactCatcher(body, f) {
 
   // --- Speed config ---
   var _fcSpeedMap = { slow: { fall: 3600, spawn: 2200 }, medium: { fall: 2200, spawn: 1500 }, fast: { fall: 1500, spawn: 950 } };
-  var _fcSpeedKey = (S.fcSpeed && _fcSpeedMap[S.fcSpeed]) ? S.fcSpeed : 'medium';
+  var _fcSpeedKey = relaxed ? 'slow' : ((S.fcSpeed && _fcSpeedMap[S.fcSpeed]) ? S.fcSpeed : 'medium');
   var FC_FALL_MS  = _fcSpeedMap[_fcSpeedKey].fall;
   var FC_SPAWN_MS = _fcSpeedMap[_fcSpeedKey].spawn;
 
