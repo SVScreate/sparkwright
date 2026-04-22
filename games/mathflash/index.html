@@ -7177,12 +7177,12 @@ function startRemed() {
   G.missedFact = null;
   G.sqRelaxed = (_bmcSQMode === 'relaxed'); // relaxed = no time pressure in mini-games
   // Build randomized sequence: 3 games in random order, always end with Prove It
-  var _pool = ['findIt', 'findAll', 'factCatcher'];
+  var _pool = ['findIt', 'findAll', 'factCatcher', 'matchIt'];
   for (var _pi = _pool.length - 1; _pi > 0; _pi--) {
     var _pj = Math.floor(Math.random() * (_pi + 1));
     var _pt = _pool[_pi]; _pool[_pi] = _pool[_pj]; _pool[_pj] = _pt;
   }
-  R.sequence = _pool.concat(['proveIt']);
+  R.sequence = _pool.slice(0, 3).concat(['proveIt']); // always 3 random games + Prove It
   pauseTimers();
   showScreen('remediation-screen');
   showRemedStep();
@@ -7325,6 +7325,7 @@ function showRemedStep() {
   if      (step === 'findIt')      buildStep1(body, f, tbl);
   else if (step === 'findAll')     buildStep2(body, f, tbl);
   else if (step === 'factCatcher') buildFactCatcher(body, f, G.sqRelaxed);
+  else if (step === 'matchIt')     buildStep3(body, f, tbl);
   else                             buildStep4(body, f);
 }
 
