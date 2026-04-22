@@ -2939,7 +2939,7 @@ details[open] .advanced-settings-toggle::after { content: ' ▾'; }
   font-family: var(--font-display); font-size: 1.05rem;
   padding: 10px 16px; border-radius: 10px; border: 2px solid;
   white-space: nowrap; pointer-events: none; user-select: none;
-  background: rgba(255,255,255,0.07); border-color: rgba(199,125,255,0.35); color: var(--text);
+  color: var(--text);
   will-change: transform;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -7491,12 +7491,24 @@ function buildFactCatcher(body, f) {
       lane = Math.floor(Math.random() * 3);
     }
 
+    // Random brand color per card — neutral (no signal), adds visual life
+    var FC_COLORS = [
+      { border: 'rgba(255,210,80,0.7)',  bg: 'rgba(255,210,80,0.08)'  },  // gold
+      { border: 'rgba(255,159,67,0.7)',  bg: 'rgba(255,159,67,0.08)'  },  // ember
+      { border: 'rgba(77,150,255,0.7)',  bg: 'rgba(77,150,255,0.08)'  },  // electric
+      { border: 'rgba(107,203,119,0.7)', bg: 'rgba(107,203,119,0.08)' },  // arc/green
+      { border: 'rgba(199,125,255,0.7)', bg: 'rgba(199,125,255,0.08)' },  // purple
+    ];
+    var clr = FC_COLORS[Math.floor(Math.random() * FC_COLORS.length)];
+
     var fallMs = FC_FALL_MS + Math.random() * 500;
     var fh = getFieldH();
     var el = document.createElement('div');
     el.className = 'fc-card';
     el.textContent = text;
     el.style.left = laneCenterX(lane) + 'px';
+    el.style.borderColor = clr.border;
+    el.style.background   = clr.bg;
     if (fcField) fcField.appendChild(el);
 
     // Web Animations API — browser owns the motion, no JS per-frame style writes = smooth
